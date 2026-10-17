@@ -1,0 +1,61 @@
+name: klt signoff
+
+# The T1 state of this block is graded, not hand-read: the committed
+# verdict of record (manifests/asap7-ucie-phy.signoff.json) must still
+# reproduce from the committed block manifest
+# (manifests/asap7-ucie-phy.json) under the klayout-tools version pinned in
+# .github/klt-version. Every committed JSON file under manifests/ must parse.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  signoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate committed JSON parses
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          bad = 0
+          for p in sorted(pathlib.Path("manifests").rglob("*.json")):
+              try:
+                  json.loads(p.read_text())
+              except ValueError as e:
+                  print(f"::error file={p}::not valid JSON: {e}")
+                  bad += 1
+          sys.exit(1 if bad else 0)
+          PY
+
+      - name: Install pinned klt
+        run: pip install "klayout-tools==$(cat .github/klt-version)"
+
+      # klt signoff --check exits 0 when the committed report still
+      # reproduces, 3 when it has drifted, anything else is an error.
+      - name: Check the committed verdict of record still reproduces
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --manifest manifests/asap7-ucie-phy.json \
+                      --check manifests/asap7-ucie-phy.signoff.json || rc=$?
+          if [ "$rc" -eq 3 ]; then
+            echo "::error::manifests/asap7-ucie-phy.signoff.json is stale. Regenerate and commit it in this PR:"
+            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json"
+            exit 1
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::klt signoff --check exited $rc (expected 0 or 3): manifest or report is broken"
+            exit 1
+          fi
