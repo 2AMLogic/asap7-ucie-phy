@@ -12,7 +12,7 @@ FinFET node for research and teaching; no fab manufactures it. This block is
 this repo is a tool result against a predictive model — there is no silicon,
 no shuttle and no measurement at the end of the ladder.
 
-**Status: just opened, specification phase.** Nothing is designed yet.
+**Status: specification ratified on merge of the spec PR.** ASAP7 is brought up under `klt` and the target spec is in `spec/`; nothing is designed yet.
 
 **Built agent-native.** Every specification, decision record, testbench, and
 line of documentation here is produced by AI agents working from a ratified
@@ -43,9 +43,9 @@ start:
   are not checked. The bump interface is therefore where the tools are
   expected to be weakest — finding out exactly how is part of the job.
 - ASAP7's device models are BSIM-CMG. Whether the open simulation flow can
-  run them at all is an open question for the spec (see issue #1), so
-  analog behaviour of the driver and receiver is not assumed to be
-  simulatable here. Timing claims for the lane datapath come from static
+  run them was answered in `spec/decisions/0003-simulation-flow.md`: the model compiles but
+  the current worker's ngspice cannot load it, so analog behaviour of the
+  driver and receiver is not simulated here. Timing claims for the lane datapath come from static
   timing analysis against the ASAP7 libraries.
 
 ASAP7 is not in the fleet's `open_pdks` store, so bringing it up under `klt`
@@ -63,23 +63,18 @@ bring-up, take its pinned setup rather than building a second one.
   quality this block assumes, and stop), the package, and any claim about
   the analog link margin of a real channel.
 
-## Target specification (DRAFT — engineering to ratify, see issue #1)
+## Target specification
 
-All figures are targets. The rate rows are timing-closure targets for the
-lane datapath under STA, not link-performance claims.
-
-| Parameter | Target | Fallback | Stretch |
-|---|---|---|---|
-| Lanes per module slice | 16 data + forwarded clock | 8 data | full-width module |
-| Data rate per lane (STA closure) | 16 GT/s | 4 GT/s | 32 GT/s |
-| Micro-bump pitch the lane column matches | 45 µm | 55 µm | 25 µm |
-| Signaling | single-ended, forwarded clock | — | — |
-| Signoff | DRC + LVS clean, post-route STA at the shipped library corners | — | — |
+The ratified target specification is [`spec/ucie-phy.md`](spec/ucie-phy.md): every
+parameter as target, fallback and stretch, each with its rationale and the kind of
+tool run that settles it. Decisions are in [`spec/decisions/`](spec/decisions/) and the
+ASAP7 bring-up under `klt` is in [`spec/asap7-bringup.md`](spec/asap7-bringup.md).
+All figures are layout, DRC, LVS or timing-closure targets, not link-performance claims.
 
 Maturity ladder: ASAP7 brought up under `klt` → spec ratified → lane RTL
 verified → lane cell DRC/LVS-clean → lane column placed against the bump map
 → module slice DRC/LVS-clean → post-route STA closed. **Current position:
-pre-spec.** There is no silicon rung.
+spec ratified, ASAP7 brought up.** There is no silicon rung.
 
 ## On UCIe, and what may be said
 
