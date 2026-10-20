@@ -84,6 +84,21 @@ lanes, forwarded clock, micro-bump pitch — as its design target. Do not
 describe it as UCIe-compliant or interoperable, do not use the consortium's
 marks, and do not reproduce specification text in this repo.
 
+## T1 evidence
+
+The block's T1 evidence state is machine-readable. The block manifest
+([`manifests/asap7-ucie-phy.json`](manifests/asap7-ucie-phy.json)) cites the
+evidence; the verdict of record
+([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
+is the committed output of `klt signoff` against it. Today every item is
+`unmet` and the tier is `null`. CI re-checks the verdict against the manifest
+with the `klayout-tools` version pinned in `.github/klt-version`. To
+regenerate it:
+
+```
+uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json
+```
+
 ## Repo layout
 
 ```
