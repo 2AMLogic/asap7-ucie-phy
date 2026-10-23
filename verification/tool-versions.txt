@@ -1,0 +1,9 @@
+# Pinned tool versions for verification/run.sh. run.sh refuses to run if an
+# installed tool differs. Format: key=value, matched on the leading version
+# string (a "+post" or "(stable)" suffix on the installed tool is ignored).
+yosys=0.67
+verilator=5.050
+iverilog=13.0
+cocotb=2.1.0
+# default random seed; override with SEED=<n> in the environment
+seed=20261023
