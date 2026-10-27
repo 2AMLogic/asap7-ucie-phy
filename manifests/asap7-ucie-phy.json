@@ -8,11 +8,11 @@
   "evidence": {
     "1.analog": {
       "file": "evidence/item1.json",
-      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+      "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "1.digital": {
       "file": "evidence/item1.json",
-      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+      "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "6": {
       "not_applicable": {
