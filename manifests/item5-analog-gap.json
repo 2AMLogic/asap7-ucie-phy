@@ -1,0 +1,13 @@
+{
+  "item": "5.analog",
+  "status": "declared_gap",
+  "claim": "No analog corner-matrix evidence exists for the drawn TX/RX cells. This is a declared gap, not evidence and not a pass.",
+  "reason": "ngspice 42 on the worker cannot load the OSDI v0.4 BSIM-CMG module, so no circuit simulation of the drawn cells exists (spec/decisions/0003-simulation-flow.md). The decision does not show the flow would work on a newer ngspice.",
+  "expected_grade": "unmet / no_evidence",
+  "why_not_in_manifest": "klt 0.8.0 spec_rows can declare a gap row for item 5 (key \"5.analog\") only when a citation is also present; with no citation the item stays no_evidence. Tracked as 2AMLogic/klayout-tools#4190. This file is therefore not cited under evidence and is not content-hash bound.",
+  "owners": {
+    "digital_timing_closure": "#39",
+    "post_route_sta_rerun": "#18",
+    "circuit_simulation": "worker-spec change (ngspice 44 or later), per decision 0003"
+  }
+}
