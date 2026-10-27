@@ -60,6 +60,27 @@ jobs:
             exit 1
           fi
 
+      # T1 item 9: re-attest the testbench inventory. The cold start is
+      # local_only (ubuntu-latest has no yosys/verilator/iverilog), so it is
+      # skipped here; file presence and content hashes still run, so editing
+      # any listed testbench fails the build until it is re-attested.
+      # Exit 0 = still reproduces, 3 = drifted, anything else is an error.
+      - name: Check the item 9 testbench attestation still reproduces
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --attest 9 --inventory manifests/attest/item9.json \
+                      --check manifests/evidence/item9.json || rc=$?
+          if [ "$rc" -eq 3 ]; then
+            echo "::error::manifests/evidence/item9.json is stale (a listed testbench or the inventory changed). Re-attest on a host with the pinned tools and commit it:"
+            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 9 --inventory manifests/attest/item9.json -o manifests/evidence/item9.json"
+            echo "then update the item 9 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
+            exit 1
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::klt signoff --attest 9 --check exited $rc (expected 0 or 3)"
+            exit 1
+          fi
+
       # Re-verify the item-1 attestation envelope: every inventoried file is
       # re-hashed, and the freshness commands that need no toolchain beyond
       # python3 are re-run. The synthesis freshness command needs Yosys and the

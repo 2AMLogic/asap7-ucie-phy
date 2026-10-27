@@ -9,7 +9,7 @@
   "tier": null,
   "t1_item_count": 22,
   "build_t1_item_count": 22,
-  "t1_met_count": 2,
+  "t1_met_count": 4,
   "t1_not_applicable_count": 1,
   "source_doc": "docs/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:a26b90262320d0fbd32b3f549a02b6300832706041797a559d8bf6bdb62efdc7",
@@ -444,10 +444,35 @@
       "partition_boundary": "The drawn TX/RX cells: tx_cell, rx_cell, tx_clk_cell, rx_clk_cell (design/netlist/*.sp) and their boundary nets tx_a/tx_b, rx_a/rx_b, sel1/sel2, ph, clk/fwd_en/rx_clk and the pad nets.",
       "text": "every claimed measurement's testbench committed, with a documented cold-start invocation a third party can run; pinned PDK revision.",
       "notes": [],
-      "status": "unmet",
-      "reason": "no_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "manifests/evidence/item9.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 9,
+          "path": {
+            "path": "manifests/attest/item9.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+          "input_verified": true,
+          "summary": "T1 item 9 (Testbenches shipped): 8/8 attestation checks passed (klt signoff --attest)",
+          "source": "manifests/attest/item9.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 8,
+            "passed_count": 8
+          }
+        }
+      }
     },
     {
       "tier": "T1",
@@ -457,10 +482,35 @@
       "partition_boundary": "Module slice and its submodules lane_tx_ser, lane_rx_des, rx_cdc_fifo (rtl/); the interface to the drawn cells is the boundary-port table in rtl/README.md.",
       "text": "every claimed measurement's testbench committed, with a documented cold-start invocation a third party can run; pinned PDK revision.",
       "notes": [],
-      "status": "unmet",
-      "reason": "no_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "manifests/evidence/item9.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 9,
+          "path": {
+            "path": "manifests/attest/item9.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+          "input_verified": true,
+          "summary": "T1 item 9 (Testbenches shipped): 8/8 attestation checks passed (klt signoff --attest)",
+          "source": "manifests/attest/item9.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 8,
+            "passed_count": 8
+          }
+        }
+      }
     },
     {
       "tier": "T1",
