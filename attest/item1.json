@@ -10,7 +10,6 @@
     "rtl/rx_cdc_fifo.v",
     "design/synth/slice.synth.json",
     "design/synth/regen.py",
-    "design/lambdapdk.py",
     "design/gen_cells.py"
   ],
   "derived": [

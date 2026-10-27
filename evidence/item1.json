@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 1,
-  "summary": "T1 item 1 (Design sources): 18/18 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 1 (Design sources): 17/17 attestation checks passed (klt signoff --attest)",
   "source": "attest/item1.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 18,
-    "passed_count": 18,
+    "check_count": 17,
+    "passed_count": 17,
     "checks": [
       {
         "check": "present",
@@ -22,16 +22,9 @@
       {
         "check": "present",
         "role": "source",
-        "path": "design/lambdapdk.py",
-        "passed": true,
-        "content_hash": "sha256:3ff460d5809598fa7316a368f6c67fe71e4f4b00512e8ead356ce1f642eade43"
-      },
-      {
-        "check": "present",
-        "role": "source",
         "path": "design/synth/regen.py",
         "passed": true,
-        "content_hash": "sha256:0dfc4219f2c2d5a9c1260bba63cf0243fbf0ed241b21915ea1f2c3987dea6e47"
+        "content_hash": "sha256:122f13938e88e129fd79e1a01b4e626cb09246815630be335f38045cd6b459f9"
       },
       {
         "check": "present",
@@ -191,7 +184,7 @@
         "path": "attest/item1.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
+      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
     }
   }
 }
