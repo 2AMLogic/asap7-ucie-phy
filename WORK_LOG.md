@@ -3,6 +3,17 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-10-27
+
+- **PR #31**: docs: add item-10 hygiene inventory, attestation envelope and README reproduce section
+- **Issue #26** (closed): T1 item 10 (repo hygiene): hygiene inventory and klt signoff --attest 10 envelope
+- **PR #30**: feat(signoff): attest T1 item 9 testbenches and gate drift in CI
+- **Issue #25** (closed): T1 item 9 (testbenches shipped): testbench inventory and klt signoff --attest 9 envelope
+- **PR #29**: feat(design): attest T1 item 1 with synthesized slice netlist and drawn-cell SPICE
+- **Issue #17** (closed): T1 item 1 (design sources): synthesized ASAP7 gate-level netlist for rtl/slice.v plus TX-driver/RX-front-end schematic netlists
+- **PR #28**: docs(spec): record that no ratified spec row is statistical (T1 item 6)
+- **Issue #22** (closed): T1 item 6 (Monte Carlo): record that no ratified spec row is statistical
+
 ### 2026-10-23
 
 - **PR #15**: feat(rtl): add lane serializer/deserializer slice with cocotb loopback testbench
