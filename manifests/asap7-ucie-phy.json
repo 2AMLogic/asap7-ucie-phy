@@ -1,5 +1,18 @@
 {
   "block": "asap7-ucie-phy",
   "kind": "mixed-signal",
-  "evidence": {}
+  "partition_boundary": {
+    "analog": "The drawn TX/RX cells: tx_cell, rx_cell, tx_clk_cell, rx_clk_cell (design/netlist/*.sp) and their boundary nets tx_a/tx_b, rx_a/rx_b, sel1/sel2, ph, clk/fwd_en/rx_clk and the pad nets.",
+    "digital": "Module slice and its submodules lane_tx_ser, lane_rx_des, rx_cdc_fifo (rtl/); the interface to the drawn cells is the boundary-port table in rtl/README.md."
+  },
+  "evidence": {
+    "1.analog": {
+      "file": "evidence/item1.json",
+      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+    },
+    "1.digital": {
+      "file": "evidence/item1.json",
+      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+    }
+  }
 }

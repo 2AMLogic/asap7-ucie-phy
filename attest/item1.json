@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 1,
+  "description": "Design sources of the mixed-signal block: the synthesized lane datapath (rtl/) and the drawn TX/RX cells (design/gen_cells.py). Predictive-model netlists only.",
+  "sources": [
+    "rtl/slice.v",
+    "rtl/lane_tx_ser.v",
+    "rtl/lane_rx_des.v",
+    "rtl/rx_cdc_fifo.v",
+    "design/synth/slice.synth.json",
+    "design/synth/regen.py",
+    "design/gen_cells.py"
+  ],
+  "derived": [
+    {
+      "path": "design/netlist/slice_asap7.v",
+      "generator": "klt synthesize (design/synth/regen.py)",
+      "check": {"argv": ["python3", "-I", "design/synth/regen.py", "--check"], "local_only": true}
+    },
+    {
+      "path": "design/netlist/tx_cell.sp",
+      "generator": "design/gen_cells.py",
+      "check": {"argv": ["python3", "-I", "design/gen_cells.py", "--check"]}
+    },
+    {
+      "path": "design/netlist/rx_cell.sp",
+      "generator": "design/gen_cells.py",
+      "check": {"argv": ["python3", "-I", "design/gen_cells.py", "--check"]}
+    },
+    {
+      "path": "design/netlist/tx_clk_cell.sp",
+      "generator": "design/gen_cells.py",
+      "check": {"argv": ["python3", "-I", "design/gen_cells.py", "--check"]}
+    },
+    {
+      "path": "design/netlist/rx_clk_cell.sp",
+      "generator": "design/gen_cells.py",
+      "check": {"argv": ["python3", "-I", "design/gen_cells.py", "--check"]}
+    }
+  ]
+}
