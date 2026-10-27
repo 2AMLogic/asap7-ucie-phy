@@ -1,0 +1,82 @@
+{
+  "schema": "asap7-ucie-phy.sta.operating-conditions/1",
+  "source": "lambdapdk v0.2.17 sha256:ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2",
+  "note": "read from each original Liberty header; the merged Liberty handed to klt sta carries the AO group's header only",
+  "corners": {
+    "TT": {
+      "files": {
+        "asap7sc7p5t_AO_RVT_TT_nldm.lib.gz": {
+          "nom_voltage": 0.7,
+          "nom_temperature": 25.0
+        },
+        "asap7sc7p5t_INVBUF_RVT_TT_nldm.lib.gz": {
+          "nom_voltage": 0.7,
+          "nom_temperature": 25.0
+        },
+        "asap7sc7p5t_OA_RVT_TT_nldm.lib.gz": {
+          "nom_voltage": 0.7,
+          "nom_temperature": 25.0
+        },
+        "asap7sc7p5t_SEQ_RVT_TT_nldm.lib.gz": {
+          "nom_voltage": 0.7,
+          "nom_temperature": 25.0
+        },
+        "asap7sc7p5t_SIMPLE_RVT_TT_nldm.lib.gz": {
+          "nom_voltage": 0.7,
+          "nom_temperature": 25.0
+        }
+      },
+      "uniform": true
+    },
+    "SS": {
+      "files": {
+        "asap7sc7p5t_AO_RVT_SS_nldm.lib.gz": {
+          "nom_voltage": 0.63,
+          "nom_temperature": 100.0
+        },
+        "asap7sc7p5t_INVBUF_RVT_SS_nldm.lib.gz": {
+          "nom_voltage": 0.63,
+          "nom_temperature": 100.0
+        },
+        "asap7sc7p5t_OA_RVT_SS_nldm.lib.gz": {
+          "nom_voltage": 0.63,
+          "nom_temperature": 100.0
+        },
+        "asap7sc7p5t_SEQ_RVT_SS_nldm.lib.gz": {
+          "nom_voltage": 0.63,
+          "nom_temperature": 100.0
+        },
+        "asap7sc7p5t_SIMPLE_RVT_SS_nldm.lib.gz": {
+          "nom_voltage": 0.63,
+          "nom_temperature": 100.0
+        }
+      },
+      "uniform": true
+    },
+    "FF": {
+      "files": {
+        "asap7sc7p5t_AO_RVT_FF_nldm.lib.gz": {
+          "nom_voltage": 0.77,
+          "nom_temperature": 0.0
+        },
+        "asap7sc7p5t_INVBUF_RVT_FF_nldm.lib.gz": {
+          "nom_voltage": 0.77,
+          "nom_temperature": 0.0
+        },
+        "asap7sc7p5t_OA_RVT_FF_nldm.lib.gz": {
+          "nom_voltage": 0.77,
+          "nom_temperature": 0.0
+        },
+        "asap7sc7p5t_SEQ_RVT_FF_nldm.lib.gz": {
+          "nom_voltage": 0.77,
+          "nom_temperature": 0.0
+        },
+        "asap7sc7p5t_SIMPLE_RVT_FF_nldm.lib.gz": {
+          "nom_voltage": 0.7,
+          "nom_temperature": 25.0
+        }
+      },
+      "uniform": false
+    }
+  }
+}

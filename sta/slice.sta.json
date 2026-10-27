@@ -1,0 +1,7 @@
+{
+  "schema": "klt.sta.request/1",
+  "verilog": "../design/netlist/slice_asap7.v",
+  "hdl_toplevel": "slice",
+  "pdk": {"cell_library": "asap7sc7p5t_rvt", "corners": ["tt", "ss", "ff"]},
+  "constraints": {"clock_port": "clk", "clock_period_ns": 0.25, "input_transition_ns": 0.02}
+}

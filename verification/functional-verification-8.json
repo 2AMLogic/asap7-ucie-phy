@@ -1,0 +1,8 @@
+{
+  "engine": "icarus",
+  "sources": ["../rtl/slice.v", "../rtl/lane_tx_ser.v", "../rtl/lane_rx_des.v", "../rtl/rx_cdc_fifo.v"],
+  "hdl_toplevel": "slice",
+  "parameters": {"N": 8},
+  "testbench": {"module": "test_slice"},
+  "options": {"random_seed": 20261023, "timescale": ["1ns", "1ps"]}
+}

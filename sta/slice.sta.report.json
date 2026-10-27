@@ -1,0 +1,465 @@
+{
+  "clock_mode": "ideal",
+  "corners": [
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_3602_/CLK",
+            "u_cdc/_3603_/CLK",
+            "u_cdc/_3604_/CLK",
+            "u_cdc/_3605_/CLK",
+            "u_cdc/_3606_/CLK",
+            "u_cdc/_3607_/CLK",
+            "u_cdc/_3608_/CLK",
+            "u_cdc/_3609_/CLK",
+            "u_cdc/_3610_/CLK",
+            "u_cdc/_3611_/CLK",
+            "u_cdc/_3612_/CLK",
+            "u_cdc/_3613_/CLK",
+            "u_cdc/_3614_/CLK",
+            "u_cdc/_3615_/CLK",
+            "u_cdc/_3616_/CLK",
+            "u_cdc/_3617_/CLK",
+            "u_cdc/_3618_/CLK",
+            "u_cdc/_3619_/CLK",
+            "u_cdc/_3620_/CLK",
+            "u_cdc/_3621_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "tt",
+      "deck": {
+        "content_hash": "sha256:910057db3b7a926cb2b22d8f54664a2130a28bce2f01d22c6c034226830a3b5c",
+        "name": "asap7sc7p5t_rvt__tt",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": null,
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/243a51750fe14c1fb0cc6e9b9d025007",
+          "scope": "repo"
+        },
+        "invocation_id": "243a51750fe14c1fb0cc6e9b9d025007",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/243a51750fe14c1fb0cc6e9b9d025007/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_asap7__tt_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_asap7__tt.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_asap7__tt.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "78c2d1cdfb90da7fe61bccce7120396a5911af1592f9619183b6c0039598e22c",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/243a51750fe14c1fb0cc6e9b9d025007/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/243a51750fe14c1fb0cc6e9b9d025007/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.8445,
+      "fmax_mhz": 756.328,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "estimate_only"
+      },
+      "sdf": null,
+      "setup_violation_count": 72,
+      "spef_annotation": null,
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": -62.8663,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_3718_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.04663,
+        "startpoint": "u_cdc/_3714_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.04663,
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_3860_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": -1.07218,
+        "startpoint": "u_cdc/_3932_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": -1.07218
+    },
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_3602_/CLK",
+            "u_cdc/_3603_/CLK",
+            "u_cdc/_3604_/CLK",
+            "u_cdc/_3605_/CLK",
+            "u_cdc/_3606_/CLK",
+            "u_cdc/_3607_/CLK",
+            "u_cdc/_3608_/CLK",
+            "u_cdc/_3609_/CLK",
+            "u_cdc/_3610_/CLK",
+            "u_cdc/_3611_/CLK",
+            "u_cdc/_3612_/CLK",
+            "u_cdc/_3613_/CLK",
+            "u_cdc/_3614_/CLK",
+            "u_cdc/_3615_/CLK",
+            "u_cdc/_3616_/CLK",
+            "u_cdc/_3617_/CLK",
+            "u_cdc/_3618_/CLK",
+            "u_cdc/_3619_/CLK",
+            "u_cdc/_3620_/CLK",
+            "u_cdc/_3621_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "ss",
+      "deck": {
+        "content_hash": "sha256:f7f40a8783c61fbea352e0b77206cda1c65a1770f1e987685a46d4e50f682e23",
+        "name": "asap7sc7p5t_rvt__ss",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": null,
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/e16415008d2b4fad9fa4a0f70b74aee8",
+          "scope": "repo"
+        },
+        "invocation_id": "e16415008d2b4fad9fa4a0f70b74aee8",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/e16415008d2b4fad9fa4a0f70b74aee8/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_asap7__ss_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_asap7__ss.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_asap7__ss.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "f8e3928f6f9678d91dc06dc0f0db54e7675e5fd009ce5635898a39f87a84674d",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/e16415008d2b4fad9fa4a0f70b74aee8/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/e16415008d2b4fad9fa4a0f70b74aee8/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.6747,
+      "fmax_mhz": 468.533,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "estimate_only"
+      },
+      "sdf": null,
+      "setup_violation_count": 137,
+      "spef_annotation": null,
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": -116.131,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_3718_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.06723,
+        "startpoint": "u_cdc/_3714_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.06723,
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_3860_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": -1.88432,
+        "startpoint": "u_cdc/_3932_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": -1.88432
+    },
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_3602_/CLK",
+            "u_cdc/_3603_/CLK",
+            "u_cdc/_3604_/CLK",
+            "u_cdc/_3605_/CLK",
+            "u_cdc/_3606_/CLK",
+            "u_cdc/_3607_/CLK",
+            "u_cdc/_3608_/CLK",
+            "u_cdc/_3609_/CLK",
+            "u_cdc/_3610_/CLK",
+            "u_cdc/_3611_/CLK",
+            "u_cdc/_3612_/CLK",
+            "u_cdc/_3613_/CLK",
+            "u_cdc/_3614_/CLK",
+            "u_cdc/_3615_/CLK",
+            "u_cdc/_3616_/CLK",
+            "u_cdc/_3617_/CLK",
+            "u_cdc/_3618_/CLK",
+            "u_cdc/_3619_/CLK",
+            "u_cdc/_3620_/CLK",
+            "u_cdc/_3621_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "ff",
+      "deck": {
+        "content_hash": "sha256:9939d79e8a5b889d5c632f1d39764886388b5654d8b08ba85c29966009bfa0c0",
+        "name": "asap7sc7p5t_rvt__ff",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": null,
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/fa0a7be18b7f47aa915adbfdb2d24cde",
+          "scope": "repo"
+        },
+        "invocation_id": "fa0a7be18b7f47aa915adbfdb2d24cde",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/fa0a7be18b7f47aa915adbfdb2d24cde/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_asap7__ff_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_asap7__ff.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_asap7__ff.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "0fe21231c2ad8282fd42dfbca2544e2cd029fd4adaf0a7b9644ebf741e8fbece",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/fa0a7be18b7f47aa915adbfdb2d24cde/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/fa0a7be18b7f47aa915adbfdb2d24cde/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 1.0873,
+      "fmax_mhz": 980.528,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "estimate_only"
+      },
+      "sdf": null,
+      "setup_violation_count": 72,
+      "spef_annotation": null,
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": -45.131,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_3718_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.03083,
+        "startpoint": "u_cdc/_3714_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.03083,
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_3860_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": -0.76986,
+        "startpoint": "u_cdc/_3932_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": -0.76986
+    }
+  ],
+  "def_path": null,
+  "engine": "openroad",
+  "engine_version": "26Q3-1510-g6cb3f2b704",
+  "geometry_source": "netlist_estimate",
+  "hdl_toplevel": "slice",
+  "provenance": {
+    "deck": null,
+    "input": {
+      "content_hash": "sha256:1ad766f9be53a03dcf2ec3a686a25893dd6176e0fb6ea798bfed205a6872c542",
+      "role": "netlist"
+    },
+    "klayout_version": "0.30.12",
+    "klt_version": "0.8.0",
+    "pdk": {
+      "name": "asap7",
+      "source": "--pdk-root flag",
+      "version": null
+    }
+  },
+  "schema_version": 2,
+  "spef_path": null,
+  "status": "ok",
+  "verilog_path": {
+    "path": "design/netlist/slice_asap7.v",
+    "scope": "repo"
+  },
+  "wire_load_mode": null,
+  "wire_load_model": null
+}

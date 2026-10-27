@@ -38,6 +38,33 @@ maps: the good layout and a pad moved 1 dbu must pass; a pad moved 2 dbu (`mispl
 (`missing`), an extra pad (`extra`) and an empty layout must fail; pads in a subcell are found.
 Exits 0 only if every outcome occurs.
 
+## Drawn TX/RX cells
+
+`gen_cells_gds.py` writes `cells/{tx,rx,tx_clk,rx_clk}_cell.gds` from the device lists in
+`design/netlist/*.sp` (which `design/gen_cells.py` renders), so port names and widths follow
+`rtl/README.md`. Serializer boundary (spec section 4): `tx_cell` holds the last 2:1 stages and the
+output driver, `rx_cell` the input stage and sampler.
+
+```
+python3 layout/gen_cells_gds.py [--check | --report]   # needs klayout.db; --check exits 0 / 3 on drift
+python3 layout/selftest_cells.py                       # run from layout/ or with it on the path
+```
+
+It is run with plain `python3`, not `-I`, because `-I` hides the user-site `klayout` package on
+the worker. Output is byte-identical across runs (no GDS timestamps).
+
+- **What is drawn**: per device a footprint (Fin 2/0, Active 11/0, N/P select 12/0 and 13/0, Gate 7/0,
+  M1 19/0 source/drain strips) in an NMOS row and a PMOS row between VSS and VDD M1 rails. Each
+  boundary port is an M1 pin square with a text label of the port name, for LVS (#20).
+- **What is not**: no routing between devices, no contacts or vias, no wells. The drawing is a
+  placement of the committed topology, not a finished cell. LVS will not compare clean until routing exists.
+- **ASAP7 grid, fin and design rules are not checked until DRC (#19).** Fin pitch 27 nm and gate
+  pitch 54 nm are used for spacing only; nothing here claims DRC cleanliness.
+- **Budget**: `--report` prints each cell's bounding box against the spec section 4 lane-cell rows
+  (45 x 90 um target, 55 x 110 um fallback). Those are geometric bounding-box areas only; the
+  routed-slice share from the sibling P&R issue (#33) is not included. No sizing, rate or
+  performance figure is implied (decision 0003).
+
 ## Routed `slice` (place and route)
 
 `klt place-and-route` of the synthesized `design/netlist/slice_asap7.v` against ASAP7 RVT TT, through
