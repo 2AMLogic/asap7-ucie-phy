@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "engine": "icarus",
+  "hdl_toplevel": "slice",
+  "testbench": "test_slice",
+  "status": "pass",
+  "test_count": 3,
+  "passed_count": 3,
+  "failed_count": 0,
+  "skipped_count": 0,
+  "tests": [
+    {
+      "name": "loopback_rx_faster",
+      "status": "passed",
+      "sim_time_ns": 13870.0,
+      "real_time_s": 0.116
+    },
+    {
+      "name": "loopback_rx_slower",
+      "status": "passed",
+      "sim_time_ns": 13870.0,
+      "real_time_s": 0.12
+    },
+    {
+      "name": "loopback_rx_close",
+      "status": "passed",
+      "sim_time_ns": 13870.0,
+      "real_time_s": 0.126
+    }
+  ],
+  "coverage": null,
+  "trace": null,
+  "environment": {
+    "engine": "icarus",
+    "engine_version": "13.0",
+    "cocotb_version": "2.1.0",
+    "results_xml": "/tmp/tmp.HggYNC6Mh0/run-16/results_icarus.xml",
+    "test_log": "/tmp/tmp.HggYNC6Mh0/run-16/test_icarus.log",
+    "build_log": "/tmp/tmp.HggYNC6Mh0/run-16/build_icarus.log",
+    "random_seed": 20261023,
+    "source_defines": {},
+    "initial_state": null,
+    "sdf": null
+  }
+}

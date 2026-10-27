@@ -105,7 +105,9 @@ evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
 is the committed output of `klt signoff` against it. Items 1, 9 and 10 (repo hygiene, cited from
 [`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) are `met` (item 6's digital
-partition is `not_applicable`); every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
+partition is `not_applicable`). Item 5's digital partition cites a pre-route `klt sta` report
+([`sta/`](sta/README.md)) and two `klt functional-verification` reports; it is `unmet` because
+setup slack is negative at all three corners. Every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`. To
 regenerate the verdict, and the item-10 envelope after changing any inventoried file:
 
@@ -123,6 +125,13 @@ Each command below is a recorded tool run; none is a silicon or measured result.
 # iverilog versions in verification/tool-versions.txt; it refuses on a mismatch)
 verification/run.sh
 verification/run.sh --negative-control   # exit 0 iff the deliberately broken check fails
+
+# Functional-verification reports (T1 item 5): same pins and seed as run.sh
+verification/functional_verification.sh
+verification/functional_verification.sh --negative-control   # exit 0 iff the broken check fails
+
+# Pre-route STA report (T1 item 5; needs openroad on PATH)
+KLT="uvx --from klayout-tools==$(cat .github/klt-version) klt" python3 -I sta/regen.py
 
 # Pad check: drawn pad centres vs the committed bump map (needs the `klayout` pip package)
 python3 layout/selftest.py

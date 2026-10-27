@@ -28,11 +28,23 @@
     },
     "10": {
       "file": "manifests/t1-item10.envelope.json",
-      "content_hash": "sha256:44ef2887a6fececef2c7ed966e51850da1f9c95efbe81f7229b46afa71078d70"
+      "content_hash": "sha256:ce9bf0d6d13339f274b13290ace76989af2232ca11251ac4de29bf310c560669"
     },
     "9": {
       "file": "manifests/evidence/item9.json",
       "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588"
-    }
+    },
+    "5.digital": [
+      {
+        "file": "sta/slice.sta.report.json",
+        "content_hash": "sha256:8b20bd576261a1fefcf763433511ec29e10c11ea6ee21792cd8acad7da19d900"
+      },
+      {
+        "file": "verification/functional-verification-16.report.json"
+      },
+      {
+        "file": "verification/functional-verification-8.report.json"
+      }
+    ]
   }
 }
