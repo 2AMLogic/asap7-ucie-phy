@@ -37,3 +37,42 @@ Needs `klayout.db` (e.g. the klt tool interpreter or a venv). Builds pads-only G
 maps: the good layout and a pad moved 1 dbu must pass; a pad moved 2 dbu (`misplaced`), a deleted pad
 (`missing`), an extra pad (`extra`) and an empty layout must fail; pads in a subcell are found.
 Exits 0 only if every outcome occurs.
+
+## Routed `slice` (place and route)
+
+`klt place-and-route` of the synthesized `design/netlist/slice_asap7.v` against ASAP7 RVT TT, through
+OpenROAD (`openroad` here is the klt Docker wrapper, pinned by image digest). **Layout geometry only:
+ASAP7 is predictive and nothing here is fabricated.**
+
+- `pnr/slice.pnr.json` is the request: floorplan, tapcell/endcap, PDN (`M1`/`M2` followpins, `M5`/`M6`
+  straps), CTS, route `M2`-`M7`, seed 1. The `library` block carries what klt has no built-in ASAP7 table for.
+- `pnr/regen.py` rebuilds `slice_routed.gds` and `pnr/slice.pnr.report.json` from the committed netlist and the
+  pinned lambdapdk archive (`spec/asap7-bringup.md`); `regen.py --check` exits 0 if the stream reproduces
+  byte-for-byte, 3 if it drifted. Run it as `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
+  all in the route stage. Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.
+- Result (report `slice.pnr.report.json`, OpenROAD 26Q3-1510): stage reached `route`, `route_drc_violation_count` 0,
+  `antenna_violation_count` 0, 310 tap/endcap cells, power delivery `complete`. Footprint 23.033 um x 44.066 um
+  (`klt stats`), 1015 um^2, against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about
+  3035 um^2 is left for the drawn TX/RX cells.
+
+Assumptions and workarounds, all inputs to the flow and none a PDK-supplied value or a sign-off claim:
+
+- **Wire RC** is ORFS's published ASAP7 signal-layer figure (`flow/platforms/asap7/setRC.tcl`, master as of
+  2026-10-27: 2.65684e-2 kohm/um, 1.6579e-1 fF/um, entered as pF), because the pinned tech LEF has no `RESISTANCE`.
+  It steers placement-time repair only; timing numbers come from post-route STA (#21), not from this report.
+- **Antenna diode**: the ASAP7 LEF has no antenna data and no `ANTENNACELL`, but klt requires one and OpenROAD
+  rejects a zero-area diode. `regen.py` names `TIEHIx1` and gives it a placeholder `ANTENNADIFFAREA` in a scratch
+  copy of the LEF. With no antenna rules no net can violate, so no diode is inserted; the committed stream
+  contains no PDK change.
+- **Tie cells**: klt synthesize has no ASAP7 tie-cell entry, so the committed netlist ties 102 async-set pins to
+  `1'h1`, which TritonRoute will not route. `regen.py` rewrites them to `TIEHIx1`/`TIELOx1` in a scratch copy;
+  the committed netlist is unchanged, so the routed stream's netlist differs from it by those tie cells.
+- **Liberty**: the merge in `design/synth/regen.py` drops the SEQ group's `delay_template_7x7` and
+  `power_template_7x7`, so OpenSTA discards every flop timing arc. `pnr/regen.py` adds the missing templates.
+  The synthesis merge is left as is (it does not read those tables).
+- Tapcell distance 25 um, filler `FILLER`/`FILLERxp5`, CTS buffer `BUFx4`, and the PDN pitches are ORFS's ASAP7 choices
+  or scaled to this core (`M5`/`M6` pitch 12 um); none is tuned.
+
+Tool gaps filed at `2AMLogic/klayout-tools`: no ASAP7 tie-cell entry (#4273), no way to route a library with no
+antenna cell (#4274), `wire_rc` capacitance unit documented wrongly (#4275), Liberty template loss on a hand merge
+(comment on #4242).
