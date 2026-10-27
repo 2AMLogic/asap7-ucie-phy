@@ -1,10 +1,34 @@
 {
   "block": "asap7-ucie-phy",
   "kind": "mixed-signal",
+  "partition_boundary": {
+    "analog": "The drawn TX/RX cells: tx_cell, rx_cell, tx_clk_cell, rx_clk_cell (design/netlist/*.sp) and their boundary nets tx_a/tx_b, rx_a/rx_b, sel1/sel2, ph, clk/fwd_en/rx_clk and the pad nets.",
+    "digital": "Module slice and its submodules lane_tx_ser, lane_rx_des, rx_cdc_fifo (rtl/); the interface to the drawn cells is the boundary-port table in rtl/README.md."
+  },
   "evidence": {
+    "1.analog": {
+      "file": "evidence/item1.json",
+      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+    },
+    "1.digital": {
+      "file": "evidence/item1.json",
+      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+    },
+    "6": {
+      "not_applicable": {
+        "spec": {
+          "file": "manifests/spec-rows.json",
+          "content_hash": "sha256:7d2adcd4cb1ccc18632b45fc290ce3de5dcae0e0bbd11f2a49d8d87cbbc60b9b"
+        },
+        "statement": {
+          "file": "manifests/item6-na-statement.json",
+          "content_hash": "sha256:754b1ef494b47b4ff0747f87f136c7824adf82c82e4e6ac460de452fb4a54d7e"
+        }
+      }
+    },
     "10": {
       "file": "manifests/t1-item10.envelope.json",
-      "content_hash": "sha256:44ef2887a6fececef2c7ed966e51850da1f9c95efbe81f7229b46afa71078d70"
+      "content_hash": "sha256:f4e02ff1213b0a0fc7d6fc6a1fee1ef7233710d9b4ef747eadd2d58a9d0ec8a9"
     }
   }
 }
