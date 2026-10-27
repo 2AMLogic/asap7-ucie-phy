@@ -12,7 +12,7 @@ FinFET node for research and teaching; no fab manufactures it. This block is
 this repo is a tool result against a predictive model — there is no silicon,
 no shuttle and no measurement at the end of the ladder.
 
-**Status: specification ratified on merge of the spec PR.** ASAP7 is brought up under `klt` and the target spec is in `spec/`; nothing is designed yet.
+**Status: spec ratified, ASAP7 brought up, lane RTL and its testbench in place, pad-centre checker in place.** The drawn TX/RX cells, the lane column, DRC/LVS and post-route STA are not done. The committed T1 verdict reports each item as `met` or `unmet` (see "T1 evidence"); this is not a claim of any tier.
 
 **Built agent-native.** Every specification, decision record, testbench, and
 line of documentation here is produced by AI agents working from a ratified
@@ -71,6 +71,19 @@ tool run that settles it. Decisions are in [`spec/decisions/`](spec/decisions/) 
 ASAP7 bring-up under `klt` is in [`spec/asap7-bringup.md`](spec/asap7-bringup.md).
 All figures are layout, DRC, LVS or timing-closure targets, not link-performance claims.
 
+Headline rows, all layout, DRC, LVS or timing-closure targets (the full table, with rationale and
+evidence type per row, is in [`spec/ucie-phy.md`](spec/ucie-phy.md)):
+
+| Parameter | Target | Fallback | Stretch |
+|---|---|---|---|
+| Data lanes per direction | 16 | 8 | full-width module (64) |
+| Rate per lane (equivalent to) | 16 GT/s | 4 GT/s | 32 GT/s |
+| Parallel (core-side) clock | 4 GHz | 1 GHz | 8 GHz |
+| Serialization ratio | 4:1 | 4:1 | 4:1 |
+| Bump pitch the lane column matches | 45 um | 55 um | 25 um |
+| Lane cell (width x height) | 45 x 90 um | 55 x 110 um | 25 x 50 um |
+| PVT corners | TT, SS, FF (RVT) | same | same |
+
 Maturity ladder: ASAP7 brought up under `klt` → spec ratified → lane RTL
 verified → lane cell DRC/LVS-clean → lane column placed against the bump map
 → module slice DRC/LVS-clean → post-route STA closed. **Current position:
@@ -90,14 +103,42 @@ The block's T1 evidence state is machine-readable. The block manifest
 ([`manifests/asap7-ucie-phy.json`](manifests/asap7-ucie-phy.json)) cites the
 evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
-is the committed output of `klt signoff` against it. Today every item is
+is the committed output of `klt signoff` against it. Item 10 (repo hygiene) is `met`, cited from
+[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json); every other item is
 `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`. To
-regenerate it:
+regenerate the verdict, and the item-10 envelope after changing any inventoried file:
 
 ```
 uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json
+uvx --with klayout --from "klayout-tools==$(cat .github/klt-version)" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json
 ```
+
+## Reproduce
+
+Each command below is a recorded tool run; none is a silicon or measured result.
+
+```
+# RTL: lint, synthesis check and cocotb testbench (needs the yosys, verilator and
+# iverilog versions in verification/tool-versions.txt; it refuses on a mismatch)
+verification/run.sh
+verification/run.sh --negative-control   # exit 0 iff the deliberately broken check fails
+
+# Pad check: drawn pad centres vs the committed bump map (needs the `klayout` pip package)
+python3 layout/selftest.py
+
+# T1 item 10 (repo hygiene): re-check the committed attestation envelope
+uvx --with klayout --from "klayout-tools==$(cat .github/klt-version)" klt signoff --attest 10 \
+    --inventory manifests/t1-item10-inventory.json --check manifests/t1-item10.envelope.json
+
+# T1 verdict of record: re-check it against the block manifest
+uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff \
+    --manifest manifests/asap7-ucie-phy.json --check manifests/asap7-ucie-phy.signoff.json
+```
+
+CI (`.github/workflows/signoff.yml`) runs the JSON validity check, the pad-checker
+self-test and the two `--check` commands above. It does not run `verification/run.sh`,
+which needs a toolchain the CI runner lacks.
 
 ## Repo layout
 

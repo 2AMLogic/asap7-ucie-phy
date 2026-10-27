@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 10,
+  "summary": "T1 item 10 (Repo hygiene): 13/13 attestation checks passed (klt signoff --attest)",
+  "source": "manifests/t1-item10-inventory.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 13,
+    "passed_count": 13,
+    "checks": [
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/signoff.yml",
+        "passed": true,
+        "content_hash": "sha256:000204dc477a6023fcc5dcee12b72ca6afda8f7cde0edb14569ea970f8508d53"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "LICENSE",
+        "passed": true,
+        "content_hash": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "README.md",
+        "passed": true,
+        "content_hash": "sha256:24b19f0c60f77282269d20edbdf3e00e5c9d539314238f40279d445dc4990c21"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/README.md",
+        "passed": true,
+        "content_hash": "sha256:7d971d951bddbf900c6f13eb403290a12d877ea5c955b085ac31df594d21c068"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/asap7-bringup.md",
+        "passed": true,
+        "content_hash": "sha256:2a32ad315f5893e19570d71f504e63eb308bbd6559f9b68c374c4c670ddd7c26"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0001-asap7-pin-and-bringup.md",
+        "passed": true,
+        "content_hash": "sha256:a5ac7a27dc6037919528a0a67d5679324edc388b7e1ca996ae4f2918d12e983c"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0002-bump-layer-representation.md",
+        "passed": true,
+        "content_hash": "sha256:ccf0e8c982ceeaf96ebb2bb0e79eced2b6732cb43c01d7007dc4fb42c48be626"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0003-simulation-flow.md",
+        "passed": true,
+        "content_hash": "sha256:72c6bd7978e8f8e6b57cd446e04483a368fbf16165348cf5a13dd814d5f8feb4"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0004-rate-definition-and-clock-ratio.md",
+        "passed": true,
+        "content_hash": "sha256:0f69eba7192653cc0e621239d0408e1bf855151dae1ee9742ff6ec4368f89117"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0005-signoff-definitions.md",
+        "passed": true,
+        "content_hash": "sha256:d72a3c7295a303f209cd96bd87157a5def251d9b9fbe2c32d1311af2467754b7"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/ucie-phy.md",
+        "passed": true,
+        "content_hash": "sha256:7def0f98bc22c4acf0c47762151e9435aec88c4d182cc04fc30ba017ebc479c5"
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pad-checker-self-test",
+        "argv": [
+          "python3",
+          "layout/selftest.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "manifests-json-valid",
+        "argv": [
+          "python3",
+          "-c",
+          "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('manifests').rglob('*.json')]"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.8.0",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "manifests/t1-item10-inventory.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:44ef2887a6fececef2c7ed966e51850da1f9c95efbe81f7229b46afa71078d70"
+    }
+  }
+}
