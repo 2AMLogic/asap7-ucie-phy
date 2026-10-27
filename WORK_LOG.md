@@ -5,6 +5,17 @@ triage role; entries are newest first.
 
 ### 2026-10-27
 
+- **PR #44**: refactor: share lambdapdk pin, fetch and Liberty merge between synth and STA regen
+- **Issue #40** (closed): Consolidate duplicated lambdapdk fetch and Liberty merge in the two regen scripts
+- **PR #43**: feat: add committed place-and-route flow and routed GDS for the synthesized slice
+- **Issue #33** (closed): T1 item 2a: P&R flow and routed GDS of the slice datapath
+- **PR #42**: docs: analyse pre-route setup failure and propose CDC FIFO read-enable decision
+- **Issue #39** (closed): Diagnose pre-route setup violations in the CDC FIFO (negative slack at tt/ss/ff) and propose a closure path
+- **PR #41**: docs(manifest): record analog half of item 5 as a declared gap
+- **PR #37**: feat(evidence): record pre-route STA and functional-verification reports for item 5 digital
+- **Issue #21** (closed): T1 item 5 (corner verification): klt sta at RVT TT/SS/FF plus a klt functional-verification report for the lane datapath
+- **PR #36**: feat: add generator and GDS for drawn TX/RX cell footprints
+- **Issue #34** (closed): T1 item 2b: drawn TX/RX cell GDS generator within the lane-cell budget
 - **PR #31**: docs: add item-10 hygiene inventory, attestation envelope and README reproduce section
 - **Issue #26** (closed): T1 item 10 (repo hygiene): hygiene inventory and klt signoff --attest 10 envelope
 - **PR #30**: feat(signoff): attest T1 item 9 testbenches and gate drift in CI
