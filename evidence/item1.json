@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 1,
+  "summary": "T1 item 1 (Design sources): 17/17 attestation checks passed (klt signoff --attest)",
+  "source": "attest/item1.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 17,
+    "passed_count": 17,
+    "checks": [
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/gen_cells.py",
+        "passed": true,
+        "content_hash": "sha256:8878aff47be2fe435e1f6b786dc3cbb30ca55276eb66f6f96de011aaf3a6890f"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/synth/regen.py",
+        "passed": true,
+        "content_hash": "sha256:122f13938e88e129fd79e1a01b4e626cb09246815630be335f38045cd6b459f9"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/synth/slice.synth.json",
+        "passed": true,
+        "content_hash": "sha256:63a704676d6fc5720d56a10abb98fde39d53d7012405335ce391940b143c4f9d"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "rtl/lane_rx_des.v",
+        "passed": true,
+        "content_hash": "sha256:45adf6aa9e31fda9343a88c527218dfb9b226ec0bce6344d42eb82af4dafca03"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "rtl/lane_tx_ser.v",
+        "passed": true,
+        "content_hash": "sha256:0f0cac1650ad7118921981f79ec94d693cdde445fbb69a40dd617e19046c9978"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "rtl/rx_cdc_fifo.v",
+        "passed": true,
+        "content_hash": "sha256:31c4a590a4dc5e41b54283beb7dedac9091a5cacd919bafcd6b9f0fefcf962ee"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "rtl/slice.v",
+        "passed": true,
+        "content_hash": "sha256:918090805b616874c9a1d5eeae6d4d44f1a2e0a05f6d7c3ff702c5d6ef0468b8"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/rx_cell.sp",
+        "passed": true,
+        "content_hash": "sha256:cc4e32ed6b6d0e6700d8bdb906f2b602850690804d8aaa7869d7479b071443bb"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/rx_clk_cell.sp",
+        "passed": true,
+        "content_hash": "sha256:f53b368deb6018fa660b329233714fcb6fa8af27a3e3361c3e75763bdad8f184"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/slice_asap7.v",
+        "passed": true,
+        "content_hash": "sha256:1ad766f9be53a03dcf2ec3a686a25893dd6176e0fb6ea798bfed205a6872c542"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/tx_cell.sp",
+        "passed": true,
+        "content_hash": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/tx_clk_cell.sp",
+        "passed": true,
+        "content_hash": "sha256:0f49941d605e128ecacf59346f98e63fe92551db6e50222dea12dcbb3e324e9b"
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/rx_cell.sp",
+        "generator": "design/gen_cells.py",
+        "argv": [
+          "python3",
+          "-I",
+          "design/gen_cells.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/rx_clk_cell.sp",
+        "generator": "design/gen_cells.py",
+        "argv": [
+          "python3",
+          "-I",
+          "design/gen_cells.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/slice_asap7.v",
+        "generator": "klt synthesize (design/synth/regen.py)",
+        "argv": [
+          "python3",
+          "-I",
+          "design/synth/regen.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/tx_cell.sp",
+        "generator": "design/gen_cells.py",
+        "argv": [
+          "python3",
+          "-I",
+          "design/gen_cells.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/tx_clk_cell.sp",
+        "generator": "design/gen_cells.py",
+        "argv": [
+          "python3",
+          "-I",
+          "design/gen_cells.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.8.0",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "attest/item1.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f"
+    }
+  }
+}
