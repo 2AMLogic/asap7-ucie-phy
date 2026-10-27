@@ -1,5 +1,18 @@
 {
   "block": "asap7-ucie-phy",
   "kind": "mixed-signal",
-  "evidence": {}
+  "evidence": {
+    "6": {
+      "not_applicable": {
+        "spec": {
+          "file": "manifests/spec-rows.json",
+          "content_hash": "sha256:7d2adcd4cb1ccc18632b45fc290ce3de5dcae0e0bbd11f2a49d8d87cbbc60b9b"
+        },
+        "statement": {
+          "file": "manifests/item6-na-statement.json",
+          "content_hash": "sha256:754b1ef494b47b4ff0747f87f136c7824adf82c82e4e6ac460de452fb4a54d7e"
+        }
+      }
+    }
+  }
 }
