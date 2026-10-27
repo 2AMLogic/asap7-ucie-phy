@@ -61,5 +61,5 @@ because setup slack is negative; the functional-verification citations are `met`
   concatenates them. The SEQ group defines `delay_template_7x7` and `power_template_7x7`, which
   no other header defines; merging under the first header alone drops every SEQ timing table
   and leaves the block unconstrained. `regen.py` carries the union of the table templates.
-  `design/synth/regen.py` merges under the first header only; that is enough for synthesis
-  mapping, which reads no sequential timing, and it was not changed here.
+  `design/synth/regen.py` uses the same merge (`design/lambdapdk.py`); with it the synthesis
+  netlist is byte-identical to the earlier first-header-only merge.

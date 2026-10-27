@@ -35,28 +35,28 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.json",
+        "file": "evidence/item1.r2.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f",
+        "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": {
-            "path": "attest/item1.json",
+            "path": "attest/item1.r2.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f",
+          "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b",
           "input_verified": true,
-          "summary": "T1 item 1 (Design sources): 17/17 attestation checks passed (klt signoff --attest)",
-          "source": "attest/item1.json",
+          "summary": "T1 item 1 (Design sources): 18/18 attestation checks passed (klt signoff --attest)",
+          "source": "attest/item1.r2.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 17,
-            "passed_count": 17
+            "check_count": 18,
+            "passed_count": 18
           }
         }
       }
@@ -73,28 +73,28 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.json",
+        "file": "evidence/item1.r2.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f",
+        "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": {
-            "path": "attest/item1.json",
+            "path": "attest/item1.r2.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:17935ce85545cbd6f1f952b3a89c0b325bf7454c9391517a55d7413cbe08649f",
+          "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b",
           "input_verified": true,
-          "summary": "T1 item 1 (Design sources): 17/17 attestation checks passed (klt signoff --attest)",
-          "source": "attest/item1.json",
+          "summary": "T1 item 1 (Design sources): 18/18 attestation checks passed (klt signoff --attest)",
+          "source": "attest/item1.r2.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 17,
-            "passed_count": 17
+            "check_count": 18,
+            "passed_count": 18
           }
         }
       }

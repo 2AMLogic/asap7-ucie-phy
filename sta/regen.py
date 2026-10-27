@@ -8,7 +8,7 @@ with $KLT, e.g. 'uvx --from klayout-tools==0.8.0 klt'). The pinned lambdapdk arc
 nothing from it is written into the repo.
 
 For each RVT corner (tt, ss, ff) the five Liberty cell groups are concatenated under the
-first header, as design/synth/regen.py does for TT, because klt's list-merge refuses the
+first header (design/lambdapdk.py, shared with design/synth/regen.py), because klt's list-merge refuses the
 differing headers. The merged file therefore takes the AO group's operating condition;
 the per-file nom_voltage/nom_temperature of every loaded group is read from the originals
 and written to sta/operating-conditions.json, which is what the FF anomaly report cites.
@@ -17,7 +17,7 @@ and written to sta/operating-conditions.json, which is what the FF anomaly repor
 """
 import argparse
 import gzip
-import hashlib
+import importlib.util
 import json
 import os
 import pathlib
@@ -27,7 +27,6 @@ import subprocess
 import sys
 import tarfile
 import tempfile
-import urllib.request
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent
@@ -35,27 +34,19 @@ REQUEST = HERE / "slice.sta.json"
 REPORT = HERE / "slice.sta.report.json"
 OPCOND = HERE / "operating-conditions.json"
 
-URL = "https://github.com/siliconcompiler/lambdapdk/archive/refs/tags/v0.2.17.tar.gz"
-SHA256 = "ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2"
-ROOT = "lambdapdk-0.2.17/lambdapdk/asap7/"
-NLDM = ROOT + "libs/asap7sc7p5t_rvt/nldm/"
-GROUPS = ["AO", "INVBUF", "OA", "SEQ", "SIMPLE"]
+def _load_lambdapdk():
+    path = REPO / "design" / "lambdapdk.py"
+    spec = importlib.util.spec_from_file_location("lambdapdk", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+L = _load_lambdapdk()
+
 CORNERS = ["TT", "SS", "FF"]
-LEFS = {"cell_lef": ROOT + "libs/asap7sc7p5t_rvt/lef/asap7sc7p5t_28_R.lef",
-        "tech_lef": ROOT + "base/apr/asap7_tech.lef"}
-
-
-def fetch(scratch, given):
-    path = pathlib.Path(given) if given else scratch / "lambdapdk.tar.gz"
-    if not path.is_file():
-        urllib.request.urlretrieve(URL, path)
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    if h.hexdigest() != SHA256:
-        sys.exit(f"{path}: sha256 {h.hexdigest()} != pinned {SHA256}")
-    return path
+LEFS = {"cell_lef": L.ROOT + "libs/asap7sc7p5t_rvt/lef/asap7sc7p5t_28_R.lef",
+        "tech_lef": L.ROOT + "base/apr/asap7_tech.lef"}
 
 
 def header_value(text, key):
@@ -64,7 +55,7 @@ def header_value(text, key):
 
 
 def read_members(archive):
-    want = {f"{NLDM}asap7sc7p5t_{g}_RVT_{c}_nldm.lib.gz": (c, g) for c in CORNERS for g in GROUPS}
+    want = {f"{L.NLDM}asap7sc7p5t_{g}_RVT_{c}_nldm.lib.gz": (c, g) for c in CORNERS for g in L.GROUPS}
     libs = {}
     others = {}
     with tarfile.open(archive) as tar:
@@ -74,53 +65,16 @@ def read_members(archive):
                 libs[(c, g)] = gzip.decompress(tar.extractfile(m).read()).decode()
             elif m.name in LEFS.values():
                 others[m.name] = tar.extractfile(m).read()
-    if len(libs) != len(CORNERS) * len(GROUPS) or set(others) != set(LEFS.values()):
+    if len(libs) != len(CORNERS) * len(L.GROUPS) or set(others) != set(LEFS.values()):
         sys.exit("pinned archive is missing RVT Liberty groups or LEF")
     return libs, others
-
-
-def template_blocks(header):
-    """(name, text) of every top-level table template group in a Liberty header."""
-    out = []
-    for m in re.finditer(r"^[ \t]*(\w*template\w*)\s*\(\s*(\w+)\s*\)\s*\{", header, re.M):
-        depth, i = 1, m.end()
-        while depth:
-            depth += {"{": 1, "}": -1}.get(header[i], 0)
-            i += 1
-        out.append((m.group(1) + "(" + m.group(2) + ")", header[m.start():i]))
-    return out
-
-
-def merged(libs, corner):
-    """Cell groups concatenated under the first header, plus any table template that
-    another group's header defines and the first does not. The shipped groups do not
-    share template names (SEQ uses delay_template_7x7, the others delay_template_7x7_x1);
-    without them every SEQ timing table is dropped and nothing is constrained."""
-    out = None
-    have = set()
-    for g in GROUPS:
-        t = libs[(corner, g)]
-        end = t.rstrip().rfind("}")
-        first_cell = re.search(r"^\s*cell\s*\(", t, re.M).start()
-        if out is None:
-            out = t[:end]
-            have = {k for k, _ in template_blocks(t[:first_cell])}
-            at = re.search(r"^[ \t]*cell\s*\(", out, re.M).start()
-            out_head, out_cells = out[:at], out[at:]
-            continue
-        for key, block in template_blocks(t[:first_cell]):
-            if key not in have:
-                have.add(key)
-                out_head += block + "\n"
-        out_cells += t[first_cell:end]
-    return out_head + out_cells + "}\n"
 
 
 def operating_conditions(libs):
     rec = {}
     for c in CORNERS:
         files = {}
-        for g in GROUPS:
+        for g in L.GROUPS:
             t = libs[(c, g)]
             files[f"asap7sc7p5t_{g}_RVT_{c}_nldm.lib.gz"] = {
                 "nom_voltage": header_value(t, "nom_voltage"),
@@ -128,7 +82,7 @@ def operating_conditions(libs):
         points = {(v["nom_voltage"], v["nom_temperature"]) for v in files.values()}
         rec[c] = {"files": files, "uniform": len(points) == 1}
     return {"schema": "asap7-ucie-phy.sta.operating-conditions/1",
-            "source": f"lambdapdk v0.2.17 sha256:{SHA256}",
+            "source": f"lambdapdk v0.2.17 sha256:{L.SHA256}",
             "note": "read from each original Liberty header; the merged Liberty handed to "
                     "klt sta carries the AO group's header only",
             "corners": rec}
@@ -140,13 +94,13 @@ def main():
     args = ap.parse_args()
     with tempfile.TemporaryDirectory(prefix="slice-sta-") as tmp:
         scratch = pathlib.Path(tmp)
-        libs, others = read_members(fetch(scratch, args.pdk_archive))
+        libs, others = read_members(L.fetch(scratch, args.pdk_archive))
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
         (root / "lef").mkdir()
         liberty = {}
         for c in CORNERS:
-            (root / "lib" / f"asap7sc7p5t_rvt_{c}.lib").write_text(merged(libs, c))
+            (root / "lib" / f"asap7sc7p5t_rvt_{c}.lib").write_text(L.merged({g: libs[(c, g)] for g in L.GROUPS}))
             liberty[c.lower()] = f"lib/asap7sc7p5t_rvt_{c}.lib"
         views = {}
         for key, name in LEFS.items():
