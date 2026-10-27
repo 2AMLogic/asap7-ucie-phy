@@ -1,5 +1,10 @@
 {
   "block": "asap7-ucie-phy",
   "kind": "mixed-signal",
-  "evidence": {}
+  "evidence": {
+    "9": {
+      "file": "manifests/evidence/item9.json",
+      "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588"
+    }
+  }
 }
