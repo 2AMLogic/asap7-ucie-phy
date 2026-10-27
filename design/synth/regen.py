@@ -16,61 +16,42 @@ klt-pdk.json descriptor at the result, in a scratch directory.
 """
 import argparse
 import gzip
-import hashlib
+import importlib.util
 import json
 import os
 import pathlib
-import re
 import shlex
 import shutil
 import subprocess
 import sys
 import tarfile
 import tempfile
-import urllib.request
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 REQUEST = HERE / "slice.synth.json"
 NETLIST = REPO / "design" / "netlist" / "slice_asap7.v"
 
-URL = "https://github.com/siliconcompiler/lambdapdk/archive/refs/tags/v0.2.17.tar.gz"
-SHA256 = "ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2"
-NLDM = "lambdapdk-0.2.17/lambdapdk/asap7/libs/asap7sc7p5t_rvt/nldm/"
-GROUPS = ["AO", "INVBUF", "OA", "SEQ", "SIMPLE"]
+def _load_lambdapdk():
+    path = REPO / "design" / "lambdapdk.py"
+    spec = importlib.util.spec_from_file_location("lambdapdk", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
-def fetch(scratch, given):
-    path = pathlib.Path(given) if given else scratch / "lambdapdk.tar.gz"
-    if not path.is_file():
-        urllib.request.urlretrieve(URL, path)
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    if h.hexdigest() != SHA256:
-        sys.exit(f"{path}: sha256 {h.hexdigest()} != pinned {SHA256}")
-    return path
-
+L = _load_lambdapdk()
 
 def merged_liberty(archive):
-    want = {f"{NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz": g for g in GROUPS}
+    want = {f"{L.NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz": g for g in L.GROUPS}
     texts = {}
     with tarfile.open(archive) as tar:
         for m in tar:
             if m.name in want:
                 texts[want[m.name]] = gzip.decompress(tar.extractfile(m).read()).decode()
-    if set(texts) != set(GROUPS):
+    if set(texts) != set(L.GROUPS):
         sys.exit("pinned archive is missing RVT TT liberty groups")
-    out = None
-    for g in GROUPS:
-        t = texts[g]
-        end = t.rstrip().rfind("}")
-        if out is None:
-            out = t[:end]
-        else:
-            out += t[re.search(r"^\s*cell\s*\(", t, re.M).start():end]
-    return out + "}\n"
+    return L.merged(texts)
 
 
 def main():
@@ -80,7 +61,7 @@ def main():
     args = ap.parse_args()
     with tempfile.TemporaryDirectory(prefix="slice-synth-") as tmp:
         scratch = pathlib.Path(tmp)
-        archive = fetch(scratch, args.pdk_archive)
+        archive = L.fetch(scratch, args.pdk_archive)
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
         (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(merged_liberty(archive))
