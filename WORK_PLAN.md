@@ -20,7 +20,7 @@ _None._
 
 `loom:important`; taken before unlabelled work.
 
-_None._
+- **#18**: T1 item 2 (layout): routed lane-datapath GDS from a committed P&R flow plus drawn TX/RX cell GDS placed in the bump-pitch lane column
 
 ## Ready
 
@@ -66,7 +66,7 @@ _None._
 |------|-------|
 | Operator merge-risk holds | 0 |
 | Very important | 0 |
-| Important | 0 |
+| Important | 1 |
 | Ready (`loom:issue`) | 0 |
 | In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
