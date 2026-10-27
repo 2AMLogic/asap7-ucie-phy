@@ -43,17 +43,26 @@ Trace of the committed netlist (a netlist read; per-stage delays are not in the 
 `_3932_` is a read-side Gray-pointer register (`rgray`), compared with the synchronized write pointer
 by `empty = (rgray == wgray_r2)` in `rtl/rx_cdc_fifo.v`. The path found from `_3932_/QN` to `_3860_/D`:
 
-    _3932_/QN (fanout 4) -> XOR2 _2154_ -> NOR4 _2155_ -> INVx1 _2156_ (net _1209_, fanout 94)
-                         -> AOI22 _3223_ -> _3860_/D
+    _3932_/QN (fanout 4) -> XOR2 _2154_ -> NOR4xp25 _2155_ (net _1209_, fanout 94)
+                         -> AOI22 _3223_ A2 -> _3860_/D
 
-Net `_1209_` is `!empty`, the enable of the read side: it gates the `rdata` load (64 bits, `W` = 4*N
-with N = 16, per `design/synth/slice.synth.json`), `rbin`, `rgray` and the hold muxes of the pointer
-registers. One `INVx1` drives 94 loads. With no wire load the delay of that stage is pure pin
-capacitance, and it is the only high-fanout net in this cone (the other nets on the path have
-fanout 1 to 4). The logic is four to five cells deep; the 1.32 ns at tt cannot come from depth, so
-the high-fanout enable is the cause the netlist points to.
+Net `_1209_` is the `.Y` of `NOR4xp25 _2155_` (netlist L2458-L2463), a weak `xp25` cell. The NOR4 of the
+per-bit XOR terms is the equality `rgray == wgray_r2`, so `_1209_` is **`empty`**, not `!empty`. It has one
+driver and 94 loads (counted by pin over the netlist): 56 `AOI21xp33.A2`, 11 `NAND2xp33.B`, 11
+`OAI21xp33.A1`, 9 `NOR5xp2.A`, and 7 others including the inverter below. By the RTL, `empty` gates the load of `rdata`, `rbin` and
+`rgray` and feeds `rvalid`; the mapping of each load to a register was not traced. The path goes from the NOR4 output straight
+into `AOI22xp33 _3223_ .A2(_1209_)` and then `.Y(_1012_)` into `_3860_/D` (L9884, L13857); no inverter is on
+it. `INVx1 _2156_` takes `.A(_1209_)` and drives `.Y(_0000_)`, i.e. `!empty`, which has 48 loads (41
+`OAI221xp5.C`, 4 `OAI21xp33.B`, 3 others) and is a separate branch: `_0000_` is in the fan-in cone of
+`_3860_/D`, but the traced worst path does not pass through it. Whether the `_0000_` branch is also
+critical is not established by the report (no per-stage delay).
 
-Cause class: **fanout and loading on a single `empty` enable, same domain.** It is not logic depth,
+With no wire load the delay of the NOR4 stage is pure pin capacitance: a weak `xp25` NOR4 drives 94
+pins, and it is the only high-fanout net on the traced path (the other nets on it have fanout 1 to 4).
+The logic is three cells deep on the traced path (XOR2, NOR4, AOI22); the 1.32 ns at tt cannot come from depth, so the high-fanout `empty` net is
+the cause the netlist points to.
+
+Cause class: **fanout and loading on the single `empty` net, same domain.** It is not logic depth,
 and not a crossing artefact. Contributing: the synthesis request sets `"clock_period_ns": null`
 (`design/synth/slice.synth.json`), so the mapping was not timing-driven and no buffer tree was built
 for `_1209_`.
@@ -61,7 +70,7 @@ for `_1209_`.
 ## 4. The 72, 137 and 72 violations
 
 The report gives counts, not endpoint lists (only `worst_setup_path` is recorded). The 72 at tt and ff is
-consistent with the 64 `rdata` endpoints plus 8 pointer/status endpoints that share the `!empty` enable,
+consistent with the 64 `rdata` endpoints plus 8 pointer/status endpoints that share the `empty` control,
 but that grouping is an inference and is not established by the report. The ss count of 137 exceeds the 80
 `rclk` flops in `u_cdc`, so at ss other registers on `clk` outside `u_cdc` (the TX serializers, `slice.v`)
 also fail; which ones is not recoverable from the committed report. A split by endpoint group needs a new

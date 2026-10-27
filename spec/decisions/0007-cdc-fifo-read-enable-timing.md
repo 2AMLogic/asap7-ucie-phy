@@ -6,8 +6,8 @@ Status: **proposed** (needs a ruling). Date: 2026-10-27. Issue: #39. Evidence: `
 
 The pre-route record `sta/slice.sta.report.json` fails setup at tt, ss and ff (-1.07218, -1.88432,
 -0.76986 ns at 0.25 ns). The worst path is a same-domain `clk` path from the read Gray pointer through
-`empty` to the 64-bit `rdata` enable, where one `INVx1` drives a fanout of 94 and the synthesis request set
-no clock period. The analysis does not depend on the undeclared `rx_clk`. The 1 GHz fallback row would also
+`empty`, where the `NOR4xp25` that computes `empty` drives a fanout of 94 (the hold terms of `rdata`, the
+pointers and `rvalid`) and the synthesis request set no clock period. The analysis does not depend on the undeclared `rx_clk`. The 1 GHz fallback row would also
 fail on this netlist (tt needs 1.32 ns). Nothing here relaxes section 2 or section 5, and no constraint is
 tuned.
 
@@ -15,7 +15,7 @@ tuned.
 
 1. **Recommended: decouple the data path from `empty`, then re-synthesize timing-driven.** In
    `rtl/rx_cdc_fifo.v`, load `rdata` from `mem[rbin]` every `rclk` edge and let `rvalid` (already registered from
-   `!empty`) mark the word, so `!empty` drives only the 4-bit pointers and `rvalid` (roughly 10 loads by count of those registers, not 94; not re-synthesized).
+   `!empty`) mark the word, so `empty` and `!empty` drive only the two 4-bit pointers and `rvalid` (9 registers, not the 94 gate pins of today; the gate-level pin count after mapping is not re-derived and nothing was re-synthesized).
    Then re-run `design/synth/regen.py` with `clock_period_ns` set to the spec's 0.25 ns and re-run `klt sta`
    as a new appended record. This removes the offending fanout structurally and lets mapping buffer what
    remains. Costs: `rx_data` is undefined while `rx_valid` is low, which must be checked against the
