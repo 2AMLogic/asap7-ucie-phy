@@ -1,0 +1,134 @@
+{
+  "rows": [
+    {
+      "id": "s1-data-lanes",
+      "class": "layout-geometry",
+      "reason": "Lane count is read from the drawn lane column; a count, not a distribution."
+    },
+    {
+      "id": "s1-clock-lanes",
+      "class": "layout-geometry",
+      "reason": "Forwarded-clock lane count is read from the drawn lane column."
+    },
+    {
+      "id": "s1-spare-lanes",
+      "class": "layout-geometry",
+      "reason": "Spare-lane count is read from the drawn column; LVS also compares the lane netlist."
+    },
+    {
+      "id": "s2-rate-per-lane",
+      "class": "sta-timing",
+      "reason": "Rate row is met by post-route STA setup and hold slack at three named Liberty corners; each corner is one deterministic run."
+    },
+    {
+      "id": "s2-parallel-clock",
+      "class": "sta-timing",
+      "reason": "Parallel clock is an STA constraint; slack is computed at each named corner."
+    },
+    {
+      "id": "s2-serialization-ratio",
+      "class": "architectural-choice",
+      "reason": "4:1 is fixed by decision 0004 and checked in STA and layout, not sampled."
+    },
+    {
+      "id": "s3-bump-pitch",
+      "class": "layout-geometry",
+      "reason": "Pitch is read from drawn pad centres against the committed bump map."
+    },
+    {
+      "id": "s3-bumps-per-lane",
+      "class": "layout-geometry",
+      "reason": "Bump count per lane cell is counted in the layout."
+    },
+    {
+      "id": "s3-bump-assignment",
+      "class": "layout-geometry",
+      "reason": "Lane-to-bump order is compared against the committed bump map as data."
+    },
+    {
+      "id": "s3-bump-representation",
+      "class": "layout-geometry",
+      "reason": "Pad shape and V9/M9 stack are checked by DRC (V9 rules) and by layout inspection."
+    },
+    {
+      "id": "s4-cell-width",
+      "class": "layout-geometry",
+      "reason": "Cell width is a drawn dimension."
+    },
+    {
+      "id": "s4-cell-height",
+      "class": "layout-geometry",
+      "reason": "Cell height is a drawn dimension."
+    },
+    {
+      "id": "s4-area-budget",
+      "class": "layout-geometry",
+      "reason": "Area is width times height of the drawn cell, computed from the layout."
+    },
+    {
+      "id": "s4-drawn-cells",
+      "class": "lvs-equivalence",
+      "reason": "Drawn TX and RX cells are checked by DRC and by LVS against reference netlists."
+    },
+    {
+      "id": "s4-serializer-boundary",
+      "class": "lvs-equivalence",
+      "reason": "Boundary is a netlist partition checked by LVS and by STA through characterized timing models."
+    },
+    {
+      "id": "s5-width",
+      "class": "architectural-choice",
+      "reason": "Interface width is a fixed port count in the RTL."
+    },
+    {
+      "id": "s5-clock-domain",
+      "class": "sta-timing",
+      "reason": "Single parallel clock is an STA constraint; the domain crossing is timed, not sampled."
+    },
+    {
+      "id": "s5-handshake",
+      "class": "handshake-simulation",
+      "reason": "valid/ready behaviour is a cocotb testbench with directed, deterministic checks."
+    },
+    {
+      "id": "s5-clock-source-interface",
+      "class": "sta-timing",
+      "reason": "Clock uncertainty and input transition are fixed STA constraints, not a jitter claim."
+    },
+    {
+      "id": "s6-corner-tt",
+      "class": "sta-timing",
+      "reason": "Named shipped Liberty file at one fixed voltage and temperature."
+    },
+    {
+      "id": "s6-corner-ss",
+      "class": "sta-timing",
+      "reason": "Named shipped Liberty file at one fixed voltage and temperature."
+    },
+    {
+      "id": "s6-corner-ff",
+      "class": "sta-timing",
+      "reason": "Named shipped Liberty file at one fixed voltage and temperature."
+    },
+    {
+      "id": "s7-drc-clean",
+      "class": "drc-geometry",
+      "reason": "Zero violations from the pinned deck on the final GDS; a rule check, not a distribution."
+    },
+    {
+      "id": "s7-lvs",
+      "class": "lvs-equivalence",
+      "reason": "Zero LVS errors against reference netlists."
+    },
+    {
+      "id": "s7-sta",
+      "class": "sta-timing",
+      "reason": "Slack of at least 0 at each named corner; deterministic tool result."
+    },
+    {
+      "id": "s7-bump-map",
+      "class": "layout-geometry",
+      "reason": "Drawn pad centres are compared to the committed bump map within one database unit."
+    }
+  ]
+}
