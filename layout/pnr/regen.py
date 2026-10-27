@@ -7,7 +7,7 @@ scratch directory. Nothing from the archive is written into the repo.
 
 klt's PDK resolver cannot read lambdapdk's ASAP7 collateral directly: the
 Liberty ships gzipped and split into five cell-group files whose headers differ
-(see design/synth/regen.py), and the LEF and GDS use lambdapdk's own naming.
+(see design/lambdapdk.py), and the LEF and GDS use lambdapdk's own naming.
 This script unpacks the RVT TT collateral into a scratch directory and points a
 klt-pdk.json descriptor (liberty, views) at it. The per-library CTS, routing,
 tapcell, filler and power-pin inputs klt has no built-in ASAP7 table for come
@@ -34,10 +34,15 @@ import importlib.util
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 
-# Reuse the pinned-archive fetch and the Liberty merge from the synthesis flow.
-_spec = importlib.util.spec_from_file_location("synth_regen", REPO / "design" / "synth" / "regen.py")
-synth = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(synth)
+def _load_lambdapdk():
+    path = REPO / "design" / "lambdapdk.py"
+    spec = importlib.util.spec_from_file_location("lambdapdk", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+L = _load_lambdapdk()
 
 REQUEST = HERE / "slice.pnr.json"
 GDS = REPO / "layout" / "slice_routed.gds"
@@ -53,28 +58,16 @@ FILES = {  # archive member -> scratch path under the PDK root
 
 
 def merged_liberty(archive):
-    """design/synth/regen.py's merge plus the table templates it drops.
-
-    The SEQ group names its delay template `delay_template_7x7` (the others use
-    `delay_template_7x7_x1`) and alone defines `power_template_7x7`. Under the
-    first header neither exists, so OpenSTA discards every sequential timing arc
-    ("table template ... not found"). Append each template defined by a later
-    group but absent from the merged header. Synthesis never reads those
-    tables, so the committed netlist is unaffected."""
-    text = synth.merged_liberty(archive)
-    want = {f"{synth.NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz" for g in synth.GROUPS}
-    block = re.compile(r"^  (?:lu_table_template|power_lut_template) \((\w+)\) \{.*?^  \}\n", re.M | re.S)
-    have = {m.group(1) for m in block.finditer(text)}
-    extra = []
+    """The five RVT TT cell groups merged by design/lambdapdk.py (headers and templates)."""
+    want = {f"{L.NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz": g for g in L.GROUPS}
+    texts = {}
     with tarfile.open(archive) as tar:
         for m in tar:
             if m.name in want:
-                for b in block.finditer(gzip.decompress(tar.extractfile(m).read()).decode()):
-                    if b.group(1) not in have:
-                        have.add(b.group(1))
-                        extra.append(b.group(0))
-    first = block.search(text)
-    return text[:first.start()] + "".join(extra) + text[first.start():]
+                texts[want[m.name]] = gzip.decompress(tar.extractfile(m).read()).decode()
+    if set(texts) != set(L.GROUPS):
+        sys.exit("pinned archive is missing RVT TT liberty groups")
+    return L.merged(texts)
 
 
 def tie_constants(text):
@@ -137,7 +130,7 @@ def main():
     args = ap.parse_args()
     with tempfile.TemporaryDirectory(prefix="slice-pnr-") as tmp:
         scratch = pathlib.Path(tmp)
-        archive = synth.fetch(scratch, args.pdk_archive)
+        archive = L.fetch(scratch, args.pdk_archive)
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
         (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(merged_liberty(archive))
