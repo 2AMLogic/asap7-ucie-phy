@@ -1,0 +1,9 @@
+{
+  "schema": "klt.synthesize.request/1",
+  "engine": "yosys",
+  "sources": ["../../rtl/slice.v", "../../rtl/lane_tx_ser.v", "../../rtl/lane_rx_des.v", "../../rtl/rx_cdc_fifo.v"],
+  "hdl_toplevel": "slice",
+  "parameters": {"N": 16},
+  "pdk": {"cell_library": "asap7sc7p5t_rvt", "corner": "tt"},
+  "constraints": {"clock_period_ns": null}
+}

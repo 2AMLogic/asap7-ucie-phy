@@ -1,0 +1,84 @@
+{
+  "status": "ratified",
+  "source": "spec/ucie-phy.md at commit 2b9030f; sections 1-7, one id per table row, section 5 bullet and section 6 corner",
+  "rows": [
+    {
+      "id": "s1-data-lanes"
+    },
+    {
+      "id": "s1-clock-lanes"
+    },
+    {
+      "id": "s1-spare-lanes"
+    },
+    {
+      "id": "s2-rate-per-lane"
+    },
+    {
+      "id": "s2-parallel-clock"
+    },
+    {
+      "id": "s2-serialization-ratio"
+    },
+    {
+      "id": "s3-bump-pitch"
+    },
+    {
+      "id": "s3-bumps-per-lane"
+    },
+    {
+      "id": "s3-bump-assignment"
+    },
+    {
+      "id": "s3-bump-representation"
+    },
+    {
+      "id": "s4-cell-width"
+    },
+    {
+      "id": "s4-cell-height"
+    },
+    {
+      "id": "s4-area-budget"
+    },
+    {
+      "id": "s4-drawn-cells"
+    },
+    {
+      "id": "s4-serializer-boundary"
+    },
+    {
+      "id": "s5-width"
+    },
+    {
+      "id": "s5-clock-domain"
+    },
+    {
+      "id": "s5-handshake"
+    },
+    {
+      "id": "s5-clock-source-interface"
+    },
+    {
+      "id": "s6-corner-tt"
+    },
+    {
+      "id": "s6-corner-ss"
+    },
+    {
+      "id": "s6-corner-ff"
+    },
+    {
+      "id": "s7-drc-clean"
+    },
+    {
+      "id": "s7-lvs"
+    },
+    {
+      "id": "s7-sta"
+    },
+    {
+      "id": "s7-bump-map"
+    }
+  ]
+}

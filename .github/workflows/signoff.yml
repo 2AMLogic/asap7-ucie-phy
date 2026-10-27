@@ -80,3 +80,24 @@ jobs:
             echo "::error::klt signoff --attest 9 --check exited $rc (expected 0 or 3)"
             exit 1
           fi
+
+      # Re-verify the item-1 attestation envelope: every inventoried file is
+      # re-hashed, and the freshness commands that need no toolchain beyond
+      # python3 are re-run. The synthesis freshness command needs Yosys and the
+      # pinned ASAP7 archive, so it is local_only: its committed outcome is
+      # carried and its netlist is still hash-checked. Exit 3 = drifted.
+      - name: Check the item-1 attestation still reproduces
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --attest 1 --inventory attest/item1.json \
+                      --check evidence/item1.json || rc=$?
+          if [ "$rc" -eq 3 ]; then
+            echo "::error::evidence/item1.json is stale. Regenerate and commit it in this PR:"
+            echo "  klt signoff --attest 1 --inventory attest/item1.json -o evidence/item1.json"
+            echo "  (then update the content_hash cited in manifests/asap7-ucie-phy.json and regenerate the verdict)"
+            exit 1
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::klt signoff --attest --check exited $rc (expected 0 or 3)"
+            exit 1
+          fi
