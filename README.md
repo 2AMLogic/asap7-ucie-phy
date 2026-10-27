@@ -103,9 +103,9 @@ The block's T1 evidence state is machine-readable. The block manifest
 ([`manifests/asap7-ucie-phy.json`](manifests/asap7-ucie-phy.json)) cites the
 evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
-is the committed output of `klt signoff` against it. Item 10 (repo hygiene) is `met`, cited from
-[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json); every other item is
-`unmet` and the tier is `null`. CI re-checks the verdict against the manifest
+is the committed output of `klt signoff` against it. Items 1, 9 and 10 (repo hygiene, cited from
+[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) are `met` (item 6's digital
+partition is `not_applicable`); every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`. To
 regenerate the verdict, and the item-10 envelope after changing any inventoried file:
 
