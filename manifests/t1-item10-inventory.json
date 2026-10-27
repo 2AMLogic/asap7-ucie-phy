@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 10,
+  "description": "Repo hygiene: README, license, the ratified spec and decision records, and the signoff workflow, with the pad-checker self-test and the manifest JSON validity check as the audit commands.",
+  "hygiene": [
+    "README.md",
+    "LICENSE",
+    "spec/README.md",
+    "spec/ucie-phy.md",
+    "spec/asap7-bringup.md",
+    "spec/decisions/0001-asap7-pin-and-bringup.md",
+    "spec/decisions/0002-bump-layer-representation.md",
+    "spec/decisions/0003-simulation-flow.md",
+    "spec/decisions/0004-rate-definition-and-clock-ratio.md",
+    "spec/decisions/0005-signoff-definitions.md",
+    ".github/workflows/signoff.yml"
+  ],
+  "checks": [
+    {
+      "name": "pad-checker-self-test",
+      "argv": ["python3", "layout/selftest.py"]
+    },
+    {
+      "name": "manifests-json-valid",
+      "argv": ["python3", "-c", "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('manifests').rglob('*.json')]"]
+    }
+  ]
+}

@@ -40,8 +40,8 @@ jobs:
           sys.exit(1 if bad else 0)
           PY
 
-      - name: Install pinned klt
-        run: pip install "klayout-tools==$(cat .github/klt-version)"
+      - name: Install pinned klt and the klayout module the pad self-test imports
+        run: pip install "klayout-tools==$(cat .github/klt-version)" "klayout==0.30.12"
 
       # klt signoff --check exits 0 when the committed report still
       # reproduces, 3 when it has drifted, anything else is an error.
@@ -101,3 +101,12 @@ jobs:
             echo "::error::klt signoff --attest --check exited $rc (expected 0 or 3)"
             exit 1
           fi
+
+      # Item 10 (repo hygiene): the inventory's declared checks are run by
+      # klt itself; --check exits 0 when the committed envelope still
+      # reproduces and non-zero on drift or any failing check.
+      - name: Check the committed T1 item 10 attestation still reproduces
+        run: |
+          klt signoff --attest 10 \
+                      --inventory manifests/t1-item10-inventory.json \
+                      --check manifests/t1-item10.envelope.json
