@@ -76,7 +76,7 @@ rules. It was not 367,926: #55's redrawn cells carry 44,628 cell-side violations
 |---|---|---|
 | `SDT.ACTIVE.AUX.2` | 5,824 | inside shipped standard-cell instances (OAI22, BUFx4, fillers), none on router geometry; 2AMLogic/klayout-tools#4496 |
 | `M1.S.2` / `.3` / `.4` / `.5` | 2,272 | router V1 landing pads (they vanish when the M1 inside the router `VIA_*` cells is cleared); 2AMLogic/klayout-tools#4495 |
-| `M4.AUX.2` / `M4.W.3` | 64 / 48 | router M4 (4 / 3 per slice); no generator setting identified |
+| `M4.AUX.2` / `M4.W.3` | 64 / 48 | router M4 stubs whose line ends are off the deck grid (4 / 3 per slice, one cluster); no request field moves them; 2AMLogic/klayout-tools#4501 |
 
 `coverage`: the expectation is satisfied, `layers_in_stream_without_rules` and `rules_skipped` are empty, `PAD` (96/0) is unchecked.
 
@@ -94,3 +94,9 @@ What cleared the other 399,796:
    (was 840 / 1,932 / 408 / 348).
 
 The re-attested stream is `evidence/item2.r5.json`; `klt signoff` item 3 stays unmet and the manifest does not cite these records.
+
+**Status after the #64 attribution pass** (slice re-run at dbu 0.00025 on `layout/slice_routed.gds`, klt 0.8.0, same deck and
+263-id expectation file, no filtering, no waivers): 513 violations across the same 7 rules as above, so the committed column's
+8,208 (16 x 513) stands. Every remaining family is now attributed to a filed tool gap (`#4495`, `#4496`, `#4501`); none is cleared
+by a generator change available today. The column is **not** clean, `klt signoff` item 3 stays unmet, and no GDS or evidence
+revision changed in this pass.
