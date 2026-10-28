@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-10-28
 
+- **PR #68**: docs(drc): attribute the last unexplained router M4 residual to a filed tool gap
+- **PR #67**: fix(layout): put router metal on the deck grid and redraw TX/RX cells to the deck; lane-column DRC 408,004 -> 8,208
 - **PR #62**: fix(layout): stage the ASAP7 layer map for the slice P&R merge; attribute lane-column DRC violations
 - **Issue #57** (closed): Layout: lane column fails ASAP7 DRC (8.1M violations, 65 rules); unblock T1 item 3
 - **PR #60**: refactor: share merged_liberty and derive PnR archive root from the lambdapdk pin
