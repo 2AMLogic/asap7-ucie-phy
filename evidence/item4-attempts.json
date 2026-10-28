@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "kind": "lvs-attempt-record",
+  "t1_item": 4,
+  "status": "fail",
+  "summary": "T1 item 4 (LVS clean): no klt lvs report exists for either partition; every attempt was refused by klt before a compare. Not a match and not evidence of one.",
+  "note": "ASAP7 is predictive; layout and tool results only. Append-only: a later run is a new record.",
+  "klt_version": "0.8.1.dev506+g22ab89a42ad0",
+  "klayout_version": "0.30.12",
+  "pdk_pin": "siliconcompiler/lambdapdk v0.2.17, archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2",
+  "layout_dbu_um": 0.001,
+  "deck_dbu_um": 0.00025,
+  "attempts": [
+    {
+      "partition": "analog",
+      "input": "layout/cells/tx_cell.gds",
+      "input_hash": "sha256:3915a738a7af28ea7c82367ca46cc75e7ebabeb5b577ce082d162d9225a24495",
+      "reference": "design/netlist/tx_cell.sp",
+      "reference_hash": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792",
+      "request": {
+        "layout": {
+          "file": "layout/cells/tx_cell.gds",
+          "deck": "asap7",
+          "top": "tx_cell"
+        },
+        "reference": {
+          "netlist": "design/netlist/tx_cell.sp",
+          "top": "tx_cell"
+        }
+      },
+      "result": "refused, no report",
+      "exit": 1,
+      "klt_message": "deck 'asap7' measures FinFET geometry at dbu 0.00025 um, but the layout's dbu is 0.001 um; refusing to rescale (a stream written at a different scale would extract wrong gate lengths and fin pitches)"
+    },
+    {
+      "partition": "analog",
+      "input": "layout/cells/rx_cell.gds",
+      "input_hash": "sha256:17faea27c2bc7eea9e6db9905d5ab136bccf8c8b804a7e13ed55e3c9bbbefcf8",
+      "reference": "design/netlist/rx_cell.sp",
+      "reference_hash": "sha256:cc4e32ed6b6d0e6700d8bdb906f2b602850690804d8aaa7869d7479b071443bb",
+      "request": {
+        "layout": {
+          "file": "layout/cells/rx_cell.gds",
+          "deck": "asap7",
+          "top": "rx_cell"
+        },
+        "reference": {
+          "netlist": "design/netlist/rx_cell.sp",
+          "top": "rx_cell"
+        }
+      },
+      "result": "not run",
+      "exit": null,
+      "klt_message": "not invoked: same dbu check applies (layout dbu 0.001 um)"
+    },
+    {
+      "partition": "analog",
+      "input": "layout/cells/tx_clk_cell.gds",
+      "input_hash": "sha256:8c4d17a84c7df41880e013fdb208e983c31a54e3e8e0ac2ff99e98399358ac8a",
+      "reference": "design/netlist/tx_clk_cell.sp",
+      "reference_hash": "sha256:0f49941d605e128ecacf59346f98e63fe92551db6e50222dea12dcbb3e324e9b",
+      "request": {
+        "layout": {
+          "file": "layout/cells/tx_clk_cell.gds",
+          "deck": "asap7",
+          "top": "tx_clk_cell"
+        },
+        "reference": {
+          "netlist": "design/netlist/tx_clk_cell.sp",
+          "top": "tx_clk_cell"
+        }
+      },
+      "result": "not run",
+      "exit": null,
+      "klt_message": "not invoked: same dbu check applies (layout dbu 0.001 um)"
+    },
+    {
+      "partition": "analog",
+      "input": "layout/cells/rx_clk_cell.gds",
+      "input_hash": "sha256:486534b0bf82473c46b070cba77df642fdcd6c9b2452491d9e090e92b4443378",
+      "reference": "design/netlist/rx_clk_cell.sp",
+      "reference_hash": "sha256:f53b368deb6018fa660b329233714fcb6fa8af27a3e3361c3e75763bdad8f184",
+      "request": {
+        "layout": {
+          "file": "layout/cells/rx_clk_cell.gds",
+          "deck": "asap7",
+          "top": "rx_clk_cell"
+        },
+        "reference": {
+          "netlist": "design/netlist/rx_clk_cell.sp",
+          "top": "rx_clk_cell"
+        }
+      },
+      "result": "not run",
+      "exit": null,
+      "klt_message": "not invoked: same dbu check applies (layout dbu 0.001 um)"
+    },
+    {
+      "partition": "digital",
+      "input": "layout/slice_routed.gds",
+      "input_hash": "sha256:b413489db6dadc74e5a83a7fcdad41dc1c83783ca892e815355e2958322ea783",
+      "reference": "design/netlist/slice_asap7.v",
+      "reference_hash": "sha256:1ad766f9be53a03dcf2ec3a686a25893dd6176e0fb6ea798bfed205a6872c542",
+      "request": {
+        "layout": {
+          "file": "layout/slice_routed.gds",
+          "deck": "asap7",
+          "top": "slice"
+        },
+        "reference": {
+          "netlist": "design/netlist/slice_asap7.v",
+          "top": "slice",
+          "form": "gate-level-verilog",
+          "pdk": "asap7",
+          "pdk_root": "<pinned lambdapdk v0.2.17 asap7 tree>"
+        }
+      },
+      "result": "refused, no report",
+      "exit": 1,
+      "klt_message": "layout.deck 'asap7' is a FinFET extraction deck; reference.form 'gate-level-verilog' is not supported (use 'plain-element' CDL/SPICE M cards carrying nfin=)"
+    }
+  ],
+  "diagnostic_not_committed_inputs": {
+    "what": "The four cell GDS files rewritten at dbu 0.00025 um with klayout.db SaveLayoutOptions.dbu (same physical geometry), in scratch only. These are NOT the committed inputs; no report from them is evidence.",
+    "klt_messages": {
+      "tx_cell": "deck 'asap7': 11 FinFET device(s) cannot be extracted faithfully and were not approximated: PMOS channel not inside the well at [0.611, 0.558, 0.631, 0.882]; PMOS channel not inside the well at [0.557, 0.558, 0.577, 0.72]; PMOS channel not inside the well at [0.503, 0.558, 0.523, 0.639]; PMOS channel not inside the well at [0.449, 0.558, 0.469, 0.639]; PMOS channel not inside the well at [0.341, 0.558, 0.361, 0.639]; PMOS channel not inside the well at [0.395, 0.558, 0.415, 0.639]; PMOS channel not inside the well at [0.233, 0.558, 0.253, 0.639]; PMOS channel not inside the well at [0.179, 0.558, 0.199, 0.639]; PMOS channel not inside the well at [0.287, 0.558, 0.307, 0.639]; PMOS channel not inside the well at [0.125, 0.558, 0.145, 0.639]; PMOS channel not inside the well at [0.071, 0.558, 0.091, 0.639]",
+      "rx_cell": "deck 'asap7': 26 FinFET device(s) cannot be extracted faithfully and were not approximated: PMOS channel not inside the well at [1.313, 0.396, 1.333, 0.45]; PMOS channel not inside the well at [1.205, 0.396, 1.225, 0.45]; PMOS channel not inside the well at [0.989, 0.396, 1.009, 0.45]; PMOS channel not inside the well at [0.935, 0.396, 0.955, 0.45]; PMOS channel not inside the well at [0.665, 0.396, 0.685, 0.45]; PMOS channel not inside the well at [0.611, 0.396, 0.631, 0.45]; PMOS channel not inside the well at [0.341, 0.396, 0.361, 0.45]; PMOS channel not inside the well at [1.421, 0.396, 1.441, 0.423]; PMOS channel not inside the well at [0.233, 0.396, 0.253, 0.45]; PMOS channel not inside the well at [0.395, 0.396, 0.415, 0.423]; PMOS channel not inside the well at [1.259, 0.396, 1.279, 0.45]; PMOS channel not inside the well at [0.449, 0.396, 0.469, 0.423]; PMOS channel not inside the well at [0.125, 0.396, 0.145, 0.558]; PMOS channel not inside the well at [0.881, 0.396, 0.901, 0.45]; PMOS channel not inside the well at [0.503, 0.396, 0.523, 0.423]; PMOS channel not inside the well at [0.719, 0.396, 0.739, 0.423]; PMOS channel not inside the well at [0.287, 0.396, 0.307, 0.45]; PMOS channel not inside the well at [0.827, 0.396, 0.847, 0.423]; PMOS channel not inside the well at [0.071, 0.396, 0.091, 0.477]; PMOS channel not inside the well at [0.179, 0.396, 0.199, 0.423] (+6 more)",
+      "tx_clk_cell": "deck 'asap7': 5 FinFET device(s) cannot be extracted faithfully and were not approximated: PMOS channel not inside the well at [0.233, 0.558, 0.253, 0.72]; PMOS channel not inside the well at [0.179, 0.558, 0.199, 0.639]; PMOS channel not inside the well at [0.125, 0.558, 0.145, 0.639]; PMOS channel not inside the well at [0.287, 0.558, 0.307, 0.882]; PMOS channel not inside the well at [0.071, 0.558, 0.091, 0.639]",
+      "rx_clk_cell": "deck 'asap7': 4 FinFET device(s) cannot be extracted faithfully and were not approximated: PMOS channel not inside the well at [0.233, 0.558, 0.253, 0.882]; PMOS channel not inside the well at [0.179, 0.558, 0.199, 0.72]; PMOS channel not inside the well at [0.125, 0.558, 0.145, 0.72]; PMOS channel not inside the well at [0.071, 0.558, 0.091, 0.639]"
+    }
+  },
+  "std_cell_compare": {
+    "what": "Shipped INVx1_ASAP7_75t_R and DFFHQNx1_ASAP7_75t_R (klt clip from the pinned asap7sc7p5t_28_R.gds) against the pinned asap7sc7p5t_28_R.cdl, options.finfet_bulk {nmos: VSS, pmos: VDD}",
+    "gds_sha256": "f43d5b33df635cf9e66cbca66b6bdd05364f824d8040cd21528b9e12808b9263",
+    "cdl_sha256": "3e3e2548fb8f571c2e373dcbf565ecb0288e6433e803fbf06561cb16b70caf53",
+    "INVx1_ASAP7_75t_R": {
+      "status": "match",
+      "engine": "klayout",
+      "power_connectivity": "unchecked"
+    },
+    "DFFHQNx1_ASAP7_75t_R": {
+      "status": "match",
+      "engine": "klayout",
+      "power_connectivity": "unchecked"
+    },
+    "caveat": "finfet_bulk is klt's disclosed comparison-side bulk policy, not a drawn tap; power_connectivity unchecked means the question was not asked."
+  },
+  "follow_up": {
+    "upstream": "2AMLogic/klayout-tools#4462",
+    "repo": "2AMLogic/asap7-ucie-phy#52"
+  }
+}
