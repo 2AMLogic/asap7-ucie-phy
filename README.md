@@ -105,8 +105,9 @@ evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
 is the committed output of `klt signoff` against it. Items 1, 2, 9 and 10 (repo hygiene, cited from
 [`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) are `met` on both partitions
-(item 6's digital partition is `not_applicable`; its analog partition is `unmet`,
-`not_applicable_wrong_partition`). Item 5's digital partition cites a pre-route `klt sta` report
+(item 6's digital partition is `not_applicable`; its analog partition is a declared gap, `unmet` /
+`no_evidence`, not evidence — see [decision 0008](spec/decisions/0008-item6-analog-declared-gap.md)).
+Item 5's digital partition cites a pre-route `klt sta` report
 ([`sta/`](sta/README.md)) and two `klt functional-verification` reports; it is `unmet` because
 setup slack is negative at all three corners. Every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`. To
