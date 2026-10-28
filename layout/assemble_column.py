@@ -28,8 +28,9 @@ HERE = pathlib.Path(__file__).resolve().parent
 MAP = HERE / "bump_map_target.csv"
 OUT = HERE / "lane_column.gds"
 TOP = "lane_column"
-DBU_UM = 0.001
-UM = 1000  # dbu per um
+DBU_UM = 0.00025  # klt's asap7 deck requires this dbu
+SLICE_DBU_UM = 0.001  # klt place-and-route output; converted on import
+UM = 4000  # dbu per um
 PITCH = 45 * UM
 CELL_H = 2 * PITCH
 CELL_W = 45 * UM
@@ -47,19 +48,19 @@ CLK_TX_AT = (-20 * UM, -40 * UM)
 CLK_RX_AT = (2 * UM, -40 * UM)
 
 
-def load(path):
+def load(path, dbu_um):
     ly = db.Layout()
     ly.read(str(path))
-    if abs(ly.dbu - DBU_UM) > 1e-12:
-        raise SystemExit("%s: dbu %g, expected %g" % (path, ly.dbu, DBU_UM))
+    if abs(ly.dbu - dbu_um) > 1e-12:
+        raise SystemExit("%s: dbu %g, expected %g" % (path, ly.dbu, dbu_um))
     return ly
 
 
-def import_tree(dst, path, name):
-    src = load(path)
+def import_tree(dst, path, name, dbu_um=DBU_UM):
+    src = load(path, dbu_um)
     top = src.cell(name)
     new = dst.create_cell(name)
-    new.copy_tree(top)
+    new.copy_tree(top)  # rescales physical geometry when dbu differs
     return new
 
 
@@ -69,7 +70,7 @@ def build():
         raise SystemExit("bump map has %d rows, expected %d" % (len(entries), 2 * LANES))
     ly = db.Layout()
     ly.dbu = DBU_UM
-    slice_c = import_tree(ly, HERE / "slice_routed.gds", "slice")
+    slice_c = import_tree(ly, HERE / "slice_routed.gds", "slice", SLICE_DBU_UM)
     cells = {n: import_tree(ly, HERE / "cells" / (n + ".gds"), n)
              for n in ("tx_cell", "rx_cell", "tx_clk_cell", "rx_clk_cell")}
     pad = ly.layer(*PAD_LAYER)

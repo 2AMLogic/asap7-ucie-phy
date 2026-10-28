@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "kind": "layout-stream-inventory",
+  "t1_item": 2,
+  "description": "Layout streams of the lane column at dbu 0.00025 um (re-attestation of attest/item2.json after the dbu change), pinned by sha256 of raw bytes: the assembled column and its inputs (routed slice, drawn TX/RX cells). Layout geometry only; no DRC or LVS result is claimed (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
+  "assembled": {
+    "path": "layout/lane_column.gds",
+    "generator": "python3 layout/assemble_column.py",
+    "check": [
+      "python3",
+      "layout/assemble_column.py",
+      "--check"
+    ],
+    "top": "lane_column",
+    "lane_cells": 17,
+    "data_lanes": 16,
+    "clock_lane_index": 8,
+    "bump_pitch_um": 45,
+    "pads": 34
+  },
+  "pad_check": {
+    "record": "layout/pad_check_record.json",
+    "argv": [
+      "python3",
+      "layout/check_pads.py",
+      "--gds",
+      "layout/lane_column.gds",
+      "--top",
+      "lane_column",
+      "--map",
+      "layout/bump_map_target.csv",
+      "--out",
+      "layout/pad_check_record.json"
+    ],
+    "status": "pass"
+  },
+  "streams": [
+    {
+      "path": "layout/lane_column.gds",
+      "sha256": "sha256:d222554be4acef15004bc800e51b5e42738adc5611cde911e491eb460f7965f9"
+    },
+    {
+      "path": "layout/slice_routed.gds",
+      "sha256": "sha256:b413489db6dadc74e5a83a7fcdad41dc1c83783ca892e815355e2958322ea783"
+    },
+    {
+      "path": "layout/cells/tx_cell.gds",
+      "sha256": "sha256:a25453d5c3b536f3edbb97bab7b4f39d70e7569a5926532702c819984f2060ef"
+    },
+    {
+      "path": "layout/cells/rx_cell.gds",
+      "sha256": "sha256:95ac11a8c9059e4c2ee778306d3c1b4dcea887d14ce965637e7e678356c44480"
+    },
+    {
+      "path": "layout/cells/tx_clk_cell.gds",
+      "sha256": "sha256:3b004e70ce7af47003ee0b9f80a1607ce78032fcf00b651228e639459681af48"
+    },
+    {
+      "path": "layout/cells/rx_clk_cell.gds",
+      "sha256": "sha256:6238499801153ef55a06536ef653be7f24aa47e2b4be9b4cb3278b209f4db43d"
+    }
+  ]
+}

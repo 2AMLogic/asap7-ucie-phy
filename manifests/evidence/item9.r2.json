@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 9,
+  "summary": "T1 item 9 (Testbenches shipped): 8/8 attestation checks passed (klt signoff --attest)",
+  "source": "manifests/attest/item9.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 8,
+    "passed_count": 8,
+    "checks": [
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "layout/selftest.py",
+        "passed": true,
+        "content_hash": "sha256:3f42ea2be93f312c86063ff99b802073494ebfd14d500101bf77bb84334f2e42"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "verification/cold_start.sh",
+        "passed": true,
+        "content_hash": "sha256:7e2bfd9c28f56ee1d990bb61468e33ce53a9cdab605e41cb7d67075e0c18e8ac"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "verification/run.sh",
+        "passed": true,
+        "content_hash": "sha256:2eb392194eae9379f2d80a3657fb8c37091fd136e964d7bc8d7edf02e1f0e885"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "verification/runner.py",
+        "passed": true,
+        "content_hash": "sha256:b2931dd95209bf77ae9fdba14cc2d6de63a5c6ff0f7b8dae41d06619582a8da8"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "verification/test_slice.py",
+        "passed": true,
+        "content_hash": "sha256:03c5b8a6defe24f2dc69bf219f81536a403e26021d8fa801a4bbe799df825d41"
+      },
+      {
+        "check": "command",
+        "role": "cold_start",
+        "argv": [
+          "verification/cold_start.sh"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "pin",
+        "role": "pdk",
+        "passed": true,
+        "value": {
+          "name": "asap7 (lambdapdk)",
+          "revision": "v0.2.17"
+        }
+      },
+      {
+        "check": "pin",
+        "role": "tools",
+        "passed": true,
+        "value": {
+          "cocotb": "2.1.0",
+          "iverilog": "13.0",
+          "klayout": "0.30.12",
+          "klt": "0.8.0",
+          "verilator": "5.050",
+          "yosys": "0.67"
+        }
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.8.0",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "manifests/attest/item9.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588"
+    }
+  }
+}

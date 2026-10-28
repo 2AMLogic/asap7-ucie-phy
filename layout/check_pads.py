@@ -4,7 +4,7 @@
 A layout check, never a DRC claim (spec section 3, decision 0002).
 
 Centre = bounding-box centre of each 96/0 shape in the flattened top cell.
-Matching is nearest-neighbour: a drawn pad within TOL dbu (inclusive) of a map
+Matching is nearest-neighbour: a drawn pad within TOL_NM nm (inclusive) of a map
 entry is matched; a leftover drawn pad within NEAR_PITCHES bump pitches of an
 unmatched entry is `misplaced`; the rest are `missing` / `extra`.
 An unreadable file, missing top cell or zero 96/0 shapes is `fail`.
@@ -17,8 +17,13 @@ import sys
 import klayout.db as db
 
 LAYER, DATATYPE = 96, 0
-TOL_DBU = 1
+TOL_NM = 1
 NEAR_PITCHES = 3
+
+
+def tol_dbu(dbu):
+    """The tolerance in dbu for a layout at `dbu` um."""
+    return max(0, round(TOL_NM / (dbu * 1000)))
 
 
 def read_map(path, dbu):
@@ -52,12 +57,13 @@ def drawn_centres(gds, top):
 def compare(entries, pts, dbu):
     unmatched = list(range(len(pts)))
     matched = 0
+    tol = tol_dbu(dbu)
     left = []
     for e in entries:
         best = None
         for i in unmatched:
             d = max(abs(pts[i][0] - e["x"]), abs(pts[i][1] - e["y"]))
-            if d <= TOL_DBU and (best is None or d < best[0]):
+            if d <= tol and (best is None or d < best[0]):
                 best = (d, i)
         if best:
             unmatched.remove(best[1])
@@ -86,9 +92,10 @@ def compare(entries, pts, dbu):
 
 def check(gds, top, map_path):
     rec = {"gds": gds, "top": top, "map": map_path, "layer": "%d/%d" % (LAYER, DATATYPE),
-           "tolerance_dbu": TOL_DBU}
+           "tolerance_nm": TOL_NM}
     try:
         dbu, pts = drawn_centres(gds, top)
+        rec["tolerance_dbu"] = tol_dbu(dbu)
         entries = read_map(map_path, dbu)
     except Exception as e:  # unreadable file, missing cell, bad map
         rec.update(status="fail", error=str(e))

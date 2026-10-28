@@ -3,7 +3,8 @@
   "top": "lane_column",
   "map": "layout/bump_map_target.csv",
   "layer": "96/0",
-  "tolerance_dbu": 1,
+  "tolerance_nm": 1,
+  "tolerance_dbu": 4,
   "status": "pass",
   "counts": {
     "map": 34,

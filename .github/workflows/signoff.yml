@@ -70,10 +70,10 @@ jobs:
           set -uo pipefail
           rc=0
           klt signoff --attest 9 --inventory manifests/attest/item9.json \
-                      --check manifests/evidence/item9.json || rc=$?
+                      --check manifests/evidence/item9.r2.json || rc=$?
           if [ "$rc" -eq 3 ]; then
-            echo "::error::manifests/evidence/item9.json is stale (a listed testbench or the inventory changed). Re-attest on a host with the pinned tools and commit it:"
-            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 9 --inventory manifests/attest/item9.json -o manifests/evidence/item9.json"
+            echo "::error::manifests/evidence/item9.r2.json is stale (a listed testbench or the inventory changed). Re-attest on a host with the pinned tools and commit it:"
+            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 9 --inventory manifests/attest/item9.json -o manifests/evidence/item9.r2.json"
             echo "then update the item 9 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
             exit 1
           elif [ "$rc" -ne 0 ]; then

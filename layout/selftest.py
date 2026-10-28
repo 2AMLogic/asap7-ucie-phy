@@ -15,11 +15,13 @@ import check_pads
 HERE = os.path.dirname(os.path.abspath(__file__))
 PAD_UM = 25.0
 TOP = "PADS"
+DBU_UM = 0.00025  # the deck dbu
+NM = round(0.001 / DBU_UM)  # dbu per nm
 
 
 def build(entries, path, mutate=None, subcell=False):
     ly = db.Layout()
-    ly.dbu = 0.001
+    ly.dbu = DBU_UM
     top = ly.create_cell(TOP)
     host = ly.create_cell("SUB") if subcell else top
     if subcell:
@@ -53,16 +55,16 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         for sl in ("target", "fallback"):
             mpath = os.path.join(HERE, "bump_map_%s.csv" % sl)
-            entries = check_pads.read_map(mpath, 0.001)
+            entries = check_pads.read_map(mpath, DBU_UM)
             print("slice %s: %d bumps" % (sl, len(entries)))
             n = len(entries)
-            mv = lambda d: (lambda p: [(x, y + d) if i == 5 else (x, y) for i, (x, y) in enumerate(p)])
+            mv = lambda d: (lambda p: [(x, y + d * NM) if i == 5 else (x, y) for i, (x, y) in enumerate(p)])
             allok &= run(sl + "_good", entries, mpath, tmp, None, "pass")
             allok &= run(sl + "_sub", entries, mpath, tmp, None, "pass", subcell=True)
             allok &= run(sl + "_move1", entries, mpath, tmp, mv(1), "pass")
             allok &= run(sl + "_move2", entries, mpath, tmp, mv(2), "fail", "misplaced")
             allok &= run(sl + "_missing", entries, mpath, tmp, lambda p: p[:5] + p[6:], "fail", "missing")
-            allok &= run(sl + "_extra", entries, mpath, tmp, lambda p: p + [(200000, -5000)], "fail", "extra")
+            allok &= run(sl + "_extra", entries, mpath, tmp, lambda p: p + [(200000 * NM, -5000 * NM)], "fail", "extra")
             allok &= run(sl + "_empty", entries, mpath, tmp, lambda p: [], "fail")
         bad = check_pads.check(os.path.join(tmp, "nonexistent.gds"), TOP, mpath)
         print("  unreadable     status=%s" % bad["status"])
