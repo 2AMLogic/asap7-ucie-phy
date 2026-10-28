@@ -3,6 +3,12 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-10-28
+
+- **PR #50**: feat(layout): assemble the 17-lane bump-pitch column and attest T1 item 2
+- **Issue #35** (closed): T1 item 2c: lane-column assembly, pad check record and item-2 envelope
+- **Issue #18** (closed): T1 item 2 (layout): routed lane-datapath GDS from a committed P&R flow plus drawn TX/RX cell GDS placed in the bump-pitch lane column
+
 ### 2026-10-27
 
 - **PR #48**: fix: load pinned lambdapdk module directly in PnR regen script
