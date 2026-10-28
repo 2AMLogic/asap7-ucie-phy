@@ -1,0 +1,197 @@
+{
+  "schema_version": 2,
+  "engine": "klayout",
+  "layout": {
+    "path": "layout/cells/rx_clk_cell.gds",
+    "scope": "repo"
+  },
+  "reference": "../../design/netlist/rx_clk_cell.sp",
+  "top": "rx_clk_cell",
+  "reference_top": "RX_CLK_CELL",
+  "parameter_tolerance": null,
+  "options": {
+    "combine_devices": false,
+    "combine_devices_per_circuit": null,
+    "combine_devices_max_attempts": 5,
+    "flatten_layout": false,
+    "flatten_reference": false,
+    "netgen_setup": null,
+    "parameter_tolerance": null,
+    "compare_parameters": null,
+    "power_connectivity": null,
+    "anchor_top_level_pins": null,
+    "strict_top_level_pin_count": false,
+    "compare_mos_flavour": false,
+    "supply_nets": [
+      "GND",
+      "VCC",
+      "VDD",
+      "VGND",
+      "VPWR",
+      "VSS"
+    ],
+    "finfet_bulk": {
+      "nmos": "VSS",
+      "pmos": "VDD"
+    }
+  },
+  "hints_applied": null,
+  "constant_nets_applied": null,
+  "status": "match",
+  "power_connectivity": {
+    "status": "unchecked",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "power_pins": [],
+    "power_pins_derivation": null,
+    "instance_count": 0,
+    "expected_nets": null,
+    "unchecked_expected_pins": [],
+    "excluded_pins": [],
+    "findings": [],
+    "finding_count": 0
+  },
+  "body_verification": {
+    "status": "verified",
+    "reason": null,
+    "device_classes": [],
+    "device_count": 0,
+    "findings": [],
+    "finding_count": 0
+  },
+  "device_parameter_coverage": [],
+  "mismatch_count": 2,
+  "error_count": 0,
+  "category_counts": {
+    "device.finfet_bulk_tied": 2
+  },
+  "category_error_counts": {},
+  "counts": {
+    "nets": {
+      "layout": 7,
+      "reference": 7,
+      "matched": 7
+    },
+    "devices": {
+      "layout": 8,
+      "reference": 8,
+      "matched": 8
+    },
+    "pins": {
+      "layout": 4,
+      "reference": 4,
+      "matched": 4
+    }
+  },
+  "device_classes": [
+    "nfet",
+    "pfet"
+  ],
+  "environment": {
+    "engine": "klayout",
+    "engine_version": "0.30.12",
+    "netgen_binary": null,
+    "layout_sha256": "f581688fd514401f9d96b193f3c76f9e94f96abe9c2b8076884efeedec80892a",
+    "reference_sha256": "f53b368deb6018fa660b329233714fcb6fa8af27a3e3361c3e75763bdad8f184",
+    "extracted_netlist": null
+  },
+  "provenance": {
+    "klt_version": "0.8.1.dev511+gbbe05037064a",
+    "klt_git_commit": "bbe05037064aec1b0c99ad76bf8ba1c0ab8ab9dd",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@bbe05037064aec1b0c99ad76bf8ba1c0ab8ab9dd",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "asap7",
+      "content_hash": "sha256:30a8d86cc36f99ffc54b0c86ab69a737acd91ba0fd21f6de3c842f9fba9d2aaf",
+      "released": true
+    },
+    "input": {
+      "content_hash": "sha256:f581688fd514401f9d96b193f3c76f9e94f96abe9c2b8076884efeedec80892a",
+      "role": "layout"
+    },
+    "klayout_version_mismatch": false
+  },
+  "mismatches": [
+    {
+      "category": "device.finfet_bulk_tied",
+      "severity": "warning",
+      "description": "options.finfet_bulk joined the nmos bulk net 'vsubs' onto layout net 'VSS' on 4 device(s) before comparing -- the bulk connectivity is a caller assertion, not geometry read from the layout",
+      "side": "layout",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "polarity": "nmos",
+        "net": "VSS",
+        "device_count": 4,
+        "device_classes": [
+          "nmos_rvt"
+        ],
+        "bulk_net": "vsubs",
+        "status": "joined"
+      },
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.finfet_bulk_tied",
+      "severity": "warning",
+      "description": "options.finfet_bulk joined the pmos bulk net '$8' onto layout net 'VDD' on 4 device(s) before comparing -- the bulk connectivity is a caller assertion, not geometry read from the layout",
+      "side": "layout",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "polarity": "pmos",
+        "net": "VDD",
+        "device_count": 4,
+        "device_classes": [
+          "pmos_rvt"
+        ],
+        "bulk_net": "$8",
+        "status": "joined"
+      },
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    }
+  ],
+  "net_correspondence": [
+    {
+      "layout": "\\$3",
+      "reference": "I1",
+      "pin": false
+    },
+    {
+      "layout": "\\$4",
+      "reference": "I2",
+      "pin": false
+    },
+    {
+      "layout": "\\$5",
+      "reference": "I3",
+      "pin": false
+    },
+    {
+      "layout": "pad",
+      "reference": "PAD",
+      "pin": true
+    },
+    {
+      "layout": "rx_clk",
+      "reference": "RX_CLK",
+      "pin": true
+    },
+    {
+      "layout": "VDD",
+      "reference": "VDD",
+      "pin": true
+    },
+    {
+      "layout": "VSS|vsubs",
+      "reference": "VSS",
+      "pin": true
+    }
+  ]
+}

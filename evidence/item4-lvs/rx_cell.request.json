@@ -1,0 +1,3 @@
+{"layout":{"file":"../../layout/cells/rx_cell.gds","deck":"asap7","top":"rx_cell"},
+ "reference":{"netlist":"../../design/netlist/rx_cell.sp","top":"rx_cell"},
+ "options":{"finfet_bulk":{"nmos":"VSS","pmos":"VDD"}}}

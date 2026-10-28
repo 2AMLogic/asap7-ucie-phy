@@ -1,0 +1,3 @@
+{"layout":{"file":"../../layout/cells/tx_clk_cell.gds","deck":"asap7","top":"tx_clk_cell"},
+ "reference":{"netlist":"../../design/netlist/tx_clk_cell.sp","top":"tx_clk_cell"},
+ "options":{"finfet_bulk":{"nmos":"VSS","pmos":"VDD"}}}
