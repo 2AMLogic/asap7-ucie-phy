@@ -7,11 +7,11 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r2.json",
+      "file": "evidence/item1.r3.json",
       "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "1.digital": {
-      "file": "evidence/item1.r2.json",
+      "file": "evidence/item1.r3.json",
       "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "6": {
