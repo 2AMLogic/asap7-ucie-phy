@@ -1,0 +1,12 @@
+{
+  "item": "6.analog",
+  "status": "declared_gap",
+  "claim": "No Monte Carlo evidence exists for the drawn TX/RX cells, and no analog statistical spec row is ratified. This is a declared gap, not evidence and not a pass.",
+  "reason": "The ratified spec has no statistical row, and the tier doc does not allow a not_applicable outcome for an analog partition. ngspice 42 on the worker cannot load the OSDI v0.4 BSIM-CMG module, so no circuit simulation of the drawn cells exists (spec/decisions/0003-simulation-flow.md). Adding statistical rows would extend the ratified spec and is out of scope (spec/decisions/0008-item6-analog-declared-gap.md).",
+  "expected_grade": "unmet / no_evidence",
+  "why_not_in_manifest": "Tested on klt 0.8.0: a spec_rows \"6.analog\" declared_gaps row with no citation grades unmet / no_evidence, not partial_coverage, so the declaration changes nothing in the verdict. Same mechanism as item 5, tracked as 2AMLogic/klayout-tools#4190. This file is therefore not cited under evidence and is not content-hash bound.",
+  "owners": {
+    "statistical_spec_rows": "a future operator-ratified decision, if analog performance rows are added",
+    "circuit_simulation": "worker-spec change (ngspice 44 or later), per decision 0003"
+  }
+}

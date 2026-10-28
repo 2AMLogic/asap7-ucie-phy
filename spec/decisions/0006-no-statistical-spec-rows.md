@@ -2,6 +2,8 @@
 
 Status: accepted. Date: 2026-10-27. Issue: #22.
 
+> Superseded in part, 2026-10-28 (decision 0008, #71): this record supports the `not_applicable` outcome for T1 item 6's **digital** partition only. The analog partition is a declared gap, not `not_applicable`. The row table below is unchanged.
+
 ## Decision
 
 T1 item 6 of klayout-tools `docs/design-evidence-tiers.md` requires Monte Carlo evidence for any
