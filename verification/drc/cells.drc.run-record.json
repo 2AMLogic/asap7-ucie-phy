@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "kind": "drc-run-record",
+  "issue": 57,
+  "t1_item": 3,
+  "status": "violations",
+  "claim": "NOT clean. Per-cell runs of the four drawn cells as drawn after #56 (dbu 0.00025); not T1 item 3 evidence.",
+  "run_date": "2026-10-28",
+  "tool": {
+    "klt": "0.8.0 (pinned, .github/klt-version; uvx --from klayout-tools==0.8.0)",
+    "engine": "klayout",
+    "klayout": "0.30.12 (pip, as reported in the envelope provenance)",
+    "deck": {
+      "file": "klayout_tools/decks/asap7.drc",
+      "content_hash": "sha256:48ac590ab1567b68d95a28e73391ff983070d8ccba28f628e1a127dd4da80e7f",
+      "note": "same deck hash as lane_column.drc.run-record.json; the envelope marks it released:false. spec/asap7-bringup.md quotes 08dba3ee... from an earlier dev build."
+    },
+    "expectation_file": "263 ids from klayout_tools/decks/asap7_rules.RULE_IDS, one per line, unfiltered; no waivers",
+    "command": "klt drc <input> --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <263 ids> --format json --timeout-s 1500 > <envelope>  (0.8.0 has no -o for drc; stdout)"
+  },
+  "runs": {
+    "tx": {
+      "input": "layout/cells/tx_cell.gds",
+      "content_hash": "sha256:a25453d5c3b536f3edbb97bab7b4f39d70e7569a5926532702c819984f2060ef",
+      "note": "",
+      "status": "violations",
+      "violation_count": 108,
+      "rules_violated": 13,
+      "rule_counts": {
+        "ACTIVE.AUX.1": 2,
+        "FIN.S.1": 22,
+        "FIN.W.1": 24,
+        "FIN.W.2": 12,
+        "GATE.ACTIVE.EX.2": 8,
+        "M1.S.4": 12,
+        "M1.W.1": 10,
+        "NSELECT.ACTIVE.EN.1": 4,
+        "NSELECT.ACTIVE.EN.2": 4,
+        "NSELECT.W.1": 1,
+        "PSELECT.ACTIVE.EN.1": 4,
+        "PSELECT.ACTIVE.EN.2": 4,
+        "PSELECT.W.1": 1
+      }
+    },
+    "rx": {
+      "input": "layout/cells/rx_cell.gds",
+      "content_hash": "sha256:95ac11a8c9059e4c2ee778306d3c1b4dcea887d14ce965637e7e678356c44480",
+      "note": "",
+      "status": "violations",
+      "violation_count": 194,
+      "rules_violated": 20,
+      "rule_counts": {
+        "ACTIVE.AUX.1": 2,
+        "ACTIVE.S.2A": 2,
+        "FIN.S.1": 18,
+        "FIN.W.1": 20,
+        "FIN.W.2": 6,
+        "GATE.ACTIVE.EX.2": 24,
+        "M1.A.1": 2,
+        "M1.S.2": 1,
+        "M1.S.3": 20,
+        "M1.S.4": 10,
+        "M1.S.5": 4,
+        "M1.W.1": 25,
+        "NSELECT.ACTIVE.EN.1": 12,
+        "NSELECT.ACTIVE.EN.2": 12,
+        "NSELECT.W.1": 1,
+        "NSELECT.W.2": 5,
+        "PSELECT.ACTIVE.EN.1": 12,
+        "PSELECT.ACTIVE.EN.2": 12,
+        "PSELECT.W.1": 1,
+        "PSELECT.W.2": 5
+      }
+    },
+    "tx_clk": {
+      "input": "layout/cells/tx_clk_cell.gds",
+      "content_hash": "sha256:3b004e70ce7af47003ee0b9f80a1607ce78032fcf00b651228e639459681af48",
+      "note": "",
+      "status": "violations",
+      "violation_count": 100,
+      "rules_violated": 13,
+      "rule_counts": {
+        "ACTIVE.AUX.1": 2,
+        "FIN.S.1": 22,
+        "FIN.W.1": 24,
+        "FIN.W.2": 12,
+        "GATE.ACTIVE.EX.2": 8,
+        "M1.S.4": 4,
+        "M1.W.1": 10,
+        "NSELECT.ACTIVE.EN.1": 4,
+        "NSELECT.ACTIVE.EN.2": 4,
+        "NSELECT.W.1": 1,
+        "PSELECT.ACTIVE.EN.1": 4,
+        "PSELECT.ACTIVE.EN.2": 4,
+        "PSELECT.W.1": 1
+      }
+    },
+    "rx_clk": {
+      "input": "layout/cells/rx_clk_cell.gds",
+      "content_hash": "sha256:6238499801153ef55a06536ef653be7f24aa47e2b4be9b4cb3278b209f4db43d",
+      "note": "",
+      "status": "violations",
+      "violation_count": 98,
+      "rules_violated": 13,
+      "rule_counts": {
+        "ACTIVE.AUX.1": 2,
+        "FIN.S.1": 22,
+        "FIN.W.1": 24,
+        "FIN.W.2": 12,
+        "GATE.ACTIVE.EX.2": 8,
+        "M1.S.4": 2,
+        "M1.W.1": 10,
+        "NSELECT.ACTIVE.EN.1": 4,
+        "NSELECT.ACTIVE.EN.2": 4,
+        "NSELECT.W.1": 1,
+        "PSELECT.ACTIVE.EN.1": 4,
+        "PSELECT.ACTIVE.EN.2": 4,
+        "PSELECT.W.1": 1
+      }
+    }
+  },
+  "pre_56_counts_at_dbu_0.001": {
+    "tx": 148,
+    "rx": 294,
+    "tx_clk": 116,
+    "rx_clk": 110,
+    "note": "the extra GATE.S.1 / GATE.S.3 / NSELECT-and-PSELECT-adjacent counts at dbu 0.001 are the dbu effect that #56 removed"
+  },
+  "cell_side_families": {
+    "FIN.S.1 / FIN.W.1 / FIN.W.2": "fins drawn as strips that do not follow the deck's fin pitch/width (inferred from the rule names and the drawn 6 nm strips; not isolated by an experiment)",
+    "GATE.ACTIVE.EX.2": "gate extension past active (footprint drawing)",
+    "M1.S.* / M1.W.1 / M1.A.1": "M1 source/drain strips and pin squares not drawn to M1 width/spacing/area",
+    "NSELECT.* / PSELECT.* / ACTIVE.AUX.1 / ACTIVE.S.2A": "select/active enclosure and spacing; no wells are drawn"
+  },
+  "owner": "#55 (wells, contacts, vias, routing) covers these families; #52 (dbu) is closed by #56. No separate follow-up filed."
+}

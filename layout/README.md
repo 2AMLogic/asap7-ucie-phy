@@ -81,7 +81,8 @@ ASAP7 is predictive and nothing here is fabricated.**
 - `pnr/regen.py` rebuilds `slice_routed.gds` and `pnr/slice.pnr.report.json` from the committed netlist and the
   pinned lambdapdk archive (`spec/asap7-bringup.md`); `regen.py --check` exits 0 if the stream reproduces
   byte-for-byte, 3 if it drifted. Run it as `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
-  all in the route stage. Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.
+  all in the route stage. It stages the pinned `asap7.layermap` so klt's DEF->GDS merge puts routing on the ASAP7
+  stream numbers (without it: sequential numbers on top of Gate/Gcut/Active; `verification/drc/README.md`). Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.
 - Result (report `slice.pnr.report.json`, OpenROAD 26Q3-1510): stage reached `route`, `route_drc_violation_count` 0,
   `antenna_violation_count` 0, 310 tap/endcap cells, power delivery `complete`. Footprint 23.033 um x 44.066 um
   (`klt stats`), 1015 um^2, against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about

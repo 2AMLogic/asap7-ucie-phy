@@ -54,6 +54,10 @@ FILES = {  # archive member -> scratch path under the PDK root
     ASAP7 + "base/apr/asap7_tech.lef": "lef/asap7_tech.lef",
     RVT + "lef/asap7sc7p5t_28_R.lef": "lef/asap7sc7p5t_28_R.lef",
     RVT + "gds/asap7sc7p5t_28_R.gds.gz": "gds/asap7sc7p5t_28_R.gds",
+    # LEF layer -> stream layer/datatype. Without it klt's DEF->GDS merge numbers the
+    # routing layers sequentially (Via1 on 8/0, Via2 on 10/0, ...), which are the ASAP7
+    # Gate, Gcut and Active-adjacent stream layers (verification/drc/README.md).
+    ASAP7 + "base/apr/asap7.layermap": "klayout/tech/asap7.map",
 }
 
 
@@ -137,6 +141,7 @@ def main():
         unpack(archive, root)
         (root / "klt-pdk.json").write_text(json.dumps({
             "schema_version": 1, "variant": "asap7",
+            "assets": {"klayout": "klayout"},
             "liberty": {"asap7sc7p5t_rvt": {"tt": "lib/asap7sc7p5t_rvt_TT.lib"}},
             "views": {"asap7sc7p5t_rvt": {
                 "cell_lef": "lef/asap7sc7p5t_28_R.lef",
