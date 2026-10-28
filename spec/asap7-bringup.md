@@ -140,3 +140,27 @@ OSDI module with OpenVAF-Reloaded, and this host's ngspice 42 refuses to load it
 
 Already open when this was written: 2AMLogic/klayout-tools#3783, #3788, #3789, #3790, #3782,
 #3147, #2813. Filed here: **#3807** (PAD layer number, rules and coverage).
+
+## LVS under klt 0.8.1 (appended 2026-10-28, issue #20)
+
+Recorded with `klt 0.8.1.dev506+g22ab89a42ad0`, KLayout 0.30.12, against the pinned lambdapdk
+v0.2.17 files above. The rows in "What does not work" are left as written; this section
+supersedes the shipped-cell LVS row only. Predictive-model tool results; nothing is fabricated.
+
+- **Shipped-cell compare now matches** (klayout-tools#2813, fixed in klt v0.8.0): `INVx1_ASAP7_75t_R`
+  and `DFFHQNx1_ASAP7_75t_R`, clipped from the pinned `asap7sc7p5t_28_R.gds`, against the pinned
+  `asap7sc7p5t_28_R.cdl`, report `status: match`, engine `klayout`, `power_connectivity: unchecked`.
+  The request carries `options.finfet_bulk {nmos: VSS, pmos: VDD}`, klt's disclosed comparison-side
+  bulk policy for cells that draw no taps. Two cells only; the rest of the library was not run.
+- **The block's own LVS has no report.** `klt lvs` refused every request before comparing, so item 4
+  of T1 is unmet for both partitions (details and verbatim messages in `evidence/item4-attempts.json`):
+  1. Drawn TX/RX cells: the committed GDS is at dbu 0.001 um, the `asap7` deck requires 0.00025 um and
+     refuses to rescale. A scratch rewrite at 0.00025 um (same geometry, not a committed input) is then
+     refused because the PMOS channels are not inside a well: the cells draw no wells, contacts or
+     routing (`layout/README.md`).
+  2. Routed datapath: a FinFET deck accepts only `reference.form: plain-element` (M cards with `nfin=`).
+     The item-1 netlist is gate-level Verilog, which that form cannot take, so there is also no
+     power-connectivity verdict for it.
+  Nothing was waived or relaxed to get past these.
+- Filed: 2AMLogic/klayout-tools#4462 (gate-level-verilog reference on a FinFET deck); this repo #52
+  (drawn cells: dbu, wells, routing).
