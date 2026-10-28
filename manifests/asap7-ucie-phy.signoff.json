@@ -9,7 +9,7 @@
   "tier": null,
   "t1_item_count": 22,
   "build_t1_item_count": 22,
-  "t1_met_count": 4,
+  "t1_met_count": 6,
   "t1_not_applicable_count": 1,
   "source_doc": "docs/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:a26b90262320d0fbd32b3f549a02b6300832706041797a559d8bf6bdb62efdc7",
@@ -107,10 +107,40 @@
       "partition_boundary": "The drawn TX/RX cells: tx_cell, rx_cell, tx_clk_cell, rx_clk_cell (design/netlist/*.sp) and their boundary nets tx_a/tx_b, rx_a/rx_b, sel1/sel2, ph, clk/fwd_en/rx_clk and the pad nets.",
       "text": "committed GDS/OASIS, reproducibly generated or with documented provenance.",
       "notes": [],
-      "status": "unmet",
-      "reason": "no_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "evidence/item2.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 2,
+          "path": {
+            "path": "layout/lane_column.gds",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27",
+          "input_verified": true,
+          "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
+          "source": "layout/lane_column.gds",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": null,
+            "check_count": 3,
+            "passed_count": 3
+          },
+          "regeneration": {
+            "generator": "python3 layout/assemble_column.py",
+            "regenerated_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27",
+            "executed_by_klt": false
+          }
+        }
+      }
     },
     {
       "tier": "T1",
@@ -120,10 +150,40 @@
       "partition_boundary": "Module slice and its submodules lane_tx_ser, lane_rx_des, rx_cdc_fifo (rtl/); the interface to the drawn cells is the boundary-port table in rtl/README.md.",
       "text": "committed routed GDS/OASIS from place-and-route, reproducibly generated from the gate-level netlist (P&R script/flow committed, not a one-off hand edit). For the same full-custom sub-case, this item is satisfied instead by the Analog column's artifact: committed GDS/OASIS, reproducibly generated or with documented provenance \u2014 hand-drawn layout, not P&R output.",
       "notes": [],
-      "status": "unmet",
-      "reason": "no_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "evidence/item2.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 2,
+          "path": {
+            "path": "layout/lane_column.gds",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27",
+          "input_verified": true,
+          "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
+          "source": "layout/lane_column.gds",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": null,
+            "check_count": 3,
+            "passed_count": 3
+          },
+          "regeneration": {
+            "generator": "python3 layout/assemble_column.py",
+            "regenerated_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27",
+            "executed_by_klt": false
+          }
+        }
+      }
     },
     {
       "tier": "T1",
