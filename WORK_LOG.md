@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-10-28
 
+- **PR #73**: fix(signoff): clear item-10 stale_evidence and align README T1 section
+- **Issue #70** (closed): T1 item 10 (repo hygiene): re-pin the stale item-10 manifest hash and make the README T1 section match the verdict
 - **PR #74**: docs(spec): declare item 6 analog partition a gap, scope not_applicable to digital
 - **Issue #71** (closed): T1 item 6 (Monte Carlo, analog partition): resolve not_applicable_wrong_partition for the drawn TX/RX cells
 - **PR #68**: docs(drc): attribute the last unexplained router M4 residual to a filed tool gap
