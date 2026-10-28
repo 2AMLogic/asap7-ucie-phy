@@ -5,6 +5,14 @@ triage role; entries are newest first.
 
 ### 2026-10-28
 
+- **PR #62**: fix(layout): stage the ASAP7 layer map for the slice P&R merge; attribute lane-column DRC violations
+- **Issue #57** (closed): Layout: lane column fails ASAP7 DRC (8.1M violations, 65 rules); unblock T1 item 3
+- **PR #60**: refactor: share merged_liberty and derive PnR archive root from the lambdapdk pin
+- **Issue #54** (closed): Finish lambdapdk consolidation: dedupe merged_liberty and the hardcoded pin path in PnR regen
+- **PR #61**: feat(layout): draw wells, contacts, vias and routing in the TX/RX cells; klt lvs matches
+- **Issue #55** (closed): Draw wells, contacts and routing in the TX/RX cell generator so klt lvs can extract the committed topology
+- **PR #56**: feat(layout): write drawn streams at dbu 0.00025 um for klt's asap7 deck
+- **Issue #52** (closed): Regenerate drawn cells and lane column at dbu 0.00025 um so klt accepts them for the asap7 deck
 - **PR #58**: docs(verification): record failing klt drc run on the lane column
 - **PR #53**: docs(evidence): record klt lvs refusals for both partitions; shipped-cell compare matches
 - **PR #50**: feat(layout): assemble the 17-lane bump-pitch column and attest T1 item 2
