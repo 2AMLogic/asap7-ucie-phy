@@ -27,10 +27,11 @@ NETLIST = HERE.parent / "design" / "netlist"
 OUT = HERE / "cells"
 CELL_NAMES = ["tx_cell", "rx_cell", "tx_clk_cell", "rx_clk_cell"]
 
-DBU_UM = 0.001
+DBU_UM = 0.00025  # klt's asap7 deck requires this dbu
+NM = 4  # dbu per nm; geometry below is in nm and scaled at insertion
 # ASAP7 stream layers as read by klt's deck (klayout_tools/decks/asap7.drc).
 FIN, ACTIVE, GATE, NSEL, PSEL, M1 = (2, 0), (11, 0), (7, 0), (12, 0), (13, 0), (19, 0)
-FIN_PITCH, GATE_PITCH = 27, 54  # nm
+FIN_PITCH, GATE_PITCH = 27, 54  # nm (all constants below, and the drawing arithmetic, are nm)
 GATE_W, SD_W = 20, 34  # nm, footprint strip widths
 RAIL_H, ROW_GAP, MARGIN = 60, 120, 54  # nm
 PIN = 40  # nm, pin square
@@ -51,7 +52,7 @@ def read_cell(name):
 
 
 def box(shapes, x0, y0, x1, y1):
-    shapes.insert(db.Box(x0, y0, x1, y1))
+    shapes.insert(db.Box(x0 * NM, y0 * NM, x1 * NM, y1 * NM))
 
 
 def draw(name):
@@ -75,7 +76,7 @@ def draw(name):
     rails = [("VSS", y_vss), ("VDD", y_vdd)]
     for label, y in rails:
         box(cell.shapes(lay[M1]), 0, y, width, y + RAIL_H)
-        cell.shapes(lay[M1]).insert(db.Text(label, db.Trans(width // 2, y + RAIL_H // 2)))
+        cell.shapes(lay[M1]).insert(db.Text(label, db.Trans(width // 2 * NM, (y + RAIL_H // 2) * NM)))
     for kind, y0, sel in (("nmos_rvt", y_n, NSEL), ("pmos_rvt", y_p, PSEL)):
         for i, (dev, _, nfin, d, g, s) in enumerate(n(kind)):
             x = MARGIN + i * GATE_PITCH
@@ -99,7 +100,7 @@ def draw(name):
     for p in ports:
         x, y = pins[p]
         box(cell.shapes(lay[M1]), x - PIN // 2, y - PIN // 2, x + PIN // 2, y + PIN // 2)
-        cell.shapes(lay[M1]).insert(db.Text(p, db.Trans(x, y)))
+        cell.shapes(lay[M1]).insert(db.Text(p, db.Trans(x * NM, y * NM)))
     return ly
 
 
