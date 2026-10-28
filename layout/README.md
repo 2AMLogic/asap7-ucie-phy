@@ -103,3 +103,29 @@ Assumptions and workarounds, all inputs to the flow and none a PDK-supplied valu
 Tool gaps filed at `2AMLogic/klayout-tools`: no ASAP7 tie-cell entry (#4273), no way to route a library with no
 antenna cell (#4274), `wire_rc` capacitance unit documented wrongly (#4275), Liberty template loss on a hand merge
 (comment on #4242).
+
+## Lane column (assembly and item-2 attestation)
+
+`assemble_column.py` writes `lane_column.gds` (top `lane_column`): 17 lane cells at 90 um pitch
+(16 data lanes plus the clock lane at index 8), 34 pads of 25 um on `Pad` 96/0 at the
+`bump_map_target.csv` centres (45 um bump pitch). A data lane cell holds the routed `slice` and the
+`tx_cell`/`rx_cell`; the clock lane cell holds `tx_clk_cell`/`rx_clk_cell`. Pads live inside the lane
+cells, so `check_pads.py` finds them only by flattening. `--check` exits 0 / 3 on drift; run it with
+`python3` (needs `klayout.db`), output is byte-identical across runs.
+
+**Layout geometry only.** The slice and the drawn cells are placed, not connected (the cells are
+unrouted, see above), and no DRC or LVS result is claimed. The 34-pad `pad_check_record.json`
+(`status: pass`) is a pad-centre comparison against the bump map, not a rule check: klt's ASAP7 deck
+does not check `Pad` (2AMLogic/klayout-tools#3807), and abutment of the lane-cell seam is not DRC-checked
+(2AMLogic/klayout-tools#4226 covers a single tileable cell, not this column). Nothing is fabricated.
+
+```
+python3 layout/check_pads.py --gds layout/lane_column.gds --top lane_column \
+  --map layout/bump_map_target.csv --out layout/pad_check_record.json
+klt signoff --attest 2 --input layout/lane_column.gds --generator "python3 layout/assemble_column.py" \
+  --regenerated-hash sha256:<hash of a fresh assemble> -o evidence/item2.json
+```
+
+`attest/item2.json` pins the column and its input streams by sha256. `evidence/item2.json` was produced
+with klt `0.8.1.dev497+g74e41260c360`: the pinned `0.8.0` has no `--attest 2` producer, but it grades the
+envelope (`klt signoff --manifest`) the same way, and the committed verdict was rendered with `0.8.0`.
