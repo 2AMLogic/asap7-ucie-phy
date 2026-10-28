@@ -13,7 +13,8 @@ Bump map and pad-centre check for the lane column (spec section 3, decision 0002
 - Two bumps per lane cell, TX then RX, top to bottom. Lane cells run top to bottom with the
   clock lane at the centre index (8 of 17 target, 4 of 9 fallback), so the clock bumps are symmetric
   about the column midpoint.
-- Signals: `d<i>_tx`, `d<i>_rx`, `clk_tx`, `clk_rx`. Values are `%.3f` um; 1 dbu = 1 nm.
+- Signals: `d<i>_tx`, `d<i>_rx`, `clk_tx`, `clk_rx`. Values are `%.3f` um, i.e. whole nm; the layouts are written at dbu 0.00025 um (4 dbu = 1 nm), the
+  dbu klt's asap7 deck requires.
 - Bumps are shapes on `Pad`, stream layer 96/0.
 
 ## Pad-centre check
@@ -22,8 +23,8 @@ Bump map and pad-centre check for the lane column (spec section 3, decision 0002
 python3 layout/check_pads.py --gds F.gds --top CELL --map layout/bump_map_target.csv --out record.json
 ```
 
-Centres are bounding-box centres of every 96/0 shape in the flattened top cell. A pad within 1 dbu
-(inclusive) of a map entry matches. The JSON record has `status`, `counts` (map, drawn, matched) and
+Centres are bounding-box centres of every 96/0 shape in the flattened top cell. A pad within 1 nm
+(inclusive; 4 dbu at the 0.00025 um layout dbu, derived from the layout) of a map entry matches. The JSON record has `status`, `counts` (map, drawn, matched) and
 `missing`, `extra`, `misplaced`. Exit 0 on pass only; an unreadable file, missing top cell or zero
 96/0 shapes is `fail`.
 
@@ -34,7 +35,7 @@ python3 layout/selftest.py
 ```
 
 Needs `klayout.db` (e.g. the klt tool interpreter or a venv). Builds pads-only GDS files from both
-maps: the good layout and a pad moved 1 dbu must pass; a pad moved 2 dbu (`misplaced`), a deleted pad
+maps: the good layout and a pad moved 1 nm must pass; a pad moved 2 nm (`misplaced`), a deleted pad
 (`missing`), an extra pad (`extra`) and an empty layout must fail; pads in a subcell are found.
 Exits 0 only if every outcome occurs.
 
@@ -64,6 +65,10 @@ the worker. Output is byte-identical across runs (no GDS timestamps).
   (45 x 90 um target, 55 x 110 um fallback). Those are geometric bounding-box areas only; the
   routed-slice share from the sibling P&R issue (#33) is not included. No sizing, rate or
   performance figure is implied (decision 0003).
+
+All drawn streams (`cells/*.gds`, `lane_column.gds`) are at dbu 0.00025 um, which `klt lvs --deck asap7`
+requires. The routed slice below is klt output at 0.001 um; `assemble_column.py` converts it on import
+(physical geometry preserved) and `slice_routed.gds` itself is not edited.
 
 ## Routed `slice` (place and route)
 

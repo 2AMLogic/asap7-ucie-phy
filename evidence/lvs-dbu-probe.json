@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "klt-lvs-probe",
+  "purpose": "One local klt lvs request on a drawn cell after the dbu change (#52), to record what the asap7 deck now refuses on. Not an LVS result; no comparison ran.",
+  "klt_version": "0.8.1.dev506+g22ab89a42ad0",
+  "backend": "local (single unit)",
+  "request": {
+    "layout": {
+      "file": "layout/cells/tx_cell.gds",
+      "deck": "asap7",
+      "top": "tx_cell"
+    },
+    "reference": {
+      "netlist": "design/netlist/tx_cell.sp",
+      "top": "tx_cell"
+    },
+    "note": "absolute paths in the request file were rewritten to repo-relative; klt resolves them against the request file"
+  },
+  "inputs": {
+    "layout_sha256": "sha256:a25453d5c3b536f3edbb97bab7b4f39d70e7569a5926532702c819984f2060ef",
+    "reference_sha256": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792"
+  },
+  "layout_dbu_um": 0.00025,
+  "exit_status": 1,
+  "response": {
+    "schema_version": 1,
+    "error": {
+      "command": "lvs",
+      "message": "deck 'asap7': 11 FinFET device(s) cannot be extracted faithfully and were not approximated: PMOS channel not inside the well at [0.611, 0.558, 0.631, 0.882]; PMOS channel not inside the well at [0.557, 0.558, 0.577, 0.72]; PMOS channel not inside the well at [0.503, 0.558, 0.523, 0.639]; PMOS channel not inside the well at [0.449, 0.558, 0.469, 0.639]; PMOS channel not inside the well at [0.341, 0.558, 0.361, 0.639]; PMOS channel not inside the well at [0.395, 0.558, 0.415, 0.639]; PMOS channel not inside the well at [0.233, 0.558, 0.253, 0.639]; PMOS channel not inside the well at [0.179, 0.558, 0.199, 0.639]; PMOS channel not inside the well at [0.287, 0.558, 0.307, 0.639]; PMOS channel not inside the well at [0.125, 0.558, 0.145, 0.639]; PMOS channel not inside the well at [0.071, 0.558, 0.091, 0.639]"
+    }
+  },
+  "reading": "The previous dbu refusal is gone. The refusal now cited is that the 11 PMOS channels are not inside a well, which is the wells/contacts/routing work tracked in #55. Recorded as returned; not worked around. ASAP7 is predictive; nothing here is fabricated."
+}

@@ -11,7 +11,7 @@ Conventions (recorded here and in layout/README.md):
   * Signals: d<i>_tx, d<i>_rx, clk_tx, clk_rx. The CSV lane column is the
     lane-cell index.
   * x_um / y_um are written as %.3f so the file is byte-identical across runs
-    and exact at 1 dbu = 1 nm.
+    and exact at 1 nm (the layouts use dbu 0.00025 um, 4 dbu = 1 nm).
 
 This is a layout-evidence map, not a DRC artefact.
 """

@@ -47,12 +47,12 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.json",
-      "content_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27"
+      "file": "evidence/item2.r2.json",
+      "content_hash": "sha256:d222554be4acef15004bc800e51b5e42738adc5611cde911e491eb460f7965f9"
     },
     "2.digital": {
-      "file": "evidence/item2.json",
-      "content_hash": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27"
+      "file": "evidence/item2.r2.json",
+      "content_hash": "sha256:d222554be4acef15004bc800e51b5e42738adc5611cde911e491eb460f7965f9"
     }
   }
 }
