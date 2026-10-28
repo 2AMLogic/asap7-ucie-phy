@@ -1,19 +1,22 @@
-"""Pinned lambdapdk archive and Liberty cell-group merge, shared by design/synth/regen.py
-and sta/regen.py (stdlib only).
+"""Pinned lambdapdk archive and Liberty cell-group merge, shared by design/synth/regen.py,
+sta/regen.py and layout/pnr/regen.py (stdlib only).
 
 Both scripts run as `python3 -I`, which drops the script directory from sys.path, so they
 load this file by explicit path (importlib.util.spec_from_file_location), not `import`.
-A pin bump is an edit to URL/SHA256 here and nowhere else (spec/asap7-bringup.md).
+A pin bump is an edit to VERSION/SHA256 here and nowhere else (spec/asap7-bringup.md).
 """
+import gzip
 import hashlib
 import pathlib
 import re
 import sys
+import tarfile
 import urllib.request
 
-URL = "https://github.com/siliconcompiler/lambdapdk/archive/refs/tags/v0.2.17.tar.gz"
+VERSION = "0.2.17"
+URL = f"https://github.com/siliconcompiler/lambdapdk/archive/refs/tags/v{VERSION}.tar.gz"
 SHA256 = "ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2"
-ROOT = "lambdapdk-0.2.17/lambdapdk/asap7/"
+ROOT = f"lambdapdk-{VERSION}/lambdapdk/asap7/"
 NLDM = ROOT + "libs/asap7sc7p5t_rvt/nldm/"
 GROUPS = ["AO", "INVBUF", "OA", "SEQ", "SIMPLE"]
 
@@ -67,3 +70,16 @@ def merged(texts):
                 out_head += block + "\n"
         out_cells += t[first_cell:end]
     return out_head + out_cells + "}\n"
+
+
+def merged_liberty(archive):
+    """The five RVT TT cell groups of `archive`, merged by `merged`."""
+    want = {f"{NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz": g for g in GROUPS}
+    texts = {}
+    with tarfile.open(archive) as tar:
+        for m in tar:
+            if m.name in want:
+                texts[want[m.name]] = gzip.decompress(tar.extractfile(m).read()).decode()
+    if set(texts) != set(GROUPS):
+        sys.exit("pinned archive is missing RVT TT liberty groups")
+    return merged(texts)

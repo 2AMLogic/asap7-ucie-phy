@@ -15,7 +15,6 @@ klt-pdk.json descriptor at the result, in a scratch directory.
     regen.py --check    exit 0 if it reproduces byte-for-byte, 3 if it drifted
 """
 import argparse
-import gzip
 import importlib.util
 import json
 import os
@@ -24,7 +23,6 @@ import shlex
 import shutil
 import subprocess
 import sys
-import tarfile
 import tempfile
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -43,18 +41,6 @@ def _load_lambdapdk():
 L = _load_lambdapdk()
 
 
-def merged_liberty(archive):
-    want = {f"{L.NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz": g for g in L.GROUPS}
-    texts = {}
-    with tarfile.open(archive) as tar:
-        for m in tar:
-            if m.name in want:
-                texts[want[m.name]] = gzip.decompress(tar.extractfile(m).read()).decode()
-    if set(texts) != set(L.GROUPS):
-        sys.exit("pinned archive is missing RVT TT liberty groups")
-    return L.merged(texts)
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdk-archive")
@@ -65,7 +51,7 @@ def main():
         archive = L.fetch(scratch, args.pdk_archive)
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
-        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(merged_liberty(archive))
+        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(L.merged_liberty(archive))
         (root / "klt-pdk.json").write_text(json.dumps({
             "schema_version": 1, "variant": "asap7",
             "liberty": {"asap7sc7p5t_rvt": {"tt": "lib/asap7sc7p5t_rvt_TT.lib"}}}))
