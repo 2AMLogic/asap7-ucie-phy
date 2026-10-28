@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-10-28
 
+- **PR #74**: docs(spec): declare item 6 analog partition a gap, scope not_applicable to digital
+- **Issue #71** (closed): T1 item 6 (Monte Carlo, analog partition): resolve not_applicable_wrong_partition for the drawn TX/RX cells
 - **PR #68**: docs(drc): attribute the last unexplained router M4 residual to a filed tool gap
 - **PR #67**: fix(layout): put router metal on the deck grid and redraw TX/RX cells to the deck; lane-column DRC 408,004 -> 8,208
 - **PR #62**: fix(layout): stage the ASAP7 layer map for the slice P&R merge; attribute lane-column DRC violations
