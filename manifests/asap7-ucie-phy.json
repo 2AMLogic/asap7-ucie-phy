@@ -45,6 +45,14 @@
       {
         "file": "verification/functional-verification-8.report.json"
       }
-    ]
+    ],
+    "2.analog": {
+      "file": "evidence/item2.json",
+      "content_hash": "sha256:45f66e41b44e0bd47c9c9b9b6484819aa9798f5bc0dbc976b3a038cc065c52d5"
+    },
+    "2.digital": {
+      "file": "evidence/item2.json",
+      "content_hash": "sha256:45f66e41b44e0bd47c9c9b9b6484819aa9798f5bc0dbc976b3a038cc065c52d5"
+    }
   }
 }

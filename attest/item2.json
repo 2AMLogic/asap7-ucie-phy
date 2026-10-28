@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "kind": "layout-stream-inventory",
+  "t1_item": 2,
+  "description": "Layout streams of the lane column, pinned by sha256 of raw bytes: the assembled column and its inputs (routed slice, drawn TX/RX cells). Layout geometry only; no DRC or LVS result is claimed (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
+  "assembled": {
+    "path": "layout/lane_column.gds",
+    "generator": "python3 layout/assemble_column.py",
+    "check": [
+      "python3",
+      "layout/assemble_column.py",
+      "--check"
+    ],
+    "top": "lane_column",
+    "lane_cells": 17,
+    "data_lanes": 16,
+    "clock_lane_index": 8,
+    "bump_pitch_um": 45,
+    "pads": 34
+  },
+  "pad_check": {
+    "record": "layout/pad_check_record.json",
+    "argv": [
+      "python3",
+      "layout/check_pads.py",
+      "--gds",
+      "layout/lane_column.gds",
+      "--top",
+      "lane_column",
+      "--map",
+      "layout/bump_map_target.csv",
+      "--out",
+      "layout/pad_check_record.json"
+    ],
+    "status": "pass"
+  },
+  "streams": [
+    {
+      "path": "layout/lane_column.gds",
+      "sha256": "sha256:826cd2831e948f3c49c044ec407032cc25cfdbb178db1f6b31dba53d49d2ff27"
+    },
+    {
+      "path": "layout/slice_routed.gds",
+      "sha256": "sha256:b413489db6dadc74e5a83a7fcdad41dc1c83783ca892e815355e2958322ea783"
+    },
+    {
+      "path": "layout/cells/tx_cell.gds",
+      "sha256": "sha256:3915a738a7af28ea7c82367ca46cc75e7ebabeb5b577ce082d162d9225a24495"
+    },
+    {
+      "path": "layout/cells/rx_cell.gds",
+      "sha256": "sha256:17faea27c2bc7eea9e6db9905d5ab136bccf8c8b804a7e13ed55e3c9bbbefcf8"
+    },
+    {
+      "path": "layout/cells/tx_clk_cell.gds",
+      "sha256": "sha256:8c4d17a84c7df41880e013fdb208e983c31a54e3e8e0ac2ff99e98399358ac8a"
+    },
+    {
+      "path": "layout/cells/rx_clk_cell.gds",
+      "sha256": "sha256:486534b0bf82473c46b070cba77df642fdcd6c9b2452491d9e090e92b4443378"
+    }
+  ]
+}

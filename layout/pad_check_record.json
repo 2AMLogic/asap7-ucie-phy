@@ -1,0 +1,16 @@
+{
+  "gds": "layout/lane_column.gds",
+  "top": "lane_column",
+  "map": "layout/bump_map_target.csv",
+  "layer": "96/0",
+  "tolerance_dbu": 1,
+  "status": "pass",
+  "counts": {
+    "map": 34,
+    "drawn": 34,
+    "matched": 34
+  },
+  "missing": [],
+  "extra": [],
+  "misplaced": []
+}
