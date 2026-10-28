@@ -48,7 +48,7 @@ REQUEST = HERE / "slice.pnr.json"
 GDS = REPO / "layout" / "slice_routed.gds"
 REPORT = HERE / "slice.pnr.report.json"
 
-ASAP7 = "lambdapdk-0.2.17/lambdapdk/asap7/"
+ASAP7 = L.ROOT
 RVT = ASAP7 + "libs/asap7sc7p5t_rvt/"
 FILES = {  # archive member -> scratch path under the PDK root
     ASAP7 + "base/apr/asap7_tech.lef": "lef/asap7_tech.lef",
@@ -59,19 +59,6 @@ FILES = {  # archive member -> scratch path under the PDK root
     # Gate, Gcut and Active-adjacent stream layers (verification/drc/README.md).
     ASAP7 + "base/apr/asap7.layermap": "klayout/tech/asap7.map",
 }
-
-
-def merged_liberty(archive):
-    """The five RVT TT cell groups merged by design/lambdapdk.py (headers and templates)."""
-    want = {f"{L.NLDM}asap7sc7p5t_{g}_RVT_TT_nldm.lib.gz": g for g in L.GROUPS}
-    texts = {}
-    with tarfile.open(archive) as tar:
-        for m in tar:
-            if m.name in want:
-                texts[want[m.name]] = gzip.decompress(tar.extractfile(m).read()).decode()
-    if set(texts) != set(L.GROUPS):
-        sys.exit("pinned archive is missing RVT TT liberty groups")
-    return L.merged(texts)
 
 
 def tie_constants(text):
@@ -137,7 +124,7 @@ def main():
         archive = L.fetch(scratch, args.pdk_archive)
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
-        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(merged_liberty(archive))
+        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(L.merged_liberty(archive))
         unpack(archive, root)
         (root / "klt-pdk.json").write_text(json.dumps({
             "schema_version": 1, "variant": "asap7",

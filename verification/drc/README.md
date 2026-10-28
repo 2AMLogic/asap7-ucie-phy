@@ -46,7 +46,9 @@ Causes on the slice, in order of effect:
    `M4.W.3` 146, `M6.AUX.*` 112, `M1.S.*` 131, `M3.S.2` 14, plus `SDT.ACTIVE.AUX.2` 364 inside shipped
    cells. No generator setting that maps to these was identified; they need a follow-up.
 
-**Column after this change, measured:** `layout/lane_column.gds` (sha256 `d72c19c0...`, after #56 and the layer
+**Column after this change, measured** (on the column as it stood before the TX/RX cells were redrawn in #55; after
+merging that change `layout/lane_column.gds` is sha256 `b033d2b8...` and this DRC run was not repeated, so the
+column figures below do not describe the committed stream): `layout/lane_column.gds` (sha256 `d72c19c0...`, after #56 and the layer
 map) is `status: violations`, 367,926 violations across 30 rules, down from 8,126,659. 85% of it is
 `M4.AUX.1`/`M4.AUX.2` (16 slices x the slice counts). The cell-side families (`FIN.*`, `NSELECT.*`,
 `PSELECT.*`, `GATE.ACTIVE.EX.2`, and the cell share of `M1.*`) are the part #55 redraws; see `cells.drc.run-record.json`. This run finished and

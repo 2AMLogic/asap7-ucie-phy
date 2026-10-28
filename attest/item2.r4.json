@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "kind": "layout-stream-inventory",
+  "t1_item": 2,
+  "description": "Layout streams of the lane column after the ASAP7 layer map was staged for the slice P&R merge (issue #57), merged onto the redrawn TX/RX cells (issue #55); re-attestation of attest/item2.r3.json. Pinned by sha256 of raw bytes: the assembled column and its inputs (routed slice, drawn TX/RX cells). Layout geometry only; no DRC claim, and the LVS results are the separate records under evidence/item4-lvs/ (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
+  "assembled": {
+    "path": "layout/lane_column.gds",
+    "generator": "python3 layout/assemble_column.py",
+    "check": [
+      "python3",
+      "layout/assemble_column.py",
+      "--check"
+    ],
+    "top": "lane_column",
+    "lane_cells": 17,
+    "data_lanes": 16,
+    "clock_lane_index": 8,
+    "bump_pitch_um": 45,
+    "pads": 34
+  },
+  "pad_check": {
+    "record": "layout/pad_check_record.json",
+    "argv": [
+      "python3",
+      "layout/check_pads.py",
+      "--gds",
+      "layout/lane_column.gds",
+      "--top",
+      "lane_column",
+      "--map",
+      "layout/bump_map_target.csv",
+      "--out",
+      "layout/pad_check_record.json"
+    ],
+    "status": "pass"
+  },
+  "streams": [
+    {
+      "path": "layout/lane_column.gds",
+      "sha256": "sha256:b033d2b8bba9a9fa50f63f9e3c10942a38eb6db710f3ff8b8f7265c8263ddb1d"
+    },
+    {
+      "path": "layout/slice_routed.gds",
+      "sha256": "sha256:b6a90aeb7d6c8ba8fb93e35f96e85be15fcfd94067ae7006f236d97668d9224b"
+    },
+    {
+      "path": "layout/cells/tx_cell.gds",
+      "sha256": "sha256:1e1b987bed076e6c5da09af45ff6a6154cd9a922b6d2a6a222cc764cd92d2bee"
+    },
+    {
+      "path": "layout/cells/rx_cell.gds",
+      "sha256": "sha256:4129eddcb4aa36f45c0f77c8d5b1bb91f59cd4127a77674a79b5717c8a4f7a3d"
+    },
+    {
+      "path": "layout/cells/tx_clk_cell.gds",
+      "sha256": "sha256:92720562dc6e112cf452f52d3d6cbf437364af1011d3455c563b5ca5df7524f7"
+    },
+    {
+      "path": "layout/cells/rx_clk_cell.gds",
+      "sha256": "sha256:f581688fd514401f9d96b193f3c76f9e94f96abe9c2b8076884efeedec80892a"
+    }
+  ]
+}

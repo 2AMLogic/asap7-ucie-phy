@@ -52,13 +52,20 @@ python3 layout/selftest_cells.py                       # run from layout/ or wit
 ```
 
 It is run with plain `python3`, not `-I`, because `-I` hides the user-site `klayout` package on
-the worker. Output is byte-identical across runs (no GDS timestamps).
+the worker. `selftest_cells.py` also imports `klayout_tools` (it runs klt's asap7 extraction, with the well
+or a route layer deleted as negative controls), so run it in the klt tool interpreter. Output is byte-identical across runs (no GDS timestamps).
 
-- **What is drawn**: per device a footprint (Fin 2/0, Active 11/0, N/P select 12/0 and 13/0, Gate 7/0,
-  M1 19/0 source/drain strips) in an NMOS row and a PMOS row between VSS and VDD M1 rails. Each
-  boundary port is an M1 pin square with a text label of the port name, for LVS (#20).
-- **What is not**: no routing between devices, no contacts or vias, no wells. The drawing is a
-  placement of the committed topology, not a finished cell. LVS will not compare clean until routing exists.
+- **What is drawn**: per device a footprint (Fin 2/0, Active 11/0, N/P select 12/0 and 13/0, Gate 7/0) with
+  its own active island (islands never abut, so no diffusion is shared), S/D trench contact SDT 88/0 inside
+  LISD 17/0, and a LIG 16/0 gate contact in the gate stripe's extension. NMOS and PMOS rows sit between VSS
+  and VDD M1 rails, one Well 1/0 rectangle covers the PMOS row. Every net is routed: V0 18/0 and an M1
+  vertical per terminal, V1 21/0 to one M2 20/0 track per multi-terminal net in the channel between the rows;
+  VSS/VDD terminals go straight to their rail on M1. Each boundary port and rail is named by a text label on
+  M1 text 19/251, the layer klt's deck reads net names from (19/0 text is not read).
+- **What is not**: no tap or bulk tie (NMOS body is klt's synthesized `vsubs`, PMOS body the well net; the
+  LVS requests use klt's `finfet_bulk` comparison-side policy, which klt reports as a warning), no
+  well-to-VDD contact, no sizing. Fin, gate and cell dimensions are a placement choice, not tuned or
+  rule-checked. The drawn cells are not connected to the slice in the column.
 - **ASAP7 grid, fin and design rules are not checked until DRC (#19).** Fin pitch 27 nm and gate
   pitch 54 nm are used for spacing only; nothing here claims DRC cleanliness.
 - **Budget**: `--report` prints each cell's bounding box against the spec section 4 lane-cell rows
@@ -69,6 +76,28 @@ the worker. Output is byte-identical across runs (no GDS timestamps).
 All drawn streams (`cells/*.gds`, `lane_column.gds`) are at dbu 0.00025 um, which `klt lvs --deck asap7`
 requires. The routed slice below is klt output at 0.001 um; `assemble_column.py` converts it on import
 (physical geometry preserved) and `slice_routed.gds` itself is not edited.
+
+## LVS of the drawn cells (issue #55)
+
+`klt lvs --deck asap7` of each cell GDS against its committed `design/netlist/*.sp`, one local run per cell
+(klt 0.8.1.dev511, KLayout 0.30.12). Requests and reports are in `evidence/item4-lvs/`; each request carries
+`options.finfet_bulk {nmos: VSS, pmos: VDD}`.
+
+| cell | status | devices (layout/reference/matched) | nets (layout/reference/matched) |
+|---|---|---|---|
+| `rx_clk_cell` | match | 8/8/8 | 7/7/7 |
+| `tx_clk_cell` | match | 10/10/10 | 9/9/9 |
+| `tx_cell` | match | 22/22/22 | 16/16/16 |
+| `rx_cell` | match | 52/52/52 | 29/29/29 |
+
+The only mismatch entries are two `device.finfet_bulk_tied` warnings per report: the bulk connectivity is a
+caller assertion, not drawn geometry. `power_connectivity` is `unchecked`. No netlist or deck was edited to get
+here. This is a tool result for the four cells alone: no DRC claim (#19), no LVS of the routed datapath
+(2AMLogic/klayout-tools#4462), and nothing fabricated or measured.
+
+Area (`gen_cells_gds.py --report`, geometric bounding boxes): `tx_cell` 3.98 um^2, `rx_cell` 9.80 um^2,
+`tx_clk_cell` 1.66 um^2, `rx_clk_cell` 1.31 um^2, about 0.1 + 0.24 + 0.04 + 0.03 percent of the 4050 um^2
+target lane cell; the 3035 um^2 left after the routed slice is not overrun.
 
 ## Routed `slice` (place and route)
 
@@ -119,8 +148,8 @@ antenna cell (#4274), `wire_rc` capacitance unit documented wrongly (#4275), Lib
 cells, so `check_pads.py` finds them only by flattening. `--check` exits 0 / 3 on drift; run it with
 `python3` (needs `klayout.db`), output is byte-identical across runs.
 
-**Layout geometry only.** The slice and the drawn cells are placed, not connected (the cells are
-unrouted, see above), and no DRC or LVS result is claimed. The 34-pad `pad_check_record.json`
+**Layout geometry only.** The slice and the drawn cells are placed, not connected to each other, and no DRC
+or column-level LVS result is claimed (the cell-level LVS is above). The 34-pad `pad_check_record.json`
 (`status: pass`) is a pad-centre comparison against the bump map, not a rule check: klt's ASAP7 deck
 does not check `Pad` (2AMLogic/klayout-tools#3807), and abutment of the lane-cell seam is not DRC-checked
 (2AMLogic/klayout-tools#4226 covers a single tileable cell, not this column). Nothing is fabricated.

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Self-test for gen_cells_gds.py: positive control plus negative controls.
 
-Checks the committed cell GDS against the netlists (cells, ports as pin labels,
+Checks the committed cell GDS against the netlists (cells, ports as pin labels, well and
+route presence through klt's asap7 extraction, so run it in the klt interpreter,
 device and layer counts), that --check passes, and that a drifted file and a
 missing file are caught. Exits 0 only if every expected outcome occurs.
 """
@@ -14,14 +15,50 @@ import tempfile
 import klayout.db as db
 
 import gen_cells_gds as g
+from klayout_tools.decks import get_extraction_deck
+from klayout_tools.extract_finfet import FinFETGeometryError, extract_finfet_netlist
+
+DECK = get_extraction_deck("asap7")
+
+
+def extract(ly, name):
+    """(device count, net count) of the klt asap7 extraction, or None if it refuses the geometry."""
+    try:
+        netlist, _ = extract_finfet_netlist(ly, ly.cell(name), DECK)
+    except FinFETGeometryError:
+        return None
+    circuit = netlist.circuit_by_name(name)
+    return sum(1 for _ in circuit.each_device()), sum(1 for _ in circuit.each_net())
+
+
+def expected(name):
+    ports, devs = g.read_cell(name)
+    nets = {n for d in devs for n in d[3:6]} | set(ports)
+    return len(devs), len(nets) + 2  # plus the synthesized vsubs and the well net
+
+
+def without(path, name, layer):
+    """The cell with every shape on `layer` removed."""
+    ly = db.Layout()
+    ly.read(path)
+    ly.cell(name).shapes(ly.layer(*layer)).clear()
+    return ly
 
 
 def labels(path, top):
     ly = db.Layout()
     ly.read(path)
     cell = ly.cell(top)
-    li = ly.find_layer(*g.M1)
+    li = ly.find_layer(*g.M1_LABEL)
     return sorted(s.text.string for s in cell.shapes(li).each() if s.is_text()), ly, cell
+
+
+def well_ok(ly, cell):
+    well = db.Region(cell.begin_shapes_rec(ly.find_layer(*g.WELL)))
+    pchan = (db.Region(cell.begin_shapes_rec(ly.find_layer(*g.ACTIVE)))
+             & db.Region(cell.begin_shapes_rec(ly.find_layer(*g.PSEL)))
+             & db.Region(cell.begin_shapes_rec(ly.find_layer(*g.GATE))))
+    return not pchan.is_empty() and pchan.not_inside(well).is_empty()
 
 
 def main():
@@ -41,6 +78,13 @@ def main():
         nfin = sum(d[2] for d in devs)
         expect(name + " one fin line per fin", cell.shapes(ly.find_layer(*g.FIN)).size() == nfin)
         expect(name + " one top cell", len(ly.top_cells()) == 1)
+        expect(name + " well encloses every PMOS channel", well_ok(ly, cell))
+        expect(name + " extracts to the netlist's devices and nets", extract(ly, name) == expected(name))
+        expect(name + " no well: extraction refused", extract(without(path, name, g.WELL), name) is None)
+        for lay, what in ((g.M2, "M2 track"), (g.V1, "V1"), (g.V0, "V0"), (g.LIG, "LIG"), (g.SDT, "SDT")):
+            if cell.shapes(ly.find_layer(*lay)).size():
+                got = extract(without(path, name, lay), name)
+                expect(name + " no " + what + ": extraction differs", got != expected(name))
     # serializer boundary (spec section 4): TX has the 2:1 stages + driver, RX input stage + sampler
     txp, _ = g.read_cell("tx_cell")[0], None
     expect("tx_cell ports include sel1/sel2/pad", {"sel1", "sel2", "pad"} <= set(txp))

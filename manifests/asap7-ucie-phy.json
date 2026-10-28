@@ -7,11 +7,11 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r2.json",
+      "file": "evidence/item1.r3.json",
       "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "1.digital": {
-      "file": "evidence/item1.r2.json",
+      "file": "evidence/item1.r3.json",
       "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "6": {
@@ -47,12 +47,12 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.r3.json",
-      "content_hash": "sha256:d72c19c0fc5cbcf4bfb30a1914cd7aafd8239bb9c336b452a0a8a0e0b1a5fdfe"
+      "file": "evidence/item2.r4.json",
+      "content_hash": "sha256:b033d2b8bba9a9fa50f63f9e3c10942a38eb6db710f3ff8b8f7265c8263ddb1d"
     },
     "2.digital": {
-      "file": "evidence/item2.r3.json",
-      "content_hash": "sha256:d72c19c0fc5cbcf4bfb30a1914cd7aafd8239bb9c336b452a0a8a0e0b1a5fdfe"
+      "file": "evidence/item2.r4.json",
+      "content_hash": "sha256:b033d2b8bba9a9fa50f63f9e3c10942a38eb6db710f3ff8b8f7265c8263ddb1d"
     }
   }
 }
