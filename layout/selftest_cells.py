@@ -74,7 +74,7 @@ def main():
         ports, devs = g.read_cell(name)
         got, ly, cell = labels(path, name)
         expect(name + " pin labels = ports + rails", got == sorted(ports + ["VDD", "VSS"]))
-        expect(name + " one gate stripe per device", cell.shapes(ly.find_layer(*g.GATE)).size() == len(devs))
+        expect(name + " one gate stripe and one dummy per device", cell.shapes(ly.find_layer(*g.GATE)).size() == 2 * len(devs))
         nfin = sum(d[2] for d in devs)
         expect(name + " one fin line per fin", cell.shapes(ly.find_layer(*g.FIN)).size() == nfin)
         expect(name + " one top cell", len(ly.top_cells()) == 1)

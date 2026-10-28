@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "drc-attribution-record",
+  "issue": 64,
+  "t1_item": 3,
+  "status": "violations",
+  "claim": "NOT clean. Component runs behind lane_column.r2.drc.run-record.json: the regenerated slice (violations remain) and the redrawn TX/RX cells (clean). Layout results against a predictive PDK.",
+  "tool": {
+    "klt": "0.8.0 (pinned, .github/klt-version; uvx --from klayout-tools==0.8.0)",
+    "engine": "klayout",
+    "klayout": "0.30.12",
+    "deck": {
+      "file": "klayout_tools/decks/asap7.drc",
+      "content_hash": "sha256:48ac590ab1567b68d95a28e73391ff983070d8ccba28f628e1a127dd4da80e7f",
+      "note": "the envelope marks it released:false; same deck hash as lane_column.drc.run-record.json"
+    },
+    "expectation_file": "263 ids from klayout_tools/decks/asap7_rules.RULE_IDS, one per line, unfiltered; no waivers",
+    "command": "klt drc <input> --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <263 ids> --format json --timeout-s 1500 > <envelope>  (0.8.0 has no -o for drc; stdout)"
+  },
+  "slice": {
+    "status": "violations",
+    "violation_count": 513,
+    "rules_violated": 7,
+    "rule_counts": {
+      "M1.S.2": 53,
+      "M1.S.3": 4,
+      "M1.S.4": 25,
+      "M1.S.5": 60,
+      "M4.AUX.2": 4,
+      "M4.W.3": 3,
+      "SDT.ACTIVE.AUX.2": 364
+    },
+    "input_content_hash": "sha256:ec3a639b476667f27f0d307fe1f321fe6f707709288db2a278af71ec93ffc35f",
+    "coverage": {
+      "expectation_satisfied": true,
+      "layers_in_stream_without_rules": [],
+      "rules_skipped": [],
+      "unchecked_rules": [],
+      "unmodeled_rule_count": 67
+    },
+    "input": "layout/slice_routed.gds (sha256 sha256:1183fa3e203186d06a7caf27fefd87eadac5bdd9ccf26259ba736003e29dfd1f) rescaled losslessly to dbu 0.00025 (klayout SaveLayoutOptions.dbu); klt place-and-route has no output-dbu option (2AMLogic/klayout-tools#4482)",
+    "by_cause": {
+      "M1.S.2/M1.S.3/M1.S.4/M1.S.5": "router V1 landing pads (the violations vanish when the M1 shapes inside the router VIA_* cells are cleared); 2AMLogic/klayout-tools#4495",
+      "SDT.ACTIVE.AUX.2": "inside shipped standard-cell instances, none on router geometry; 2AMLogic/klayout-tools#4496",
+      "M4.AUX.2 (4), M4.W.3 (3)": "router M4; no generator setting identified"
+    }
+  },
+  "cells": {
+    "tx_cell": {
+      "input": "layout/cells/tx_cell.gds",
+      "content_hash": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871",
+      "status": "clean",
+      "violation_count": 0,
+      "rule_counts": {}
+    },
+    "rx_cell": {
+      "input": "layout/cells/rx_cell.gds",
+      "content_hash": "sha256:17418099e4fa45f9150638095be44d617e1eac9254df72723aafd15ef22ed81f",
+      "status": "clean",
+      "violation_count": 0,
+      "rule_counts": {}
+    },
+    "tx_clk_cell": {
+      "input": "layout/cells/tx_clk_cell.gds",
+      "content_hash": "sha256:4c36c18edeac86457c78702a3047ef218672a0dedc878bd5f4bc8a2bfdd33b2e",
+      "status": "clean",
+      "violation_count": 0,
+      "rule_counts": {}
+    },
+    "rx_clk_cell": {
+      "input": "layout/cells/rx_clk_cell.gds",
+      "content_hash": "sha256:6c825f2bfc0cbcdbfcd4aa09099cd964e9087332d602db29ca8ef4df26992c6c",
+      "status": "clean",
+      "violation_count": 0,
+      "rule_counts": {}
+    }
+  }
+}

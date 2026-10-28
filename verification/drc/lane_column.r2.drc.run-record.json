@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "kind": "drc-run-record",
+  "issue": 64,
+  "t1_item": 3,
+  "run_date": "2026-10-28",
+  "claim": "NOT clean. Baseline and re-run of klt drc on layout/lane_column.gds for issue #64. Layout results against a predictive PDK, not measurements. Not T1 item 3 evidence; the manifest does not cite it. Nothing waived, filtered or relaxed; the deck and the 263-id expectation file are unmodified. The envelopes (175 MB baseline) are not committed.",
+  "tool": {
+    "klt": "0.8.0 (pinned, .github/klt-version; uvx --from klayout-tools==0.8.0)",
+    "engine": "klayout",
+    "klayout": "0.30.12",
+    "deck": {
+      "file": "klayout_tools/decks/asap7.drc",
+      "content_hash": "sha256:48ac590ab1567b68d95a28e73391ff983070d8ccba28f628e1a127dd4da80e7f",
+      "note": "the envelope marks it released:false; same deck hash as lane_column.drc.run-record.json"
+    },
+    "expectation_file": "263 ids from klayout_tools/decks/asap7_rules.RULE_IDS, one per line, unfiltered; no waivers",
+    "command": "klt drc <input> --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <263 ids> --format json --timeout-s 1500 > <envelope>  (0.8.0 has no -o for drc; stdout)"
+  },
+  "baseline": {
+    "status": "violations",
+    "violation_count": 408004,
+    "rules_violated": 35,
+    "rule_counts": {
+      "ACTIVE.AUX.1": 1202,
+      "FIN.S.1": 1786,
+      "FIN.W.1": 2988,
+      "GATE.S.3": 1202,
+      "LIG.GATE.AUX.1": 2404,
+      "LIG.GATE.EX.1": 2404,
+      "LIG.LISD.S.6": 4808,
+      "LIG.LISD.S.7": 4808,
+      "LIG.SDT.S.8": 4808,
+      "LISD.S.3": 384,
+      "M1.S.2": 752,
+      "M1.S.4": 400,
+      "M1.S.5": 944,
+      "M3.S.2": 224,
+      "M4.AUX.1": 154240,
+      "M4.AUX.2": 156800,
+      "M4.W.3": 2336,
+      "M5.AUX.1": 10176,
+      "M5.AUX.2": 9920,
+      "M6.AUX.1": 832,
+      "M6.AUX.2": 480,
+      "NSELECT.ACTIVE.EN.1": 1202,
+      "NSELECT.ACTIVE.EN.2": 1202,
+      "NSELECT.W.2": 192,
+      "PSELECT.ACTIVE.EN.1": 1202,
+      "PSELECT.ACTIVE.EN.2": 1202,
+      "PSELECT.W.2": 192,
+      "SDT.ACTIVE.AUX.2": 10632,
+      "SDT.ACTIVE.OV.1": 768,
+      "SDT.GATE.S.2": 2404,
+      "SDT.LISD.OV.2": 768,
+      "SDT.S.1": 1202,
+      "SDT.W.2": 768,
+      "SDT.W.3": 2404,
+      "V4.M5.AUX.2": 19968
+    },
+    "input_content_hash": "sha256:b033d2b8bba9a9fa50f63f9e3c10942a38eb6db710f3ff8b8f7265c8263ddb1d",
+    "coverage": {
+      "expectation_satisfied": true,
+      "layers_in_stream_without_rules": [],
+      "rules_skipped": [],
+      "unchecked_rules": [
+        {
+          "rule": "PAD.*",
+          "layer": "96/0",
+          "description": "the ASAP7 DRM (asap7_drm_201207a.pdf (ASAP7 DRM, PDK Release 1p7; lambdapdk v0.2.17)) has no rule for the PAD layer itself (no width, spacing, area, enclosure-by-V9 or density); the deck reads PAD (stream 96/0, DRM mask 96) only as the layer enclosing V9 (V9.PAD.EN.2, V9.AUX.1), so shapes on PAD are not checked"
+        }
+      ],
+      "unmodeled_rule_count": 67
+    },
+    "input": "layout/lane_column.gds as on main at baf10fe (after #55 and #56)",
+    "by_component": {
+      "ACTIVE.AUX.1": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "FIN.S.1": {
+        "tx_clk_cell": 44,
+        "rx_cell": 608,
+        "tx_cell": 1088,
+        "rx_clk_cell": 46
+      },
+      "FIN.W.1": {
+        "tx_clk_cell": 54,
+        "rx_cell": 1440,
+        "tx_cell": 1440,
+        "rx_clk_cell": 54
+      },
+      "GATE.S.3": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "LIG.GATE.AUX.1": {
+        "tx_clk_cell": 20,
+        "rx_cell": 1664,
+        "tx_cell": 704,
+        "rx_clk_cell": 16
+      },
+      "LIG.GATE.EX.1": {
+        "tx_clk_cell": 20,
+        "rx_cell": 1664,
+        "tx_cell": 704,
+        "rx_clk_cell": 16
+      },
+      "LIG.LISD.S.6": {
+        "tx_clk_cell": 40,
+        "rx_cell": 3328,
+        "tx_cell": 1408,
+        "rx_clk_cell": 32
+      },
+      "LIG.LISD.S.7": {
+        "tx_clk_cell": 40,
+        "rx_cell": 3328,
+        "tx_cell": 1408,
+        "rx_clk_cell": 32
+      },
+      "LIG.SDT.S.8": {
+        "tx_clk_cell": 40,
+        "rx_cell": 3328,
+        "tx_cell": 1408,
+        "rx_clk_cell": 32
+      },
+      "LISD.S.3": {
+        "rx_cell": 384
+      },
+      "M1.S.2": {
+        "slice": 752
+      },
+      "M1.S.4": {
+        "slice": 400
+      },
+      "M1.S.5": {
+        "slice": 944
+      },
+      "M3.S.2": {
+        "slice": 224
+      },
+      "M4.AUX.1": {
+        "slice": 154240
+      },
+      "M4.AUX.2": {
+        "slice": 156800
+      },
+      "M4.W.3": {
+        "slice": 2336
+      },
+      "M5.AUX.1": {
+        "slice": 10176
+      },
+      "M5.AUX.2": {
+        "slice": 9920
+      },
+      "M6.AUX.1": {
+        "slice": 832
+      },
+      "M6.AUX.2": {
+        "slice": 480
+      },
+      "NSELECT.ACTIVE.EN.1": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "NSELECT.ACTIVE.EN.2": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "NSELECT.W.2": {
+        "rx_cell": 192
+      },
+      "PSELECT.ACTIVE.EN.1": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "PSELECT.ACTIVE.EN.2": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "PSELECT.W.2": {
+        "rx_cell": 192
+      },
+      "SDT.ACTIVE.AUX.2": {
+        "slice": 5824,
+        "tx_clk_cell": 40,
+        "rx_cell": 3328,
+        "tx_cell": 1408,
+        "rx_clk_cell": 32
+      },
+      "SDT.ACTIVE.OV.1": {
+        "rx_cell": 768
+      },
+      "SDT.GATE.S.2": {
+        "tx_clk_cell": 20,
+        "rx_cell": 1664,
+        "tx_cell": 704,
+        "rx_clk_cell": 16
+      },
+      "SDT.LISD.OV.2": {
+        "rx_cell": 768
+      },
+      "SDT.S.1": {
+        "tx_clk_cell": 10,
+        "rx_cell": 832,
+        "tx_cell": 352,
+        "rx_clk_cell": 8
+      },
+      "SDT.W.2": {
+        "rx_cell": 768
+      },
+      "SDT.W.3": {
+        "tx_clk_cell": 20,
+        "rx_cell": 1664,
+        "tx_cell": 704,
+        "rx_clk_cell": 16
+      },
+      "V4.M5.AUX.2": {
+        "slice": 19968
+      }
+    }
+  },
+  "after": {
+    "status": "violations",
+    "violation_count": 8208,
+    "rules_violated": 7,
+    "rule_counts": {
+      "M1.S.2": 848,
+      "M1.S.3": 64,
+      "M1.S.4": 400,
+      "M1.S.5": 960,
+      "M4.AUX.2": 64,
+      "M4.W.3": 48,
+      "SDT.ACTIVE.AUX.2": 5824
+    },
+    "input_content_hash": "sha256:2a70c6922bf27b21b40e8d9370cb0a0cbe90d49071e2c5ff1ae3c278a32cd1c6",
+    "coverage": {
+      "expectation_satisfied": true,
+      "layers_in_stream_without_rules": [],
+      "rules_skipped": [],
+      "unchecked_rules": [
+        {
+          "rule": "PAD.*",
+          "layer": "96/0",
+          "description": "the ASAP7 DRM (asap7_drm_201207a.pdf (ASAP7 DRM, PDK Release 1p7; lambdapdk v0.2.17)) has no rule for the PAD layer itself (no width, spacing, area, enclosure-by-V9 or density); the deck reads PAD (stream 96/0, DRM mask 96) only as the layer enclosing V9 (V9.PAD.EN.2, V9.AUX.1), so shapes on PAD are not checked"
+        }
+      ],
+      "unmodeled_rule_count": 67
+    },
+    "input": "layout/lane_column.gds regenerated by this change",
+    "by_component": {
+      "M1.S.2": {
+        "slice": 848
+      },
+      "M1.S.3": {
+        "slice": 64
+      },
+      "M1.S.4": {
+        "slice": 400
+      },
+      "M1.S.5": {
+        "slice": 960
+      },
+      "M4.AUX.2": {
+        "slice": 64
+      },
+      "M4.W.3": {
+        "slice": 48
+      },
+      "SDT.ACTIVE.AUX.2": {
+        "slice": 5824
+      }
+    }
+  }
+}

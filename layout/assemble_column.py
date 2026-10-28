@@ -41,7 +41,12 @@ LANES = 17
 
 # Placement inside a lane cell, lower-left corners in dbu, local frame where the
 # lane's TX pad is at (0, 0) and its RX pad at (0, -PITCH).
-SLICE_AT = (-22 * UM, -66 * UM)
+# The routed slice's M4-M7 sit on the deck's metal grid (tracks at 48/48/64/64 nm pitch from the
+# slice origin, regen.py), so the slice origin must land on a multiple of lcm(48, 64) = 192 nm in
+# the stream. Lane cells are 90 um apart, which is not a multiple of 192 nm, so the slice is
+# placed at the multiple nearest its nominal spot (at most 96 nm away) in each lane cell.
+METAL_GRID = 192 * UM // 1000  # dbu
+SLICE_NOMINAL = (-22 * UM, -66 * UM)
 TX_AT = (2 * UM, -22 * UM)
 RX_AT = (2 * UM, -50 * UM)
 CLK_TX_AT = (-20 * UM, -40 * UM)
@@ -84,13 +89,20 @@ def build():
             c.shapes(pad).insert(db.Box(-h, y - h, h, y + h))
         return c
 
-    data = lane_cell("lane_cell", [(slice_c, SLICE_AT), (cells["tx_cell"], TX_AT),
-                                   (cells["rx_cell"], RX_AT)])
+    def slice_at(i):
+        """Slice origin in lane i's local frame: the nominal one, moved onto the metal grid."""
+        lane_y = -CELL_H * i
+        snap = lambda v: round(v / METAL_GRID) * METAL_GRID
+        return (snap(SLICE_NOMINAL[0]), snap(lane_y + SLICE_NOMINAL[1]) - lane_y)
+
+    data = {i: lane_cell("lane_cell_%d" % i, [(slice_c, slice_at(i)), (cells["tx_cell"], TX_AT),
+                                              (cells["rx_cell"], RX_AT)])
+            for i in range(LANES) if i != CLOCK_INDEX}
     clk = lane_cell("lane_cell_clk", [(cells["tx_clk_cell"], CLK_TX_AT),
                                       (cells["rx_clk_cell"], CLK_RX_AT)])
     top = ly.create_cell(TOP)
     for i in range(LANES):
-        c = clk if i == CLOCK_INDEX else data
+        c = clk if i == CLOCK_INDEX else data[i]
         top.insert(db.CellInstArray(c.cell_index(), db.Trans(0, -CELL_H * i)))
     # The bump map is the authority: every pad drawn must sit on a map row.
     want = sorted((round(float(e["x_um"]) * UM), round(float(e["y_um"]) * UM)) for e in entries)

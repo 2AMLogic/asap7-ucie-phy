@@ -56,18 +56,21 @@ the worker. `selftest_cells.py` also imports `klayout_tools` (it runs klt's asap
 or a route layer deleted as negative controls), so run it in the klt tool interpreter. Output is byte-identical across runs (no GDS timestamps).
 
 - **What is drawn**: per device a footprint (Fin 2/0, Active 11/0, N/P select 12/0 and 13/0, Gate 7/0) with
-  its own active island (islands never abut, so no diffusion is shared), S/D trench contact SDT 88/0 inside
-  LISD 17/0, and a LIG 16/0 gate contact in the gate stripe's extension. NMOS and PMOS rows sit between VSS
+  its own active island (islands never abut, so no diffusion is shared), a dummy gate one 54 nm pitch to the
+  left of the gate (the deck wants every gate to have a neighbour), 7 nm fins on a 27 nm pitch, one N or P
+  select per row, S/D trench contact SDT 88/0 inside LISD 17/0, and a LIG 16/0 gate contact in the gate
+  stripe's extension, offset right so the three M1 verticals keep a 36 nm pitch. NMOS and PMOS rows sit between VSS
   and VDD M1 rails, one Well 1/0 rectangle covers the PMOS row. Every net is routed: V0 18/0 and an M1
   vertical per terminal, V1 21/0 to one M2 20/0 track per multi-terminal net in the channel between the rows;
   VSS/VDD terminals go straight to their rail on M1. Each boundary port and rail is named by a text label on
   M1 text 19/251, the layer klt's deck reads net names from (19/0 text is not read).
 - **What is not**: no tap or bulk tie (NMOS body is klt's synthesized `vsubs`, PMOS body the well net; the
   LVS requests use klt's `finfet_bulk` comparison-side policy, which klt reports as a warning), no
-  well-to-VDD contact, no sizing. Fin, gate and cell dimensions are a placement choice, not tuned or
-  rule-checked. The drawn cells are not connected to the slice in the column.
-- **ASAP7 grid, fin and design rules are not checked until DRC (#19).** Fin pitch 27 nm and gate
-  pitch 54 nm are used for spacing only; nothing here claims DRC cleanliness.
+  well-to-VDD contact, no sizing. Cell dimensions are a placement choice, not tuned. The drawn cells are not connected to the slice in the column.
+- **DRC (#64)**: the four cells run clean (0 violations) against the packaged ASAP7 deck, klt 0.8.0, 263-id
+  expectation file, nothing waived (`verification/drc/components.r2.drc.run-record.json`). That is a rule check on
+  these cells standing alone, not a column-level or LVS claim; the deck does not check `Pad`, and 67 rules are
+  listed `unmodeled_rules` in the run's `coverage` block.
 - **Budget**: `--report` prints each cell's bounding box against the spec section 4 lane-cell rows
   (45 x 90 um target, 55 x 110 um fallback). Those are geometric bounding-box areas only; the
   routed-slice share from the sibling P&R issue (#33) is not included. No sizing, rate or
@@ -105,16 +108,20 @@ target lane cell; the 3035 um^2 left after the routed slice is not overrun.
 OpenROAD (`openroad` here is the klt Docker wrapper, pinned by image digest). **Layout geometry only:
 ASAP7 is predictive and nothing here is fabricated.**
 
-- `pnr/slice.pnr.json` is the request: floorplan, tapcell/endcap, PDN (`M1`/`M2` followpins, `M5`/`M6`
-  straps), CTS, route `M2`-`M7`, seed 1. The `library` block carries what klt has no built-in ASAP7 table for.
+- `pnr/slice.pnr.json` is the request: floorplan, tapcell/endcap, PDN (`M1`/`M2` followpins only), CTS, route
+  `M2`-`M7`, seed 1. The `library` block carries what klt has no built-in ASAP7 table for. The M4-M7 track
+  offsets (12 nm for M4/M5, 16 nm for M6/M7) put the routed wires on the grid the deck checks
+  (2AMLogic/klayout-tools#4493); with offset 0 they sit 12/16 nm off it.
 - `pnr/regen.py` rebuilds `slice_routed.gds` and `pnr/slice.pnr.report.json` from the committed netlist and the
   pinned lambdapdk archive (`spec/asap7-bringup.md`); `regen.py --check` exits 0 if the stream reproduces
   byte-for-byte, 3 if it drifted. Run it as `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
   all in the route stage. It stages the pinned `asap7.layermap` so klt's DEF->GDS merge puts routing on the ASAP7
   stream numbers (without it: sequential numbers on top of Gate/Gcut/Active; `verification/drc/README.md`). Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.
 - Result (report `slice.pnr.report.json`, OpenROAD 26Q3-1510): stage reached `route`, `route_drc_violation_count` 0,
-  `antenna_violation_count` 0, 310 tap/endcap cells, power delivery `complete`. Footprint 23.033 um x 44.066 um
-  (`klt stats`), 1015 um^2, against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about
+  `antenna_violation_count` 0, 310 tap/endcap cells, power delivery **`partial`**: the `M5`/`M6` straps were
+  dropped (#64) because their via stacks fail the deck and no request field moves them
+  (2AMLogic/klayout-tools#4494), so only the `M1`/`M2` followpin rails remain; restoring a grid is #66.
+  Footprint 23.033 um x 44.066 um (`klt stats`), 1015 um^2, against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about
   3035 um^2 is left for the drawn TX/RX cells.
 
 Assumptions and workarounds, all inputs to the flow and none a PDK-supplied value or a sign-off claim:
@@ -132,12 +139,12 @@ Assumptions and workarounds, all inputs to the flow and none a PDK-supplied valu
 - **Liberty**: the merge in `design/synth/regen.py` drops the SEQ group's `delay_template_7x7` and
   `power_template_7x7`, so OpenSTA discards every flop timing arc. `pnr/regen.py` adds the missing templates.
   The synthesis merge is left as is (it does not read those tables).
-- Tapcell distance 25 um, filler `FILLER`/`FILLERxp5`, CTS buffer `BUFx4`, and the PDN pitches are ORFS's ASAP7 choices
-  or scaled to this core (`M5`/`M6` pitch 12 um); none is tuned.
+- Tapcell distance 25 um, filler `FILLER`/`FILLERxp5` and CTS buffer `BUFx4` are ORFS's ASAP7 choices; none is tuned.
 
 Tool gaps filed at `2AMLogic/klayout-tools`: no ASAP7 tie-cell entry (#4273), no way to route a library with no
 antenna cell (#4274), `wire_rc` capacitance unit documented wrongly (#4275), Liberty template loss on a hand merge
-(comment on #4242).
+(comment on #4242), no ASAP7 track offsets matching the deck grid (#4493), PDN straps that fail the deck (#4494),
+router V1 pads that fail the M1 tip rules (#4495), `SDT.ACTIVE.AUX.2` inside shipped cells (#4496).
 
 ## Lane column (assembly and item-2 attestation)
 
@@ -145,11 +152,15 @@ antenna cell (#4274), `wire_rc` capacitance unit documented wrongly (#4275), Lib
 (16 data lanes plus the clock lane at index 8), 34 pads of 25 um on `Pad` 96/0 at the
 `bump_map_target.csv` centres (45 um bump pitch). A data lane cell holds the routed `slice` and the
 `tx_cell`/`rx_cell`; the clock lane cell holds `tx_clk_cell`/`rx_clk_cell`. Pads live inside the lane
-cells, so `check_pads.py` finds them only by flattening. `--check` exits 0 / 3 on drift; run it with
+cells, so `check_pads.py` finds them only by flattening. Each data lane cell (`lane_cell_<i>`) places the slice
+on a multiple of 192 nm (lcm of the 48 nm and 64 nm M4-M7 pitches) in x and y, so the router metal keeps the
+deck's grid origin: the 90 um lane pitch is not a multiple of 192 nm, so the slice sits up to 96 nm from its
+nominal spot in some lanes. `--check` exits 0 / 3 on drift; run it with
 `python3` (needs `klayout.db`), output is byte-identical across runs.
 
-**Layout geometry only.** The slice and the drawn cells are placed, not connected to each other, and no DRC
-or column-level LVS result is claimed (the cell-level LVS is above). The 34-pad `pad_check_record.json`
+**Layout geometry only.** The slice and the drawn cells are placed, not connected to each other, and no DRC-clean
+or column-level LVS result is claimed (the cell-level LVS is above; the DRC record is
+`verification/drc/lane_column.r2.drc.run-record.json`: 8,208 violations remain). The 34-pad `pad_check_record.json`
 (`status: pass`) is a pad-centre comparison against the bump map, not a rule check: klt's ASAP7 deck
 does not check `Pad` (2AMLogic/klayout-tools#3807), and abutment of the lane-cell seam is not DRC-checked
 (2AMLogic/klayout-tools#4226 covers a single tileable cell, not this column). Nothing is fabricated.
