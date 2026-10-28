@@ -125,7 +125,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "df055989839b4a26adad18fa49c611f5",
+      "invocation_id": "277bc3a686f84a0683a3020f16d0cb08",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -142,7 +142,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "320f1b2f8553324046563419857db0b67b4c3da408d5a59830872987f6f176a6",
+      "script_sha256": "b2355fef94b317606bc89fad22697def9e3f29f8d6d70a8244a7867e9f40b93a",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -157,7 +157,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "eac2bb9eb6a64724a538f39abda3ffae",
+      "invocation_id": "a447ed0dd4014f5c95f02d225c1bc077",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -174,7 +174,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "afa38d68fcf77e31127992d72da49042eec720b25c46f8308e64e685953f580d",
+      "script_sha256": "aa2937ebf1ca69a34f71e385f1e9fafc2c2fd7fca31cf43949326eef352e1deb",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -189,7 +189,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "f4e586d7c78b4bcc8ae2108eb0235bb5",
+      "invocation_id": "8f4f9fa2d04b425cb967e49f225df325",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -206,7 +206,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "124ea9740619ae144f408cf85909a66dc67e1fc28273dbe534fc193ca2baa298",
+      "script_sha256": "63c83b61eb02c7b7ff157d4ed799d4a8a4bf0fa2ae6635a1b75a24a34b73b918",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -221,7 +221,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "c7cc8255518d4d299b1101c0e8f63071",
+      "invocation_id": "161f0068cd5f4be99671416a644330a8",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -238,7 +238,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "58e7a0498817a94a3161520833e7c96d9bce9cffe2b6e473bd8a3a5d78993ecf",
+      "script_sha256": "6b1528f80ead373c3e90ae2722df583acf300163cf16d436a11679841177cb2c",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -257,8 +257,8 @@
   "hold_violation_count": 0,
   "interconnect_corner": "nom",
   "layer_map": {
-    "path": null,
-    "resolution": "none"
+    "path": "<scratch>/pdk/klayout/tech/asap7.map",
+    "resolution": "exact"
   },
   "macros": [],
   "max_capacitance_violation_count": null,
@@ -267,7 +267,7 @@
   "max_transition_violation_count_vs_library": null,
   "min_area_repair": {
     "patches": 0,
-    "reason": "no KLayout LEF/DEF layer map resolved, so the merged GDS's routed-net layers cannot be matched against the deck's own minimum-area rules",
+    "reason": "PDK variant 'asap7' resolves to no curated deck, so no minimum-area rule is available to floor routed metal against",
     "remaining": 0,
     "repaired": 0,
     "rules": [],
@@ -2270,7 +2270,7 @@
   },
   "provenance": {
     "deck": {
-      "content_hash": "sha256:ec3b7904d93725d507bc14094e58e087d2a07c28ecdfa67887d637938038bab4",
+      "content_hash": "sha256:910057db3b7a926cb2b22d8f54664a2130a28bce2f01d22c6c034226830a3b5c",
       "name": "asap7sc7p5t_rvt__tt",
       "path": {
         "path": null,
@@ -2283,7 +2283,7 @@
       "role": "netlist"
     },
     "klayout_version": "0.30.12",
-    "klt_version": "0.8.1.dev58+g78f36d8f316c",
+    "klt_version": "0.8.0",
     "pdk": {
       "name": "asap7",
       "source": "--pdk-root flag",
