@@ -5,6 +5,10 @@ triage role; entries are newest first.
 
 ### 2026-10-27
 
+- **PR #48**: fix: load pinned lambdapdk module directly in PnR regen script
+- **Issue #47** (closed): Remove duplicate Liberty merge in layout/pnr/regen.py; it still calls names db763e1 moved
+- **PR #46**: chore: ignore negative-control functional-verification reports
+- **Issue #38** (closed): Gitignore verification/*.negative-control.report.json written by functional_verification.sh
 - **PR #44**: refactor: share lambdapdk pin, fetch and Liberty merge between synth and STA regen
 - **Issue #40** (closed): Consolidate duplicated lambdapdk fetch and Liberty merge in the two regen scripts
 - **PR #43**: feat: add committed place-and-route flow and routed GDS for the synthesized slice
