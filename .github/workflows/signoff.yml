@@ -60,6 +60,16 @@ jobs:
             exit 1
           fi
 
+      # A pin that has drifted from its evidence grades stale_evidence, which
+      # --check happily reproduces. Fail on any such row in the committed verdict.
+      - name: Fail if the committed verdict has stale evidence
+        run: |
+          if jq -e 'any(.items[]; .reason == "stale_evidence")' manifests/asap7-ucie-phy.signoff.json >/dev/null; then
+            echo "::error::the committed verdict has stale_evidence rows: re-pin the cited evidence in manifests/asap7-ucie-phy.json and regenerate the verdict"
+            jq -c '.items[] | select(.reason == "stale_evidence") | [.id, .partition]' manifests/asap7-ucie-phy.signoff.json
+            exit 1
+          fi
+
       # T1 item 9: re-attest the testbench inventory. The cold start is
       # local_only (ubuntu-latest has no yosys/verilator/iverilog), so it is
       # skipped here; file presence and content hashes still run, so editing
