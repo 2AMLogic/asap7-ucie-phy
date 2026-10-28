@@ -20,8 +20,8 @@ _None._
 
 `loom:important`; taken before unlabelled work.
 
-- **#18**: T1 item 2 (layout): routed lane-datapath GDS from a committed P&R flow plus drawn TX/RX cell GDS placed in the bump-pitch lane column
-- **#35**: T1 item 2c: lane-column assembly, pad check record and item-2 envelope
+- **#19**: T1 item 3 (DRC clean): klt drc report on the assembled lane-column GDS with ASAP7 deck coverage gaps disclosed
+- **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists
 
 ## Ready
 
