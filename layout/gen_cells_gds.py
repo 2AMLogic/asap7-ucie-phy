@@ -9,8 +9,8 @@ rails, under one well over the PMOS row. Each net is routed: V0 and M1 verticals
 to an M2 track per net in the channel between the rows (V1), supplies to the M1
 rails. Each boundary port is named by a text label on M1 (19/251).
 
-ASAP7 grid, fin and design rules are not checked until DRC (#19), and the
-extraction (#20) is whatever `klt lvs` reports, recorded as it comes. Nothing
+The cells run clean against klt's packaged ASAP7 DRC deck standing alone (#64,
+verification/drc/); the extraction (#20) is whatever `klt lvs` reports, recorded as it comes. Nothing
 here is sized, simulated or rated (spec/decisions/0003).
 
     gen_cells_gds.py            write layout/cells/*.gds
@@ -37,12 +37,21 @@ LIG, LISD, V0, M1, M2, V1, SDT = (16, 0), (17, 0), (18, 0), (19, 0), (20, 0), (2
 M1_LABEL = (19, 251)  # the deck reads net names from M1 text on 19/251, not 19/0
 LAYERS = (WELL, FIN, GATE, ACTIVE, NSEL, PSEL, LIG, LISD, V0, M1, M2, V1, SDT, M1_LABEL)
 FIN_PITCH = 27  # nm (all constants below, and the drawing arithmetic, are nm)
-GATE_W, ACT_W, SD_W = 20, 108, 44  # nm: gate stripe, active island, source/drain side
+GATE_W = 20  # nm: gate stripe
+ACT_X0, ACT_X1 = 19, 99  # nm: active island, from the device origin bx
+GATE_X = 44  # nm: gate stripe left edge from bx; a dummy gate sits one 54 nm pitch to its left
+FIN_X0, FIN_W = -5, 108  # nm: fin run (the deck wants >= 108 nm along the fin)
+FIN_H, FIN_OFF = 7, 10  # nm: fin width; offset of the first fin above the active edge
+SEL_H, SEL_V = 46, 51  # nm: select past active horizontally; past the gate ends vertically
+SDT_S, SDT_D = (15, 39), (69, 111)  # nm: source / drain trench contact, from bx
+LISD_S, LISD_D = (13, 40), (68, 113)  # nm: local interconnect over each trench contact
+LIG_X = (43, 73)  # nm: gate contact; 1 nm past the gate on the left, V0 lands on its right part
+LIG_GAP = 16  # nm: gate contact to the active edge (>= 15 nm to the S/D contacts)
 SLOT = 36  # nm, M1 vertical pitch and M2 track pitch
 WIRE = 18  # nm, M1/M2/V0/V1 drawn width
 COL_PITCH = 6 * SLOT  # device pitch within a row; adjacent islands never abut
 PMOS_SHIFT = 3 * SLOT  # PMOS row offset, so no M1 vertical of either row shares an x
-RAIL_H, MARGIN, GATE_EXT, PAD_SZ, WELL_EN = 60, 54, 36, 24, 54  # nm
+RAIL_H, MARGIN, GATE_EXT, PAD_SZ, WELL_EN = 60, 54, 44, 24, 54  # nm
 BUDGET_UM = {"target": (45.0, 90.0), "fallback": (55.0, 110.0)}  # spec section 4
 
 DEV = re.compile(r"^(M\d+) (\S+) (\S+) (\S+) (\S+) (nmos_rvt|pmos_rvt) l=\S+ w=\S+ nfin=(\d+)$")
@@ -98,28 +107,32 @@ def draw(name):
     stubs, labelled = {}, set()  # net -> [(x centre, y of its V0 centre)]
     for kind, y0, sel, shift in (("nmos_rvt", y_n, NSEL, 0), ("pmos_rvt", y_p, PSEL, PMOS_SHIFT)):
         up = kind == "nmos_rvt"  # NMOS wires leave upward to the channel, PMOS downward
+        if rows[kind]:  # one select per row, so adjacent devices never leave a sliver between selects
+            bx0 = MARGIN + shift
+            bx1 = bx0 + (len(rows[kind]) - 1) * COL_PITCH
+            box(sh[sel], bx0 + ACT_X0 - SEL_H, y0 - SEL_V, bx1 + ACT_X1 + SEL_H, y0 + row_h + SEL_V)
         for i, (dev, _, nfin, d, g, s) in enumerate(rows[kind]):
             bx = MARGIN + shift + i * COL_PITCH
             h = nfin * FIN_PITCH
-            box(sh[ACTIVE], bx, y0, bx + ACT_W, y0 + h)
-            box(sh[sel], bx, y0, bx + ACT_W, y0 + h)
+            box(sh[ACTIVE], bx + ACT_X0, y0, bx + ACT_X1, y0 + h)
             for f in range(nfin):
-                yc = y0 + f * FIN_PITCH + FIN_PITCH // 2
-                box(sh[FIN], bx, yc - 3, bx + ACT_W, yc + 3)
-            gx = bx + SD_W
-            box(sh[GATE], gx, y0 - GATE_EXT, gx + GATE_W, y0 + h + GATE_EXT)
-            terms = ((s, bx + SLOT // 2, "sd"), (g, bx + 3 * SLOT // 2, "g"), (d, bx + 5 * SLOT // 2, "sd"))
-            for net, xc, role in terms:
+                yf = y0 + f * FIN_PITCH + FIN_OFF
+                box(sh[FIN], bx + FIN_X0, yf, bx + FIN_X0 + FIN_W, yf + FIN_H)
+            gx = bx + GATE_X
+            for x in (gx, gx - 54):  # the gate and its dummy neighbour
+                box(sh[GATE], x, y0 - GATE_EXT, x + GATE_W, y0 + h + GATE_EXT)
+            terms = ((s, bx + 27, "sd", SDT_S, LISD_S), (g, bx + 63, "g", None, None),
+                     (d, bx + 99, "sd", SDT_D, LISD_D))
+            for net, xc, role, sdt, lisd in terms:
                 x0, x1 = xc - WIRE // 2, xc + WIRE // 2
                 if role == "sd":
-                    sx0 = bx if xc < gx else gx + GATE_W
-                    box(sh[LISD], sx0 + 2, y0, sx0 + SD_W - 2, y0 + h)
-                    box(sh[SDT], sx0 + 4, y0 + 2, sx0 + SD_W - 4, y0 + h - 2)
+                    box(sh[LISD], bx + lisd[0], y0, bx + lisd[1], y0 + h)
+                    box(sh[SDT], bx + sdt[0], y0, bx + sdt[1], y0 + h)
                     vy = y0 + 4  # V0 at the bottom of the diffusion
                 else:
                     # gate contact in the stripe's extension, on the channel side
-                    ly0 = y0 + h + 6 if up else y0 - 6 - PAD_SZ
-                    box(sh[LIG], gx, ly0, gx + GATE_W, ly0 + PAD_SZ)
+                    ly0 = y0 + h + LIG_GAP if up else y0 - LIG_GAP - PAD_SZ
+                    box(sh[LIG], bx + LIG_X[0], ly0, bx + LIG_X[1], ly0 + PAD_SZ)
                     vy = ly0 + (PAD_SZ - WIRE) // 2
                 box(sh[V0], x0, vy, x1, vy + WIRE)
                 yv = vy + WIRE // 2

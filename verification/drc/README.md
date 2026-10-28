@@ -58,3 +58,39 @@ envelope is not committed. The 8 million-violation run needed 3.9 GB because klt
 mode (existing gap: 2AMLogic/klayout-tools#4464).
 
 `klt signoff` item 3 stays unmet.
+
+## Issue #64: baseline, router and cell fixes, re-run
+
+Records: `lane_column.r2.drc.run-record.json` (baseline and re-run, same command), `components.r2.drc.run-record.json`
+(regenerated slice and the four cells). klt 0.8.0, same packaged deck and 263-id expectation file, no filtering, no waivers;
+the earlier records are unedited. Still **not clean**; layout results against a predictive PDK. The envelopes are not
+committed (the baseline is 175 MB).
+
+**Baseline** (committed column before this change, sha256 `b033d2b8...`, after #55/#56): 408,004 violations across 35
+rules. It was not 367,926: #55's redrawn cells carry 44,628 cell-side violations (408,004 - 16 x 22,711) (`ACTIVE.AUX.1`, `FIN.*`, `LIG.*`,
+`SDT.*`, `*SELECT.ACTIVE.EN.*` ...) on top of the slice's 16 x 22,711 (router metal and shipped-cell `SDT.ACTIVE.AUX.2`).
+
+**Re-run** (sha256 `2a70c6922bf2...`): **8,208 violations across 7 rules**, exactly 16 x the slice's 513, all on slice instances:
+
+| Rule(s) | Count | Cause |
+|---|---|---|
+| `SDT.ACTIVE.AUX.2` | 5,824 | inside shipped standard-cell instances (OAI22, BUFx4, fillers), none on router geometry; 2AMLogic/klayout-tools#4496 |
+| `M1.S.2` / `.3` / `.4` / `.5` | 2,272 | router V1 landing pads (they vanish when the M1 inside the router `VIA_*` cells is cleared); 2AMLogic/klayout-tools#4495 |
+| `M4.AUX.2` / `M4.W.3` | 64 / 48 | router M4 (4 / 3 per slice); no generator setting identified |
+
+`coverage`: the expectation is satisfied, `layers_in_stream_without_rules` and `rules_skipped` are empty, `PAD` (96/0) is unchecked.
+
+What cleared the other 399,796:
+
+1. **Track grid** (`layout/pnr/slice.pnr.json`): M4/M5 track offset 0.012 um and M6/M7 0.016 um. Router M4 wires were centred on 48 nm
+   multiples, but the deck wants a minimum-width wire's edge on a 48 nm multiple, i.e. centres 12 nm off; `M4.AUX.1/2` (9,640 + 9,800 per
+   slice) went to 936 / 1,096. 2AMLogic/klayout-tools#4493.
+2. **PDN straps dropped** (same file): the M5/M6 strap via stacks left `V4.M5.AUX.2` 1,248, `M4.AUX.*` and `M5.AUX.1` per slice and no request field moves
+   them (2AMLogic/klayout-tools#4494). **Cost: power delivery in the P&R report is now `partial`** (followpin rails only, no stripes); #66 tracks a
+   deck-clean grid. Slice 22,711 -> 513.
+3. **Slice placement** (`layout/assemble_column.py`): the slice origin is on a 192 nm multiple (lcm of the 48 and 64 nm M4-M7 pitches) in every lane; at the
+   old -22 um / -66 um spot the column showed 10,240 `M5.AUX.1` + 10,240 `M5.AUX.2` + `M6.AUX.*` that the standalone slice did not.
+4. **Cells** (`layout/gen_cells_gds.py`): 7 nm fins, dummy gate at 54 nm pitch, select enclosures, SDT/LISD/LIG sized to the deck. 0 violations per cell
+   (was 840 / 1,932 / 408 / 348).
+
+The re-attested stream is `evidence/item2.r5.json`; `klt signoff` item 3 stays unmet and the manifest does not cite these records.
