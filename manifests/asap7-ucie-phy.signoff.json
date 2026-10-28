@@ -530,7 +530,7 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "manifests/evidence/item9.json",
+        "file": "manifests/evidence/item9.r2.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
@@ -568,7 +568,7 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "manifests/evidence/item9.json",
+        "file": "manifests/evidence/item9.r2.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
