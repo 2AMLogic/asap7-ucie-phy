@@ -3,6 +3,10 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-10-29
+
+- **PR #78**: fix(rtl): ungate CDC FIFO rdata load; re-synthesized STA still fails setup
+
 ### 2026-10-28
 
 - **PR #73**: fix(signoff): clear item-10 stale_evidence and align README T1 section
