@@ -5,5 +5,5 @@
   "hdl_toplevel": "slice",
   "parameters": {"N": 16},
   "pdk": {"cell_library": "asap7sc7p5t_rvt", "corner": "tt"},
-  "constraints": {"clock_period_ns": null}
+  "constraints": {"clock_period_ns": 0.25}
 }

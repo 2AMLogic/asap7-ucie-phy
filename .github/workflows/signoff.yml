@@ -100,11 +100,11 @@ jobs:
         run: |
           set -uo pipefail
           rc=0
-          klt signoff --attest 1 --inventory attest/item1.r3.json \
-                      --check evidence/item1.r3.json || rc=$?
+          klt signoff --attest 1 --inventory attest/item1.r4.json \
+                      --check evidence/item1.r4.json || rc=$?
           if [ "$rc" -eq 3 ]; then
-            echo "::error::evidence/item1.r3.json is stale. Regenerate and commit it in this PR:"
-            echo "  klt signoff --attest 1 --inventory attest/item1.r3.json -o evidence/item1.r3.json"
+            echo "::error::evidence/item1.r4.json is stale. Regenerate and commit it in this PR:"
+            echo "  klt signoff --attest 1 --inventory attest/item1.r4.json -o evidence/item1.r4.json"
             echo "  (then update the content_hash cited in manifests/asap7-ucie-phy.json and regenerate the verdict)"
             exit 1
           elif [ "$rc" -ne 0 ]; then

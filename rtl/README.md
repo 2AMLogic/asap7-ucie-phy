@@ -28,7 +28,7 @@ sampler. Lane `i` uses bits `[2*i +: 2]`.
 Core side: `clk` (parallel clock), `rst_n`, `rx_rst_n` (asserted asynchronously, deassert
 assumed synchronous to its own clock), `link_ready` (link state, out of scope), TX
 `tx_valid`/`tx_ready`/`tx_data[4*N-1:0]`, RX `rx_valid`/`rx_data[4*N-1:0]` (valid only, no
-back-pressure), `rx_overflow` (sticky status, forwarded-clock domain).
+back-pressure; `rx_data` is undefined while `rx_valid` is low), `rx_overflow` (sticky status, forwarded-clock domain).
 
 ## Choices to know about
 
