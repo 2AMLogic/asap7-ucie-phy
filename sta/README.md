@@ -1,5 +1,11 @@
 # sta
 
+> **Update (#72):** `slice.sta.r2.report.json` is the second pre-route record, taken after the
+> decision 0007 option-1 RTL change and a 0.25 ns timing-driven synthesis. It still fails setup
+> (tt -0.269, ss -0.520, ff -0.180 ns); see `worst-path-analysis.r2.md` and decision 0009. The tables
+> below describe the first record (`slice.sta.report.json`), which is kept unedited as history;
+> `regen.py --report <name>` writes an appended record without touching it.
+
 T1 item 5, digital partition, timing half (tracker #3, issue #21). One `klt sta` run of the
 synthesized slice netlist across the three RVT Liberty corners. **The result is a failing
 record**: setup slack is negative at every corner. Nothing was tuned to change that.

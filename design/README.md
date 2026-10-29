@@ -1,7 +1,7 @@
 # design
 
 Sources and derived netlists for T1 item 1 (design sources), attested by
-`attest/item1.r3.json` and `evidence/item1.r3.json`. Every figure is a tool result
+`attest/item1.r4.json` and `evidence/item1.r4.json`. Every figure is a tool result
 against the predictive ASAP7 model; nothing here is a fabricated part.
 
 | Path | Role |
@@ -27,7 +27,7 @@ It merges the five gzipped RVT TT Liberty cell-group files into one scratch
 file because klt's resolver does not read lambdapdk's split, gzipped Liberty
 (tool gap: 2AMLogic/klayout-tools#4184).
 
-Attestation (record r3 supersedes the append-only records r1 (`attest/item1.json` / `evidence/item1.json`) and r2 (`attest/item1.r2.json` / `evidence/item1.r2.json`), kept as history): `klt signoff --attest 1 --inventory attest/item1.r3.json -o evidence/item1.r3.json`,
-then `klt signoff --attest 1 --inventory attest/item1.r3.json --check evidence/item1.r3.json`.
+Attestation (record r4 supersedes the append-only records r1 (`attest/item1.json` / `evidence/item1.json`), r2 (`attest/item1.r2.json` / `evidence/item1.r2.json`) and r3 (`attest/item1.r3.json` / `evidence/item1.r3.json`), kept as history): `klt signoff --attest 1 --inventory attest/item1.r4.json -o evidence/item1.r4.json`,
+then `klt signoff --attest 1 --inventory attest/item1.r4.json --check evidence/item1.r4.json`.
 The synthesis freshness command is `local_only` (CI has no Yosys or PDK); CI
 re-hashes every inventoried file instead.

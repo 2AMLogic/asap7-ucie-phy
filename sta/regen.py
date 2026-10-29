@@ -14,6 +14,8 @@ the per-file nom_voltage/nom_temperature of every loaded group is read from the 
 and written to sta/operating-conditions.json, which is what the FF anomaly report cites.
 
     regen.py            overwrite the committed report and operating-conditions record
+    regen.py --report slice.sta.r2.report.json
+                        write a new appended record beside it; the old report is not touched
 """
 import argparse
 import gzip
@@ -91,6 +93,7 @@ def operating_conditions(libs):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdk-archive")
+    ap.add_argument("--report", default=REPORT.name, help="report file name under sta/")
     args = ap.parse_args()
     with tempfile.TemporaryDirectory(prefix="slice-sta-") as tmp:
         scratch = pathlib.Path(tmp)
@@ -118,9 +121,10 @@ def main():
         if not cp.stdout.strip():
             sys.exit(f"klt sta exited {cp.returncode} with no report:\n{cp.stderr}")
         report = json.loads(cp.stdout)
-    REPORT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    out = HERE / args.report
+    out.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     OPCOND.write_text(json.dumps(operating_conditions(libs), indent=2) + "\n")
-    print(f"klt sta exit {cp.returncode}; wrote {REPORT.name}, {OPCOND.name}")
+    print(f"klt sta exit {cp.returncode}; wrote {out.name}, {OPCOND.name}")
     return 0
 
 

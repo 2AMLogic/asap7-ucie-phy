@@ -13,13 +13,13 @@
       "name": "loopback_rx_faster",
       "status": "passed",
       "sim_time_ns": 13870.0,
-      "real_time_s": 0.116
+      "real_time_s": 0.125
     },
     {
       "name": "loopback_rx_slower",
       "status": "passed",
       "sim_time_ns": 13870.0,
-      "real_time_s": 0.12
+      "real_time_s": 0.119
     },
     {
       "name": "loopback_rx_close",
@@ -34,9 +34,9 @@
     "engine": "icarus",
     "engine_version": "13.0",
     "cocotb_version": "2.1.0",
-    "results_xml": "/tmp/tmp.HggYNC6Mh0/run-16/results_icarus.xml",
-    "test_log": "/tmp/tmp.HggYNC6Mh0/run-16/test_icarus.log",
-    "build_log": "/tmp/tmp.HggYNC6Mh0/run-16/build_icarus.log",
+    "results_xml": "/tmp/tmp.KNnp6e6mUJ/run-16/results_icarus.xml",
+    "test_log": "/tmp/tmp.KNnp6e6mUJ/run-16/test_icarus.log",
+    "build_log": "/tmp/tmp.KNnp6e6mUJ/run-16/build_icarus.log",
     "random_seed": 20261023,
     "source_defines": {},
     "initial_state": null,

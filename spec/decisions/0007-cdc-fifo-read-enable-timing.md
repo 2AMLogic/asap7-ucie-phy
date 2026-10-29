@@ -1,6 +1,6 @@
 # 0007: closing the pre-route setup failure on the CDC FIFO read enable
 
-Status: **proposed** (needs a ruling). Date: 2026-10-27. Issue: #39. Evidence: `sta/worst-path-analysis.md`.
+Status: **accepted** (option 1; operator ruling by rjwalters, 2026-10-29, https://github.com/2AMLogic/asap7-ucie-phy/issues/72#issuecomment-6485141624). Date: 2026-10-27. Issue: #39; implemented under #72. Evidence: `sta/worst-path-analysis.md`.
 
 ## Context
 
