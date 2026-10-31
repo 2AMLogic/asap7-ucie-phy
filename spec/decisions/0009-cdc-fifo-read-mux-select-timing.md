@@ -1,6 +1,6 @@
 # 0009: closing the pre-route setup failure on the CDC FIFO read-mux select
 
-Status: **proposed** (needs a ruling). Date: 2026-10-29. Issue: #72. Evidence: `sta/worst-path-analysis.r2.md`.
+Status: **accepted** (option 3, run as a measurement; operator ruling by rjwalters, 2026-10-30, https://github.com/2AMLogic/asap7-ucie-phy/issues/72). It did not close; options 1 and 2 remain open, see the outcome below. Date: 2026-10-29. Issue: #72. Evidence: `sta/worst-path-analysis.r2.md`.
 
 ## Context
 
@@ -31,3 +31,9 @@ re-derived pin count.
 - 5.digital stays `unmet` until a record shows every corner `constrained` with non-negative setup and hold slack.
 - The 4 GHz row stays unclaimed until post-route STA (#23) with clock uncertainty and `rx_clk` declared
   (klayout-tools#4240, #4241) passes at every corner.
+
+## Outcome of option 3 (#72)
+
+Re-synthesis at 0.25 ns with `abc -constr` (`sta/worst-path-analysis.r3.md`): `sta/slice.sta.r3.report.json`
+gives setup tt -0.06761, ss -0.23081, ff +0.01455 ns, hold positive everywhere. tt and ss still fail, so
+5.digital stays `unmet`. Options 1 and 2 stay in this record as the next levers; neither is ruled.
