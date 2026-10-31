@@ -1,5 +1,9 @@
 # sta
 
+> **Update (#72, r3):** `slice.sta.r3.report.json` is the third record, from a re-synthesis with
+> `abc -constr` and no RTL change (decision 0009 option 3): tt -0.068, ss -0.231, ff +0.015 ns, so still
+> `unmet`; see `worst-path-analysis.r3.md`. Needs klt `main` at or after `b8eaf053a`.
+>
 > **Update (#72):** `slice.sta.r2.report.json` is the second pre-route record, taken after the
 > decision 0007 option-1 RTL change and a 0.25 ns timing-driven synthesis. It still fails setup
 > (tt -0.269, ss -0.520, ff -0.180 ns); see `worst-path-analysis.r2.md` and decision 0009. The tables
