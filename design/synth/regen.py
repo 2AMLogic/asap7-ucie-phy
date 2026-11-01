@@ -19,6 +19,7 @@ import importlib.util
 import json
 import os
 import pathlib
+import re
 import shlex
 import shutil
 import subprocess
@@ -51,7 +52,11 @@ def main():
         archive = L.fetch(scratch, args.pdk_archive)
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
-        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(L.merged_liberty(archive))
+        # 37 INVBUF cells ship `area : <x>` with no terminating `;`. ABC and Yosys accept it,
+        # but klt's cell-list reader stops at the first such cell, so it sees 43 of 202 cells and
+        # rejects `abc_constr.driving_cell`. Scratch copy only; no value changes.
+        liberty = re.sub(r"^area : ([0-9.]+)$", r"area : \1;", L.merged_liberty(archive), flags=re.M)
+        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(liberty)
         (root / "klt-pdk.json").write_text(json.dumps({
             "schema_version": 1, "variant": "asap7",
             "liberty": {"asap7sc7p5t_rvt": {"tt": "lib/asap7sc7p5t_rvt_TT.lib"}}}))
