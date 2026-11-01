@@ -3,6 +3,10 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-01
+
+- **PR #81**: feat(synth): re-synthesize slice with abc -constr and record r3 STA
+
 ### 2026-10-31
 
 - **PR #83**: Bump Repo Skills 0.24.7 -> 0.25.1
