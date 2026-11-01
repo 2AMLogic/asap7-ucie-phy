@@ -1,0 +1,480 @@
+{
+  "clock_mode": "ideal",
+  "clock_targets": {
+    "clock_groups": [],
+    "clocks": [
+      {
+        "period_ns": 0.25,
+        "port": "clk"
+      }
+    ]
+  },
+  "clock_uncertainty": {
+    "applied": false
+  },
+  "corners": [
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_4198_/CLK",
+            "u_cdc/_4199_/CLK",
+            "u_cdc/_4200_/CLK",
+            "u_cdc/_4201_/CLK",
+            "u_cdc/_4202_/CLK",
+            "u_cdc/_4203_/CLK",
+            "u_cdc/_4204_/CLK",
+            "u_cdc/_4205_/CLK",
+            "u_cdc/_4206_/CLK",
+            "u_cdc/_4207_/CLK",
+            "u_cdc/_4208_/CLK",
+            "u_cdc/_4209_/CLK",
+            "u_cdc/_4210_/CLK",
+            "u_cdc/_4211_/CLK",
+            "u_cdc/_4212_/CLK",
+            "u_cdc/_4213_/CLK",
+            "u_cdc/_4214_/CLK",
+            "u_cdc/_4215_/CLK",
+            "u_cdc/_4216_/CLK",
+            "u_cdc/_4217_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "tt",
+      "deck": {
+        "content_hash": "sha256:910057db3b7a926cb2b22d8f54664a2130a28bce2f01d22c6c034226830a3b5c",
+        "name": "asap7sc7p5t_rvt__tt",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": null,
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/f6db4004afa24d87bff64e1059f6cad2",
+          "scope": "repo"
+        },
+        "invocation_id": "f6db4004afa24d87bff64e1059f6cad2",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/f6db4004afa24d87bff64e1059f6cad2/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_asap7__tt_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_asap7__tt.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_asap7__tt.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "fc74c74678d6556efd55fd41daa72b743c3a8a7b3ce95a7a32c915194673a9ec",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/f6db4004afa24d87bff64e1059f6cad2/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/f6db4004afa24d87bff64e1059f6cad2/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.8414,
+      "fmax_mhz": 4049.97,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "estimate_only"
+      },
+      "sdf": null,
+      "setup_violation_count": 0,
+      "spef_annotation": null,
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": 0,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4802_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.0467,
+        "startpoint": "u_cdc/_4798_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.0467,
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4464_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": 0.00308,
+        "startpoint": "u_cdc/_4464_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": 0.00308
+    },
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_4198_/CLK",
+            "u_cdc/_4199_/CLK",
+            "u_cdc/_4200_/CLK",
+            "u_cdc/_4201_/CLK",
+            "u_cdc/_4202_/CLK",
+            "u_cdc/_4203_/CLK",
+            "u_cdc/_4204_/CLK",
+            "u_cdc/_4205_/CLK",
+            "u_cdc/_4206_/CLK",
+            "u_cdc/_4207_/CLK",
+            "u_cdc/_4208_/CLK",
+            "u_cdc/_4209_/CLK",
+            "u_cdc/_4210_/CLK",
+            "u_cdc/_4211_/CLK",
+            "u_cdc/_4212_/CLK",
+            "u_cdc/_4213_/CLK",
+            "u_cdc/_4214_/CLK",
+            "u_cdc/_4215_/CLK",
+            "u_cdc/_4216_/CLK",
+            "u_cdc/_4217_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "ss",
+      "deck": {
+        "content_hash": "sha256:f7f40a8783c61fbea352e0b77206cda1c65a1770f1e987685a46d4e50f682e23",
+        "name": "asap7sc7p5t_rvt__ss",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": null,
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/380031d8a8b142198fe918921d65d43d",
+          "scope": "repo"
+        },
+        "invocation_id": "380031d8a8b142198fe918921d65d43d",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/380031d8a8b142198fe918921d65d43d/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_asap7__ss_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_asap7__ss.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_asap7__ss.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "a61f8850591713204755636955dce13de821595e8431f8d755f6257be19d8fe1",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/380031d8a8b142198fe918921d65d43d/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/380031d8a8b142198fe918921d65d43d/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.6653,
+      "fmax_mhz": 2675.03,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "estimate_only"
+      },
+      "sdf": null,
+      "setup_violation_count": 145,
+      "spef_annotation": null,
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": -11.9048,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4802_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.0674,
+        "startpoint": "u_cdc/_4798_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.0674,
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4464_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": -0.12383,
+        "startpoint": "u_cdc/_4464_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": -0.12383
+    },
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_4198_/CLK",
+            "u_cdc/_4199_/CLK",
+            "u_cdc/_4200_/CLK",
+            "u_cdc/_4201_/CLK",
+            "u_cdc/_4202_/CLK",
+            "u_cdc/_4203_/CLK",
+            "u_cdc/_4204_/CLK",
+            "u_cdc/_4205_/CLK",
+            "u_cdc/_4206_/CLK",
+            "u_cdc/_4207_/CLK",
+            "u_cdc/_4208_/CLK",
+            "u_cdc/_4209_/CLK",
+            "u_cdc/_4210_/CLK",
+            "u_cdc/_4211_/CLK",
+            "u_cdc/_4212_/CLK",
+            "u_cdc/_4213_/CLK",
+            "u_cdc/_4214_/CLK",
+            "u_cdc/_4215_/CLK",
+            "u_cdc/_4216_/CLK",
+            "u_cdc/_4217_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "ff",
+      "deck": {
+        "content_hash": "sha256:9939d79e8a5b889d5c632f1d39764886388b5654d8b08ba85c29966009bfa0c0",
+        "name": "asap7sc7p5t_rvt__ff",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": null,
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/a0657919fa584886874b046181422730",
+          "scope": "repo"
+        },
+        "invocation_id": "a0657919fa584886874b046181422730",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/a0657919fa584886874b046181422730/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_asap7__ff_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_asap7__ff.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_asap7__ff.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "dd29d7a91f184880754a2b1ff31464407768fe5ea075e07388e261553102cce1",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/a0657919fa584886874b046181422730/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/a0657919fa584886874b046181422730/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 1.0772,
+      "fmax_mhz": 5343.65,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "estimate_only"
+      },
+      "sdf": null,
+      "setup_violation_count": 0,
+      "spef_annotation": null,
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": 0,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4802_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.03099,
+        "startpoint": "u_cdc/_4798_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.03099,
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4463_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": 0.06286,
+        "startpoint": "u_cdc/_4464_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": 0.06286
+    }
+  ],
+  "def_path": null,
+  "engine": "openroad",
+  "engine_version": "26Q3-1510-g6cb3f2b704",
+  "geometry_source": "netlist_estimate",
+  "hdl_toplevel": "slice",
+  "macros": [],
+  "provenance": {
+    "deck": null,
+    "input": {
+      "content_hash": "sha256:086d891845b07dfa0cb711db18a2a3efd136d2169519b908f893fb88801447bf",
+      "role": "netlist"
+    },
+    "klayout_version": "0.30.12",
+    "klt_git_commit": "31b24f439f3f5ba17a67a70a3b62ef8899fe189b",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@31b24f439f3f5ba17a67a70a3b62ef8899fe189b",
+    "klt_version": "0.8.1.dev1012+g31b24f439f3f",
+    "pdk": {
+      "name": "asap7",
+      "source": "--pdk-root flag",
+      "version": null
+    }
+  },
+  "schema_version": 2,
+  "spef_path": null,
+  "status": "ok",
+  "verilog_path": {
+    "path": "design/netlist/slice_asap7.v",
+    "scope": "repo"
+  },
+  "wire_load_mode": null,
+  "wire_load_model": null
+}
