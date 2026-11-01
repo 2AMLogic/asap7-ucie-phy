@@ -1,6 +1,6 @@
 # 0009: closing the pre-route setup failure on the CDC FIFO read-mux select
 
-Status: **accepted** (option 3, run as a measurement; operator ruling by rjwalters, 2026-10-30, https://github.com/2AMLogic/asap7-ucie-phy/issues/72). It did not close; options 1 and 2 remain open, see the outcome below. Date: 2026-10-29. Issue: #72. Evidence: `sta/worst-path-analysis.r2.md`.
+Status: **accepted** (option 1, fallback option 2 pre-approved; operator ruling by rjwalters, 2026-11-01, https://github.com/2AMLogic/asap7-ucie-phy/issues/72; earlier ruling 2026-10-30 accepted option 3 as a measurement). Option 3 and option 1 did not close; see the outcomes below. Date: 2026-10-29. Issue: #72. Evidence: `sta/worst-path-analysis.r2.md`.
 
 ## Context
 
@@ -37,3 +37,13 @@ re-derived pin count.
 Re-synthesis at 0.25 ns with `abc -constr` (`sta/worst-path-analysis.r3.md`): `sta/slice.sta.r3.report.json`
 gives setup tt -0.06761, ss -0.23081, ff +0.01455 ns, hold positive everywhere. tt and ss still fail, so
 5.digital stays `unmet`. Options 1 and 2 stay in this record as the next levers; neither is ruled.
+
+## Outcome of option 1 (#72)
+
+Option 1 was built (`rtl/rx_cdc_fifo.v`: registered one-hot read-select `rsel`, `COPIES` parameter, committed
+at 1) after tracing the r3 worst path to the `rbin[2:0]` decode and mux (`sta/worst-path-analysis.r4.md`).
+`sta/slice.sta.r4.report.json`: setup tt +0.00308, ss -0.12383, ff +0.06286 ns, hold positive. ss still fails,
+so 5.digital stays `unmet`. The new worst path is the `rbin[3]` counter increment gated by `empty`, not the
+mux. Replicating `rsel` (`COPIES` 2, 4, 8) was worse, because each copy loads the `!empty` enable. Option 2 was
+measured (not committed, no r5 record): ss -0.12309 ns, the same limiting path, for one `rclk` more latency,
+so it was not adopted. The next lever is on the pointer/`empty` path and is not ruled.

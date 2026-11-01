@@ -1,5 +1,9 @@
 # sta
 
+> **Update (#72, r4):** `slice.sta.r4.report.json` is the fourth record, after the registered one-hot
+> read-select (decision 0009 option 1): tt +0.003, ss -0.124, ff +0.063 ns, so still `unmet` (ss); see
+> `worst-path-analysis.r4.md`. Needs klt `main` at or after `b8eaf053a`.
+>
 > **Update (#72, r3):** `slice.sta.r3.report.json` is the third record, from a re-synthesis with
 > `abc -constr` and no RTL change (decision 0009 option 3): tt -0.068, ss -0.231, ff +0.015 ns, so still
 > `unmet`; see `worst-path-analysis.r3.md`. Needs klt `main` at or after `b8eaf053a`.

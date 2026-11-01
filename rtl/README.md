@@ -9,7 +9,7 @@ section 2).
 | `slice.v` | Slice wrapper: `N` data lanes (default 16; 8 also elaborates) plus one forwarded-clock lane, handshake, CDC |
 | `lane_tx_ser.v` | Per-lane TX: 4-bit word to two 2-bit streams, stops at the drawn-cell boundary |
 | `lane_rx_des.v` | Per-lane RX: two 2-bit streams from the drawn cell back to a 4-bit word |
-| `rx_cdc_fifo.v` | 8-entry gray-pointer async FIFO from the forwarded-clock domain into the parallel clock |
+| `rx_cdc_fifo.v` | 8-entry gray-pointer async FIFO from the forwarded-clock domain into the parallel clock; registered one-hot read select (decision 0009), no latency change |
 
 ## Drawn-cell boundary ports (spec section 4)
 
