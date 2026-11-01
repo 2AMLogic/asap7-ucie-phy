@@ -84,7 +84,7 @@ def operating_conditions(libs):
         points = {(v["nom_voltage"], v["nom_temperature"]) for v in files.values()}
         rec[c] = {"files": files, "uniform": len(points) == 1}
     return {"schema": "asap7-ucie-phy.sta.operating-conditions/1",
-            "source": f"lambdapdk v0.2.17 sha256:{L.SHA256}",
+            "source": f"lambdapdk v{L.VERSION} sha256:{L.SHA256}",
             "note": "read from each original Liberty header; the merged Liberty handed to "
                     "klt sta carries the AO group's header only",
             "corners": rec}
