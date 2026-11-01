@@ -41,7 +41,6 @@ flow/build/
 .loom/claims/
 .loom/locks/
 .loom/signals/
-.loom/sweep-dispatch-tap/
 .loom/status/
 .loom/retry-state/
 .loom/exit-codes/
@@ -105,3 +104,6 @@ verification/*.negative-control.report.json
 
 # klt sta scratch (logs, generated Tcl, metrics); the report is sta/slice.sta.report.json
 sta/.klt/
+
+# Repo Skills Codex-side machine-local install metadata (never committed)
+.agents/skills/repo/.install-local.json

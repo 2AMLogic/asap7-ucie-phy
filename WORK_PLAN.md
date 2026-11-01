@@ -39,7 +39,7 @@ _None._
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#81**: feat(synth): re-synthesize slice with abc -constr and record r3 STA
 
 ## Approved (Awaiting Merge)
 
@@ -72,7 +72,7 @@ _None._
 | Important | 2 |
 | Ready (`loom:issue`) | 1 |
 | In Progress (`loom:building`) | 0 |
-| PRs awaiting review | 0 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 3 |
 | Architect / Hermit proposals | 0 |
