@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "lvs-attempt-record",
+  "t1_item": 4,
+  "partition": "digital",
+  "status": "fail",
+  "summary": "Routed-datapath LVS was refused by klt before a compare: layout/slice_routed.gds is written at dbu 0.001 um and the asap7 deck requires 0.00025 um. No report exists; this is not a match and not evidence of one.",
+  "note": "ASAP7 is predictive; tool result only. Append-only; item4-attempts.json is left as written (its digital row recorded a different refusal, reference.form, which klayout-tools#4462 has since closed).",
+  "klt_version": "0.8.1.dev1073+gbe5754378ff3",
+  "klayout_version": "0.30.12",
+  "input": "layout/slice_routed.gds",
+  "input_hash": "sha256:1183fa3e203186d06a7caf27fefd87eadac5bdd9ccf26259ba736003e29dfd1f",
+  "reference": "design/netlist/slice_asap7.v",
+  "reference_hash": "sha256:086d891845b07dfa0cb711db18a2a3efd136d2169519b908f893fb88801447bf",
+  "request": {
+    "layout": {
+      "file": "layout/slice_routed.gds",
+      "deck": "asap7",
+      "top": "slice"
+    },
+    "reference": {
+      "netlist": "design/netlist/slice_asap7.v",
+      "top": "slice",
+      "form": "gate-level-verilog",
+      "pdk": "asap7",
+      "pdk_root": "<pinned lambdapdk v0.2.17 tree, archive sha256 ac7e950c...efff2, unpacked in scratch>"
+    },
+    "options": {
+      "finfet_bulk": {
+        "nmos": "VSS",
+        "pmos": "VDD"
+      }
+    }
+  },
+  "result": "refused, no report",
+  "exit": 1,
+  "klt_message": "deck 'asap7' measures FinFET geometry at dbu 0.00025 um, but the layout's dbu is 0.001 um; refusing to rescale (a stream written at a different scale would extract wrong gate lengths and fin pitches)",
+  "not_done": "No rescaled scratch copy was run and no deck or option was relaxed. The fix belongs to the P&R stream writer (emit slice at dbu 0.00025 um, as the cells already are); out of scope for this issue."
+}

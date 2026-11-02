@@ -164,3 +164,25 @@ supersedes the shipped-cell LVS row only. Predictive-model tool results; nothing
   Nothing was waived or relaxed to get past these.
 - Filed: 2AMLogic/klayout-tools#4462 (gate-level-verilog reference on a FinFET deck); this repo #52
   (drawn cells: dbu, wells, routing).
+
+## LVS under klt 0.8.1.dev1073 (appended 2026-11-02, issue #20)
+
+Recorded with `klt 0.8.1.dev1073+gbe5754378ff3`, KLayout 0.30.12. Earlier sections are left as
+written. Predictive-model tool results only.
+
+- **Drawn TX/RX cells: `status: match`** for `tx_cell`, `rx_cell`, `tx_clk_cell` and `rx_clk_cell`
+  against `design/netlist/*.sp`, engine `klayout`, `power_connectivity: unchecked` (a plain-element
+  schematic reference, so the power-connectivity check does not apply). Each report carries two
+  `device.finfet_bulk_tied` warnings from the disclosed `options.finfet_bulk` policy (nmos bulk to
+  VSS, pmos bulk to VDD). Reports: `evidence/item4-lvs/*_cell.r2.report.json`; `klt lvs --check`
+  returns `match` for each. The `.report.json` files from 2026-10-28 are superseded, not edited:
+  the cell GDS was redrawn afterwards (`83210e9`) and they no longer re-hash.
+- **Routed datapath: no report.** The `gate-level-verilog` refusal is gone (klayout-tools#4462 is
+  closed), but `layout/slice_routed.gds` is at dbu 0.001 um and the deck requires 0.00025 um, so
+  `klt lvs` refuses before comparing. Recorded in `evidence/item4-slice-attempt.r2.json`. No rescaled
+  copy was run and nothing was waived. Fix: emit the slice stream at dbu 0.00025 um, as the cells
+  already are (P&R stream writer, outside this issue).
+- **Grading:** `klt signoff --manifest` still reports item 4 `unmet` for both partitions
+  (analog `stale_evidence` with no detail, although `klt signoff <report>` passes each report;
+  digital `unrecognized_envelope`, the attempt record not being a klt envelope). Filed:
+  2AMLogic/klayout-tools#4795.
