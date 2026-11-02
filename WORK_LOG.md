@@ -5,6 +5,9 @@ triage role; entries are newest first.
 
 ### 2026-11-01
 
+- **PR #90**: fix: derive lambdapdk version in sta/regen.py from the single pin
+- **Issue #88** (closed): Derive lambdapdk version in sta/regen.py from the single pin (L.VERSION)
+
 - **PR #86**: feat(rtl): registered one-hot read-select in rx_cdc_fifo, record r4 STA
 - **PR #81**: feat(synth): re-synthesize slice with abc -constr and record r3 STA
 
