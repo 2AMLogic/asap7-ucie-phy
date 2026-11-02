@@ -3,6 +3,14 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-02
+
+- **PR #96**: docs(evidence): record routed-datapath LVS refusal on pin-name case (r4)
+- **PR #95**: docs(evidence): record routed-datapath LVS refusal on escaped module name
+- **PR #94**: fix(layout): write the routed slice GDS at dbu 0.00025 um via output_dbu_um
+- **Issue #93** (closed): Layout: write the routed slice GDS at dbu 0.00025 um so klt lvs accepts it
+- **PR #92**: docs(evidence): fresh drawn-cell LVS matches and refused routed-datapath LVS record
+
 ### 2026-11-01
 
 - **PR #90**: fix: derive lambdapdk version in sta/regen.py from the single pin
