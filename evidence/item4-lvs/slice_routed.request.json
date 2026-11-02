@@ -1,0 +1,3 @@
+{"layout":{"file":"../../layout/slice_routed.gds","deck":"asap7","top":"slice"},
+ "reference":{"netlist":"../../design/netlist/slice_asap7.v","top":"slice"},
+ "options":{"finfet_bulk":{"nmos":"VSS","pmos":"VDD"}}}

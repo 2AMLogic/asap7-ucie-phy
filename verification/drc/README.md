@@ -41,6 +41,10 @@ Causes on the slice, in order of effect:
    after a coordinate/4 rescale to 0.001. The regenerated slice drops from 125,470 to 22,711 under a lossless
    x4 upscale (all of `GATE.S.3`, 102,517, and `GATE.S.1`). `klt place-and-route` has no output-dbu
    option (2AMLogic/klayout-tools#4482), so `layout/slice_routed.gds` run directly still shows them.
+   *Note, 2026-11-02 (#93): superseded. klayout-tools#4482 was closed by klt PR #4484, which adds the request field
+   `output_dbu_um`; `layout/pnr/slice.pnr.json` now sets it to 0.00025 and `layout/slice_routed.gds` is written at dbu
+   0.00025 (`klt cells`; `gds_dbu_um` in `slice.pnr.report.json`). The sentence above is the record as of that run.
+   The figures in this file were not re-measured on the regenerated stream.*
 3. **Left on the slice (22,711 at dbu 0.00025), not fixed.** Router metal against the deck's auxiliary rules:
    `M4.AUX.1` 9,640 and `M4.AUX.2` 9,800 (point markers), `V4.M5.AUX.2` 1,248, `M5.AUX.*` 1,256,
    `M4.W.3` 146, `M6.AUX.*` 112, `M1.S.*` 131, `M3.S.2` 14, plus `SDT.ACTIVE.AUX.2` 364 inside shipped
