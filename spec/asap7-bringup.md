@@ -203,3 +203,17 @@ written. Predictive-model tool results only.
   through `reference.pin_order_files`.
 - Item 4 of T1 therefore stays **unmet** for the digital partition. The drawn-cell matches from the
   2026-11-02 section above are unchanged.
+
+## LVS under klt 0.8.1.dev1115 (appended 2026-11-02, issue #20)
+
+Recorded with `klt 0.8.1.dev1115+gb95f23605176` (throwaway `uvx` environment at klayout-tools
+`b95f236`; the host `klt` is `dev1094`, predates the fix and still gives the previous refusal).
+Earlier sections are left as written. Predictive-model tool results only.
+
+- **Routed datapath: still no report.** The escaped-module-name refusal is gone (klayout-tools#4810
+  closed by #4812). The reader now refuses on pin-name case: the synthesized netlist connects
+  `RESETN`/`SETN` (Liberty spelling) on `DFFASRHQNx1_ASAP7_75t_R`, while the pin-order CDL declares
+  `RESETn`/`SETn`. No compare ran. Recorded in `evidence/item4-slice-attempt.r4.json`, reusing
+  `evidence/item4-lvs/slice_routed.r3.request.json`. The netlist was not edited and nothing was
+  waived. Filed: 2AMLogic/klayout-tools#4815.
+- Item 4 of T1 stays **unmet** for the digital partition. The drawn-cell matches are unchanged.
