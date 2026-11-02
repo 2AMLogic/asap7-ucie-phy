@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "error": {
+    "command": "lvs",
+    "message": "could not parse reference netlist '<repo>/evidence/item4-lvs/../../design/netlist/slice_asap7.v': RuntimeError: std::bad_alloc in NetlistSpiceReaderDelegate.parse_element in NetlistSpiceReaderDelegate.parse_element in <repo>/design/netlist/slice_asap7.v, line 3 in Netlist.read"
+  },
+  "_note": "klt 0.8.1.dev1073+gbe5754378ff3 stderr, exit 1, on slice_routed.request.json; <repo> replaces the absolute worktree path. klt's stdout carried ~1.7 MB of 'Warning: Line ignored / Control statement ignored' lines from the SPICE reader parsing the gate-level Verilog (first at slice_asap7.v line 1); omitted. No LVS report was produced: the reference is rejected before the layout is read, so the dbu is no longer the blocker."
+}

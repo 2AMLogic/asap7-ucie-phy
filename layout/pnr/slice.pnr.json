@@ -128,5 +128,6 @@
     "clock_period_ns": 0.5
   },
   "seed": 1,
+  "output_dbu_um": 0.00025,
   "target_stage": "route"
 }
