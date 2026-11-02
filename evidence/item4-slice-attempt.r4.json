@@ -1,0 +1,23 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "status": "fail",
+ "summary": "Routed-datapath LVS was refused by klt before a compare: with the escaped-module-name refusal fixed upstream (klayout-tools#4812), the gate-level-verilog reader now refuses on pin-name case (Liberty RESETN/SETN vs CDL RESETn/SETn). No report exists; this is not a match and not evidence of one.",
+ "note": "ASAP7 is predictive; tool result only. Append-only; item4-slice-attempt.r2.json and item4-attempts.json are left as written. The netlist, layout and deck were not edited and no option was waived.",
+ "klt_version": "0.8.1.dev1115+gb95f23605176",
+ "klayout_version": "0.30.12",
+ "input": "layout/slice_routed.gds",
+ "input_hash": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e",
+ "reference": "design/netlist/slice_asap7.v",
+ "reference_hash": "sha256:086d891845b07dfa0cb711db18a2a3efd136d2169519b908f893fb88801447bf",
+ "request_file": "evidence/item4-lvs/slice_routed.r3.request.json",
+ "request_notes": "Same request as r3, reused unchanged. pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2, unpacked in /tmp scratch, not committed). pin_order_files names asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl because reference.library looks for spice/ or cdl/ directories that this tree does not have.",
+ "result": "refused, no report",
+ "exit": 1,
+ "klt_message": "could not convert gate-level-verilog reference netlist to plain-element form: library cell 'DFFASRHQNx1_ASAP7_75t_R' is instantiated with connection(s) to pin(s) ['RESETN', 'SETN'] that are not in its resolved PDK pin list ['CLK', 'D', 'QN', 'RESETn', 'SETn', 'VDD', 'VSS']",
+ "upstream": "2AMLogic/klayout-tools#4815 (supersedes #4810, closed by #4812)",
+ "not_done": "The netlist was not edited to rename pins and no option was waived: the netlist spelling comes from the Liberty file and changing it would alter the hashed reference input.",
+ "klt_source": "throwaway uvx env, git+https://github.com/2AMLogic/klayout-tools.git@b95f2360517655cf401f5490bb0b0f6b09effbba (host klt 0.8.1.dev1094 predates #4812 and still gives the r3 refusal; host tool not changed)"
+}
