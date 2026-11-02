@@ -186,3 +186,20 @@ written. Predictive-model tool results only.
   (analog `stale_evidence` with no detail, although `klt signoff <report>` passes each report;
   digital `unrecognized_envelope`, the attempt record not being a klt envelope). Filed:
   2AMLogic/klayout-tools#4795.
+
+## LVS under klt 0.8.1.dev1084 (appended 2026-11-02, issue #20)
+
+Recorded with `klt 0.8.1.dev1084+g7eebf2d2d867`, KLayout 0.30.12. Earlier sections are left as
+written. Predictive-model tool results only.
+
+- **Routed datapath: still no report.** With `layout/slice_routed.gds` now at the deck's dbu, `klt lvs`
+  gets past the dbu and `reference.form` refusals but stops reading the reference: the
+  `gate-level-verilog` reader does not support the Yosys escaped module name
+  `\$paramod\rx_cdc_fifo\W=s32'...1000000` in `design/netlist/slice_asap7.v`. No compare ran. Recorded in
+  `evidence/item4-slice-attempt.r3.json` with the request in `evidence/item4-lvs/slice_routed.r3.request.json`.
+  The netlist was not edited and nothing was waived. Filed: 2AMLogic/klayout-tools#4810.
+- **Request note:** `reference.library` could not resolve pin order from the pinned lambdapdk tree
+  (it looks for `spice/` or `cdl/` directories; the tree has `netlist/`), so the request names the CDL
+  through `reference.pin_order_files`.
+- Item 4 of T1 therefore stays **unmet** for the digital partition. The drawn-cell matches from the
+  2026-11-02 section above are unchanged.
