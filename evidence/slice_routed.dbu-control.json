@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "kind": "dbu-equivalence-control",
+  "issue": 93,
+  "summary": "Same-netlist control: layout/pnr/slice.pnr.json run with and without output_dbu_um on the current netlist. Flattened geometry is identical on all 29 layer/datatype pairs once the control is rescaled to dbu 0.00025 um. Layout geometry only; predictive PDK, nothing fabricated.",
+  "inputs": {
+    "netlist": "design/netlist/slice_asap7.v",
+    "netlist_sha256": "sha256:086d891845b07dfa0cb711db18a2a3efd136d2169519b908f893fb88801447bf",
+    "control_request": "layout/pnr/slice.pnr.json with the output_dbu_um key removed",
+    "regen": "python3 -I layout/pnr/regen.py, run in a scratch copy of the PR head"
+  },
+  "streams": {
+    "control": {"dbu_um": 0.001, "sha256": "sha256:661525e3a966c5d32a255f9f0e31dbd5b7eef5bbd3f5506330d1a41313866581", "note": "scratch output, not committed"},
+    "committed": {"path": "layout/slice_routed.gds", "dbu_um": 0.00025, "sha256": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e"}
+  },
+  "comparison": {
+    "klt_diff": "status: different. Not usable as the equivalence test here: klt diff never ignores the database unit (0.001 vs 0.00025) and the committed stream names its variant cells with a $VARn suffix that the control stream lacks.",
+    "method": "klayout.db 0.30.12: flatten the top cell per layer/datatype, scale the control Region by control_dbu/committed_dbu, XOR against the committed Region",
+    "layers_compared": 29,
+    "layers_with_nonzero_xor": 0
+  },
+  "klt_version": "0.8.1.dev1080+ge2dd61498b57",
+  "klayout_version": "0.30.12"
+}

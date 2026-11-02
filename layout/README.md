@@ -175,3 +175,9 @@ klt signoff --attest 2 --input layout/lane_column.gds --generator "python3 layou
 `attest/item2.json` pins the column and its input streams by sha256. `evidence/item2.json` was produced
 with klt `0.8.1.dev497+g74e41260c360`: the pinned `0.8.0` has no `--attest 2` producer, but it grades the
 envelope (`klt signoff --manifest`) the same way, and the committed verdict was rendered with `0.8.0`.
+
+**Record r6 (issue #93).** The routed slice was regenerated at `output_dbu_um` 0.00025 um from the current netlist, so
+`layout/lane_column.gds` changed. `attest/item2.r6.json` / `evidence/item2.r6.json` supersede r5 (kept as history) and
+are the records cited by the manifest. `evidence/slice_routed.dbu-control.json` records a same-netlist control (with and
+without `output_dbu_um`): the flattened geometry is identical on all 29 layers after rescaling. The change from the r5
+stream is regenerated routing from the newer netlist, not the dbu. DRC figures are not re-measured here.
