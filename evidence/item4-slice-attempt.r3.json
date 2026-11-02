@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "kind": "lvs-attempt-record",
+  "t1_item": 4,
+  "partition": "digital",
+  "status": "fail",
+  "summary": "Routed-datapath LVS was refused by klt before a compare: the gate-level-verilog reader rejects the reference netlist's Yosys escaped module name. The dbu and reference.form refusals recorded in item4-slice-attempt.r2.json are gone. No report exists; this is not a match and not evidence of one.",
+  "note": "ASAP7 is predictive; tool result only. Append-only; item4-slice-attempt.r2.json and item4-attempts.json are left as written. The netlist, layout and deck were not edited and no option was waived.",
+  "klt_version": "0.8.1.dev1084+g7eebf2d2d867",
+  "klayout_version": "0.30.12",
+  "input": "layout/slice_routed.gds",
+  "input_hash": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e",
+  "reference": "design/netlist/slice_asap7.v",
+  "reference_hash": "sha256:086d891845b07dfa0cb711db18a2a3efd136d2169519b908f893fb88801447bf",
+  "request_file": "evidence/item4-lvs/slice_routed.r3.request.json",
+  "request_notes": "pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2, unpacked in /tmp scratch, not committed). pin_order_files names asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl because reference.library looks for spice/ or cdl/ directories that this tree does not have.",
+  "result": "refused, no report",
+  "exit": 1,
+  "klt_message": "could not convert gate-level-verilog reference netlist to plain-element form: 'module' declaration uses an escaped identifier (\"\\\\$paramod\\\\rx_cdc_fifo\\\\W=s32'00000000000000000000000001000000\"), which this reader does not support (e.g. a Yosys '\\$paramod$<hash>\\<name>' module); flatten the netlist or rename the module first",
+  "upstream": "2AMLogic/klayout-tools#4810",
+  "not_done": "The netlist was not flattened or renamed: that would change the hashed reference input and belongs to the synthesis step (#17's output), not to this evidence. Follow-up is a decision for that step or an upstream fix."
+}
