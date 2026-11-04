@@ -3,6 +3,10 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-04
+
+- **PR #98**: feat(rtl): register empty and next Gray pointer in rx_cdc_fifo, record r5/r6 STA
+
 ### 2026-11-02
 
 - **PR #96**: docs(evidence): record routed-datapath LVS refusal on pin-name case (r4)
