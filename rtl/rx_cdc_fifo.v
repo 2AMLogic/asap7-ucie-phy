@@ -9,7 +9,10 @@ module rx_cdc_fifo #(
     parameter W = 4,
     // Replicas of the registered one-hot read-select; each drives about W/COPIES
     // data bits (decision 0009 option 1). COPIES must divide W.
-    parameter COPIES = 1
+    parameter COPIES = 2,
+    // 1 adds a read-pipeline stage between the 8:1 mux and rdata/rvalid, one rclk
+    // more latency (#72 r6, decision 0009). Measured, not adopted: 0.
+    parameter RPIPE = 0
 ) (
     input  wire           wclk,
     input  wire           wrst_n,
@@ -20,6 +23,10 @@ module rx_cdc_fifo #(
     output reg  [W-1:0]   rdata,
     output reg            rvalid
 );
+    // Optional read-pipeline stage (RPIPE = 1): rdata_p/rvalid_p hold the word one
+    // rclk before rdata/rvalid. Unused, and removed by synthesis, when RPIPE = 0.
+    reg [W-1:0] rdata_p;
+    reg         rvalid_p;
     reg [W-1:0] mem [0:7];
 
     reg  [3:0] rbin, rgray;
@@ -52,7 +59,7 @@ module rx_cdc_fifo #(
     end
 
     // read side
-    reg  [3:0] wgray_r1, wgray_r2;
+    reg  [3:0] wgray_r1;
 
     // Registered one-hot read select, replicated. rsel[c][k] is high when
     // rbin[2:0] == k; it advances exactly when rbin does, so the mux needs no
@@ -76,30 +83,54 @@ module rx_cdc_fifo #(
 
     wire [3:0] rbin_n  = rbin + 4'd1;
     wire [3:0] rgray_n = rbin_n ^ (rbin_n >> 1);
-    wire       empty   = (rgray == wgray_r2);
     integer ci;
+
+    // Registered `empty` (decision 0009 follow-up, #72 r5). Equal to
+    // (rgray == wgray_r2) on every cycle, where wgray_r2 is the second synchronizer
+    // stage, i.e. wgray_r1 delayed one rclk; it is computed one cycle ahead from the
+    // next-state pointers so the pointer increment is gated by a flop output
+    // instead of a 4-bit Gray compare. wgray_r2 would take wgray_r1 on the next
+    // edge, so wgray_r2 is not kept as a register; rgray takes rgray_n only if the
+    // FIFO is not empty now. Both compares are
+    // formed in parallel and `empty` only selects between them. No latency change.
+    // rgray_nx is a registered copy of rgray_n (Gray code of rbin + 1), advanced
+    // with the pointer, so the advance-case compare starts at a flop and does not
+    // pass through the incrementer carry chain.
+    reg        empty;
+    reg  [3:0] rgray_nx;
+    wire [3:0] rbin_n2   = rbin + 4'd2;
+    wire [3:0] rgray_n2  = rbin_n2 ^ (rbin_n2 >> 1);
+    wire       eq_hold = (rgray    == wgray_r1);
+    wire       eq_adv  = (rgray_nx == wgray_r1);
+    wire       empty_n = empty ? eq_hold : eq_adv;
 
     always @(posedge rclk or negedge rrst_n) begin
         if (!rrst_n) begin
             rbin     <= 4'd0;
             rgray    <= 4'd0;
             wgray_r1 <= 4'd0;
-            wgray_r2 <= 4'd0;
+            empty    <= 1'b1;
+            rgray_nx <= 4'b0001;
+            rdata_p  <= {W{1'b0}};
+            rvalid_p <= 1'b0;
             rdata    <= {W{1'b0}};
             rvalid   <= 1'b0;
             for (ci = 0; ci < COPIES; ci = ci + 1)
                 rsel[ci] <= 8'b0000_0001;
         end else begin
             wgray_r1 <= wgray;
-            wgray_r2 <= wgray_r1;
-            rvalid   <= !empty;
+            empty    <= empty_n;
+            rvalid_p <= !empty;
+            rvalid   <= RPIPE ? rvalid_p : !empty;
             // rdata loads every edge so `empty` does not fan out to the data
             // bits (decision 0007); rvalid marks the word, rdata is undefined
             // while rvalid is low.
-            rdata    <= rdata_n;
+            rdata_p  <= rdata_n;
+            rdata    <= RPIPE ? rdata_p : rdata_n;
             if (!empty) begin
                 rbin  <= rbin_n;
                 rgray <= rgray_n;
+                rgray_nx <= rgray_n2;
                 for (ci = 0; ci < COPIES; ci = ci + 1)
                     rsel[ci] <= {rsel[ci][6:0], rsel[ci][7]};
             end

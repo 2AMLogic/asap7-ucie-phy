@@ -47,3 +47,20 @@ so 5.digital stays `unmet`. The new worst path is the `rbin[3]` counter incremen
 mux. Replicating `rsel` (`COPIES` 2, 4, 8) was worse, because each copy loads the `!empty` enable. Option 2 was
 measured (not committed, no r5 record): ss -0.12309 ns, the same limiting path, for one `rclk` more latency,
 so it was not adopted. The next lever is on the pointer/`empty` path and is not ruled.
+
+## Outcome of the pointer/`empty` restructure and the latency step (#72, operator ruling r5-q41)
+
+Ruled 2026-11-04: restructure the read-pointer / `empty` path first with no latency change, then, only if that
+does not close every corner, allow one extra `rclk` of latency on `rx_valid`/`rx_data`; stop and report if
+neither closes ss. Both steps were run (`sta/worst-path-analysis.r5.md`).
+
+- **Restructure (r5):** `empty` registered and computed from the next-state pointers, plus a registered Gray
+  code of `rbin + 1` (`rtl/rx_cdc_fifo.v`), `COPIES = 2`. `sta/slice.sta.r5.report.json`: setup tt +0.02954,
+  ss -0.0969, ff +0.08471 ns, hold positive. ss improved from -0.12383 but still fails.
+- **Latency step (r6):** a read-pipeline stage behind `RPIPE = 1`. `sta/slice.sta.r6.report.json`: ss -0.09729 ns.
+  The limiter is the `empty` flop's own loop, which the stage does not touch. The cocotb suite passes with the
+  extra cycle (the valid-only RX interface tolerates it), but it was **not adopted** (`RPIPE` default 0)
+  because it costs a cycle for no timing gain.
+- 5.digital stays `unmet`. Per the ruling no third lever was tried. The remaining path is the four-cell
+  `empty` loop; any further change to it needs a new ruling. Option 4 and any constraint, period or waiver
+  change stay rejected.

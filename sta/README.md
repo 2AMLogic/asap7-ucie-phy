@@ -1,5 +1,10 @@
 # sta
 
+> **Update (#72, r5/r6):** `slice.sta.r5.report.json` (registered `empty`, no latency change) and
+> `slice.sta.r6.report.json` (plus one `rclk` of read-pipeline latency, `RPIPE = 1`, not adopted) are the
+> fifth and sixth records. r5: tt +0.030, ss -0.097, ff +0.085 ns; r6: ss -0.097 ns. Still `unmet` (ss); see
+> `worst-path-analysis.r5.md`. Needs klt `main` at or after `b8eaf053a`.
+>
 > **Update (#72, r4):** `slice.sta.r4.report.json` is the fourth record, after the registered one-hot
 > read-select (decision 0009 option 1): tt +0.003, ss -0.124, ff +0.063 ns, so still `unmet` (ss); see
 > `worst-path-analysis.r4.md`. Needs klt `main` at or after `b8eaf053a`.

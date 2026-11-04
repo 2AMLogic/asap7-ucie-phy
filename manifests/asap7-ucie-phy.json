@@ -7,11 +7,11 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r6.json",
+      "file": "evidence/item1.r7.json",
       "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "1.digital": {
-      "file": "evidence/item1.r6.json",
+      "file": "evidence/item1.r7.json",
       "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b"
     },
     "6.digital": {
@@ -36,8 +36,8 @@
     },
     "5.digital": [
       {
-        "file": "sta/slice.sta.r4.report.json",
-        "content_hash": "sha256:ac28a7870dd7b1147ae09936056c8a505e5ef4f61f2425a4f430a70fd1bb3233"
+        "file": "sta/slice.sta.r5.report.json",
+        "content_hash": "sha256:8340b6cf070d7a7cf99964e0cff27bfdf59aaa5e71181196f4fbfbee9e8bd6de"
       },
       {
         "file": "verification/functional-verification-16.report.json"
