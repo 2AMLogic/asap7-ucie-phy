@@ -36,8 +36,8 @@
     },
     "5.digital": [
       {
-        "file": "sta/slice.sta.r4.report.json",
-        "content_hash": "sha256:ac28a7870dd7b1147ae09936056c8a505e5ef4f61f2425a4f430a70fd1bb3233"
+        "file": "sta/slice.sta.r5.report.json",
+        "content_hash": "sha256:8340b6cf070d7a7cf99964e0cff27bfdf59aaa5e71181196f4fbfbee9e8bd6de"
       },
       {
         "file": "verification/functional-verification-16.report.json"

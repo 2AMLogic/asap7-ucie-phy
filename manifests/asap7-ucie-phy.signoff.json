@@ -268,7 +268,7 @@
       "citation": null,
       "citations_graded": [
         {
-          "citation": "sta/slice.sta.r4.report.json",
+          "citation": "sta/slice.sta.r5.report.json",
           "status": "unmet",
           "reason": "check_failed"
         },
@@ -285,7 +285,7 @@
       ],
       "detail": {
         "failed_citations": [
-          "sta/slice.sta.r4.report.json"
+          "sta/slice.sta.r5.report.json"
         ]
       }
     },
