@@ -1,0 +1,59 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "status": "fail",
+ "summary": "Routed-datapath LVS ran a compare under released klt 0.9.0 and reports status mismatch. The layout side extracted 0 devices against 29356 in the reference, so nothing matched; the pin-name-case refusal recorded in r4 no longer occurs. Not a match and not evidence of one.",
+ "note": "ASAP7 is predictive; tool result only. Append-only; item4-slice-attempt.r2.json and item4-attempts.json are left as written. The netlist, layout and deck were not edited and no option was waived.",
+ "klt_version": "0.9.0",
+ "klayout_version": "0.30.12",
+ "input": "layout/slice_routed.gds",
+ "input_hash": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e",
+ "reference": "design/netlist/slice_asap7.v",
+ "reference_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+ "request_file": "evidence/item4-lvs/slice_routed.r5.request.json",
+ "request_notes": "Byte-identical to evidence/item4-lvs/slice_routed.r3.request.json. pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2, verified, unpacked in /tmp scratch, not committed).",
+ "result": "mismatch, report committed",
+ "exit": 3,
+ "klt_message": "could not convert gate-level-verilog reference netlist to plain-element form: library cell 'DFFASRHQNx1_ASAP7_75t_R' is instantiated with connection(s) to pin(s) ['RESETN', 'SETN'] that are not in its resolved PDK pin list ['CLK', 'D', 'QN', 'RESETn', 'SETn', 'VDD', 'VSS']",
+ "upstream": "2AMLogic/klayout-tools#4815 (closed): the refusal it reported no longer occurs in 0.9.0",
+ "not_done": "The netlist, layout, deck and options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005). finfet_bulk is the same assertion as r2 to r4 and the report flags it as device.finfet_bulk_tied warnings.",
+ "klt_source": "throwaway uvx env, uvx --with klayout --from klayout-tools==0.9.0 klt (host klt 0.9.1.dev18 not used; host tool not changed)",
+ "report_file": "evidence/item4-lvs/slice_routed.r5.report.json",
+ "report_status": "mismatch",
+ "report_counts": {
+  "nets": {
+   "layout": 2775,
+   "reference": 15718,
+   "matched": 0
+  },
+  "devices": {
+   "layout": 0,
+   "reference": 29356,
+   "matched": 0
+  },
+  "pins": {
+   "layout": 201,
+   "reference": 266,
+   "matched": 0
+  }
+ },
+ "report_category_counts": {
+  "device.finfet_bulk_tied": 168,
+  "hints.rejected": 200,
+  "net.supply_fragmented": 84,
+  "reference.gate_level_pin_case_folded": 2,
+  "topology": 85,
+  "topology.flattened": 1,
+  "topology.reference_port_alias_joined": 4,
+  "topology.top_level_pins_anchored": 1
+ },
+ "report_category_error_counts": {
+  "hints.rejected": 200,
+  "topology": 85
+ },
+ "power_connectivity_status": "unchecked",
+ "observed": "counts.devices layout 0 / reference 29356; nets 2775 / 15718; pins 201 / 266; matched 0 in each. Top circuit slice/SLICE 'could not be matched to a counterpart'; 200 anchored top-level pins rejected as hints. net.supply_fragmented on 84 library-cell circuits (VDD in 2 layout nets). The reference conversion case-folded RESETN/SETN on DFFASRHQNx1_ASAP7_75t_R (reference.gate_level_pin_case_folded, warning).",
+ "cause_not_determined": "Why the layout extracts no devices (whether the routed GDS carries transistor-level geometry for the placed standard cells) was not investigated here; it is not claimed."
+}

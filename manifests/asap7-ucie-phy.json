@@ -72,9 +72,15 @@
         "content_hash": "sha256:1fecfcddab9aec15b137174e86f22ad41efaf5bed3ef37c48e2f7d5aa72889dc"
       }
     ],
-    "4.digital": {
-      "file": "evidence/item4-slice-attempt.r2.json",
-      "content_hash": "sha256:38f58aaa2d228c30e9cb0ed4964d8009b41c15566a0f0eac62b75f9bdd8b1cf4"
-    }
+    "4.digital": [
+      {
+        "file": "evidence/item4-lvs/slice_routed.r5.report.json",
+        "content_hash": "sha256:ddfbc1ca9b78f7da46d75a7a762123a4dba66e87392eb8648269e13fe0b37762"
+      },
+      {
+        "file": "evidence/item4-slice-attempt.r5.json",
+        "content_hash": "sha256:9c7b135c8dbabae2dbc41f23f668b17e9afb929c5603de100aa9e03929375544"
+      }
+    ]
   }
 }

@@ -217,3 +217,25 @@ Earlier sections are left as written. Predictive-model tool results only.
   `evidence/item4-lvs/slice_routed.r3.request.json`. The netlist was not edited and nothing was
   waived. Filed: 2AMLogic/klayout-tools#4815.
 - Item 4 of T1 stays **unmet** for the digital partition. The drawn-cell matches are unchanged.
+
+## LVS under klt 0.9.0 (appended 2026-11-05, issue #20)
+
+Recorded with released `klt 0.9.0` (throwaway `uvx` environment; the host `klt` and the
+`.github/klt-version` pin of 0.8.0 were not changed). Earlier sections are left as written.
+Predictive-model tool results only.
+
+- **Routed datapath: a compare now runs, and it is a `mismatch`.** The pin-name-case refusal from
+  the previous section is gone (klayout-tools#4815 is closed; the reader now case-folds
+  `RESETN`/`SETN` and says so as a warning). Report:
+  `evidence/item4-lvs/slice_routed.r5.report.json`, record `evidence/item4-slice-attempt.r5.json`,
+  request `evidence/item4-lvs/slice_routed.r5.request.json` (identical to r3). Counts: layout 0
+  devices against 29356 in the reference, 2775 against 15718 nets, 201 against 266 pins, nothing
+  matched; the top circuit `slice`/`SLICE` could not be paired; `net.supply_fragmented` on 84
+  library-cell circuits. Why the layout extracts no devices was not investigated and is not
+  claimed. The netlist, layout, deck and options were not edited and `power_connectivity` and
+  `supply_nets` were not waived (decision 0005).
+- **Drawn cells:** not re-run; the `r2` matches stand.
+- **Signoff:** `manifests/asap7-ucie-phy.json` now cites the r5 report for `4.digital`. Under the
+  0.8.0 pin `klt signoff` grades both item 4 rows `unmet` with reason `invalid_evidence` (the
+  analog row was `invalid_evidence` before this change too); whether that is a pin/report-version
+  mismatch was not determined. T1 item 4 stays **unmet**.
