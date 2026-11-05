@@ -239,3 +239,20 @@ Predictive-model tool results only.
   0.8.0 pin `klt signoff` grades both item 4 rows `unmet` with reason `invalid_evidence` (the
   analog row was `invalid_evidence` before this change too); whether that is a pin/report-version
   mismatch was not determined. T1 item 4 stays **unmet**.
+
+## klt pin bumped to 0.9.0; item 4 grading (appended 2026-11-05, issue #20)
+
+`.github/klt-version` moves from 0.8.0 to the released 0.9.0, and `manifests/asap7-ucie-phy.signoff.json`
+is regenerated with it. Earlier sections are left as written. Predictive-model tool results only.
+
+- **Why the analog row read `stale_evidence` / `invalid_evidence`:** for an `lvs` citation the manifest
+  `content_hash` pin is compared with the report's `provenance.input.content_hash` (the layout GDS
+  hash), not with the report file's own hash. The four drawn-cell pins held other values. They are now
+  set from each `r2` report's recorded input hash, which equals the committed GDS. No report was
+  edited and the drawn-cell LVS was not re-run; the `r2` `match` results stand (`klt lvs --check`
+  under 0.9.0 reports the layout and reference hashes OK and flags only the klt version as drifted).
+- **Signoff under 0.9.0:** T1 item 4 **analog is `met`**; T1 met count 8 -> 9. No other item changed.
+- **Item 4 digital stays `unmet` (`check_failed`):** the r5 report is a real `mismatch`, unchanged and
+  not waived (decision 0005). Why the layout extracts no devices against the 29356-device reference
+  was not investigated here. The digital pin was set to the r5 report's input hash for the same reason
+  as above.
