@@ -3,6 +3,12 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-05
+
+- **PR #102**: docs(evidence): record flattened routed-datapath LVS (r6) and zero-device cause
+- **PR #101**: fix(evidence): pin item-4 LVS citations to the layout input hash and bump klt to 0.9.0
+- **PR #100**: docs(evidence): record routed-datapath LVS compare mismatch under klt 0.9.0 (r5)
+
 ### 2026-11-04
 
 - **PR #98**: feat(rtl): register empty and next Gray pointer in rx_cdc_fifo, record r5/r6 STA
