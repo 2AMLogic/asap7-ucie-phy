@@ -1,0 +1,67 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "status": "fail",
+ "summary": "Cause of the r5 'layout 0 devices' determined: it was a hierarchy artifact, not missing geometry. The routed GDS carries transistor-level geometry and the deck extracts it (678 devices across 84 library-cell circuits in r5's device.finfet_bulk_tied warnings; 30714 devices once the layout is flattened in r6). r5 counted only the top circuit, which holds no direct devices, against a flattened reference. With options.flatten_layout true the compare still returns mismatch: layout 30714 devices vs reference 29356, 43 matched.",
+ "note": "ASAP7 is predictive; tool result only. Append-only; r1-r5 left as written. The netlist, layout and deck were not edited; power_connectivity and supply_nets not waived.",
+ "klt_version": "0.9.0",
+ "klayout_version": "0.30.12",
+ "input": "layout/slice_routed.gds",
+ "input_hash": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e",
+ "reference": "design/netlist/slice_asap7.v",
+ "reference_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+ "request_file": "evidence/item4-lvs/slice_routed.r6.request.json",
+ "request_notes": "r5 request plus options.flatten_layout: true. pdk_root and pin_order_files as in r5 (pinned lambdapdk v0.2.17 tree, unpacked in /tmp scratch, not committed).",
+ "result": "mismatch, report committed",
+ "exit": 3,
+ "klt_message": null,
+ "upstream": "2AMLogic/klayout-tools#4954 (open): finger-merge remedy unavailable on FinFET decks",
+ "not_done": "The netlist, layout, deck and options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005). finfet_bulk is the same assertion as r2 to r4 and the report flags it as device.finfet_bulk_tied warnings.",
+ "klt_source": "throwaway uvx env, uvx --with klayout --from klayout-tools==0.9.0 klt lvs --format json (single local run, about 7 min)",
+ "report_file": "evidence/item4-lvs/slice_routed.r6.report.json",
+ "report_status": "mismatch",
+ "report_counts": {
+  "nets": {
+   "layout": 16411,
+   "reference": 15718,
+   "matched": 174
+  },
+  "devices": {
+   "layout": 30714,
+   "reference": 29356,
+   "matched": 43
+  },
+  "pins": {
+   "layout": 201,
+   "reference": 266,
+   "matched": 267
+  }
+ },
+ "report_category_counts": {
+  "device.body_unverified": 2,
+  "device.finfet_bulk_tied": 168,
+  "device.unmatched": 58851,
+  "device.unmerged_fingers": 286,
+  "hints.rejected": 68,
+  "net.merged": 15461,
+  "net.split": 16154,
+  "net.supply_fragmented": 84,
+  "reference.gate_level_pin_case_folded": 2,
+  "topology.flattened": 2,
+  "topology.reference_port_alias_joined": 4,
+  "topology.top_level_pins_anchored": 1
+ },
+ "report_category_error_counts": {
+  "device.unmatched": 58851,
+  "device.unmerged_fingers": 286,
+  "hints.rejected": 68,
+  "net.merged": 15461,
+  "net.split": 16154
+ },
+ "power_connectivity_status": "unchecked",
+ "observed": "layout devices 30714 vs reference 29356 (43 matched), nets 16411 vs 15718 (174 matched), pins 201 vs 266. 286 device.unmerged_fingers errors: 2 parallel layout fingers sum to the width of one reference device. net.supply_fragmented on 84 library-cell circuits (VDD in 2 nets; shipped cells carry no tap). 68 hints.rejected.",
+ "unmerged_fingers_remedy": "The report names options.combine_devices: true; a request setting it was refused by klt 0.9.0 on the asap7 FinFET deck ('options.combine_devices is not supported ... FinFET fingers are always merged by the extractor'). No report from that refused request exists. Filed as 2AMLogic/klayout-tools#4954.",
+ "cause_determined": "Commands: klayout.db read of layout/slice_routed.gds (99 cells, 29 layer/datatype pairs incl. fin/gate/contact layers inside the standard-cell cells); r5 report mismatches[].category == device.finfet_bulk_tied, sum of details.device_count = 678 over 84 circuits. Reference was flattened (flatten_reference true) while r5 left the layout hierarchical, so the top layout circuit counted 0 devices."
+}

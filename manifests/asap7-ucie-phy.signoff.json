@@ -528,20 +528,20 @@
       "citation": null,
       "citations_graded": [
         {
-          "citation": "evidence/item4-lvs/slice_routed.r5.report.json",
+          "citation": "evidence/item4-lvs/slice_routed.r6.report.json",
           "status": "unmet",
           "reason": "check_failed"
         },
         {
-          "citation": "evidence/item4-slice-attempt.r5.json",
+          "citation": "evidence/item4-slice-attempt.r6.json",
           "status": "unmet",
           "reason": "unrecognized_envelope"
         }
       ],
       "detail": {
         "failed_citations": [
-          "evidence/item4-lvs/slice_routed.r5.report.json",
-          "evidence/item4-slice-attempt.r5.json"
+          "evidence/item4-lvs/slice_routed.r6.report.json",
+          "evidence/item4-slice-attempt.r6.json"
         ]
       }
     },

@@ -256,3 +256,25 @@ is regenerated with it. Earlier sections are left as written. Predictive-model t
   not waived (decision 0005). Why the layout extracts no devices against the 29356-device reference
   was not investigated here. The digital pin was set to the r5 report's input hash for the same reason
   as above.
+
+## Routed-datapath LVS: cause of "0 layout devices" (r6, appended 2026-11-05, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was edited to force
+a match and `power_connectivity` / `supply_nets` were not waived (decision 0005).
+
+- **Cause:** a hierarchy artifact, not missing geometry. `layout/slice_routed.gds` carries
+  transistor-level geometry inside the placed standard-cell cells and the deck extracts it: the r5
+  report's `device.finfet_bulk_tied` warnings account for 678 devices across 84 library-cell circuits.
+  r5 left the layout hierarchical while the reference was flattened, so the top layout circuit `slice`
+  holds no direct devices and counted 0 against 29356.
+- **r6** (`evidence/item4-lvs/slice_routed.r6.request.json`, report `slice_routed.r6.report.json`,
+  record `evidence/item4-slice-attempt.r6.json`; r5 request plus `options.flatten_layout: true`,
+  klt 0.9.0, one local run): still `mismatch`. Devices 30714 layout / 29356 reference (43 matched),
+  nets 16411 / 15718 (174 matched), pins 201 / 266; `power_connectivity.status` `unchecked`.
+- **Remaining blocker:** 286 `device.unmerged_fingers` errors (two parallel layout fingers sum to the
+  width of one reference device). The report names `options.combine_devices: true`, which klt 0.9.0
+  refuses on the asap7 FinFET deck. Filed as 2AMLogic/klayout-tools#4954. The refused request produced
+  no report, so none is committed.
+- **Signoff:** `manifests/asap7-ucie-phy.json` now cites the r6 report and record; the regenerated
+  `manifests/asap7-ucie-phy.signoff.json` (klt 0.9.0) still grades item 4 digital `unmet`
+  (`check_failed`). T1 item 4 stays **unmet**. The drawn-cell `r2` matches stand.
