@@ -401,3 +401,23 @@ Predictive-model tool results only; no `klt lvs` run here (that is #20). Earlier
 - **Still open:** the LVS against this stream (#20) is not run. `layout/lane_column.gds` embeds the routed slice
   and no longer matches `assemble_column.py --check`; `attest/item2.r6.json` and `evidence/item4-lvs/` still
   pin the previous stream and are append-only, so they stay as the record of runs on it.
+
+## Routed-datapath LVS on the re-routed stream (r10, r11, appended 2026-11-06, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was edited to force
+a match and `power_connectivity` / `supply_nets` were not waived (decision 0005).
+
+- **Inputs:** `layout/slice_routed.gds` sha256 `eae888dc...` (re-routed from the current netlist, #109) against
+  `design/netlist/slice_asap7.v` sha256 `4d1baf35...`, `reference.form: gate-level-verilog`, lambdapdk 0.2.17 as in r5-r8.
+- **Runs:** klt 0.9.1 (the repo pin) via a throwaway `uvx` environment, two single local runs of about 4 min.
+  **r10** (`evidence/item4-lvs/slice_routed.r10.request.json`) is the r8 request (`anchor_top_level_pins: false`);
+  **r11** is the r7 request (default anchoring). Record: `evidence/item4-slice-attempt.r10.json`.
+- **Result:** both `mismatch`, with identical counts. Devices 29436 layout / 29356 reference (37 matched; the totals
+  were 30714 / 29356 on the previous stream), nets 15803 / 15718 (34 matched), pins 2 / 266.
+  `net.split` 15761, `net.merged` 15676, `device.unmatched` 56563, `device.unmerged_fingers` 620,
+  `net.supply_fragmented` 84. `power_connectivity.status` is `unchecked`.
+- **Reading:** re-routing closed the cell-census gap (#109) and brought the device totals within 80, but the net-level
+  disagreement did not shrink. The layout extracts only 2 top-level pins against 266 in the reference, so the compare
+  has almost no anchor for the net correspondence; no tool defect is attributed and the cause is undetermined.
+- **Signoff:** the manifest cites the r10 report and record. T1 item 4 digital stays **unmet**; the drawn-cell `r2`
+  matches stand. The analog half is unchanged.
