@@ -316,3 +316,21 @@ Earlier sections are left as written; nothing was waived (decision 0005).
 - **Next, not done here:** trace one split net (a single standard-cell output) through the routed layout
   to find the missing connection, and try one run with `options.anchor_top_level_pins: false`. Either
   would be a new numbered attempt. T1 item 4 digital stays **unmet**.
+
+## Routed-datapath LVS with top-level pin anchoring off (r8, appended 2026-11-06, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was edited to force
+a match and `power_connectivity` / `supply_nets` were not waived (decision 0005).
+
+- **r8** (`evidence/item4-lvs/slice_routed.r8.request.json`, report `slice_routed.r8.report.json`,
+  record `evidence/item4-slice-attempt.r8.json`; the r7 request plus `options.anchor_top_level_pins:
+  false`, klt 0.9.1 via a throwaway `uvx` environment, one local run): still `mismatch`. Devices 30714
+  layout / 29356 reference (38 matched, r7 43), nets 16411 / 15718 (160 matched, r7 174), pins 201 /
+  266. `power_connectivity.status` is `unchecked`.
+- **Result:** the option the r7 analysis proposed does not reduce the net-level disagreement
+  (`net.split` 16244, `net.merged` 15551, both slightly above r7); anchoring was helping, not causing
+  it. `hints.rejected` no longer appears, as no pin hints are applied. The 286 `device.unmerged_fingers`
+  and 84 `net.supply_fragmented` are unchanged. The cause remains undetermined; the remaining step is
+  tracing one split net by hand.
+- **Signoff:** `manifests/asap7-ucie-phy.json` cites the r8 report and record. T1 item 4 digital stays
+  **unmet**; the drawn-cell `r2` matches stand.
