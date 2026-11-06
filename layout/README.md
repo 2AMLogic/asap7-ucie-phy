@@ -117,6 +117,10 @@ ASAP7 is predictive and nothing here is fabricated.**
   byte-for-byte, 3 if it drifted. Run it as `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
   all in the route stage. It stages the pinned `asap7.layermap` so klt's DEF->GDS merge puts routing on the ASAP7
   stream numbers (without it: sequential numbers on top of Gate/Gcut/Active; `verification/drc/README.md`). Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.
+- `pnr/regen.py --check-input` is the cheap staleness check: pure Python, no klt, OpenROAD, KLayout or PDK, a
+  second or so. It hashes `tie_constants(<netlist>)` and compares it with `slice.pnr.report.json`
+  `provenance.input.content_hash`: exit 0 on a match, 3 if the netlist changed since the stream was routed (both
+  hashes printed, remedy `python3 -I layout/pnr/regen.py`), 2 on missing or unparseable input. Self-test: `python3 -I layout/pnr/test_check_input.py`.
 - Result (report `slice.pnr.report.json`, OpenROAD 26Q3-1510, regenerated from the netlist re-synthesized in
   `6f8f329`): stage reached `route`, `route_drc_violation_count` 0 (detailed route converged in 4 iterations,
   1237 / 114 / 118 / 0 violations; the previous stream's run took 5), `antenna_violation_count` 0, 322 tapcells

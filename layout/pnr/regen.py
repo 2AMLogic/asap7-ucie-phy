@@ -15,6 +15,10 @@ from the `library` block of slice.pnr.json.
 
     regen.py            overwrite the committed routed GDS and report
     regen.py --check    exit 0 if it reproduces byte-for-byte, 3 if it drifted
+    regen.py --check-input
+                        pure-Python (no klt, OpenROAD or PDK): exit 0 if the tied
+                        netlist still hashes to the report's provenance.input.content_hash,
+                        3 if the netlist drifted since the stream was routed, 2 on bad input
 """
 import argparse
 import gzip
@@ -114,11 +118,36 @@ def unpack(archive, root):
         sys.exit(f"pinned archive is missing {missing}")
 
 
+def check_input(request=None, report=None, out=sys.stderr):
+    """Compare the tied netlist's hash with the one the committed stream was routed from.
+
+    Returns 0 on a match, 3 on drift, 2 on missing or unparseable input."""
+    request = REQUEST if request is None else pathlib.Path(request)
+    report = REPORT if report is None else pathlib.Path(report)
+    try:
+        req = json.loads(request.read_text())
+        text = (request.parent / req["netlist"]).read_text()
+        recorded = json.loads(report.read_text())["provenance"]["input"]["content_hash"]
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        print(f"check-input: cannot read inputs: {e!r}", file=out)
+        return 2
+    current = "sha256:" + hashlib.sha256(tie_constants(text).encode("utf-8")).hexdigest()
+    if current == recorded:
+        return 0
+    print(f"drifted: netlist hashes to {current}\n"
+          f"         report records      {recorded}\n"
+          "remedy: python3 -I layout/pnr/regen.py", file=out)
+    return 3
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdk-archive")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--check-input", action="store_true")
     args = ap.parse_args()
+    if args.check_input:
+        return check_input()
     with tempfile.TemporaryDirectory(prefix="slice-pnr-") as tmp:
         scratch = pathlib.Path(tmp)
         archive = L.fetch(scratch, args.pdk_archive)
