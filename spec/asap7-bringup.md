@@ -381,3 +381,23 @@ Predictive-model tool results only; analysis of committed files plus one throwaw
   an LVS run against a reference that is the netlist the layout implements. That re-route is layout work
   outside this issue and was not done here; no LVS was run against the 2026-11-01 netlist, since it is
   not the item-1 reference. T1 item 4 digital stays **unmet**; the drawn-cell `r2` matches stand.
+
+## Routed datapath re-routed from the current netlist (appended 2026-11-06, issue #109)
+
+Predictive-model tool results only; no `klt lvs` run here (that is #20). Earlier sections are left as written.
+
+- **Run:** `python3 -I layout/pnr/regen.py` once, sequentially, on the committed `design/netlist/slice_asap7.v`
+  (`6f8f329`), the pinned lambdapdk archive, OpenROAD 26Q3-1510. `regen.py --check` then exited 0.
+  `layout/slice_routed.gds` is now sha256 `eae888dccce1e26e0416d3af0e2332127a9b1d39a172df7df95e32a466a96b13`
+  (was `b264dd56...`); `layout/pnr/slice.pnr.report.json` regenerated.
+- **Result:** stage reached `route`, `route_drc_violation_count` 0, `antenna_violation_count` 0, same as before;
+  power delivery still `partial` (#66). Clock skew 0.00771 ns (was 0.00718).
+- **Census** (same method as the section above, throwaway `uvx --with klayout`, `$VARn` folded, `FILLER*`/
+  `TAPCELL*` left out): layout 2594 logic cells, netlist 2743, summed absolute per-cell difference **221**
+  against 2211 for the previous stream (the old stream re-counted with this script gives 2211 again). Largest
+  remaining differences: `BUFx2` 0 vs 83, `HB1xp67` 0 vs 68, `BUFx6f` 0 vs 28, `BUFx4` 17 vs 0, `CKINVDCx10` 6 vs 0:
+  buffer sizing and clock-tree cells from place-and-route, plus the `TIEHI`/`TIELO` rewrite `regen.py` applies to
+  a scratch copy (README, "Tie cells"). Nothing was waived.
+- **Still open:** the LVS against this stream (#20) is not run. `layout/lane_column.gds` embeds the routed slice
+  and no longer matches `assemble_column.py --check`; `attest/item2.r6.json` and `evidence/item4-lvs/` still
+  pin the previous stream and are append-only, so they stay as the record of runs on it.
