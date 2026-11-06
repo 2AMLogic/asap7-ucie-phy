@@ -1,0 +1,3 @@
+{"layout":{"file":"lib.gds","deck":"asap7","top":"AND2x2_ASAP7_75t_R"},
+ "reference":{"netlist":"lib.cdl","top":"AND2x2_ASAP7_75t_R"},
+ "options":{"finfet_bulk":{"nmos":"VSS","pmos":"VDD"}}}
