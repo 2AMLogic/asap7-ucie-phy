@@ -100,7 +100,7 @@ here. This is a tool result for the four cells alone: no DRC claim (#19), no LVS
 
 Area (`gen_cells_gds.py --report`, geometric bounding boxes): `tx_cell` 3.98 um^2, `rx_cell` 9.80 um^2,
 `tx_clk_cell` 1.66 um^2, `rx_clk_cell` 1.31 um^2, about 0.1 + 0.24 + 0.04 + 0.03 percent of the 4050 um^2
-target lane cell; the 3035 um^2 left after the routed slice is not overrun.
+target lane cell; the 2961 um^2 left after the routed slice is not overrun.
 
 ## Routed `slice` (place and route)
 
@@ -120,14 +120,22 @@ ASAP7 is predictive and nothing here is fabricated.**
 - `pnr/regen.py --check-input` is the cheap staleness check: pure Python, no klt, OpenROAD, KLayout or PDK, a
   second or so. It hashes `tie_constants(<netlist>)` and compares it with `slice.pnr.report.json`
   `provenance.input.content_hash`: exit 0 on a match, 3 if the netlist changed since the stream was routed (both
-  hashes printed, remedy `python3 -I layout/pnr/regen.py`), 2 on missing or unparseable input. It reports drift on
-  main until #109 re-routes the slice. Self-test: `python3 -I layout/pnr/test_check_input.py`.
-- Result (report `slice.pnr.report.json`, OpenROAD 26Q3-1510): stage reached `route`, `route_drc_violation_count` 0,
-  `antenna_violation_count` 0, 310 tap/endcap cells, power delivery **`partial`**: the `M5`/`M6` straps were
+  hashes printed, remedy `python3 -I layout/pnr/regen.py`), 2 on missing or unparseable input. Self-test: `python3 -I layout/pnr/test_check_input.py`.
+- Result (report `slice.pnr.report.json`, OpenROAD 26Q3-1510, regenerated from the netlist re-synthesized in
+  `6f8f329`): stage reached `route`, `route_drc_violation_count` 0 (detailed route converged in 4 iterations,
+  1237 / 114 / 118 / 0 violations; the previous stream's run took 5), `antenna_violation_count` 0, 322 tapcells
+  and 322 endcaps, power delivery **`partial`**: the `M5`/`M6` straps were
   dropped (#64) because their via stacks fail the deck and no request field moves them
   (2AMLogic/klayout-tools#4494), so only the `M1`/`M2` followpin rails remain; restoring a grid is #66.
-  Footprint 23.033 um x 44.066 um (`klt stats`), 1015 um^2, against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about
-  3035 um^2 is left for the drawn TX/RX cells.
+  Footprint 23.835 um x 45.670 um (`klt stats` bbox), 1088.5 um^2 (report `die_area_um2`), against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about
+  2961 um^2 is left for the drawn TX/RX cells. The stream is 5,427,520 bytes, sha256
+  `eae888dccce1e26e0416d3af0e2332127a9b1d39a172df7df95e32a466a96b13`; `regen.py --check` reproduces it
+  byte-for-byte. Cell census (method in `spec/asap7-bringup.md`, #20): 2594 logic cells in the layout against
+  2743 in `design/netlist/slice_asap7.v`, summed absolute per-cell difference **221** (previous stream: 2211),
+  the residue being clock-tree and repair buffer sizing that place-and-route adds. The earlier stream's hash
+  (`b264dd56...`) remains cited by the append-only `attest/` and `evidence/` records of runs made on it.
+  `layout/lane_column.gds` instances the routed slice and was **not** regenerated here; `assemble_column.py
+  --check` now reports drift (#114).
 
 Assumptions and workarounds, all inputs to the flow and none a PDK-supplied value or a sign-off claim:
 
