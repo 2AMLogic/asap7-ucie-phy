@@ -3,6 +3,13 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-06
+
+- **PR #108**: docs(evidence): record AND2x2 single-cell LVS probe, library cell matches in isolation
+- **PR #107**: docs(evidence): record routed-datapath LVS with top-level pin anchoring off (r8), still mismatch
+- **PR #106**: docs(spec): analyse r7 routed-datapath LVS mismatch categories
+- **PR #105**: docs(evidence): record klt 0.9.1 routed-datapath LVS (r7), still mismatch after the #4954 fix
+
 ### 2026-11-05
 
 - **PR #102**: docs(evidence): record flattened routed-datapath LVS (r6) and zero-device cause
