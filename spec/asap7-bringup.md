@@ -334,3 +334,22 @@ a match and `power_connectivity` / `supply_nets` were not waived (decision 0005)
   tracing one split net by hand.
 - **Signoff:** `manifests/asap7-ucie-phy.json` cites the r8 report and record. T1 item 4 digital stays
   **unmet**; the drawn-cell `r2` matches stand.
+
+## Routed-datapath LVS: single library cell probe (r9, appended 2026-11-06, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was waived or edited
+to force a match (decision 0005). This is a diagnostic probe, not a new attempt on the `slice` partition.
+
+- **Probe** (`evidence/item4-lvs/and2x2_probe.r9.request.json`, report `and2x2_probe.r9.report.json`):
+  the library `AND2x2_ASAP7_75t_R` layout from `asap7sc7p5t_28_R.gds.gz` against the same cell's
+  subcircuit in `asap7sc7p5t_28_R.cdl` (lambdapdk 0.2.17, as in r5-r8), `finfet_bulk` as in r8, one local
+  run. klt `0.9.2.dev103+g9f4cec35997a` (the host-installed tool, used read-only; r7/r8 used 0.9.1).
+- **Result:** `match`. Devices 6 / 6, nets 7 / 7, pins 5 / 5, all matched. The one `net.supply_fragmented`
+  (VDD in two layout nets inside the cell) is a warning and the cell still matches.
+- **Reading:** the 84 `net.supply_fragmented` warnings in r7/r8 do not by themselves indicate broken
+  cell-internal extraction, so the 16244 `net.split` / 15551 `net.merged` errors are not explained by
+  the library cells extracting wrongly in isolation. This rules out one hypothesis; the cause is still
+  undetermined and is more likely at the routed-block level (placement/routing connectivity or the flatten
+  step). Tracing one split net through the routed layout remains the next step.
+- **Reproducibility:** the probe inputs (library GDS/CDL) are not committed; the report records their
+  hashes. The request paths are those of the scratch run. T1 item 4 digital stays **unmet**.
