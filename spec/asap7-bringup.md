@@ -278,3 +278,22 @@ a match and `power_connectivity` / `supply_nets` were not waived (decision 0005)
 - **Signoff:** `manifests/asap7-ucie-phy.json` now cites the r6 report and record; the regenerated
   `manifests/asap7-ucie-phy.signoff.json` (klt 0.9.0) still grades item 4 digital `unmet`
   (`check_failed`). T1 item 4 stays **unmet**. The drawn-cell `r2` matches stand.
+
+## Routed-datapath LVS under klt 0.9.1 (r7, appended 2026-11-06, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was edited to force
+a match and `power_connectivity` / `supply_nets` were not waived (decision 0005).
+
+- **r7** (`evidence/item4-lvs/slice_routed.r7.request.json`, report `slice_routed.r7.report.json`,
+  record `evidence/item4-slice-attempt.r7.json`; the r6 request unchanged, klt 0.9.1 via a throwaway
+  `uvx` environment, one local run): still `mismatch`, with counts identical to r6 (devices 30714 /
+  29356, 43 matched; nets 16411 / 15718, 174 matched; pins 201 / 266). `power_connectivity.status` is
+  `unchecked`.
+- **Upstream:** klayout-tools#4954 is closed and fixed in 0.9.1: `device.unmerged_fingers` no longer
+  names `options.combine_devices` (`suggested_option` is null). The 286 unmerged-finger errors remain,
+  and the message now says the groups differ in a net or length. Whether that is the layout or the
+  reference was not determined here. No new upstream issue is filed because no tool defect is attributed.
+- **Engine note:** klayout resolved to 0.30.13; klt warns this differs from the 0.30.12 it was tested
+  against. The count categories matched r6 (0.30.12), so the verdict is not expected to depend on it.
+- **Signoff:** `manifests/asap7-ucie-phy.json` now cites the r7 report and record. T1 item 4 digital
+  stays **unmet**; the drawn-cell `r2` matches stand.

@@ -14,10 +14,10 @@
   "source_doc": "docs/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:08dcbfd2c3f2df152868d86c0ad2aa6a43d393b1d266f0b1e914cd8f0a329c58",
   "build": {
-    "version": "0.9.0",
-    "package_version": "0.9.0",
-    "git_commit": "5dbbad05ff42265c92a6f3d2f20d1bbcd2957d49",
-    "git_tag": "v0.9.0",
+    "version": "0.9.1",
+    "package_version": "0.9.1",
+    "git_commit": "4d0d29be4fd991f499d59e783a908082d5e24c56",
+    "git_tag": "v0.9.1",
     "dirty": false,
     "is_release": true,
     "grading_ruleset_id": "sha256:22c42b66c4d1f99b5c00f6bf53d80b20fa8365860d857a921508ca5ab5f3771b"
@@ -528,20 +528,20 @@
       "citation": null,
       "citations_graded": [
         {
-          "citation": "evidence/item4-lvs/slice_routed.r6.report.json",
+          "citation": "evidence/item4-lvs/slice_routed.r7.report.json",
           "status": "unmet",
           "reason": "check_failed"
         },
         {
-          "citation": "evidence/item4-slice-attempt.r6.json",
+          "citation": "evidence/item4-slice-attempt.r7.json",
           "status": "unmet",
           "reason": "unrecognized_envelope"
         }
       ],
       "detail": {
         "failed_citations": [
-          "evidence/item4-lvs/slice_routed.r6.report.json",
-          "evidence/item4-slice-attempt.r6.json"
+          "evidence/item4-lvs/slice_routed.r7.report.json",
+          "evidence/item4-slice-attempt.r7.json"
         ]
       }
     },
