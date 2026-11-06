@@ -1,0 +1,60 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "note": "ASAP7 is predictive; tool result only. Append-only; r1-r9 left as written. The netlist, layout and deck were not edited; power_connectivity and supply_nets not waived.",
+ "klt_version": "0.9.1",
+ "klayout_version": "0.30.13",
+ "input": "layout/slice_routed.gds",
+ "reference": "design/netlist/slice_asap7.v",
+ "klt_source": "throwaway uvx env, uvx --with klayout --from klayout-tools==0.9.1 klt lvs --format json (two single local runs, about 4 min each; klayout engine 0.30.13)",
+ "status": "fail",
+ "summary": "Re-ran the flattened routed-datapath compare under klt 0.9.1 on the stream re-routed from the current netlist (#109). Verdict: mismatch. Run twice, with options.anchor_top_level_pins false (r10, the r8 request) and with the default (r11, the r7 request); the two reports have identical counts and category counts. Devices 29436 layout / 29356 reference (37 matched) and nets 15803 / 15718 (34 matched): the device totals now agree to within 80, but the net-level disagreement (net.split 15761, net.merged 15676) is unchanged in size. The layout reports 2 pins against 266 in the reference.",
+ "input_hash": "sha256:eae888dccce1e26e0416d3af0e2332127a9b1d39a172df7df95e32a466a96b13",
+ "reference_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+ "request_file": "evidence/item4-lvs/slice_routed.r10.request.json",
+ "request_notes": "r8 request unchanged (options.anchor_top_level_pins false); r11 request is the r7 request (default anchoring). pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2), re-fetched into /tmp scratch, not committed.",
+ "result": "mismatch, reports committed",
+ "exit": 3,
+ "klt_message": null,
+ "upstream": "No new upstream issue: the residual mismatch is not attributed to a tool defect.",
+ "not_done": "The netlist, layout, deck and other options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005).",
+ "report_file": "evidence/item4-lvs/slice_routed.r10.report.json",
+ "report_status": "mismatch",
+ "report_counts": {
+  "nets": {
+   "layout": 15803,
+   "reference": 15718,
+   "matched": 34
+  },
+  "devices": {
+   "layout": 29436,
+   "reference": 29356,
+   "matched": 37
+  },
+  "pins": {
+   "layout": 2,
+   "reference": 266,
+   "matched": 268
+  }
+ },
+ "report_category_counts": {
+  "device.body_unverified": 1,
+  "device.finfet_bulk_tied": 168,
+  "device.unmatched": 56563,
+  "device.unmerged_fingers": 620,
+  "net.merged": 15676,
+  "net.split": 15761,
+  "net.supply_fragmented": 84,
+  "reference.gate_level_pin_case_folded": 2,
+  "topology.flattened": 2,
+  "topology.reference_port_alias_joined": 4
+ },
+ "second_run": {
+  "request_file": "evidence/item4-lvs/slice_routed.r11.request.json",
+  "report_file": "evidence/item4-lvs/slice_routed.r11.report.json",
+  "report_status": "mismatch",
+  "note": "counts and category counts identical to r10"
+ }
+}

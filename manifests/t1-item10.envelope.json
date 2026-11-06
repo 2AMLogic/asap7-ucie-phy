@@ -45,7 +45,7 @@
         "role": "hygiene",
         "path": "spec/asap7-bringup.md",
         "passed": true,
-        "content_hash": "sha256:d1c3c11f50700584bd5024653aa7d4ebe8c94e2ddfd5fcc9af46ee9c2b980618"
+        "content_hash": "sha256:1bc686d03694651f827c819635031dd91d51e7caa7ef06bb48bcaef2990a65e6"
       },
       {
         "check": "present",
