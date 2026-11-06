@@ -1,0 +1,64 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "status": "fail",
+ "summary": "Re-ran the flattened routed-datapath compare under klt 0.9.1 with options.anchor_top_level_pins false (the one-option change proposed in the r7 analysis). Verdict unchanged: mismatch. Matched counts fell slightly (devices 38 vs 43, nets 160 vs 174) and net.split/net.merged rose by about 90, so top-level pin anchoring is not the cause of the net-level disagreement; it was helping, not hurting.",
+ "note": "ASAP7 is predictive; tool result only. Append-only; r1-r5 left as written. The netlist, layout and deck were not edited; power_connectivity and supply_nets not waived.",
+ "klt_version": "0.9.1",
+ "klayout_version": "0.30.13",
+ "input": "layout/slice_routed.gds",
+ "input_hash": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e",
+ "reference": "design/netlist/slice_asap7.v",
+ "reference_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+ "request_file": "evidence/item4-lvs/slice_routed.r8.request.json",
+ "request_notes": "r7 request plus options.anchor_top_level_pins false. pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2), re-fetched into /tmp scratch, not committed.",
+ "result": "mismatch, report committed",
+ "exit": 3,
+ "klt_message": null,
+ "upstream": "2AMLogic/klayout-tools#4954 (closed; fixed in 0.9.1). No new upstream issue: the residual mismatch is not attributed to a tool defect.",
+ "not_done": "The netlist, layout, deck and other options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005).",
+ "klt_source": "throwaway uvx env, uvx --with klayout --from klayout-tools==0.9.1 klt lvs --format json (single local run, about 3 min; klayout engine 0.30.13, klt warns it differs from the 0.30.12 it was tested against)",
+ "report_file": "evidence/item4-lvs/slice_routed.r8.report.json",
+ "report_status": "mismatch",
+ "report_counts": {
+  "nets": {
+   "layout": 16411,
+   "reference": 15718,
+   "matched": 160
+  },
+  "devices": {
+   "layout": 30714,
+   "reference": 29356,
+   "matched": 38
+  },
+  "pins": {
+   "layout": 201,
+   "reference": 266,
+   "matched": 334
+  }
+ },
+ "report_category_counts": {
+  "device.body_unverified": 2,
+  "device.finfet_bulk_tied": 168,
+  "device.unmatched": 58873,
+  "device.unmerged_fingers": 286,
+  "net.merged": 15551,
+  "net.split": 16244,
+  "net.supply_fragmented": 84,
+  "reference.gate_level_pin_case_folded": 2,
+  "topology.flattened": 2,
+  "topology.reference_port_alias_joined": 4
+ },
+ "report_category_error_counts": {
+  "device.unmatched": 58873,
+  "device.unmerged_fingers": 286,
+  "net.merged": 15551,
+  "net.split": 16244
+ },
+ "power_connectivity_status": "unchecked",
+ "observed": "Layout devices 30714 vs reference 29356 (38 matched), nets 16411 vs 15718 (160 matched), pins 201 vs 266. 286 device.unmerged_fingers unchanged; net.supply_fragmented 84 unchanged. hints.rejected no longer reported (hints are not rejected without anchored pins).",
+ "cause_determined": "Not determined. Disabling top-level pin anchoring does not reduce the net.split/net.merged counts, so that option is ruled out as the cause; the layout-versus-reference net disagreement remains unattributed to layout or tool.",
+ "summary_prior": "r7 left as written in item4-slice-attempt.r7.json"
+}
