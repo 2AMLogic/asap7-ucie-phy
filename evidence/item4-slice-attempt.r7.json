@@ -1,0 +1,68 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "status": "fail",
+ "summary": "Re-ran the flattened routed-datapath compare under klt 0.9.1, which carries the klayout-tools#4954 fix (PR 4957, merged before the 0.9.1 upload). The verdict is unchanged: mismatch, identical counts to r6 (devices 30714 layout / 29356 reference, 43 matched). The device.unmerged_fingers diagnostic no longer suggests options.combine_devices (suggested_option null) and now says the groups differ in a net or length, so the remaining 286 unmerged-finger groups are a genuine layout-versus-reference difference, not a tool remedy gap.",
+ "note": "ASAP7 is predictive; tool result only. Append-only; r1-r5 left as written. The netlist, layout and deck were not edited; power_connectivity and supply_nets not waived.",
+ "klt_version": "0.9.1",
+ "klayout_version": "0.30.13",
+ "input": "layout/slice_routed.gds",
+ "input_hash": "sha256:b264dd560e1184d1a336d09d6ac343f9eca169d5240682bacf4eaf4b981ed16e",
+ "reference": "design/netlist/slice_asap7.v",
+ "reference_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+ "request_file": "evidence/item4-lvs/slice_routed.r7.request.json",
+ "request_notes": "Identical to the r6 request. pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2), unpacked in /tmp scratch, not committed.",
+ "result": "mismatch, report committed",
+ "exit": 3,
+ "klt_message": null,
+ "upstream": "2AMLogic/klayout-tools#4954 (closed; fixed in 0.9.1). No new upstream issue: the residual mismatch is not yet attributed to a tool defect.",
+ "not_done": "The netlist, layout, deck and options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005).",
+ "klt_source": "throwaway uvx env, uvx --with klayout --from klayout-tools==0.9.1 klt lvs --format json (single local run, about 5 min; klayout engine resolved to 0.30.13, which klt warns differs from the 0.30.12 it was tested against)",
+ "report_file": "evidence/item4-lvs/slice_routed.r7.report.json",
+ "report_status": "mismatch",
+ "report_counts": {
+  "nets": {
+   "layout": 16411,
+   "reference": 15718,
+   "matched": 174
+  },
+  "devices": {
+   "layout": 30714,
+   "reference": 29356,
+   "matched": 43
+  },
+  "pins": {
+   "layout": 201,
+   "reference": 266,
+   "matched": 267
+  }
+ },
+ "report_category_counts": {
+  "device.body_unverified": 2,
+  "device.finfet_bulk_tied": 168,
+  "device.unmatched": 58851,
+  "device.unmerged_fingers": 286,
+  "hints.rejected": 68,
+  "net.merged": 15461,
+  "net.split": 16154,
+  "net.supply_fragmented": 84,
+  "reference.gate_level_pin_case_folded": 2,
+  "topology.flattened": 2,
+  "topology.reference_port_alias_joined": 4,
+  "topology.top_level_pins_anchored": 1
+ },
+ "report_category_error_counts": {
+  "device.unmatched": 58851,
+  "device.unmerged_fingers": 286,
+  "hints.rejected": 68,
+  "net.merged": 15461,
+  "net.split": 16154
+ },
+ "power_connectivity_status": "unchecked",
+ "observed": "Same as r6: layout devices 30714 vs reference 29356 (43 matched), nets 16411 vs 15718 (174 matched), pins 201 vs 266. 286 device.unmerged_fingers errors (e.g. two pmos_rvt fingers, L 0.02, summing to W 0.081 = one reference device, not merged because they differ in a net or length). net.supply_fragmented on 84 library-cell circuits. 68 hints.rejected.",
+ "unmerged_fingers_remedy": "Resolved on the tool side: 0.9.1 no longer names options.combine_devices (suggested_option null). No remedy is offered; the diagnostic points at layout connectivity. Not investigated further here.",
+ "cause_determined": "Not determined for the residual mismatch. The 286 unmerged finger groups, 84 supply-fragmented library cells (shipped cells carry no tap) and 68 rejected hints are the observed categories; none was attributed to the layout or the tool.",
+ "summary_prior": "r6 left as written in item4-slice-attempt.r6.json"
+}
