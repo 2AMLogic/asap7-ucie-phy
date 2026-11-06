@@ -353,3 +353,31 @@ to force a match (decision 0005). This is a diagnostic probe, not a new attempt 
   step). Tracing one split net through the routed layout remains the next step.
 - **Reproducibility:** the probe inputs (library GDS/CDL) are not committed; the report records their
   hashes. The request paths are those of the scratch run. T1 item 4 digital stays **unmet**.
+
+## Routed-datapath LVS: the routed stream is not the committed netlist (appended 2026-11-06, issue #20)
+
+Predictive-model tool results only; analysis of committed files plus one throwaway cell census, no new
+`klt lvs` run. Earlier sections are left as written; nothing was waived (decision 0005).
+
+- **Method:** count standard-cell instances (with hierarchy multiplicity, `$VARn` variants folded) in
+  `layout/slice_routed.gds` with the `klayout` Python module from a throwaway `uvx --with klayout`
+  environment, and the same count over `design/netlist/slice_asap7.v` expanded through its modules.
+  Compare the layout against `design/netlist/slice_asap7.v` as committed at each of its five revisions
+  (`git log -- design/netlist/slice_asap7.v`), summing absolute per-cell count differences and leaving
+  out `FILLER*`/`TAPCELL*`, which the netlist cannot contain.
+- **Result:** the routed layout holds 2588 logic cells. Summed absolute per-cell difference against the
+  netlist revision of each commit: `6f8f329` (2026-11-04, the current reference) 2211; `54b68cb`
+  (2026-11-01) **293**; `c185347` (2026-10-31) 1768; `6703c31` (2026-10-27) 1967; `a807a50`
+  (2026-10-29) 2639. The layout was routed from the 2026-11-01 synthesis. Against the current
+  reference whole cell types differ by hundreds (e.g. `NAND5xp2` 448 in the layout against 1,
+  `NOR3xp33` 2 against 450, `AOI21x1` 0 against 287).
+- **Reading:** the r5-r8 net-level disagreement (`net.split` / `net.merged` in the tens of thousands) is
+  what an LVS of a layout against a different synthesis result looks like; no tool defect is attributed.
+  The residual 293 against the 2026-11-01 netlist is consistent with the clock-tree buffers
+  (`BUFx4`, 17 in the layout against 0) and the sizing changes place-and-route adds. The layout/netlist
+  pairing was not otherwise verified.
+- **Consequence (tracked in #109):** a `match` for the digital half needs `layout/slice_routed.gds` re-routed from the
+  current netlist (`python3 -I layout/pnr/regen.py`, about 10 minutes through the `openroad` wrapper), then
+  an LVS run against a reference that is the netlist the layout implements. That re-route is layout work
+  outside this issue and was not done here; no LVS was run against the 2026-11-01 netlist, since it is
+  not the item-1 reference. T1 item 4 digital stays **unmet**; the drawn-cell `r2` matches stand.
