@@ -297,3 +297,22 @@ a match and `power_connectivity` / `supply_nets` were not waived (decision 0005)
   against. The count categories matched r6 (0.30.12), so the verdict is not expected to depend on it.
 - **Signoff:** `manifests/asap7-ucie-phy.json` now cites the r7 report and record. T1 item 4 digital
   stays **unmet**; the drawn-cell `r2` matches stand.
+
+## Routed-datapath LVS: reading the r7 mismatch categories (appended 2026-11-06, issue #20)
+
+Predictive-model tool results only; analysis of the committed `slice_routed.r7.report.json`, no new run.
+Earlier sections are left as written; nothing was waived (decision 0005).
+
+- `category_error_counts`: `device.unmatched` 58851, `net.split` 16154, `net.merged` 15461,
+  `device.unmerged_fingers` 286, `hints.rejected` 68. Every `device.unmerged_fingers` entry reports
+  summed finger width equal to the reference width (e.g. 2 x pmos_rvt, L 0.02 um, 0.081 um total), so the
+  fingers are the right size; klt says the group "differs in a net or length".
+- The dominant categories are net-level: 16154 reference nets divided across several layout nets and
+  15461 collapsed together. With that much net disagreement, the unmerged fingers are most plausibly a
+  downstream effect (fingers whose source/drain nets are split) rather than an independent defect. This is
+  an inference from counts, not a traced cause.
+- `hints.rejected` (68): `options.anchor_top_level_pins` asserted pairings (e.g. `CLK`) that the
+  comparer did not confirm. Layout has 201 pins against 266 in the reference.
+- **Next, not done here:** trace one split net (a single standard-cell output) through the routed layout
+  to find the missing connection, and try one run with `options.anchor_top_level_pins: false`. Either
+  would be a new numbered attempt. T1 item 4 digital stays **unmet**.
