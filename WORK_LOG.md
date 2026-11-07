@@ -3,6 +3,11 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-07
+
+- **PR #118**: fix(layout): regenerate lane column for re-routed slice, attest item2 r7
+- **Issue #114** (closed): Layout: regenerate lane_column.gds after the routed slice re-route
+
 ### 2026-11-06
 
 - **PR #116**: docs(evidence): record routed-datapath LVS on the re-routed stream, still mismatch (r10, r11)
