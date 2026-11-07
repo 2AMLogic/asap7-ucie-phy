@@ -194,3 +194,9 @@ envelope (`klt signoff --manifest`) the same way, and the committed verdict was 
 are the records cited by the manifest. `evidence/slice_routed.dbu-control.json` records a same-netlist control (with and
 without `output_dbu_um`): the flattened geometry is identical on all 29 layers after rescaling. The change from the r5
 stream is regenerated routing from the newer netlist, not the dbu. DRC figures are not re-measured here.
+
+**Record r7 (issue #114).** The routed slice was re-routed (issues #109, #115; `layout/slice_routed.gds` sha256
+`eae888dc...`), so `layout/lane_column.gds` was regenerated with `assemble_column.py` (`--check` exits 0, output
+byte-identical across two runs); `check_pads.py` still passes on 34 pads and `selftest.py` passes.
+`attest/item2.r7.json` / `evidence/item2.r7.json` supersede r6 (kept as history, untouched) and are the records cited by
+the manifest. DRC and LVS figures are not re-measured here. Layout geometry only; ASAP7 is predictive.
