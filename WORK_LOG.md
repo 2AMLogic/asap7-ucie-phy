@@ -5,6 +5,12 @@ triage role; entries are newest first.
 
 ### 2026-11-06
 
+- **PR #116**: docs(evidence): record routed-datapath LVS on the re-routed stream, still mismatch (r10, r11)
+- **PR #115**: layout: re-route slice_routed.gds from the re-synthesized netlist
+- **PR #113**: feat(layout): add PDK-free regen.py --check-input drift check
+- **PR #110**: docs(spec): trace routed-datapath LVS mismatch to a stale routed stream
+- **Issue #112** (closed): Add a toolless freshness check binding slice_routed.gds to the netlist it was routed from
+- **Issue #109** (closed): Layout: re-route layout/slice_routed.gds from the current synthesized netlist
 - **PR #108**: docs(evidence): record AND2x2 single-cell LVS probe, library cell matches in isolation
 - **PR #107**: docs(evidence): record routed-datapath LVS with top-level pin anchoring off (r8), still mismatch
 - **PR #106**: docs(spec): analyse r7 routed-datapath LVS mismatch categories
