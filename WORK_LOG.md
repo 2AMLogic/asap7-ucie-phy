@@ -5,6 +5,7 @@ triage role; entries are newest first.
 
 ### 2026-11-07
 
+- **PR #121**: Bump Repo Skills 0.25.1 -> 0.25.10
 - **PR #118**: fix(layout): regenerate lane column for re-routed slice, attest item2 r7
 - **Issue #114** (closed): Layout: regenerate lane_column.gds after the routed slice re-route
 
