@@ -1,0 +1,18 @@
+{
+  "engine": "icarus",
+  "sources": [
+    "../layout/slice_routed.v",
+    ".sdf-models/asap7sc7p5t_AO_RVT_TT.v",
+    ".sdf-models/asap7sc7p5t_INVBUF_RVT_TT.v",
+    ".sdf-models/asap7sc7p5t_OA_RVT_TT.v",
+    ".sdf-models/asap7sc7p5t_SEQ_RVT_TT.v",
+    ".sdf-models/asap7sc7p5t_SIMPLE_RVT_TT.v"
+  ],
+  "hdl_toplevel": "slice",
+  "testbench": {"module": "test_slice"},
+  "options": {
+    "random_seed": 20261023,
+    "timescale": ["1ns", "1ps"],
+    "sdf": {"file": "../layout/slice_routed.sdf", "corner": "typ"}
+  }
+}
