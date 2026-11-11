@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "error": {
+    "command": "functional-verification",
+    "message": "SDF back-annotation of 'layout/slice_routed.sdf' did not fully apply: 8 diagnostic(s) in the icarus transcript -- SDF ERROR: <scratch>/run/klt_sdf_safe.sdf:1679: Could not find intermodpath! | SDF ERROR: <scratch>/run/klt_sdf_safe.sdf:1680: Could not find intermodpath! | SDF ERROR: <scratch>/run/klt_sdf_safe.sdf:1681: Could not find intermodpath! | SDF ERROR: <scratch>/run/klt_sdf_safe.sdf:1682: Could not find intermodpath! | SDF ERROR: <scratch>/run/klt_sdf_safe.sdf:6872: Invalid/malformed COND (+3 more). The simulator exits 0 after skipping an annotation it cannot apply, so this run's verdict would have been a zero-delay one reported as if it were annotated."
+  }
+}

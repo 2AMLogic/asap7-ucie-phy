@@ -20,3 +20,11 @@ Lint and synthesis checks from the issue:
 
     verilator --lint-only -Wall rtl/*.v
     yosys -p 'read_verilog rtl/*.v; chparam -set N 8 slice; synth -top slice'
+
+`functional_verification_sdf.sh` runs the same bench against the routed gate netlist
+(`layout/slice_routed.v`) with `layout/slice_routed.sdf` applied (T1 item 7, digital).
+It needs the pinned lambdapdk archive for the ASAP7 cell models. As of klt 0.9.1 it does
+not complete: Icarus rejects the SDF's `COND` arcs and four INTERCONNECT entries, and klt
+refuses to report a zero-delay run as annotated (klayout-tools#5296). The refusal is
+recorded in `functional-verification-sdf.report.json`; it is not a pass or a test failure,
+and no manifest entry cites it.

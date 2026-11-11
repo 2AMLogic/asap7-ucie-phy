@@ -13,7 +13,7 @@ klt-pdk.json descriptor (liberty, views) at it. The per-library CTS, routing,
 tapcell, filler and power-pin inputs klt has no built-in ASAP7 table for come
 from the `library` block of slice.pnr.json.
 
-    regen.py            overwrite the committed routed GDS and report
+    regen.py            overwrite the committed routed GDS, report, post-route netlist and SDF
     regen.py --check    exit 0 if it reproduces byte-for-byte, 3 if it drifted
     regen.py --check-input
                         pure-Python (no klt, OpenROAD or PDK): exit 0 if the tied
@@ -51,6 +51,8 @@ L = _load_lambdapdk()
 REQUEST = HERE / "slice.pnr.json"
 GDS = REPO / "layout" / "slice_routed.gds"
 REPORT = HERE / "slice.pnr.report.json"
+ROUTED_NETLIST = REPO / "layout" / "slice_routed.v"
+ROUTED_SDF = REPO / "layout" / "slice_routed.sdf"
 
 ASAP7 = L.ROOT
 RVT = ASAP7 + "libs/asap7sc7p5t_rvt/"
@@ -179,6 +181,13 @@ def main():
             sys.exit(f"klt place-and-route exited {cp.returncode}:\n{cp.stdout}{cp.stderr}")
         report = json.loads(cp.stdout)
         fresh = pathlib.Path(report["gds_path"]).read_bytes()
+        # Post-route netlist and SDF (request.post_route_spef / post_route_sdf).
+        vpath = pathlib.Path(report["verilog_path"])
+        sdf_path = vpath.parent / "slice_route.sdf"  # klt writes it beside the routed netlist
+        if not sdf_path.is_file():
+            sys.exit(f"no post-route SDF beside {vpath}: {sorted(p.name for p in vpath.parent.iterdir())}")
+        fresh_netlist = vpath.read_bytes()
+        fresh_sdf = sdf_path.read_bytes()
         # Scratch paths are not evidence: keep the verdict fields, redact the rest.
         text = json.dumps(report, indent=2, sort_keys=True).replace(str(scratch), "<scratch>")
         text = text.replace(str(REPO), "<repo>") + "\n"
@@ -188,6 +197,8 @@ def main():
             return 3
         return 0
     GDS.write_bytes(fresh)
+    ROUTED_NETLIST.write_bytes(fresh_netlist)
+    ROUTED_SDF.write_bytes(fresh_sdf)
     REPORT.write_text(text)
     return 0
 

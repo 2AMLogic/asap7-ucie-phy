@@ -128,6 +128,8 @@
     "clock_period_ns": 0.5
   },
   "seed": 1,
+  "post_route_spef": true,
+  "post_route_sdf": true,
   "output_dbu_um": 0.00025,
   "target_stage": "route"
 }
