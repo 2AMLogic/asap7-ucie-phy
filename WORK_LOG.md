@@ -3,6 +3,11 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-13
+
+- **PR #129**: feat(sim): ASAP7 BSIM-CMG logic-level deck for tx_cell, batch-run at TT/SS/FF
+- **Issue #128** (closed): Analog T1: add an ASAP7 ngspice deck and run it on the batch layer (fleet ngspice 47 is ready)
+
 ### 2026-11-12
 
 - **PR #126**: Bump Repo Skills 0.25.10 -> 0.26.1
