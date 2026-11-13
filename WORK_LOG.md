@@ -3,6 +3,10 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-12
+
+- **PR #126**: Bump Repo Skills 0.25.10 -> 0.26.1
+
 ### 2026-11-11
 
 - **PR #123**: feat(layout): emit post-route netlist and SDF, add SDF-annotated verification harness
