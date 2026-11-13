@@ -1,0 +1,654 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "design/sim/tx_cell.tb.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 3,
+  "passed": 3,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 3,
+    "sim__corner__passed_count": 3,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "47",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******",
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": "design/sim/asap7_bsimcmg.lib",
+      "scope": "repo"
+    },
+    "models_lib_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+    "models_lib_sha256_scope": "client",
+    "netlist_sha256": "70b855d8147c66b43da68be234eac4dc8449edffed13577f70f4584c6bd2b721",
+    "netlist_closure": [
+      {
+        "path": "design/sim/tx_cell.tb.sp",
+        "scope": "repo",
+        "sha256": "70b855d8147c66b43da68be234eac4dc8449edffed13577f70f4584c6bd2b721"
+      },
+      {
+        "path": "design/sim/tx_cell.osdi.sp",
+        "scope": "repo",
+        "sha256": "0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e"
+      }
+    ],
+    "netlist_identity": "sha256:2ad8909950cdce71ad04e18d06333820ee62fd94c72656fd337f2b8be7a4bf59",
+    "osdi_preload": [
+      {
+        "name": "bsimcmg.osdi",
+        "path": "sim/build/osdi/bsimcmg.osdi",
+        "scope": "repo",
+        "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+      }
+    ],
+    "staged_model_inputs": [
+      {
+        "name": "asap7_bsimcmg.lib",
+        "field": "models.lib",
+        "kind": "library",
+        "sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+        "rewritten": false,
+        "source_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280"
+      },
+      {
+        "name": "bsimcmg.osdi",
+        "field": "options.osdi_preload[0]",
+        "kind": "osdi",
+        "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3",
+        "rewritten": false,
+        "source_sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+      }
+    ],
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-7911111351c7",
+      "region": "us-east-1",
+      "instance_id": "i-07826fc34f00d8d8f",
+      "instance_type": "m7i.4xlarge",
+      "availability_zone": "us-east-1c",
+      "ami_id": "ami-0f6bb304291339ed0",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "1",
+      "physical_cores": "8",
+      "elapsed_seconds": 25,
+      "client_submitted_at": "2026-11-13T06:40:34.249484Z",
+      "client_launched_at": "2026-11-13T06:40:55.976546Z",
+      "client_status_terminal_at": "2026-11-13T06:41:58.186959Z",
+      "client_collected_at": "2026-11-13T06:41:58.992128Z",
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2.dev885+ge4c446bd91f2",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "options.osdi_preload",
+          "options.stage_model_inputs"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": null,
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": true,
+          "stamp_scope": "image"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": [
+          {
+            "name": "asap7_bsimcmg.lib",
+            "sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280"
+          },
+          {
+            "name": "bsimcmg.osdi",
+            "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+          }
+        ],
+        "diagnostics": [
+          "pdk root or variant unknown on worker"
+        ],
+        "pdk_stamp_comparison": {
+          "basis": "staged_model_inputs",
+          "status": "match"
+        },
+        "engine_build_comparison": {
+          "status": "match"
+        }
+      },
+      "runner_model_inputs": [
+        {
+          "name": "asap7_bsimcmg.lib",
+          "sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280"
+        },
+        {
+          "name": "bsimcmg.osdi",
+          "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+        }
+      ],
+      "runner_models_lib_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+      "job_ceiling": {
+        "basis": "conservative_serial_bound",
+        "unit_count": 3,
+        "per_unit_timeout_s": 300,
+        "overhead_s": 120.0,
+        "job_bound_s": 1020.0,
+        "max_job_seconds": 3600.0,
+        "max_job_seconds_source": "fleet_config",
+        "exceeds_ceiling": false,
+        "check": "warn",
+        "max_units_per_job": 11,
+        "recommended_hosts": 1
+      },
+      "models_lib_comparison": {
+        "status": "not_comparable",
+        "reason": "models_staged"
+      }
+    },
+    "engine_host": "worker",
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "backend": {
+      "resolved": "batch",
+      "source": "flag",
+      "requested": "batch"
+    }
+  },
+  "coverage": {
+    "corners_simulated": 3,
+    "measurements_declared": 8,
+    "measurements_with_limits": 8,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph0\",\"min\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph1\",\"max\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph2\",\"min\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph3\",\"max\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph4\",\"min\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph5\",\"max\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph6\",\"min\"]",
+      "limit:[0,\"tt/0.700V/25C\",\"vpad_ph7\",\"max\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph0\",\"min\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph1\",\"max\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph2\",\"min\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph3\",\"max\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph4\",\"min\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph5\",\"max\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph6\",\"min\"]",
+      "limit:[1,\"ss/0.700V/25C\",\"vpad_ph7\",\"max\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph0\",\"min\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph1\",\"max\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph2\",\"min\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph3\",\"max\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph4\",\"min\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph5\",\"max\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph6\",\"min\"]",
+      "limit:[2,\"ff/0.700V/25C\",\"vpad_ph7\",\"max\"]"
+    ],
+    "skipped": [],
+    "inapplicable": [],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev885+ge4c446bd91f2",
+    "klt_git_commit": "e4c446bd91f24c2716be42529ceb299512298464",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@e4c446bd91f24c2716be42529ceb299512298464",
+    "klayout_version": "0.30.13",
+    "pdk": null,
+    "deck": {
+      "name": "asap7_bsimcmg.lib",
+      "content_hash": "sha256:c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:70b855d8147c66b43da68be234eac4dc8449edffed13577f70f4584c6bd2b721",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "vpad_ph0",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7,
+        "margin": 0.06999999999999995
+      },
+      "min": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      },
+      "max": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      }
+    },
+    {
+      "name": "vpad_ph1",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.18237e-07,
+        "margin": 0.06999988176300001
+      },
+      "min": {
+        "corner_id": "ss/0.700V/25C",
+        "value": 9.29833e-08
+      },
+      "max": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.18237e-07
+      }
+    },
+    {
+      "name": "vpad_ph2",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7,
+        "margin": 0.06999999999999995
+      },
+      "min": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      },
+      "max": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      }
+    },
+    {
+      "name": "vpad_ph3",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.18224e-07,
+        "margin": 0.069999881776
+      },
+      "min": {
+        "corner_id": "ss/0.700V/25C",
+        "value": 9.29775e-08
+      },
+      "max": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.18224e-07
+      }
+    },
+    {
+      "name": "vpad_ph4",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7,
+        "margin": 0.06999999999999995
+      },
+      "min": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      },
+      "max": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      }
+    },
+    {
+      "name": "vpad_ph5",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.1823e-07,
+        "margin": 0.06999988177000001
+      },
+      "min": {
+        "corner_id": "ss/0.700V/25C",
+        "value": 9.2989e-08
+      },
+      "max": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.1823e-07
+      }
+    },
+    {
+      "name": "vpad_ph6",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7,
+        "margin": 0.06999999999999995
+      },
+      "min": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      },
+      "max": {
+        "corner_id": "tt/0.700V/25C",
+        "value": 0.7
+      }
+    },
+    {
+      "name": "vpad_ph7",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.18228e-07,
+        "margin": 0.069999881772
+      },
+      "min": {
+        "corner_id": "ss/0.700V/25C",
+        "value": 9.29802e-08
+      },
+      "max": {
+        "corner_id": "ff/0.700V/25C",
+        "value": 1.18228e-07
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "tt/0.700V/25C",
+      "process": "tt",
+      "supply_v": {
+        "vdd": 0.7
+      },
+      "temperature_c": 25,
+      "status": "pass",
+      "runtime_s": 0.702,
+      "peak_rss_bytes": 50282496,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "vpad_ph0",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph1",
+          "value": 1.05773e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999989422700001
+        },
+        {
+          "name": "vpad_ph2",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph3",
+          "value": 1.05774e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.069999894226
+        },
+        {
+          "name": "vpad_ph4",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph5",
+          "value": 1.05774e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.069999894226
+        },
+        {
+          "name": "vpad_ph6",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph7",
+          "value": 1.05775e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999989422500001
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "ss/0.700V/25C",
+      "process": "ss",
+      "supply_v": {
+        "vdd": 0.7
+      },
+      "temperature_c": 25,
+      "status": "pass",
+      "runtime_s": 0.699,
+      "peak_rss_bytes": 50282496,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "vpad_ph0",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph1",
+          "value": 9.29833e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.0699999070167
+        },
+        {
+          "name": "vpad_ph2",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph3",
+          "value": 9.29775e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.0699999070225
+        },
+        {
+          "name": "vpad_ph4",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph5",
+          "value": 9.2989e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.069999907011
+        },
+        {
+          "name": "vpad_ph6",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph7",
+          "value": 9.29802e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999990701980001
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "ff/0.700V/25C",
+      "process": "ff",
+      "supply_v": {
+        "vdd": 0.7
+      },
+      "temperature_c": 25,
+      "status": "pass",
+      "runtime_s": 0.7,
+      "peak_rss_bytes": 50282496,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "vpad_ph0",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph1",
+          "value": 1.18237e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999988176300001
+        },
+        {
+          "name": "vpad_ph2",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph3",
+          "value": 1.18224e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.069999881776
+        },
+        {
+          "name": "vpad_ph4",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph5",
+          "value": 1.1823e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999988177000001
+        },
+        {
+          "name": "vpad_ph6",
+          "value": 0.7,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06999999999999995
+        },
+        {
+          "name": "vpad_ph7",
+          "value": 1.18228e-07,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.069999881772
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

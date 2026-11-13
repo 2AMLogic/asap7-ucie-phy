@@ -1,0 +1,99 @@
+{
+  "netlist": "tx_cell.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "tt",
+      "ss",
+      "ff"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.7
+      ]
+    },
+    "temperature_c": [
+      25
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 2400p"
+  },
+  "measurements": [
+    {
+      "name": "vpad_ph0",
+      "spice": ".meas tran vpad_ph0 find v(pad) at=280p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vpad_ph1",
+      "spice": ".meas tran vpad_ph1 find v(pad) at=580p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vpad_ph2",
+      "spice": ".meas tran vpad_ph2 find v(pad) at=880p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vpad_ph3",
+      "spice": ".meas tran vpad_ph3 find v(pad) at=1180p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vpad_ph4",
+      "spice": ".meas tran vpad_ph4 find v(pad) at=1480p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vpad_ph5",
+      "spice": ".meas tran vpad_ph5 find v(pad) at=1780p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vpad_ph6",
+      "spice": ".meas tran vpad_ph6 find v(pad) at=2080p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vpad_ph7",
+      "spice": ".meas tran vpad_ph7 find v(pad) at=2380p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  }
+}
