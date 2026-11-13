@@ -33,13 +33,13 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#128**: Analog T1: add an ASAP7 ngspice deck and run it on the batch layer (fleet ngspice 47 is ready)
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#129**: feat(sim): ASAP7 BSIM-CMG logic-level deck for tx_cell, batch-run at TT/SS/FF
 
 ## Approved (Awaiting Merge)
 
@@ -54,6 +54,7 @@ Issues carrying `loom:curated`.
 - **#3**: Track the gap to T1 (klayout-tools design-evidence-tiers.md) *(curated)*
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)*
 - **#23**: T1 item 7 (post-layout verification): SDF-annotated functional re-run of the cocotb suite on the routed slice netlist *(curated)*
+- **#128**: Analog T1: add an ASAP7 ngspice deck and run it on the batch layer (fleet ngspice 47 is ready) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -71,10 +72,10 @@ _None._
 | Very important | 1 |
 | Important | 2 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 0 |
-| PRs awaiting review | 0 |
+| In Progress (`loom:building`) | 1 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 3 |
+| Curated | 4 |
 | Architect / Hermit proposals | 0 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
