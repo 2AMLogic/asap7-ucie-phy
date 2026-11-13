@@ -58,6 +58,7 @@ Issues carrying `loom:curated`.
 ## Proposed (Architect / Hermit)
 
 - **#134**: Consolidate the two cocotb runners in verification/ (run.sh + runner.py duplicate functional_verification.sh) *(hermit)*
+- **#136**: Trim the mismatch lists from four superseded 38 MB LVS reports in evidence/item4-lvs (190 MB of a 203 MB checkout) *(hermit)*
 
 ## Epics
 
@@ -75,6 +76,6 @@ _None._
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 3 |
-| Architect / Hermit proposals | 1 |
+| Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
