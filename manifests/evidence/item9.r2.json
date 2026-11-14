@@ -45,7 +45,7 @@
         "role": "testbench",
         "path": "verification/test_slice.py",
         "passed": true,
-        "content_hash": "sha256:c2eb7a1ea739b712d32846c4017b2caf24b08582283afc023456a5350df4004f"
+        "content_hash": "sha256:8857112561b0d0390123fda997d31ab85dfd1a48ef299b82aba871b6a4a5decd"
       },
       {
         "check": "command",
