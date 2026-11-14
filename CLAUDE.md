@@ -39,6 +39,17 @@ synthesized lane datapath plus drawn TX/RX cells — so both flows apply.
 - **Verification is the product**: no claim without a testbench or a
   recorded tool run. Timing claims come from post-route STA at named library
   corners; recorded results are append-only evidence.
+- **Editing a file inventoried for T1 item 10 re-attests the envelope in the
+  same commit.** `manifests/t1-item10-inventory.json` is the authoritative
+  member list, and the envelope
+  (`manifests/t1-item10.envelope.json`) binds every member by content hash —
+  so any edit to a member makes the envelope stale and turns the `signoff`
+  job red. The two members routinely edited for reasons unrelated to signoff
+  are **`README.md`** and **`.github/workflows/signoff.yml`**; check the
+  inventory before assuming a file is not a member. Regenerate and commit the
+  envelope alongside the edit (command in `README.md`, § T1 evidence); only
+  the envelope changes, because item 10's `content_hash` in
+  `manifests/asap7-ucie-phy.json` binds the inventory, not the envelope file.
 - Spec changes go through `spec/` with a decision record; agents do not relax
   the ratified spec to make results pass.
 - **16 GT/s STA closure is the target.** 4 GT/s is the fallback and 32 GT/s
