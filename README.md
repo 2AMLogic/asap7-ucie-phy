@@ -43,9 +43,14 @@ start:
   are not checked. The bump interface is therefore where the tools are
   expected to be weakest — finding out exactly how is part of the job.
 - ASAP7's device models are BSIM-CMG. Whether the open simulation flow can
-  run them was answered in `spec/decisions/0003-simulation-flow.md`: the model compiles but
-  the current worker's ngspice cannot load it, so analog behaviour of the
-  driver and receiver is not simulated here. Timing claims for the lane datapath come from static
+  run them was first answered no in `spec/decisions/0003-simulation-flow.md`
+  (the model compiled, but that worker's ngspice could not load it), then yes
+  in `spec/decisions/0010-analog-simulation-flow.md`, which supersedes that
+  blocker: on ngspice 47 the drawn `tx_cell` runs end to end against the
+  ASAP7 BSIM-CMG cards at TT/SS/FF, checked for logic levels only
+  (`sim/tx_cell.batch.report.json`). The RX front-end and the clock cells are
+  still not simulated, and no delay, rate, eye, jitter or power statement
+  comes from that run. Timing claims for the lane datapath come from static
   timing analysis against the ASAP7 libraries.
 
 ASAP7 is not in the fleet's `open_pdks` store, so bringing it up under `klt`
