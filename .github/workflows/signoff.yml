@@ -41,7 +41,7 @@ jobs:
           PY
 
       - name: Install pinned klt and the klayout module the pad self-test imports
-        run: pip install "klayout-tools==$(cat .github/klt-version)" "klayout==0.30.12"
+        run: pip install "klayout-tools==$(cat .github/klt-version)" "klayout==$(cat .github/klayout-version)"
 
       # klt signoff --check exits 0 when the committed report still
       # reproduces, 3 when it has drifted, anything else is an error.
@@ -56,7 +56,7 @@ jobs:
             echo "CAUSE 1 -- the cited EVIDENCE is stale, not the verdict. Tell: the drift lists 'stale_evidence' rows, or a status flipping from met to unmet, or a falling t1_met_count."
             echo "  Re-attest the stale evidence; do NOT regenerate the verdict, which would only record the drift as the verdict of record (and the next step would fail anyway)."
             echo "  Most often this is T1 item 10, whose inventoried members include README.md and .github/workflows/signoff.yml -- see manifests/t1-item10-inventory.json for the full list:"
-            echo "    uvx --with klayout --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
+            echo "    uv run --no-project --with \"klayout-tools==\$(cat .github/klt-version)\" --with \"klayout==\$(cat .github/klayout-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
             echo "CAUSE 2 -- the verdict itself is stale (the manifest changed and the evidence is fine). Regenerate and commit it in this PR:"
             echo "    uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json"
             exit 1
@@ -141,7 +141,7 @@ jobs:
                       --check manifests/t1-item10.envelope.json || rc=$?
           if [ "$rc" -eq 3 ]; then
             echo "::error::manifests/t1-item10.envelope.json is stale: an inventoried file or the inventory itself changed, or a declared check now fails. README.md and .github/workflows/signoff.yml are themselves inventoried — see manifests/t1-item10-inventory.json for the full member list. Re-attest on a host with the pinned tools and commit the envelope in this PR:"
-            echo "  uvx --with klayout --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
+            echo "  uv run --no-project --with \"klayout-tools==\$(cat .github/klt-version)\" --with \"klayout==\$(cat .github/klayout-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
             echo "The block manifest and the verdict do NOT need regenerating for item 10: its content_hash binds the inventory, not the envelope."
             exit 1
           elif [ "$rc" -ne 0 ]; then
