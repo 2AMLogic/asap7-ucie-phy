@@ -74,12 +74,8 @@
     ],
     "4.digital": [
       {
-        "file": "evidence/item4-lvs/slice_routed.r12.report.json",
-        "content_hash": "sha256:a3d8a839014aad1fd8ad8838d8423dcd871ab0800ed0956022b5bd9f1f4381dd"
-      },
-      {
-        "file": "evidence/item4-slice-attempt.r12.json",
-        "content_hash": "sha256:9dd326720777d74d2a18ba91674e0349037b9452caea54a08eed7b4c68e3e7c6"
+        "file": "evidence/item4-lvs/slice_routed.r13.report.json",
+        "content_hash": "sha256:4cb450ff3f97c219b37486925cc37251503dc9a536bcb36af2a7ebe9623f492c"
       }
     ]
   }

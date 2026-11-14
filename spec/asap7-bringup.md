@@ -525,3 +525,47 @@ layout/pnr/test_layermap.py`.
 - **Signoff:** the manifest cites the r12 report and record, and `evidence/item2.r8.json` for item 2.
   T1 item 4 digital stays **unmet** and #20 stays open; the drawn-cell `r2` matches stand. The
   analog half is unchanged.
+
+## The residue is determined: the routed stream's M2–M6 wiring is one connected web (r13, appended 2026-11-14, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was waived and no
+netlist, deck or option was edited (decision 0005). Every number below was measured under the pinned
+klt `0.9.1` (`.github/klt-version`) in a throwaway `uvx` environment.
+
+- **r13** (`evidence/item4-lvs/slice_routed.r13.request.json`, report
+  `slice_routed.r13.report.json`, record `evidence/item4-slice-attempt.r13.json`): the r12 request
+  verbatim apart from the reference, which is now `layout/slice_routed.v` — the post-route netlist
+  the committed stream was routed from, committed by the same flow. This closes the hypothesis the
+  #109 analysis left open ("an LVS run against a reference that is the netlist the layout
+  implements"). Verdict **`mismatch`**, exit 3. Nets matched 408 (r12, against the synthesis
+  reference: 352), `net.split` 15269 (was 15331), `net.merged` 14967 (was 15246),
+  `device.unmatched` 55444 (was 56195), pins 268/266 as in r12. The reference converts fine (15501
+  nets / 28862 devices — post-route totals, against the synthesis reference's 15718 / 29356), so
+  the reference is not the problem.
+- **Reading:** the layout was placed and routed from this exact netlist, so a correct extraction of
+  the stream must match it; it does not. The different-netlist hypothesis is refuted and the
+  reference-netlist choice is eliminated as a variable.
+- **Trace (the step every earlier section deferred).** Cell-internal extraction is correct — the r9
+  single-cell probe stands, a two-instance abutment probe (two `BUFx4` at exact abutment, one
+  further local `klt lvs` run) leaves the cells' internal `AN` nets separate, and `klt extract` on
+  the routed stream reproduces every library cell's CDL topology hierarchically. At the top level
+  the extracted circuit is wrong in a specific way: 855 of its nets carry exactly one cell pin
+  (the reference has 6 such; 1649 reference nets carry exactly two, a clean driver-load chain), and
+  `rx_clk` reaches 179 cell pins against 528 in `layout/slice_routed.v`.
+- **Cause, geometric.** Merging the stream's M2–M6 routing layers with the `klayout` Python module,
+  joining layers only through via cuts, yields **215 components, of which one spans the whole die
+  and holds 99.3% of the stack's routing area** — power straps and signal wiring are shorted
+  together on the upper layers. Same-layer geometry is disjoint (merged M2 keeps 14361 shapes, M3
+  7850), so the joins are through via cuts. At M1 level the M1/V0/LIG/LISD union keeps 9415 webs —
+  the magnitude the cell-pin population implies; the collapse is at M2 and above. The stream also
+  carries sub-minimum-width M2 shapes (87048 × 72 dbu = 21.762 × 0.018 um on `20/0`), inside the
+  core and outside it. No LVS reference can match a stream in this state; this is the determined
+  cause of the r5–r13 `net.split`/`net.merged` residue.
+- **Not attributed further here.** Whether the short is created by klt place-and-route's DEF or by
+  its DEF→GDS merge was not determined (the DEF is a scratch artifact of `layout/pnr/regen.py` and
+  was not kept); `regen.py` re-runs the flow and can separate the two. Attribution, stream fix and
+  the r14 against a fixed stream are **#169**. The DRC record of record (#155) binds the previous
+  stream `eae888dc...` and is stale for this one; item 3 is outside this issue.
+- **Signoff:** the manifest cites the r13 report and record (r12's files stay, append-only). T1
+  item 4 digital stays **unmet** and #20 stays open, now parked on #169; the drawn-cell `r2`
+  matches stand. The analog half is unchanged.
