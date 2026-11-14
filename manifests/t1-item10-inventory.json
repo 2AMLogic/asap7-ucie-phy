@@ -14,6 +14,11 @@
     "spec/decisions/0003-simulation-flow.md",
     "spec/decisions/0004-rate-definition-and-clock-ratio.md",
     "spec/decisions/0005-signoff-definitions.md",
+    "spec/decisions/0006-no-statistical-spec-rows.md",
+    "spec/decisions/0007-cdc-fifo-read-enable-timing.md",
+    "spec/decisions/0008-item6-analog-declared-gap.md",
+    "spec/decisions/0009-cdc-fifo-read-mux-select-timing.md",
+    "spec/decisions/0010-analog-simulation-flow.md",
     ".github/workflows/signoff.yml"
   ],
   "checks": [
