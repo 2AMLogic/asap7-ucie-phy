@@ -119,7 +119,7 @@ measurements.
 re-routed from the re-synthesized netlist (#115) and the column reassembled (#118), and no record carried
 either committed hash: `layout/slice_routed.gds` is sha256 `eae888dc...` and `layout/lane_column.gds` is
 `4937a7bd...`, while the records hold `826cd283...`, `b033d2b8...`, `2a70c692...`, `ec3a639b...` and
-`1183fa3e...`. The 8,208 figure #64 and the roadmap reason from was measured on `2a70c692...`.
+`1183fa3e...`. The 8,208 figure that #64 and the roadmap reason from was measured on `2a70c692...`.
 
 **Measured now**, both runs completed, expectation satisfied (`missing_names` and `unexpected_names`
 empty, 267 of 267 categories checked):
@@ -198,24 +198,59 @@ New at 0.9.1: the coverage block now lists five `isolation_only_rules` (`FIN.W.2
 `NSELECT.W.1`, `PSELECT.W.1`, `WELL.W.1`) whose findings are only meaningful on a cell checked alone.
 The 0.8.0 envelopes carried no such disclosure.
 
-### First checkable DRC evidence in this directory
+### First checkable DRC evidence in this directory — the input assertion
 
 Because `--max-violations 0` is summary-only — true `violation_count`, `rule_counts` and `status`, with
 only the marker list dropped and `violations_truncated` marking it — the envelopes are ~30 KB instead of
-the 175 MB and 3.9 GB that kept every earlier envelope out of the repo. Both are committed and both
-verify:
+the 175 MB and 3.9 GB that kept every earlier envelope out of the repo. Both are committed, so for the
+first time in this directory a tool can re-verify the evidence rather than only read it.
+
+**What re-verifies anywhere is the input assertion**, `provenance.input.content_hash`: the stream it names
+is committed in-repo and the envelope records it as a portable `{"path": ..., "scope": "repo"}` locator, so
+`--check` re-hashes it from any checkout. **The deck assertion does not** — see the caveat below. So what
+this directory now has is a checkable *input* assertion, not a checkable whole envelope.
+
+On the **authoring host**, where the deck is still present at the absolute path the envelope recorded, both
+envelopes report a full match:
 
 ```
 $ uvx --from "klayout-tools==0.9.1" klt drc --check verification/drc/<stream>.r3.envelope.json
 status: match
   [OK] provenance.input.content_hash
   [OK] provenance.deck.content_hash
+exit 0
 ```
 
-Caveat: each envelope's top-level `deck` field is the deck's absolute path inside this host's `uv` cache
-(existing gap [#2723](https://github.com/2AMLogic/klayout-tools/issues/2723)). `--check` matches on the
-deck's *content hash*, so it re-verifies wherever the pinned env resolves the same deck bytes, but the
-recorded path is host-specific. The envelopes are committed exactly as the tool emitted them.
+That transcript is the authoring host's result only. On **a second host** of the same fleet at the same
+pin, both envelopes give (2026-11-14):
+
+```
+$ uvx --from "klayout-tools==0.9.1" klt drc --check verification/drc/<stream>.r3.envelope.json
+status: drifted
+  [OK] provenance.input.content_hash
+  [DRIFTED] provenance.deck.content_hash
+      expected: sha256:14f146f02cd731de3e0b59452eadfdab9c2c947724a219a1002a31b5e0f12d13
+      actual:   None
+exit 3
+```
+
+The second result is the portable truth, and it is itself useful evidence: the input half holds off the
+authoring host, the deck half does not.
+
+**Caveat — the mechanism.** Each envelope's top-level `deck` field is the deck's absolute path inside the
+authoring host's `uv` cache. `--check` resolves the deck by **dereferencing that recorded absolute path**,
+so the deck assertion re-verifies **only where that exact path exists** — not merely wherever the pinned
+env resolves the same deck bytes. Where the path is absent the deck cannot be hashed at all and the field
+reports `actual: None`, a non-resolving locator rather than a content mismatch, which still reads as
+`drifted` and exits 3. Same pinned env plus byte-identical deck is **not** sufficient: on the second host
+the pin resolves `asap7.drc` to a different cache path whose sha256 is exactly the recorded `14f146f0...`
+and `--check` still reports `None`, and passing that deck explicitly with `--deck-file` alongside `--check`
+is accepted without error and changes nothing. The recorded path also embeds the env's Python minor version
+(`python3.13`, where the same pin now resolves `python3.14`), so it is unlikely to survive a cache rebuild
+even on the authoring host. Filed generically as
+[#5709](https://github.com/2AMLogic/klayout-tools/issues/5709);
+[#2723](https://github.com/2AMLogic/klayout-tools/issues/2723) is the closed background gap on absolute
+paths in reports. The envelopes are committed exactly as the tool emitted them.
 
 ### What this run could not establish
 

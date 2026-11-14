@@ -31,17 +31,28 @@
       "verification/drc/slice_routed.r3.envelope.json",
       "verification/drc/lane_column.r3.envelope.json"
     ],
-    "why": "The five earlier records could not commit their envelopes (175 MB and 3.9 GB with every polygon inline), so none of them is tool-checkable. --max-violations 0 makes the summary-only envelope ~30 KB, so these two are committed and this record is the first in this directory that a tool can verify.",
+    "why": "The five earlier records could not commit their envelopes (175 MB and 3.9 GB with every polygon inline), so none of them is tool-checkable at all. --max-violations 0 makes the summary-only envelope ~30 KB, so these two are committed and are the first evidence in this directory that a tool can verify. What re-verifies portably is the input half: provenance.input.content_hash, because the GDS it names is committed in-repo and the envelope records it as a portable {path, scope: repo} locator. The deck half does not re-verify off the authoring host -- see verified.observed_off_host and caveat -- so this is a checkable input assertion, not a checkable whole envelope.",
     "verified": {
       "command": "uvx --from klayout-tools==0.9.1 klt drc --check <envelope>",
       "run_date": "2026-11-14",
-      "result": "status: match for both envelopes (exit 0)",
       "fields_checked": [
         "provenance.input.content_hash",
         "provenance.deck.content_hash"
-      ]
+      ],
+      "observed_authoring_host": {
+        "host": "the host that produced these envelopes",
+        "result": "status: match for both envelopes (exit 0)",
+        "scope": "This is the authoring host's result only. It depends on the deck still being present at the absolute uv-cache path recorded in the envelope, which is why it does not reproduce elsewhere."
+      },
+      "observed_off_host": {
+        "host": "a second host of the same fleet, same pin, 2026-11-14",
+        "result": "status: drifted for both envelopes (exit 3): [OK] provenance.input.content_hash, [DRIFTED] provenance.deck.content_hash with actual: None",
+        "cause": "--check resolves the deck by dereferencing the absolute path in the envelope's top-level `deck` field. That path does not exist on the second host, so the deck cannot be hashed and the assertion reports actual: None -- a non-resolving locator, not a content mismatch.",
+        "same_bytes_is_not_enough": "The second host's pinned env resolves asap7.drc to a different cache path whose sha256 is byte-identical to the recorded 14f146f0..., and --check still reports None. Passing that deck explicitly with --deck-file alongside --check is accepted without error and changes nothing (still None, exit 3).",
+        "portable_part": "provenance.input.content_hash is [OK] on both hosts."
+      }
     },
-    "caveat": "Each envelope's top-level `deck` field is the absolute path of the deck inside this host's uv cache (/home/ubuntu/.cache/uv/archive-v0/<hash>/...), because klt records the caller's resolved path (existing gap 2AMLogic/klayout-tools#2723). --check matches on the deck's content_hash, so it re-verifies on any host whose pinned env resolves the same deck bytes, but the recorded path itself is host-specific and is not a portable locator. The envelopes are committed as the tool emitted them, unedited."
+    "caveat": "Each envelope's top-level `deck` field is the absolute path of the deck inside the authoring host's uv cache (/home/ubuntu/.cache/uv/archive-v0/<hash>/lib/python3.13/...), because klt records the caller's resolved path. --check resolves the deck via that recorded absolute path, so the deck assertion re-verifies ONLY where that exact path exists -- not merely wherever the pinned env resolves the same deck bytes. Same env plus byte-identical deck is not sufficient, and the recorded path embeds the env's Python minor version (python3.13, where the same pin now resolves python3.14), so it is unlikely to survive a cache rebuild even on the authoring host. The input half (provenance.input.content_hash) is unaffected and re-verifies anywhere, because the envelope records the input as a portable {path, scope: repo} locator and the GDS is committed in-repo. Filed generically as 2AMLogic/klayout-tools#5709 (the host-path deck locator and the silently ineffective --deck-file override under --check); 2AMLogic/klayout-tools#2723 is the closed background gap on absolute paths in reports. The envelopes are committed as the tool emitted them, unedited."
   },
   "slice_routed": {
     "input": "layout/slice_routed.gds",
