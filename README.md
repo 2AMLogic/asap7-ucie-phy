@@ -12,7 +12,7 @@ FinFET node for research and teaching; no fab manufactures it. This block is
 this repo is a tool result against a predictive model — there is no silicon,
 no shuttle and no measurement at the end of the ladder.
 
-**Status: spec ratified, ASAP7 brought up, lane RTL and its testbench in place, pad-centre checker in place.** The drawn TX/RX cells, the lane column, DRC/LVS and post-route STA are not done. The committed T1 verdict reports each item as `met` or `unmet` (see "T1 evidence"); this is not a claim of any tier.
+**Status: spec ratified, ASAP7 brought up, lane RTL and its testbench in place, the drawn TX/RX cells and the lane column committed as layout, pad-centre checker in place.** DRC is not done (T1 item 3, `unmet` / `no_evidence` on both partitions); LVS is `met` on the analog partition only (item 4 — the digital partition is `unmet` / `check_failed`); post-route STA is not done (item 7, `unmet` / `no_evidence` on both partitions). The committed T1 verdict reports each item as `met` or `unmet` (see "T1 evidence"); this is not a claim of any tier.
 
 **Built agent-native.** Every specification, decision record, testbench, and
 line of documentation here is produced by AI agents working from a ratified
@@ -92,7 +92,14 @@ evidence type per row, is in [`spec/ucie-phy.md`](spec/ucie-phy.md)):
 Maturity ladder: ASAP7 brought up under `klt` → spec ratified → lane RTL
 verified → lane cell DRC/LVS-clean → lane column placed against the bump map
 → module slice DRC/LVS-clean → post-route STA closed. **Current position:
-spec ratified, ASAP7 brought up.** There is no silicon rung.
+ASAP7 brought up, spec ratified, and the drawn cells and the lane column
+committed as layout (item 2 "Layout", `met` on both partitions).** No rung
+beyond that is claimed: "lane RTL verified" rests on item 5, `unmet` on both
+partitions (`no_evidence` analog, `check_failed` digital); the two
+DRC/LVS-clean rungs rest on item 3, `unmet` / `no_evidence` on both
+partitions, and item 4, `met` on the analog partition only with the digital
+partition `unmet` / `check_failed`; and post-route STA closure is item 7,
+`unmet` / `no_evidence` on both. There is no silicon rung.
 
 ## On UCIe, and what may be said
 
@@ -108,13 +115,21 @@ The block's T1 evidence state is machine-readable. The block manifest
 ([`manifests/asap7-ucie-phy.json`](manifests/asap7-ucie-phy.json)) cites the
 evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
-is the committed output of `klt signoff` against it. Items 1, 2, 9 and 10 (repo hygiene, cited from
-[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) are `met` on both partitions
+is the committed output of `klt signoff` against it. It grades 9 of the 22 T1 rows `met`
+(`t1_met_count: 9`) and the tier is `null`. Items 1, 2, 9 and 10 (repo hygiene, cited from
+[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) are `met` on both
+partitions, and item 4 ("LVS clean") is `met` on the **analog** partition only — its digital
+partition is `unmet` / `check_failed`
 (item 6's digital partition is `not_applicable`; its analog partition is a declared gap, `unmet` /
 `no_evidence`, not evidence — see [decision 0008](spec/decisions/0008-item6-analog-declared-gap.md)).
 Item 5's digital partition cites a pre-route `klt sta` report
 ([`sta/`](sta/README.md)) and two `klt functional-verification` reports; it is `unmet` because
-setup slack is still negative at ss (r4: tt +0.003 / ss -0.124 / ff +0.063 ns). Every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
+setup slack is still negative at ss — the cited
+[`sta/slice.sta.r5.report.json`](sta/slice.sta.r5.report.json) reports tt +0.030 / ss -0.097 /
+ff +0.085 ns. Every other item is `unmet`. Read the per-item table from the tool rather than from
+this summary — `klt signoff --manifest manifests/asap7-ucie-phy.json --format text` prints one
+graded line per row with its reason and citation (exit 3 is the grading status, not an error). CI
+re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`.
 
 The item-10 envelope binds every file listed in
@@ -152,6 +167,24 @@ verification/functional_verification.sh --negative-control   # exit 0 iff the br
 # Pre-route STA report (T1 item 5; needs openroad on PATH)
 KLT="uvx --from klayout-tools==$(cat .github/klt-version) klt" python3 -I sta/regen.py
 
+# Post-route SDF-annotated cocotb loopback (T1 item 7, digital). Today this is a
+# recorded refusal, not a pass: klt declines a verdict because the back-annotation of
+# layout/slice_routed.sdf "did not fully apply: 8 diagnostic(s)", so the run "would have
+# been a zero-delay one reported as if it were annotated"
+# (verification/functional-verification-sdf.report.json carries that error and no verdict).
+# Item 7 stays `unmet` / `no_evidence` on both partitions.
+verification/functional_verification_sdf.sh
+
+# Circuit sim of the drawn tx_cell against the ASAP7 BSIM-CMG cards at TT/SS/FF
+# (spec/decisions/0010-analog-simulation-flow.md; logic levels only — no delay, rate, eye,
+# jitter or power statement). Needs ngspice 47 and a locally built, uncommitted OSDI module
+# under sim/build/osdi/ (gitignored; rebuild with klt's scripts/fetch-asap7-sim-toolchain.sh
+# and check the sha256 in decision 0010). The committed report came from client klt
+# 0.9.2.dev885 on the batch fleet, not the .github/klt-version pin the commands above use,
+# so it is not bit-reproducible in this pinned form.
+klt sim design/sim/tx_cell.sim.json --backend batch --wait-for-capacity 600 \
+    --report-out sim/tx_cell.batch.report.json
+
 # Pad check: drawn pad centres vs the committed bump map (needs the `klayout` pip package)
 python3 layout/selftest.py
 
@@ -166,7 +199,7 @@ uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff \
 
 CI (`.github/workflows/signoff.yml`) runs the JSON validity check, the pad-checker
 self-test and the two `--check` commands above. It does not run `verification/run.sh`,
-which needs a toolchain the CI runner lacks.
+the SDF harness or the `klt sim` request, which need toolchains the CI runner lacks.
 
 ## Repo layout
 
