@@ -421,3 +421,28 @@ a match and `power_connectivity` / `supply_nets` were not waived (decision 0005)
   has almost no anchor for the net correspondence; no tool defect is attributed and the cause is undetermined.
 - **Signoff:** the manifest cites the r10 report and record. T1 item 4 digital stays **unmet**; the drawn-cell `r2`
   matches stand. The analog half is unchanged.
+
+## Item-1 signoff convention: reuse the inventory, revision only the evidence (appended 2026-11-14, issue #145)
+
+Documentation-only convention; no tool run in this section. The item-1 signoff
+**inventory is an input, not a measurement**: it holds a source list, a description
+and the `--check` argv — no hash, no tool version, no timestamp and no result. The
+measurement lives in the evidence output, which re-hashes the inventoried files and
+therefore genuinely differs per revision.
+
+**Convention:** for T1 signoff attestations, revision the evidence output, not the
+inventory, unless the inventory's own content changes. Mint a further
+`attest/item1.rN.json` only when the `sources` list or the declared `derived` checks
+actually change; otherwise pass the unchanged inventory to
+`klt signoff --attest 1 --inventory` and revision only the `-o`/`--check` evidence
+record. Items 9 (`manifests/attest/item9.json` against `manifests/evidence/item9.json`
+and `item9.r2.json`) and 10 (`manifests/t1-item10-inventory.json`, re-used across
+revisions per `README.md`, "T1 evidence") already follow this; item 1 historically
+did not — `attest/item1.r2.json` through `attest/item1.r7.json` are byte-identical
+except for the r2 `sources` edit.
+
+**Inventory of record:** `attest/item1.r7.json` is the item-1 inventory going
+forward — `.github/workflows/signoff.yml` and the block manifest already cite it,
+so nothing moves today. The existing r2-r7 copies stay as committed history: each
+is pinned by content hash inside its append-only evidence record and is not edited
+or deleted.
