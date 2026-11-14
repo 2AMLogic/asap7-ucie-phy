@@ -11,10 +11,13 @@ the pinned `cocotb`, runs 16 and 8 lanes, and writes `verification/runs/<mode>-<
 (gitignored) with the pins, seed, and pass/fail counts. `SEED=<n>` overrides the pinned seed.
 
 `test_slice.py` loops the TX boundary through a behavioural model of the drawn stages (kept
-here, never under `rtl/`) onto a forwarded clock with a different period and phase from `clk`.
-It checks in-order delivery, no loss or duplication under `valid`/`ready` stalls, `tx_ready`
-timing, `tx_fwd_en` per accepted word, no RX overflow, long valid-low runs, and reset mid-stream.
-Simulator time units carry no rate or timing claim.
+here, never under `rtl/`) onto a forwarded clock with a different period and phase from `clk`:
+each scenario holds the forwarded clock idle for its stated offset before replaying its first
+word, so the three scenarios cross the boundary at three distinct alignments. It checks
+in-order delivery, no loss or duplication under `valid`/`ready` stalls, `tx_ready` timing,
+`tx_fwd_en` per accepted word, no RX overflow, long valid-low runs, reset mid-stream, and that
+the forwarded clock carries the stated offset — measured at `rx_clk` and reported per scenario
+in the simulation log, not assumed. Simulator time units carry no rate or timing claim.
 
 Lint and synthesis checks from the issue:
 

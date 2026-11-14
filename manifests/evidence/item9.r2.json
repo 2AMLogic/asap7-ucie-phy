@@ -45,7 +45,7 @@
         "role": "testbench",
         "path": "verification/test_slice.py",
         "passed": true,
-        "content_hash": "sha256:03c5b8a6defe24f2dc69bf219f81536a403e26021d8fa801a4bbe799df825d41"
+        "content_hash": "sha256:c2eb7a1ea739b712d32846c4017b2caf24b08582283afc023456a5350df4004f"
       },
       {
         "check": "command",
@@ -83,7 +83,7 @@
     ]
   },
   "provenance": {
-    "klt_version": "0.8.0",
+    "klt_version": "0.9.1",
     "klayout_version": null,
     "pdk": null,
     "deck": null,
