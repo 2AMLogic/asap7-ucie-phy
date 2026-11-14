@@ -52,8 +52,13 @@ jobs:
           klt signoff --manifest manifests/asap7-ucie-phy.json \
                       --check manifests/asap7-ucie-phy.signoff.json || rc=$?
           if [ "$rc" -eq 3 ]; then
-            echo "::error::manifests/asap7-ucie-phy.signoff.json is stale. Regenerate and commit it in this PR:"
-            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json"
+            echo "::error::manifests/asap7-ucie-phy.signoff.json no longer reproduces from manifests/asap7-ucie-phy.json. Read the drift above before choosing a fix — there are two different causes with two different fixes."
+            echo "CAUSE 1 -- the cited EVIDENCE is stale, not the verdict. Tell: the drift lists 'stale_evidence' rows, or a status flipping from met to unmet, or a falling t1_met_count."
+            echo "  Re-attest the stale evidence; do NOT regenerate the verdict, which would only record the drift as the verdict of record (and the next step would fail anyway)."
+            echo "  Most often this is T1 item 10, whose inventoried members include README.md and .github/workflows/signoff.yml -- see manifests/t1-item10-inventory.json for the full list:"
+            echo "    uvx --with klayout --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
+            echo "CAUSE 2 -- the verdict itself is stale (the manifest changed and the evidence is fine). Regenerate and commit it in this PR:"
+            echo "    uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json"
             exit 1
           elif [ "$rc" -ne 0 ]; then
             echo "::error::klt signoff --check exited $rc (expected 0 or 3): manifest or report is broken"
