@@ -1,0 +1,67 @@
+{
+ "schema_version": 1,
+ "kind": "lvs-attempt-record",
+ "t1_item": 4,
+ "partition": "digital",
+ "note": "ASAP7 is predictive; tool result only. Append-only; r1-r11 left as written. The netlist and deck were not edited; power_connectivity and supply_nets not waived. The layout changed: the staged KLayout LEF/DEF layer map now also sends the top-level DEF PINS rectangle to its metal's drawing purpose, so the pin's own name label coincides with a conductor (issue #149).",
+ "klt_version": "0.9.1",
+ "klayout_version": "0.30.13",
+ "input": "layout/slice_routed.gds",
+ "reference": "design/netlist/slice_asap7.v",
+ "klt_source": "throwaway uvx env, uvx --with klayout --from klayout-tools==0.9.1 klt lvs --format json (one single local run, about 5 min; klayout engine 0.30.13, which the report flags as a mismatch against the 0.30.12 this klt build was tested against)",
+ "status": "fail",
+ "summary": "First compare against the stream re-routed with the pin-geometry layer-map fix (issue #149). Verdict: mismatch, unchanged in grade. The diagnosed defect is gone: the layout now extracts 268 top-level pins against 266 in the reference (r10/r11: 2), and 266 pin names were anchored by name before comparing (topology.top_level_pins_anchored, r10/r11 anchored none). With an anchor the compare pairs an order of magnitude more: nets matched 352 (r10/r11 34) and devices matched 199 (37). The residual net-level disagreement is only slightly smaller and still dominates: net.split 15331 (was 15761), net.merged 15246 (was 15676), device.unmatched 56195 (was 56563). hints.rejected reappears at 68 because there are now pin hints to reject. The P&R result itself is unchanged (route_drc_violation_count 0, antenna_violation_count 0, clock skew 0.00771 ns, same placement and routing); only the DEF->GDS merge differs.",
+ "input_hash": "sha256:27dbfd1ddbb7478e8eebf65a61110f5996e3c826d603a37e615ec61e27c795f6",
+ "reference_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+ "request_file": "evidence/item4-lvs/slice_routed.r12.request.json",
+ "request_notes": "The r11 request verbatim apart from the scratch pdk_root and pin_order_files paths, so the stream is the only variable against r11. pdk_root and pin_order_files point at the pinned lambdapdk v0.2.17 tree (archive sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2), re-fetched into /tmp scratch, not committed.",
+ "result": "mismatch, reports committed",
+ "exit": 3,
+ "klt_message": null,
+ "upstream": "2AMLogic/klayout-tools#5700 (linked from spec/asap7-bringup.md): klt place-and-route writes the top-level DEF PINS rectangle and its name label to the layer map's pin purpose, which the extraction decks read as a label layer only, so klt lvs extracts a top-level pin only where routing metal on the drawing layer happens to coincide with the pin label. The workaround recorded here is layout-side; the inconsistency between the two verbs survives it.",
+ "not_done": "The netlist, deck and compare options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005). The residual net.split / net.merged disagreement was not traced; that is still the open step. DRC was not re-run over the added M4 pin geometry (#64, #66 out of scope). layout/lane_column.gds is not carried forward unchanged: it was re-assembled over this stream in the same commit, so assemble_column.py --check exits 0 here.",
+ "report_file": "evidence/item4-lvs/slice_routed.r12.report.json",
+ "report_status": "mismatch",
+ "report_counts": {
+  "nets": {
+   "layout": 15803,
+   "reference": 15718,
+   "matched": 352
+  },
+  "devices": {
+   "layout": 29436,
+   "reference": 29356,
+   "matched": 199
+  },
+  "pins": {
+   "layout": 268,
+   "reference": 266,
+   "matched": 268
+  }
+ },
+ "report_category_counts": {
+  "device.body_unverified": 1,
+  "device.finfet_bulk_tied": 168,
+  "device.unmatched": 56195,
+  "device.unmerged_fingers": 621,
+  "hints.rejected": 68,
+  "net.merged": 15246,
+  "net.split": 15331,
+  "net.supply_fragmented": 84,
+  "reference.gate_level_pin_case_folded": 2,
+  "topology.flattened": 2,
+  "topology.reference_port_alias_joined": 4,
+  "topology.top_level_pins_anchored": 1
+ },
+ "power_connectivity_status": "unchecked",
+ "power_connectivity_reason": "reference.form is 'gate-level-verilog' on a FinFET layout.deck, so supply connectivity takes part in the ordinary compare and the stub-form power-pin check does not apply. Same reason r10/r11 record; not a waiver.",
+ "previous": {
+  "record": "evidence/item4-slice-attempt.r10.json",
+  "report_status": "mismatch",
+  "pins": {
+   "layout": 2,
+   "reference": 266
+  },
+  "note": "r10 and r11 ran the same two requests against the stream before the layer-map fix (input sha256 eae888dc...)."
+ }
+}
