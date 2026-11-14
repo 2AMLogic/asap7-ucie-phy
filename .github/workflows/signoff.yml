@@ -114,9 +114,32 @@ jobs:
 
       # Item 10 (repo hygiene): the inventory's declared checks are run by
       # klt itself; --check exits 0 when the committed envelope still
-      # reproduces and non-zero on drift or any failing check.
+      # reproduces, 3 when it has drifted or a declared check now fails, and
+      # anything else is an error.
+      #
+      # README.md and this workflow file are themselves inventoried members, so
+      # an ordinary prose or CI edit drifts the envelope. Unlike item 9, the
+      # remediation below deliberately stops at the envelope: item 10's
+      # content_hash in manifests/asap7-ucie-phy.json binds the *inventory*
+      # (manifests/t1-item10-inventory.json), not the envelope file, so a
+      # re-attest needs neither the block manifest re-pinned nor
+      # manifests/asap7-ucie-phy.signoff.json regenerated. Do not add item 9's
+      # trailing "then update the content_hash and regenerate the verdict"
+      # sentence here — it would send the reader after a change that is not
+      # required.
       - name: Check the committed T1 item 10 attestation still reproduces
         run: |
+          set -uo pipefail
+          rc=0
           klt signoff --attest 10 \
                       --inventory manifests/t1-item10-inventory.json \
-                      --check manifests/t1-item10.envelope.json
+                      --check manifests/t1-item10.envelope.json || rc=$?
+          if [ "$rc" -eq 3 ]; then
+            echo "::error::manifests/t1-item10.envelope.json is stale: an inventoried file or the inventory itself changed, or a declared check now fails. README.md and .github/workflows/signoff.yml are themselves inventoried — see manifests/t1-item10-inventory.json for the full member list. Re-attest on a host with the pinned tools and commit the envelope in this PR:"
+            echo "  uvx --with klayout --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
+            echo "The block manifest and the verdict do NOT need regenerating for item 10: its content_hash binds the inventory, not the envelope."
+            exit 1
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::klt signoff --attest 10 --check exited $rc (expected 0 or 3): the inventory, the envelope or the pinned tooling is broken"
+            exit 1
+          fi

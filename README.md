@@ -115,8 +115,20 @@ is the committed output of `klt signoff` against it. Items 1, 2, 9 and 10 (repo 
 Item 5's digital partition cites a pre-route `klt sta` report
 ([`sta/`](sta/README.md)) and two `klt functional-verification` reports; it is `unmet` because
 setup slack is still negative at ss (r4: tt +0.003 / ss -0.124 / ff +0.063 ns). Every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
-with the `klayout-tools` version pinned in `.github/klt-version`. To
-regenerate the verdict, and the item-10 envelope after changing any inventoried file:
+with the `klayout-tools` version pinned in `.github/klt-version`.
+
+The item-10 envelope binds every file listed in
+[`manifests/t1-item10-inventory.json`](manifests/t1-item10-inventory.json) by
+content hash — **including this README and
+[`.github/workflows/signoff.yml`](.github/workflows/signoff.yml)**, the two
+members most often edited for reasons unrelated to signoff. Editing any member
+makes the envelope stale, so re-attest item 10 in the same commit or the
+`signoff` job fails. That inventory is the authoritative member list; consult
+it rather than assuming. Only the envelope changes: item 10's `content_hash`
+in the block manifest binds the inventory, not the envelope file.
+
+To regenerate the verdict, and the item-10 envelope after changing any
+inventoried file:
 
 ```
 uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json
