@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 2,
+  "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
+  "source": "layout/lane_column.gds",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 3,
+    "passed_count": 3,
+    "checks": [
+      {
+        "check": "stream_readable",
+        "role": "layout",
+        "passed": true,
+        "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
+      },
+      {
+        "check": "top_cell_non_empty",
+        "role": "layout",
+        "passed": true,
+        "top_cells": [
+          "lane_column"
+        ]
+      },
+      {
+        "check": "dbu_on_grid",
+        "role": "layout",
+        "passed": true,
+        "dbu": 0.00025
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.9.1",
+    "klayout_version": "0.30.13",
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "layout/lane_column.gds",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
+    },
+    "regeneration": {
+      "generator": "python3 layout/assemble_column.py",
+      "regenerated_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
+    }
+  }
+}

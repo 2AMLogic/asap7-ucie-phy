@@ -333,11 +333,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r7.json",
+        "file": "evidence/item2.r8.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+        "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -346,7 +346,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+          "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -358,7 +358,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+            "regenerated_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
             "executed_by_klt": false
           }
         }
@@ -376,11 +376,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r7.json",
+        "file": "evidence/item2.r8.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+        "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -389,7 +389,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+          "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -401,7 +401,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+            "regenerated_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
             "executed_by_klt": false
           }
         }
@@ -528,20 +528,20 @@
       "citation": null,
       "citations_graded": [
         {
-          "citation": "evidence/item4-lvs/slice_routed.r10.report.json",
+          "citation": "evidence/item4-lvs/slice_routed.r12.report.json",
           "status": "unmet",
           "reason": "check_failed"
         },
         {
-          "citation": "evidence/item4-slice-attempt.r10.json",
+          "citation": "evidence/item4-slice-attempt.r12.json",
           "status": "unmet",
           "reason": "unrecognized_envelope"
         }
       ],
       "detail": {
         "failed_citations": [
-          "evidence/item4-lvs/slice_routed.r10.report.json",
-          "evidence/item4-slice-attempt.r10.json"
+          "evidence/item4-lvs/slice_routed.r12.report.json",
+          "evidence/item4-slice-attempt.r12.json"
         ]
       }
     },

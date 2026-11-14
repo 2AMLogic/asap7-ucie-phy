@@ -128,14 +128,23 @@ ASAP7 is predictive and nothing here is fabricated.**
   dropped (#64) because their via stacks fail the deck and no request field moves them
   (2AMLogic/klayout-tools#4494), so only the `M1`/`M2` followpin rails remain; restoring a grid is #66.
   Footprint 23.835 um x 45.670 um (`klt stats` bbox), 1088.5 um^2 (report `die_area_um2`), against the 45 um x 90 um / 4050 um^2 lane-cell budget (spec section 4): about
-  2961 um^2 is left for the drawn TX/RX cells. The stream is 5,427,520 bytes, sha256
-  `eae888dccce1e26e0416d3af0e2332127a9b1d39a172df7df95e32a466a96b13`; `regen.py --check` reproduces it
+  2961 um^2 is left for the drawn TX/RX cells. The stream is 5,462,696 bytes, sha256
+  `27dbfd1ddbb7478e8eebf65a61110f5996e3c826d603a37e615ec61e27c795f6`; `regen.py --check` reproduces it
   byte-for-byte. Cell census (method in `spec/asap7-bringup.md`, #20): 2594 logic cells in the layout against
   2743 in `design/netlist/slice_asap7.v`, summed absolute per-cell difference **221** (previous stream: 2211),
   the residue being clock-tree and repair buffer sizing that place-and-route adds. The earlier stream's hash
-  (`b264dd56...`) remains cited by the append-only `attest/` and `evidence/` records of runs made on it.
-  `layout/lane_column.gds` instances the routed slice and was **not** regenerated here; `assemble_column.py
-  --check` now reports drift (#114).
+  (`b264dd56...`) and the pre-#149 stream's (`eae888dc...`) remain cited by the append-only `attest/` and
+  `evidence/` records of runs made on them. `layout/lane_column.gds` instances the routed slice and was
+  re-assembled for this stream, so `assemble_column.py --check` exits 0.
+- **Pin geometry (issue #149).** `regen.py` stages the pinned lambdapdk `base/apr/asap7.layermap` through
+  `pin_geometry_on_drawing()`, which adds a `<M> PIN <layer> 0` entry for every routing metal that declares
+  both a `NET` and a `PIN` purpose. The pinned map sends the top-level DEF `PINS` rectangle *and* its name
+  label to the metal's pin purpose alone (`M4 PIN 40 251`, `NAME M4/PIN 40 251`), which klt's ASAP7
+  extraction deck reads as a label layer only -- so no top-level pin label sat on a conductor and `klt lvs`
+  extracted 2 top-level pins against 266 in the reference. With the entry the rectangle is also real routing
+  metal under its own label and all 268 extract. It only adds geometry; the pin-purpose entry stays, and
+  placement, routing and the P&R report's violation counts are unchanged. Self-test: `python3 -I
+  layout/pnr/test_layermap.py`. Mechanism, measurements and the upstream filing: `spec/asap7-bringup.md`.
 
 Assumptions and workarounds, all inputs to the flow and none a PDK-supplied value or a sign-off claim:
 
@@ -200,3 +209,12 @@ stream is regenerated routing from the newer netlist, not the dbu. DRC figures a
 byte-identical across two runs); `check_pads.py` still passes on 34 pads and `selftest.py` passes.
 `attest/item2.r7.json` / `evidence/item2.r7.json` supersede r6 (kept as history, untouched) and are the records cited by
 the manifest. DRC and LVS figures are not re-measured here. Layout geometry only; ASAP7 is predictive.
+
+**Record r8 (issue #149).** The routed slice was re-generated with the pin-geometry layer-map fix
+(`layout/slice_routed.gds` sha256 `27dbfd1d...`), so `layout/lane_column.gds` was re-assembled with
+`assemble_column.py` (`--check` exits 0); `check_pads.py` still passes on 34 pads (record byte-identical to
+r7's) and `selftest.py` passes. `attest/item2.r8.json` / `evidence/item2.r8.json` supersede r7 (kept as
+history, untouched) and are the records cited by the manifest. Placement and routing did not change -- only
+the DEF->GDS merge -- so the P&R report's `route_drc_violation_count` 0, `antenna_violation_count` 0 and
+clock skew 0.00771 ns are unchanged. DRC figures are not re-measured here; the LVS re-run on this stream is
+`evidence/item4-slice-attempt.r12.json` (still `mismatch`). Layout geometry only; ASAP7 is predictive.
