@@ -19,7 +19,7 @@
  "exit": 3,
  "klt_message": null,
  "upstream": "2AMLogic/klayout-tools#5700 (linked from spec/asap7-bringup.md): klt place-and-route writes the top-level DEF PINS rectangle and its name label to the layer map's pin purpose, which the extraction decks read as a label layer only, so klt lvs extracts a top-level pin only where routing metal on the drawing layer happens to coincide with the pin label. The workaround recorded here is layout-side; the inconsistency between the two verbs survives it.",
- "not_done": "The netlist, deck and compare options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005). The residual net.split / net.merged disagreement was not traced; that is still the open step. layout/lane_column.gds still embeds the previous slice stream and still does not match assemble_column.py --check, unchanged from the state #109 left (tracked in #115) and not addressed here.",
+ "not_done": "The netlist, deck and compare options were not edited to force a match; no option was waived (power_connectivity and supply_nets untouched, per decision 0005). The residual net.split / net.merged disagreement was not traced; that is still the open step. DRC was not re-run over the added M4 pin geometry (#64, #66 out of scope). layout/lane_column.gds is not carried forward unchanged: it was re-assembled over this stream in the same commit, so assemble_column.py --check exits 0 here.",
  "report_file": "evidence/item4-lvs/slice_routed.r12.report.json",
  "report_status": "mismatch",
  "report_counts": {
