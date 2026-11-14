@@ -11,10 +11,12 @@ import json
 import os
 import random
 from collections import deque
+from math import gcd
 
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge, RisingEdge, Timer
+from cocotb.utils import get_sim_time
 
 LANES = int(os.environ.get("LANES", "16"))
 NEG = os.environ.get("NEG_CONTROL", "0") == "1"
@@ -23,13 +25,25 @@ CLK_PS = 10000
 
 class Link:
     """Drawn-stage model: captures boundary words, replays them on a forwarded
-    clock of different period and phase. The clock only toggles per word."""
+    clock of different period and phase. The clock only toggles per word.
+
+    phase_ps is the offset between the two timebases: replay() holds the
+    forwarded clock idle for phase_ps before its first word, so every
+    forwarded-clock edge lands that far off the grid an unoffset replay would
+    have used. scenario() checks that offset rather than only asserting it in
+    prose.
+    """
 
     def __init__(self, dut, rx_period_ps, phase_ps):
         self.dut, self.period, self.phase = dut, rx_period_ps, phase_ps
         self.q = deque()
         self.epoch = 0
         self.words_sent = 0
+        self.first_rx_clk_rise_ps = None
+        # Every delay replay() takes is a whole multiple of this, so an
+        # applied phase offset is observable at rx_clk as a constant residue
+        # on this grid: phase_ps % quantum, where no offset at all gives 0.
+        self.quantum = gcd(rx_period_ps // 4, rx_period_ps // 2)
 
     def flush(self):
         self.q.clear()
@@ -47,6 +61,11 @@ class Link:
         dut.rx_clk.value = 0
         dut.rx_a.value = 0
         dut.rx_b.value = 0
+        if self.phase:
+            # Offset this timebase from the parallel clock's before replaying
+            # anything, so the forwarded clock runs at the stated phase as
+            # well as the stated period. Timer rejects a zero delay.
+            await Timer(self.phase, unit="ps")
         while True:
             if not self.q:
                 await Timer(self.period // 4, unit="ps")
@@ -58,6 +77,8 @@ class Link:
             if epoch != self.epoch:
                 continue
             dut.rx_clk.value = 1
+            if self.first_rx_clk_rise_ps is None:
+                self.first_rx_clk_rise_ps = round(get_sim_time("ps"))
             self.words_sent += 1
             await Timer(self.period // 2, unit="ps")
             dut.rx_clk.value = 0
@@ -179,6 +200,9 @@ async def scenario(dut, period, phase):
     dut.rst_n.value = 0
     dut.rx_rst_n.value = 0
     dut.rx_clk.value = 0
+    # Both timebases start here: the parallel clock below and the forwarded
+    # clock in Link.replay(), which is then offset from it by phase.
+    t0 = round(get_sim_time("ps"))
     cocotb.start_soon(Clock(dut.clk, CLK_PS, unit="ps").start())
 
     b = Bench(dut, rng, period, phase)
@@ -206,12 +230,27 @@ async def scenario(dut, period, phase):
         b.err(f"{len(b.expected)} accepted word(s) never arrived")
     TOTALS["words_checked"] += pre + b.received
     TOTALS["scenarios"] += 1
-    dut._log.info(f"rx period {period} phase {phase}: {pre} words before reset, "
+    # Report the phase offset as measured at rx_clk, not just as requested:
+    # every replay delay is a whole multiple of link.quantum, so an applied
+    # offset shows up as a constant residue on that grid and an unapplied one
+    # as 0. Checked below once the data checks have had their say.
+    rise, quantum = b.link.first_rx_clk_rise_ps, b.link.quantum
+    offset = None if rise is None else (rise - t0) % quantum
+    dut._log.info(f"rx period {period} phase {phase} (forwarded clock starts {offset} ps "
+                  f"into its {quantum} ps replay grid): {pre} words before reset, "
                   f"{b.received} after (clk period {CLK_PS})")
     with open(os.environ["SUMMARY_PATH"], "w") as f:
         json.dump({"lanes": LANES, "seed": int(os.environ["SEED"]), "negative_control": NEG, **TOTALS}, f)
     assert b.received > 100, "too few words moved to be meaningful"
     assert not b.errors, "; ".join(b.errors[:5])
+    # The phase offset is a claim this bench makes about its own stimulus (see
+    # the module docstring and verification/README.md), so check it rather than
+    # only asserting it in prose. Ordered after the data checks so a
+    # negative-control run still fails on the broken check and nothing else.
+    assert offset is not None, "the forwarded clock never toggled"
+    assert offset == phase % quantum, (
+        f"forwarded clock carries no phase offset: it starts {offset} ps into its "
+        f"{quantum} ps replay grid, expected {phase % quantum} ps for phase {phase}")
 
 
 @cocotb.test()
