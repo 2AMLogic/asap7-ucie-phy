@@ -117,6 +117,29 @@ Item 5's digital partition cites a pre-route `klt sta` report
 setup slack is still negative at ss (r4: tt +0.003 / ss -0.124 / ff +0.063 ns). Every other item is `unmet` and the tier is `null`. CI re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`.
 
+The item-10 attestation additionally needs the `klayout` Python module, which
+has its own pin file: `.github/klayout-version`. CI installs that version, and
+every command below that needs the module reads the same file, so a regenerated
+envelope comes from the engine CI re-checks it against. The two pin files are
+independent —
+`klayout-tools` declares `klayout>=0.30`, so without the explicit pin the module
+floats to whatever is newest on PyPI.
+
+The two item-10 commands are therefore run with `uv run --with`, not the
+`uvx --from` used elsewhere here. Item 10's `pad-checker-self-test` check is a
+`python3 layout/selftest.py` subprocess that klt spawns *outside* its own tool
+environment, so a module added to that environment is not importable from the
+check: under `uvx --with klayout==…` the self-test exits 1 with
+`ModuleNotFoundError: No module named 'klayout'` and klt refuses to write the
+envelope (measured, klt 0.9.1; tool gap filed as
+[`2AMLogic/klayout-tools#5565`](https://github.com/2AMLogic/klayout-tools/issues/5565),
+with the missing engine-version record as
+[`#5690`](https://github.com/2AMLogic/klayout-tools/issues/5690)). `uv run --with`
+puts its environment on the invoking shell's `PATH`, which the subprocess
+inherits, so the pinned module is the one the check imports. A host that already
+has `klayout` in the `python3` on `PATH` masks the difference; a clean host does
+not.
+
 The item-10 envelope binds every file listed in
 [`manifests/t1-item10-inventory.json`](manifests/t1-item10-inventory.json) by
 content hash — **including this README and
@@ -132,7 +155,7 @@ inventoried file:
 
 ```
 uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json
-uvx --with klayout --from "klayout-tools==$(cat .github/klt-version)" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json
+uv run --no-project --with "klayout-tools==$(cat .github/klt-version)" --with "klayout==$(cat .github/klayout-version)" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json
 ```
 
 ## Reproduce
@@ -152,11 +175,12 @@ verification/functional_verification.sh --negative-control   # exit 0 iff the br
 # Pre-route STA report (T1 item 5; needs openroad on PATH)
 KLT="uvx --from klayout-tools==$(cat .github/klt-version) klt" python3 -I sta/regen.py
 
-# Pad check: drawn pad centres vs the committed bump map (needs the `klayout` pip package)
-python3 layout/selftest.py
+# Pad check: drawn pad centres vs the committed bump map (needs the `klayout` pip
+# package at the version in .github/klayout-version, which is what CI installs)
+uv run --no-project --with "klayout==$(cat .github/klayout-version)" python3 layout/selftest.py
 
 # T1 item 10 (repo hygiene): re-check the committed attestation envelope
-uvx --with klayout --from "klayout-tools==$(cat .github/klt-version)" klt signoff --attest 10 \
+uv run --no-project --with "klayout-tools==$(cat .github/klt-version)" --with "klayout==$(cat .github/klayout-version)" klt signoff --attest 10 \
     --inventory manifests/t1-item10-inventory.json --check manifests/t1-item10.envelope.json
 
 # T1 verdict of record: re-check it against the block manifest
