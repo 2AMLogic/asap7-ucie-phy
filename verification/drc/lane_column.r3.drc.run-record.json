@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "kind": "drc-run-record",
+  "issue": 148,
+  "t1_item": 3,
+  "run_date": "2026-11-14",
+  "claim": "NOT clean. First klt drc run on the committed layout/slice_routed.gds and layout/lane_column.gds, and the first at the pinned klt (.github/klt-version = 0.9.1). The five earlier records in this directory measured streams that are no longer committed; no committed record carried either input hash before this one. Layout results against a predictive PDK, not measurements. Not T1 item 3 evidence; the manifest does not cite it and item 3 stays unmet. Nothing waived, filtered or relaxed: the packaged ASAP7 deck and the full 267-id rule-category expectation set are unmodified, no --rules, no --waivers. Both runs completed; the summary-only envelopes are committed alongside this record.",
+  "tool": {
+    "klt": "0.9.1 (pinned, .github/klt-version; uvx --from klayout-tools==0.9.1)",
+    "klt_git_commit": "4d0d29be4fd991f499d59e783a908082d5e24c56",
+    "engine": "klayout",
+    "klayout": {
+      "engine_binary": "/usr/bin/klayout",
+      "engine_version": "0.30.12",
+      "engine_version_source": "klayout -v on the standalone binary the deck ran under (--engine klayout shells out; --min-klayout-version 0.30.12 probed and passed)",
+      "envelope_reports": "0.30.13",
+      "note": "The envelopes' provenance.klayout_version says 0.30.13 and sets klayout_version_mismatch: true, but 0.30.13 is the klayout Python wheel inside the pinned uvx environment, not the engine. The standalone binary that ran the deck is /usr/bin/klayout 0.30.12 -- the same version the five earlier records used. Verified by re-running the slice with --klayout-binary /usr/bin/klayout explicitly: the field still reported 0.30.13 and the violation counts were byte-identical (906, same rule_counts), so the reported version does not track the engine. Filed generically as 2AMLogic/klayout-tools#5660. There is therefore no engine-version difference between this run and the 8,208 baseline."
+    },
+    "deck": {
+      "file": "klayout_tools/decks/asap7.drc",
+      "content_hash": "sha256:14f146f02cd731de3e0b59452eadfdab9c2c947724a219a1002a31b5e0f12d13",
+      "released": false,
+      "note": "Differs from the sha256:48ac590a... deck every earlier record used: the deck changed between klt 0.8.0 and 0.9.1. See the confound note below."
+    },
+    "expectation_file": "267 ids from klayout_tools.decks.asap7_rules.RULE_IDS at klt 0.9.1, sorted, one per line, unfiltered; no waivers. sha256:816302d52ed5028ee40b14ca8f41af817a32d2af747bf30c1fa2b558e89d4664",
+    "expectation_file_note": "Regenerated at the pin, not reused: the earlier records' 263-id file is built from the same source at klt 0.8.0, and --expect-rule-categories-file fails the run on any missing or unexpected name, so the old list cannot satisfy a 0.9.1 run. RULE_IDS was cross-checked against the deck script independently: all 123 non-interpolated .output(\"NAME\") categories in asap7.drc are members of RULE_IDS, and the only two literal categories absent from it (FIN.GRID.1, GATE.GRID.1) are gated behind the opt-in $fin_y_origin_nm / $gate_x_origin_nm deck globals, which this run does not set. The remaining ids are the parameterized metal/via families the deck emits by string interpolation. Both runs report expectation_satisfied with empty missing_names and unexpected_names.",
+    "command": "uvx --from klayout-tools==0.9.1 klt drc <input> --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <267 ids> --min-klayout-version 0.30.12 --format json --timeout-s <1500 slice | 3600 column> --max-violations 0 -o <envelope>"
+  },
+  "envelopes_committed": {
+    "files": [
+      "verification/drc/slice_routed.r3.envelope.json",
+      "verification/drc/lane_column.r3.envelope.json"
+    ],
+    "why": "The five earlier records could not commit their envelopes (175 MB and 3.9 GB with every polygon inline), so none of them is tool-checkable. --max-violations 0 makes the summary-only envelope ~30 KB, so these two are committed and this record is the first in this directory that a tool can verify.",
+    "verified": {
+      "command": "uvx --from klayout-tools==0.9.1 klt drc --check <envelope>",
+      "run_date": "2026-11-14",
+      "result": "status: match for both envelopes (exit 0)",
+      "fields_checked": [
+        "provenance.input.content_hash",
+        "provenance.deck.content_hash"
+      ]
+    },
+    "caveat": "Each envelope's top-level `deck` field is the absolute path of the deck inside this host's uv cache (/home/ubuntu/.cache/uv/archive-v0/<hash>/...), because klt records the caller's resolved path (existing gap 2AMLogic/klayout-tools#2723). --check matches on the deck's content_hash, so it re-verifies on any host whose pinned env resolves the same deck bytes, but the recorded path itself is host-specific and is not a portable locator. The envelopes are committed as the tool emitted them, unedited."
+  },
+  "slice_routed": {
+    "input": "layout/slice_routed.gds",
+    "input_content_hash": "sha256:eae888dccce1e26e0416d3af0e2332127a9b1d39a172df7df95e32a466a96b13",
+    "input_dbu_um": 0.00025,
+    "note": "committed stream, already at deck dbu 0.00025 (layout/pnr/slice.pnr.json output_dbu_um); no rescale was applied or needed, unlike the r2 component run",
+    "status": "violations",
+    "violation_count": 906,
+    "rules_violated": 5,
+    "rule_counts": {
+      "M1.S.2": 18,
+      "M1.S.3": 36,
+      "M1.S.4": 195,
+      "M1.S.5": 63,
+      "SDT.ACTIVE.AUX.2": 594
+    },
+    "envelope": {
+      "file": "slice_routed.r3.envelope.json",
+      "violations_serialized": 0,
+      "violations_truncated": true,
+      "note": "--max-violations 0 is summary-only: violation_count, rule_counts and status carry the true totals and violations_truncated marks the capped marker list. Nothing is waived, filtered or relaxed. The marker list is dropped from the serialized report only, which is what makes the envelope small enough to commit."
+    },
+    "coverage": {
+      "expectation_satisfied": true,
+      "expectation_missing_names": [],
+      "expectation_unexpected_names": [],
+      "rule_categories_declared": 267,
+      "rules_checked": 267,
+      "layers_in_stream_without_rules": [],
+      "rules_skipped": [],
+      "unchecked_rules": [],
+      "unmodeled_rule_count": 67,
+      "isolation_only_rules": [
+        {
+          "rule": "FIN.W.2",
+          "layer": "2/0",
+          "description": "min horizontal FIN width 108 nm",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "GATE.S.3",
+          "layer": "7/0",
+          "description": "every GATE needs another GATE within 54 nm horizontally",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "NSELECT.W.1",
+          "layer": "12/0",
+          "description": "min horizontal NSELECT width 108 nm",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "PSELECT.W.1",
+          "layer": "13/0",
+          "description": "min horizontal PSELECT width 108 nm",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "WELL.W.1",
+          "layer": "1/0",
+          "description": "min horizontal WELL width 108 nm",
+          "reason": "isolation_only"
+        }
+      ],
+      "nothing_checked": false,
+      "coverage_schema_version": 1
+    }
+  },
+  "lane_column": {
+    "input": "layout/lane_column.gds",
+    "input_content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638",
+    "input_dbu_um": 0.00025,
+    "note": "committed stream, assembled from 16 slice instances",
+    "status": "violations",
+    "violation_count": 14496,
+    "rules_violated": 5,
+    "rule_counts": {
+      "M1.S.2": 288,
+      "M1.S.3": 576,
+      "M1.S.4": 3120,
+      "M1.S.5": 1008,
+      "SDT.ACTIVE.AUX.2": 9504
+    },
+    "envelope": {
+      "file": "lane_column.r3.envelope.json",
+      "violations_serialized": 0,
+      "violations_truncated": true,
+      "note": "--max-violations 0 is summary-only: violation_count, rule_counts and status carry the true totals and violations_truncated marks the capped marker list. Nothing is waived, filtered or relaxed. The marker list is dropped from the serialized report only, which is what makes the envelope small enough to commit."
+    },
+    "coverage": {
+      "expectation_satisfied": true,
+      "expectation_missing_names": [],
+      "expectation_unexpected_names": [],
+      "rule_categories_declared": 267,
+      "rules_checked": 267,
+      "layers_in_stream_without_rules": [],
+      "rules_skipped": [],
+      "unchecked_rules": [
+        {
+          "rule": "PAD.*",
+          "layer": "96/0",
+          "description": "the ASAP7 DRM (asap7_drm_201207a.pdf (ASAP7 DRM, PDK Release 1p7; lambdapdk v0.2.17)) has no rule for the PAD layer itself (no width, spacing, area, enclosure-by-V9 or density); the deck reads PAD (stream 96/0, DRM mask 96) only as the layer enclosing V9 (V9.PAD.EN.2, V9.AUX.1), so shapes on PAD are not checked"
+        }
+      ],
+      "unmodeled_rule_count": 67,
+      "isolation_only_rules": [
+        {
+          "rule": "FIN.W.2",
+          "layer": "2/0",
+          "description": "min horizontal FIN width 108 nm",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "GATE.S.3",
+          "layer": "7/0",
+          "description": "every GATE needs another GATE within 54 nm horizontally",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "NSELECT.W.1",
+          "layer": "12/0",
+          "description": "min horizontal NSELECT width 108 nm",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "PSELECT.W.1",
+          "layer": "13/0",
+          "description": "min horizontal PSELECT width 108 nm",
+          "reason": "isolation_only"
+        },
+        {
+          "rule": "WELL.W.1",
+          "layer": "1/0",
+          "description": "min horizontal WELL width 108 nm",
+          "reason": "isolation_only"
+        }
+      ],
+      "nothing_checked": false,
+      "coverage_schema_version": 1
+    }
+  },
+  "relation": {
+    "column_is_16x_slice": true,
+    "check": "every rule count in lane_column equals 16x the slice count, and 16 x 906 = 14,496",
+    "note": "The same exact-16x relation the r2 pass found (16 x 513 = 8,208) still holds, so every violation in the column is on a slice instance and none is created by the column assembly."
+  },
+  "comparison_to_baseline": {
+    "baseline": "lane_column.r2.drc.run-record.json after-run: 8,208 across 7 rules",
+    "baseline_input_content_hash": "sha256:2a70c6922bf27b21b40e8d9370cb0a0cbe90d49071e2c5ff1ae3c278a32cd1c6",
+    "now": "14,496 across 5 rules",
+    "delta_by_rule": {
+      "M1.S.2": {
+        "baseline": 848,
+        "now": 288,
+        "change": -560
+      },
+      "M1.S.3": {
+        "baseline": 64,
+        "now": 576,
+        "change": 512
+      },
+      "M1.S.4": {
+        "baseline": 400,
+        "now": 3120,
+        "change": 2720
+      },
+      "M1.S.5": {
+        "baseline": 960,
+        "now": 1008,
+        "change": 48
+      },
+      "M4.AUX.2": {
+        "baseline": 64,
+        "now": 0,
+        "change": -64
+      },
+      "M4.W.3": {
+        "baseline": 48,
+        "now": 0,
+        "change": -48
+      },
+      "SDT.ACTIVE.AUX.2": {
+        "baseline": 5824,
+        "now": 9504,
+        "change": 3680
+      }
+    },
+    "confound": "Two inputs changed between the 8,208 baseline and this run, not one: the deck (sha256:48ac590a... at klt 0.8.0 -> sha256:14f146f0... at 0.9.1) and the stream (sha256:2a70c692... -> sha256:4937a7bd..., re-routed from the re-synthesized netlist in #115 and reassembled in #118). The baseline stream is not committed, so the two cannot be separated by re-running, and no movement in the table above is attributed to either cause. The engine version is NOT a third variable: both runs used standalone KLayout 0.30.12 (see tool.klayout.note)."
+  },
+  "filed_tool_gaps": {
+    "note": "Applicability by family. This run does not re-derive the r2 pass's cell-level attribution: under --engine klayout every marker comes back with source_cell: null, so a native-deck run cannot say which cell contains a violation without mutating the layout and re-running (filed generically as 2AMLogic/klayout-tools#5661). The family identities below are inherited from the r2/components attribution, not re-measured here.",
+    "2AMLogic/klayout-tools#4496": {
+      "families": [
+        "SDT.ACTIVE.AUX.2"
+      ],
+      "state": "closed 2026-10-28",
+      "still_applies": true,
+      "detail": "A deck-side gap, and the deck did change, so this run exercises the fix directly. The family did not clear: it is the largest single family at 9,504 (66% of the total), up from 5,824. Closed upstream, still present here."
+    },
+    "2AMLogic/klayout-tools#4495": {
+      "families": [
+        "M1.S.2",
+        "M1.S.3",
+        "M1.S.4",
+        "M1.S.5"
+      ],
+      "state": "open",
+      "still_applies": true,
+      "detail": "Still open upstream, and the M1.S.* family is still present at 4,992 total (34%). It is a place-and-route fix, so nothing in this issue could have moved it."
+    },
+    "2AMLogic/klayout-tools#4501": {
+      "families": [
+        "M4.AUX.2",
+        "M4.W.3"
+      ],
+      "state": "closed 2026-10-28",
+      "still_applies": false,
+      "detail": "Both families are now zero (was 64 + 48). This is the only family that cleared. Cause is not attributable from this run: it is a place-and-route fix, and the committed stream was re-routed after the baseline, so either the newer router or the deck change could account for it. The confound above applies."
+    }
+  },
+  "signoff": {
+    "t1_item_3": "unmet",
+    "manifest_changed": false,
+    "note": "status is violations, not clean, so per this issue's acceptance criteria the manifest and verdict are untouched. No manifest cites verification/drc/, so adding this record changes no verdict row, and verification/drc/README.md is not a member of manifests/t1-item10-inventory.json, so no envelope re-attestation is due."
+  },
+  "prior_records": {
+    "note": "Left byte-unchanged by this pass; this record is append-only.",
+    "files": [
+      "cells.drc.run-record.json",
+      "components.r2.drc.run-record.json",
+      "lane_column.drc.run-record.json",
+      "lane_column.r2.drc.run-record.json",
+      "slice.drc.run-record.json"
+    ]
+  }
+}

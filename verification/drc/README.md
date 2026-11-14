@@ -104,3 +104,126 @@ The re-attested stream is `evidence/item2.r5.json`; `klt signoff` item 3 stays u
 8,208 (16 x 513) stands. Every remaining family is now attributed to a filed tool gap (`#4495`, `#4496`, `#4501`); none is cleared
 by a generator change available today. The column is **not** clean, `klt signoff` item 3 stays unmet, and no GDS or evidence
 revision changed in this pass.
+
+## Issue #148: first run on the committed streams, at the pinned klt (2026-11-14)
+
+Record: `lane_column.r3.drc.run-record.json`, with the summary-only envelopes
+`slice_routed.r3.envelope.json` and `lane_column.r3.envelope.json` committed beside it. klt **0.9.1**
+(the pin in `.github/klt-version`, via `uvx --from "klayout-tools==0.9.1"`, because the host `klt` is an
+unreleased 0.9.2.dev build), `--engine klayout` with the packaged ASAP7 deck, the full **267**-id
+rule-category expectation set, no `--rules`, no `--waivers`, nothing filtered or relaxed. The five
+earlier records are unedited. Still **not clean**; layout results against a predictive PDK, not
+measurements.
+
+**Why this run exists.** Every earlier record measured a stream that is no longer committed. The slice was
+re-routed from the re-synthesized netlist (#115) and the column reassembled (#118), and no record carried
+either committed hash: `layout/slice_routed.gds` is sha256 `eae888dc...` and `layout/lane_column.gds` is
+`4937a7bd...`, while the records hold `826cd283...`, `b033d2b8...`, `2a70c692...`, `ec3a639b...` and
+`1183fa3e...`. The 8,208 figure #64 and the roadmap reason from was measured on `2a70c692...`.
+
+**Measured now**, both runs completed, expectation satisfied (`missing_names` and `unexpected_names`
+empty, 267 of 267 categories checked):
+
+| Stream | sha256 | Status | Violations | Rules |
+|---|---|---|---|---|
+| `layout/slice_routed.gds` | `eae888dc...` | `violations` | **906** | 5 |
+| `layout/lane_column.gds` | `4937a7bd...` | `violations` | **14,496** | 5 |
+
+The column is exactly **16 x** the slice in every single rule count, as it was in the r2 pass (16 x 513 =
+8,208). So every violation sits on a slice instance and the column assembly still adds none.
+
+### Family by family against the 8,208 baseline
+
+| Rule | Baseline (8,208) | Now (14,496) | Change | Filed gap | Still applies? |
+|---|---|---|---|---|---|
+| `SDT.ACTIVE.AUX.2` | 5,824 | **9,504** | +3,680 | [#4496](https://github.com/2AMLogic/klayout-tools/issues/4496) (closed) | **Yes** |
+| `M1.S.4` | 400 | **3,120** | +2,720 | [#4495](https://github.com/2AMLogic/klayout-tools/issues/4495) (open) | **Yes** |
+| `M1.S.5` | 960 | 1,008 | +48 | #4495 (open) | **Yes** |
+| `M1.S.3` | 64 | 576 | +512 | #4495 (open) | **Yes** |
+| `M1.S.2` | 848 | 288 | -560 | #4495 (open) | **Yes** |
+| `M4.AUX.2` | 64 | **0** | -64 | [#4501](https://github.com/2AMLogic/klayout-tools/issues/4501) (closed) | **No** |
+| `M4.W.3` | 48 | **0** | -48 | #4501 (closed) | **No** |
+
+The total went **up**, from 8,208 to 14,496. Two families cleared completely and the rest grew.
+
+- **`SDT.ACTIVE.AUX.2` (9,504, 66% of the total) did not clear.** #4496 is a *deck*-side gap closed
+  upstream on 2026-10-28, and the deck did change between 0.8.0 and the pin, so this run exercises that
+  fix directly rather than carrying old geometry past it. The family is still here and is larger. Closed
+  upstream, still present here.
+- **The `M1.S.*` family (4,992, 34%) is unchanged in kind.** #4495 is still open, and it is a
+  place-and-route fix, so nothing in this issue could have moved it.
+- **Only the `M4` family cleared** (112 -> 0). #4501 is closed, but closed-upstream is not why it is
+  gone here, and this run cannot say what is — see the confound.
+
+### The confound: two inputs changed, not one
+
+The comparison against 8,208 is **not** a controlled one, and no movement above is attributed to a cause:
+
+- the **deck** changed, sha256 `48ac590a...` (klt 0.8.0) -> `14f146f0...` (0.9.1);
+- the **stream** changed, `2a70c692...` -> `4937a7bd...`.
+
+The baseline stream is not committed, so the two cannot be separated by re-running. In particular the
+`M4` family going to zero is consistent with either the newer router or the new deck, and `#4501` being
+closed upstream does not settle it: that fix lands in `place-and-route`, and this issue did not
+regenerate the stream.
+
+The **engine version is not** a third variable. Both the baseline and this run used standalone KLayout
+**0.30.12**. The envelopes' own `provenance.klayout_version` says `0.30.13` and sets
+`klayout_version_mismatch: true`, but that is the `klayout` Python wheel inside the pinned `uvx`
+environment, not the engine: `--engine klayout` shells out to `/usr/bin/klayout`, which is 0.30.12, and
+`--min-klayout-version 0.30.12` probed it and passed. Re-running the slice with
+`--klayout-binary /usr/bin/klayout` named explicitly still reported `0.30.13` and gave byte-identical
+counts, so the field does not track the engine at all. Filed as
+[#5660](https://github.com/2AMLogic/klayout-tools/issues/5660); the record carries the measured 0.30.12.
+
+### Expectation set: 267 at the pin, not 263
+
+The earlier records' 263-id file cannot be reused — `--expect-rule-categories-file` fails the run on any
+missing or unexpected name even when the counts agree, and the pin declares 267. The list was regenerated
+from `klayout_tools.decks.asap7_rules.RULE_IDS` at 0.9.1 and cross-checked against the deck script
+independently: all 123 non-interpolated `.output("NAME")` categories in `asap7.drc` are members of
+`RULE_IDS`, and the only two literal categories absent from it (`FIN.GRID.1`, `GATE.GRID.1`) are gated
+behind the opt-in `$fin_y_origin_nm` / `$gate_x_origin_nm` deck globals, which this run does not set. The
+rest are the parameterized metal/via families the deck emits by string interpolation.
+
+### Coverage, and what is still not checked
+
+Identical for both streams except where noted: `layers_in_stream_without_rules` and `rules_skipped` are
+empty, 67 rules are listed `unmodeled_rules`, and **`PAD` (96/0) remains unchecked on the column** (it
+does not appear on the slice, which carries no PAD shapes). The deck still reads PAD only as the layer
+enclosing V9, so shapes drawn on it are not checked — the bump interface is still outside the deck's
+reach.
+
+New at 0.9.1: the coverage block now lists five `isolation_only_rules` (`FIN.W.2`, `GATE.S.3`,
+`NSELECT.W.1`, `PSELECT.W.1`, `WELL.W.1`) whose findings are only meaningful on a cell checked alone.
+The 0.8.0 envelopes carried no such disclosure.
+
+### First checkable DRC evidence in this directory
+
+Because `--max-violations 0` is summary-only — true `violation_count`, `rule_counts` and `status`, with
+only the marker list dropped and `violations_truncated` marking it — the envelopes are ~30 KB instead of
+the 175 MB and 3.9 GB that kept every earlier envelope out of the repo. Both are committed and both
+verify:
+
+```
+$ uvx --from "klayout-tools==0.9.1" klt drc --check verification/drc/<stream>.r3.envelope.json
+status: match
+  [OK] provenance.input.content_hash
+  [OK] provenance.deck.content_hash
+```
+
+Caveat: each envelope's top-level `deck` field is the deck's absolute path inside this host's `uv` cache
+(existing gap [#2723](https://github.com/2AMLogic/klayout-tools/issues/2723)). `--check` matches on the
+deck's *content hash*, so it re-verifies wherever the pinned env resolves the same deck bytes, but the
+recorded path is host-specific. The envelopes are committed exactly as the tool emitted them.
+
+### What this run could not establish
+
+Under `--engine klayout` every marker returns `source_cell: null` (906 of 906 on the slice), so a
+native-deck run cannot say which cell contains a violation without deleting geometry and re-running the
+whole deck. The streams are hierarchical (99 and 121 cells), so the hierarchy is there and unused. The
+family identities above are therefore **inherited** from the r2/components attribution, not re-derived
+here. Filed as [#5661](https://github.com/2AMLogic/klayout-tools/issues/5661).
+
+`klt signoff` item 3 stays **unmet**, the manifest is unchanged and cites no record in this directory, and
+no GDS or evidence revision changed in this pass.
