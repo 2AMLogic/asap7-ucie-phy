@@ -47,12 +47,12 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.r7.json",
-      "content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638"
+      "file": "evidence/item2.r8.json",
+      "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
     },
     "2.digital": {
-      "file": "evidence/item2.r7.json",
-      "content_hash": "sha256:4937a7bd8b560866e925348b87633db228a6e948d2d6b27a0b0133c6a49b5638"
+      "file": "evidence/item2.r8.json",
+      "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
     },
     "4.analog": [
       {
@@ -74,12 +74,12 @@
     ],
     "4.digital": [
       {
-        "file": "evidence/item4-lvs/slice_routed.r10.report.json",
-        "content_hash": "sha256:61bb2f351033eebab246344bc163fd7741c926676e81892b0c2e2580c8a8e770"
+        "file": "evidence/item4-lvs/slice_routed.r12.report.json",
+        "content_hash": "sha256:a3d8a839014aad1fd8ad8838d8423dcd871ab0800ed0956022b5bd9f1f4381dd"
       },
       {
-        "file": "evidence/item4-slice-attempt.r10.json",
-        "content_hash": "sha256:cdf512d307be60b501039a7cee98e68613f2136513ce5ade9bea173e9d3b414f"
+        "file": "evidence/item4-slice-attempt.r12.json",
+        "content_hash": "sha256:869906e82117c29e5cdb96a41f406b24ad114e5829194e91ff30c3b7e06151fc"
       }
     ]
   }

@@ -63,6 +63,7 @@ FILES = {  # archive member -> scratch path under the PDK root
     # LEF layer -> stream layer/datatype. Without it klt's DEF->GDS merge numbers the
     # routing layers sequentially (Via1 on 8/0, Via2 on 10/0, ...), which are the ASAP7
     # Gate, Gcut and Active-adjacent stream layers (verification/drc/README.md).
+    # Staged through pin_geometry_on_drawing() (spec/asap7-bringup.md, issue #149).
     ASAP7 + "base/apr/asap7.layermap": "klayout/tech/asap7.map",
 }
 
@@ -103,6 +104,44 @@ def patch_diode(lef):
     return lef[:j] + old + "    ANTENNADIFFAREA 0.1 LAYER M1 ;\n" + lef[j + len(old):]
 
 
+def pin_geometry_on_drawing(layermap):
+    """Also draw each top-level DEF `PINS` rectangle on its own routing layer's
+    drawing purpose (scratch copy only).
+
+    The pinned lambdapdk map sends both the `PINS`-section rectangle and its name
+    label to the metal's *pin* purpose (`M4 PIN 40 251`, `NAME M4/PIN 40 251`),
+    and klt's ASAP7 extraction deck reads `(metal, 251)` as a label layer only --
+    its conductors are `(metal, 0)` alone, and a label names a net only where it
+    coincides with one. The label is drawn at the pin rectangle's centre while the
+    router's own metal reaches just one end of it, so no top-level port label sat
+    on a conductor and `klt lvs` extracted 2 pins against 266 in the reference
+    (issue #149, measured in spec/asap7-bringup.md).
+
+    Adding the drawing-purpose entry makes the rectangle real routing metal under
+    its own label, which is what a top-level pin physically is. The pin-purpose
+    entry is left in place, so this only ever adds geometry. Derived from the file
+    rather than hardcoded: every LEF layer that declares both a `NET` and a `PIN`
+    purpose (M1-M9; the via layers declare no `NET`) gains a `PIN` entry pointing
+    at its own `NET` layer/datatype."""
+    net = {}
+    for line in layermap.splitlines():
+        parts = line.split("#", 1)[0].split()
+        if len(parts) >= 4 and parts[1] == "NET":
+            net.setdefault(parts[0], (parts[-2], parts[-1]))
+    added = []
+    for line in layermap.splitlines():
+        parts = line.split("#", 1)[0].split()
+        if len(parts) >= 4 and parts[1] == "PIN" and parts[0] in net:
+            layer, datatype = net[parts[0]]
+            added.append(f"{parts[0]}\tPIN\t\t{layer}\t\t{datatype}")
+    if not added:
+        sys.exit("pinned layermap declares no NET+PIN layer pair; refusing to stage it")
+    return (layermap.rstrip("\n") + "\n"
+            + "# Appended by layout/pnr/regen.py (issue #149): the DEF PINS rectangle\n"
+            + "# also on the metal's drawing purpose, so its own label names a conductor.\n"
+            + "\n".join(added) + "\n")
+
+
 def unpack(archive, root):
     with tarfile.open(archive) as tar:
         for m in tar:
@@ -113,6 +152,8 @@ def unpack(archive, root):
                 dest = root / FILES[m.name]
                 if m.name.endswith("_R.lef"):
                     data = patch_diode(data.decode()).encode()
+                if m.name.endswith(".layermap"):
+                    data = pin_geometry_on_drawing(data.decode()).encode()
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 dest.write_bytes(data)
     missing = [p for p in FILES.values() if not (root / p).is_file()]
