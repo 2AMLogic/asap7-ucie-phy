@@ -10,7 +10,7 @@ against the predictive ASAP7 model; nothing here is a fabricated part.
 | `netlist/{tx,rx,tx_clk,rx_clk}_cell.sp` | derived SPICE from `gen_cells.py` |
 | `synth/slice.synth.json` | `klt synthesize` request: top `slice`, N=16, ASAP7 RVT, TT, 0.25 ns clock target, `abc_constr` BUFx2 / 3.898 fF (decision 0009 option 3) |
 | `synth/regen.py` | reproduces the synthesis netlist from the pinned lambdapdk archive |
-| `sim/` | ASAP7 BSIM-CMG simulation of all four drawn cells: adapted netlists `<cell>.osdi.sp`, testbenches `<cell>.tb.sp`, corner lib `asap7_bsimcmg.lib`, `klt sim` requests `<cell>.sim.json`; reports in `../sim/<cell>.batch.report.json` (decision 0010 for `tx_cell`, same route extended to the other three) |
+| `sim/` | ASAP7 BSIM-CMG simulation of all four drawn cells: adapted netlists `<cell>.osdi.sp`, testbenches `<cell>.tb.sp`, corner lib `asap7_bsimcmg.lib`, `klt sim` requests `<cell>.sim.json`; reports in `../sim/<cell>.batch.report.json` (decision 0010 for `tx_cell`, same route extended to the other three). The adapted netlists are produced by klt's `adapt_extracted_netlist`, kept by hand, and drift-checked by `gen_cells.py --check` |
 | `lambdapdk.py` | pinned lambdapdk URL/sha256 and Liberty cell-group merge, shared by `synth/regen.py` and `sta/regen.py` |
 | `netlist/slice_asap7.v` | derived gate-level netlist of `slice` (generated, ~16k lines) |
 
@@ -21,7 +21,8 @@ python3 -I design/gen_cells.py [--check]                      # needs nothing bu
 python3 -I design/synth/regen.py [--check] [--pdk-archive F]  # needs yosys and klt `main` >= b8eaf053a (`abc_constr`; 0.8.0 rejects the field)
 ```
 
-`--check` exits 0 when the committed file reproduces and 3 when it drifted.
+`--check` exits 0 when the committed `netlist/` files and the adapted `sim/`
+netlists both reproduce, and 3 when either drifted.
 `regen.py` downloads the archive pinned in `spec/asap7-bringup.md` (sha256
 verified) unless `--pdk-archive` is given, and unpacks nothing into the repo.
 It merges the five gzipped RVT TT Liberty cell-group files into one scratch
