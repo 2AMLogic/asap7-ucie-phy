@@ -89,7 +89,8 @@ jobs:
           if [ "$rc" -eq 3 ]; then
             echo "::error::manifests/evidence/item9.r2.json is stale (a listed testbench or the inventory changed). Re-attest on a host with the pinned tools and commit it:"
             echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 9 --inventory manifests/attest/item9.json -o manifests/evidence/item9.r2.json"
-            echo "then update the item 9 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
+            echo "If a listed testbench changed, stop there: the block manifest and the verdict do NOT need regenerating — item 9's content_hash in manifests/asap7-ucie-phy.json binds the inventory (manifests/attest/item9.json), not the envelope."
+            echo "If the inventory itself (manifests/attest/item9.json) changed, update the item 9 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
             exit 1
           elif [ "$rc" -ne 0 ]; then
             echo "::error::klt signoff --attest 9 --check exited $rc (expected 0 or 3)"
@@ -123,15 +124,12 @@ jobs:
       # anything else is an error.
       #
       # README.md and this workflow file are themselves inventoried members, so
-      # an ordinary prose or CI edit drifts the envelope. Unlike item 9, the
-      # remediation below deliberately stops at the envelope: item 10's
+      # an ordinary prose or CI edit drifts the envelope. The remediation below
+      # deliberately stops at the envelope: item 10's
       # content_hash in manifests/asap7-ucie-phy.json binds the *inventory*
       # (manifests/t1-item10-inventory.json), not the envelope file, so a
       # re-attest needs neither the block manifest re-pinned nor
-      # manifests/asap7-ucie-phy.signoff.json regenerated. Do not add item 9's
-      # trailing "then update the content_hash and regenerate the verdict"
-      # sentence here — it would send the reader after a change that is not
-      # required.
+      # manifests/asap7-ucie-phy.signoff.json regenerated.
       - name: Check the committed T1 item 10 attestation still reproduces
         run: |
           set -uo pipefail

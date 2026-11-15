@@ -3,6 +3,15 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-14
+
+- **PR #146**: fix: name README and signoff.yml as T1 item-10 inventory members, and make the signoff failure say how to fix itself
+- **PR #144**: fix(verification): apply the forwarded-clock phase offset the slice bench documents
+- **PR #143**: attest: bind decision records 0006-0010 to T1 item 10
+- **Issue #142** (closed): Testbench claims a forwarded-clock phase offset it never applies: verification/test_slice.py threads phase_ps through three layers and never reads it
+- **Issue #141** (closed): T1 item-10 hygiene inventory omits ratified decisions 0006-0010
+- **Issue #140** (closed): Docs PRs that edit README.md must carry the re-attested T1 item-10 envelope
+
 ### 2026-11-13
 
 - **PR #129**: feat(sim): ASAP7 BSIM-CMG logic-level deck for tx_cell, batch-run at TT/SS/FF

@@ -27,6 +27,26 @@
       "argv": ["python3", "layout/selftest.py"]
     },
     {
+      "name": "cells-gds-drift",
+      "argv": ["python3", "layout/gen_cells_gds.py", "--check"]
+    },
+    {
+      "name": "cells-gds-self-test",
+      "argv": ["python3", "layout/selftest_cells.py"]
+    },
+    {
+      "name": "pnr-check-input",
+      "argv": ["python3", "-I", "layout/pnr/regen.py", "--check-input"]
+    },
+    {
+      "name": "pnr-check-input-self-test",
+      "argv": ["python3", "-I", "layout/pnr/test_check_input.py"]
+    },
+    {
+      "name": "pnr-layermap-self-test",
+      "argv": ["python3", "-I", "layout/pnr/test_layermap.py"]
+    },
+    {
       "name": "manifests-json-valid",
       "argv": ["python3", "-c", "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('manifests').rglob('*.json')]"]
     }
