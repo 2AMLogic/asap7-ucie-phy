@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 18/18 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 23/23 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 18,
-    "passed_count": 18,
+    "check_count": 23,
+    "passed_count": 23,
     "checks": [
       {
         "check": "present",
@@ -139,6 +139,71 @@
       {
         "check": "command",
         "role": "audit",
+        "name": "cells-gds-drift",
+        "argv": [
+          "python3",
+          "layout/gen_cells_gds.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "cells-gds-self-test",
+        "argv": [
+          "python3",
+          "layout/selftest_cells.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pnr-check-input",
+        "argv": [
+          "python3",
+          "-I",
+          "layout/pnr/regen.py",
+          "--check-input"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pnr-check-input-self-test",
+        "argv": [
+          "python3",
+          "-I",
+          "layout/pnr/test_check_input.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pnr-layermap-self-test",
+        "argv": [
+          "python3",
+          "-I",
+          "layout/pnr/test_layermap.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
         "name": "manifests-json-valid",
         "argv": [
           "python3",
@@ -161,7 +226,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:e2197371298c3c9b2c86df2187e44686d08dd79090e166a3c4c87fd23665021a"
+      "content_hash": "sha256:e7c743d4d14db41878349b0e2bf58a7208a574411b926c45b071bdc64de9571b"
     }
   }
 }
