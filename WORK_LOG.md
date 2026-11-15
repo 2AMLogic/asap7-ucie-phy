@@ -3,8 +3,29 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-15
+
+- **PR #174**: fix: re-pin klt 0.9.1 in the item 9 inventory and regenerate its chain
+- **PR #170**: evidence: rule out the reference netlist in digital LVS and determine the residue (r13)
+- **PR #168**: docs: record the reuse-the-inventory convention for item-1 re-attestations
+- **PR #164**: build: give klayout one pin file and make the item-10 re-attest reproduce CI
+- **PR #161**: test: reject a scenario phase that is a whole multiple of the replay grid
+- **PR #156**: feat: replace package.json's exit-0 stub gates with a real stdlib-only check script
+- **Issue #160** (closed): manifests/attest/item9.json pins klt 0.8.0 but .github/klt-version is 0.9.1
+- **Issue #154** (closed): The documented item-10 re-attest command leaves klayout unpinned; CI pins it to 0.30.12
+- **Issue #153** (closed): Stop package.json's four exit-0 stub gates from reporting a vacuous pass
+- **Issue #152** (closed): verification: guard against a vacuous forwarded-clock phase check (phase % quantum == 0)
+- **Issue #145** (closed): Stop copying an unchanged item-1 inventory per re-attestation: attest/item1.r2-r7 are six byte-identical files
+
 ### 2026-11-14
 
+- **PR #167**: docs: align README status, maturity ladder and T1 figures with the verdict
+- **PR #165**: fix: stage DEF PINS geometry on the metal drawing layer so top-level pins extract
+- **PR #155**: evidence: record a klt 0.9.1 DRC run on the committed slice and lane column
+- **PR #147**: docs: roadmap as of 2026-11-13
+- **Issue #151** (closed): README status and T1 section contradict the committed verdict (drawn cells, column, analog LVS, STA r5, decision 0010)
+- **Issue #149** (closed): Diagnose why the routed slice extracts 2 top-level pins against 266 in the LVS reference
+- **Issue #148** (closed): Record a klt drc run on the current committed lane column (no run exists since the re-route)
 - **PR #146**: fix: name README and signoff.yml as T1 item-10 inventory members, and make the signoff failure say how to fix itself
 - **PR #144**: fix(verification): apply the forwarded-clock phase offset the slice bench documents
 - **PR #143**: attest: bind decision records 0006-0010 to T1 item 10

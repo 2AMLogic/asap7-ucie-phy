@@ -107,3 +107,7 @@ sta/.klt/
 
 # Repo Skills Codex-side machine-local install metadata (never committed)
 .agents/skills/repo/.install-local.json
+
+# pnpm install output at the repo root (no dependencies declared)
+node_modules/
+/pnpm-lock.yaml

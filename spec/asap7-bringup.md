@@ -609,3 +609,18 @@ klt `0.9.1` (`.github/klt-version`) in a throwaway `uvx` environment.
 - **Signoff:** the manifest cites the r13 report (r12's files stay, append-only). T1 item 4
   digital stays **unmet** and #20 stays open, parked on #169; the drawn-cell `r2` matches stand.
   The analog half is unchanged.
+
+## Correction: the item-1 r2–r7 chain is six byte-identical files (appended 2026-11-15, issue #178)
+
+Documentation-only convention; no tool run in this section. The section appended
+2026-11-14 (issue #145) closes with "`attest/item1.r2.json` through
+`attest/item1.r7.json` are byte-identical except for the r2 `sources` edit",
+which reads as carving `attest/item1.r2.json` out of the identical set. It does
+not: `attest/item1.r2.json` through `attest/item1.r7.json` are **six
+byte-identical files**, `r2` included (sha256 `78f71a7e...`, all six). The only
+real edit in the chain is `attest/item1.json` -> `attest/item1.r2.json` — one
+line, adding `design/lambdapdk.py` to `sources` — a step relative to a file that
+sentence does not name. The convention that section records is unaffected and
+stands: the inventory is an input, not a measurement; revision only the evidence
+output; `attest/item1.r7.json` is the inventory of record. Earlier sections are
+left as written.

@@ -1,0 +1,67 @@
+{
+  "netlist": "tx_clk_cell.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "tt",
+      "ss",
+      "ff"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.7
+      ]
+    },
+    "temperature_c": [
+      25
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 2400p"
+  },
+  "measurements": [
+    {
+      "name": "vpad_en0_clk0",
+      "spice": ".meas tran vpad_en0_clk0 find v(pad) at=580p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vpad_en0_clktog",
+      "spice": ".meas tran vpad_en0_clktog find v(pad) at=800p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vpad_en1_clk0",
+      "spice": ".meas tran vpad_en1_clk0 find v(pad) at=1780p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vpad_en1_clk1",
+      "spice": ".meas tran vpad_en1_clk1 find v(pad) at=2380p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  }
+}
