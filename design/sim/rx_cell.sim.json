@@ -1,0 +1,131 @@
+{
+  "netlist": "rx_cell.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "tt",
+      "ss",
+      "ff"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.7
+      ]
+    },
+    "temperature_c": [
+      25
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 4500p"
+  },
+  "measurements": [
+    {
+      "name": "vrxa0_hold1",
+      "spice": ".meas tran vrxa0_hold1 find v(rxa0) at=1780p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vrxb0_hold1",
+      "spice": ".meas tran vrxb0_hold1 find v(rxb0) at=1780p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vrxa1_hold1",
+      "spice": ".meas tran vrxa1_hold1 find v(rxa1) at=1780p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vrxb1_hold1",
+      "spice": ".meas tran vrxb1_hold1 find v(rxb1) at=1780p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vrxa0_hold2",
+      "spice": ".meas tran vrxa0_hold2 find v(rxa0) at=3280p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vrxb0_hold2",
+      "spice": ".meas tran vrxb0_hold2 find v(rxb0) at=3280p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vrxa1_hold2",
+      "spice": ".meas tran vrxa1_hold2 find v(rxa1) at=3280p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vrxb1_hold2",
+      "spice": ".meas tran vrxb1_hold2 find v(rxb1) at=3280p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vrxa0_tr0",
+      "spice": ".meas tran vrxa0_tr0 find v(rxa0) at=3580p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vrxb0_tr1",
+      "spice": ".meas tran vrxb0_tr1 find v(rxb0) at=3880p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vrxa1_tr2",
+      "spice": ".meas tran vrxa1_tr2 find v(rxa1) at=4180p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    },
+    {
+      "name": "vrxb1_tr3",
+      "spice": ".meas tran vrxb1_tr3 find v(rxb1) at=4480p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  }
+}

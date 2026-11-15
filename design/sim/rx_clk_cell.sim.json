@@ -1,0 +1,51 @@
+{
+  "netlist": "rx_clk_cell.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "tt",
+      "ss",
+      "ff"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.7
+      ]
+    },
+    "temperature_c": [
+      25
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 2400p"
+  },
+  "measurements": [
+    {
+      "name": "vrxclk_pad0",
+      "spice": ".meas tran vrxclk_pad0 find v(rx_clk) at=580p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07
+      }
+    },
+    {
+      "name": "vrxclk_pad1",
+      "spice": ".meas tran vrxclk_pad1 find v(rx_clk) at=2380p",
+      "unit": "V",
+      "limits": {
+        "min": 0.63
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  }
+}
