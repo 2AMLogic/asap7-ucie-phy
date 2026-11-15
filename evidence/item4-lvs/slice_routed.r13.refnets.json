@@ -1,0 +1,30 @@
+{
+  "netlist": "layout/slice_routed.v",
+  "format": "verilog",
+  "top": "slice",
+  "instances": 2594,
+  "nets_total": 2940,
+  "port_bits": 266,
+  "assign_statements": 0,
+  "nets_with_exactly_one_cell_pin": 198,
+  "of_which_port_bits": 198,
+  "nets_with_exactly_two_cell_pins": 1801,
+  "nets_with_zero_cell_pins": 227,
+  "zero_pin_of_which_port_bits": 64,
+  "rx_clk_cell_pins": 528
+}
+{
+  "netlist": "evidence/item4-lvs/slice_routed.r13.extract.v",
+  "format": "spice",
+  "top": "slice",
+  "instances": 2594,
+  "nets_total": 2955,
+  "port_bits": 269,
+  "assign_statements": 0,
+  "nets_with_exactly_one_cell_pin": 199,
+  "of_which_port_bits": 199,
+  "nets_with_exactly_two_cell_pins": 1801,
+  "nets_with_zero_cell_pins": 0,
+  "zero_pin_of_which_port_bits": 0,
+  "rx_clk_cell_pins": 528
+}
