@@ -74,6 +74,15 @@ run_check "layout/pnr/regen.py --check-input" \
 run_check "layout/pnr/test_check_input.py" \
     python3 -I layout/pnr/test_check_input.py
 
+# The routed STA report's input tie-off, and the self-test of that gate: the
+# same pair as the pnr block above, for the sta regen script. Both are
+# stdlib-only python3.
+run_check "sta/regen.py --check-input" \
+    python3 -I sta/regen.py --check-input
+
+run_check "sta/test_check_input.py" \
+    python3 -I sta/test_check_input.py
+
 # Every committed JSON project record parses. The file list comes from the
 # single copy of the record-set rule, verification/check-records-json.sh
 # --list (git + shell only, never the signoff toolchain), and the validator
