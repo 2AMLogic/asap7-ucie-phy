@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 10,
-  "description": "Repo hygiene: README, license, the ratified spec and decision records, and the signoff workflow, with the pad-checker self-test and the manifest JSON validity check as the audit commands.",
+  "description": "Repo hygiene: README, license, the ratified spec and decision records, and the signoff workflow, with the pad-checker self-test and the committed-record JSON validity check as the audit commands.",
   "hygiene": [
     "README.md",
     "LICENSE",
@@ -19,7 +19,8 @@
     "spec/decisions/0008-item6-analog-declared-gap.md",
     "spec/decisions/0009-cdc-fifo-read-mux-select-timing.md",
     "spec/decisions/0010-analog-simulation-flow.md",
-    ".github/workflows/signoff.yml"
+    ".github/workflows/signoff.yml",
+    "verification/check-records-json.sh"
   ],
   "checks": [
     {
@@ -47,8 +48,8 @@
       "argv": ["python3", "-I", "layout/pnr/test_layermap.py"]
     },
     {
-      "name": "manifests-json-valid",
-      "argv": ["python3", "-c", "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('manifests').rglob('*.json')]"]
+      "name": "records-json-valid",
+      "argv": ["bash", "verification/check-records-json.sh"]
     }
   ]
 }
