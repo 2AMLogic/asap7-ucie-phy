@@ -16,6 +16,6 @@ result against a predictive model.
 |---|---|---|---|
 | `tx_cell.batch.report.json` | `tx_cell` (2:1 mux + driver) | 8 meas × 3 corners = 24, all pass | `klt-sim-7911111351c7` |
 | `rx_cell.batch.report.json` | `rx_cell` (input stage + 4-phase sampler) | 12 meas × 3 corners = 36, all pass | `klt-sim-b75bd058b119` |
-| `tx_clk_cell.batch.report.json` | `tx_clk_cell` (fwd-clock gate + driver) | 4 meas × 3 corners = 12, all pass | `klt-sim-38cf5948582f` |
+| `tx_clk_cell.batch.report.json` | `tx_clk_cell` (fwd-clock gate + driver) | 4 meas × 3 corners = 12, all pass | `klt-sim-992dfd8a081f` |
 | `rx_clk_cell.batch.report.json` | `rx_clk_cell` (fwd-clock input buffer) | 2 meas × 3 corners = 6, all pass | `klt-sim-53d8e84389e0` |
 

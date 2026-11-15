@@ -38,12 +38,12 @@
     },
     "models_lib_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
     "models_lib_sha256_scope": "client",
-    "netlist_sha256": "4a80b47749df29075a07730930ea7bb44f3781a01730352b3e730bc9d7da4387",
+    "netlist_sha256": "19acd5f607ffc14fe81e882802bf4eddb5b345b62532f755779daa36558c845f",
     "netlist_closure": [
       {
         "path": "design/sim/tx_clk_cell.tb.sp",
         "scope": "repo",
-        "sha256": "4a80b47749df29075a07730930ea7bb44f3781a01730352b3e730bc9d7da4387"
+        "sha256": "19acd5f607ffc14fe81e882802bf4eddb5b345b62532f755779daa36558c845f"
       },
       {
         "path": "design/sim/tx_clk_cell.osdi.sp",
@@ -51,7 +51,7 @@
         "sha256": "3241acc8d874cbd08e45b207921f57769c9afa23ef7e4512b4c61b10d5bcaf60"
       }
     ],
-    "netlist_identity": "sha256:b165d9be35133de978591de6c0c6e9c86ac05227eca7c1a071246051a7ac0e1e",
+    "netlist_identity": "sha256:52d46e0f05b5b5d0ae6eac302cee6106d18dd3c55a5f08e443748fd3d51582dc",
     "osdi_preload": [
       {
         "name": "bsimcmg.osdi",
@@ -80,11 +80,11 @@
     ],
     "remote": {
       "provider": "aws-batch-fleet",
-      "job_id": "klt-sim-38cf5948582f",
+      "job_id": "klt-sim-992dfd8a081f",
       "region": "us-east-1",
-      "instance_id": "i-0fadeda30f59823ff",
+      "instance_id": "i-08a299b927a85816e",
       "instance_type": "m7i.4xlarge",
-      "availability_zone": "us-east-1a",
+      "availability_zone": "us-east-1c",
       "ami_id": "ami-09c14f55df4958cbd",
       "lifecycle": "spot",
       "spot": true,
@@ -92,13 +92,13 @@
       "exit_code": "0",
       "concurrency": "1",
       "physical_cores": "8",
-      "elapsed_seconds": 6,
-      "client_submitted_at": "2026-11-15T00:28:57.362470Z",
-      "client_launched_at": "2026-11-15T00:29:19.307980Z",
-      "client_status_terminal_at": "2026-11-15T00:29:50.842185Z",
-      "client_collected_at": "2026-11-15T00:29:51.672579Z",
+      "elapsed_seconds": 7,
+      "client_submitted_at": "2026-11-15T09:04:59.094449Z",
+      "client_launched_at": "2026-11-15T09:05:24.106215Z",
+      "client_status_terminal_at": "2026-11-15T09:05:55.651065Z",
+      "client_collected_at": "2026-11-15T09:05:56.481338Z",
       "runner_klt_version": "0.9.0",
-      "client_klt_version": "0.9.2.dev1029+g76f47afa48f1",
+      "client_klt_version": "0.9.3.dev3+gd5d57daf9a14",
       "runner_compatibility": "match",
       "runner_request_features": {
         "required": [
@@ -213,9 +213,9 @@
     "nothing_checked_reasons": []
   },
   "provenance": {
-    "klt_version": "0.9.2.dev1029+g76f47afa48f1",
-    "klt_git_commit": "76f47afa48f144640d67a7337e5c01b95bc88c7b",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@76f47afa48f144640d67a7337e5c01b95bc88c7b",
+    "klt_version": "0.9.3.dev3+gd5d57daf9a14",
+    "klt_git_commit": "d5d57daf9a145961ea01f5f891e4d87c0d435807",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@d5d57daf9a145961ea01f5f891e4d87c0d435807",
     "klayout_version": "0.30.13",
     "pdk": null,
     "deck": {
@@ -224,7 +224,7 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:4a80b47749df29075a07730930ea7bb44f3781a01730352b3e730bc9d7da4387",
+      "content_hash": "sha256:19acd5f607ffc14fe81e882802bf4eddb5b345b62532f755779daa36558c845f",
       "role": "netlist"
     }
   },
@@ -259,16 +259,16 @@
       "status": "pass",
       "worst_case": {
         "corner_id": "ff/0.700V/25C",
-        "value": 1.18216e-07,
-        "margin": 0.069999881784
+        "value": 1.18232e-07,
+        "margin": 0.06999988176800001
       },
       "min": {
         "corner_id": "ss/0.700V/25C",
-        "value": 9.29135e-08
+        "value": 9.29758e-08
       },
       "max": {
         "corner_id": "ff/0.700V/25C",
-        "value": 1.18216e-07
+        "value": 1.18232e-07
       }
     },
     {
@@ -280,16 +280,16 @@
       "status": "pass",
       "worst_case": {
         "corner_id": "ff/0.700V/25C",
-        "value": 1.18226e-07,
-        "margin": 0.069999881774
+        "value": 1.18232e-07,
+        "margin": 0.06999988176800001
       },
       "min": {
         "corner_id": "ss/0.700V/25C",
-        "value": 9.29859e-08
+        "value": 9.2989e-08
       },
       "max": {
         "corner_id": "ff/0.700V/25C",
-        "value": 1.18226e-07
+        "value": 1.18232e-07
       }
     },
     {
@@ -323,7 +323,7 @@
       },
       "temperature_c": 25,
       "status": "pass",
-      "runtime_s": 0.268,
+      "runtime_s": 0.269,
       "engine_exit_code": 0,
       "engine_killed_by_signal": null,
       "measurements": [
@@ -336,17 +336,17 @@
         },
         {
           "name": "vpad_en0_clktog",
-          "value": 1.05772e-07,
+          "value": 1.05773e-07,
           "unit": "V",
           "status": "pass",
-          "margin": 0.069999894228
+          "margin": 0.06999989422700001
         },
         {
           "name": "vpad_en1_clk0",
-          "value": 1.05772e-07,
+          "value": 1.05771e-07,
           "unit": "V",
           "status": "pass",
-          "margin": 0.069999894228
+          "margin": 0.069999894229
         },
         {
           "name": "vpad_en1_clk1",
@@ -373,7 +373,7 @@
       },
       "temperature_c": 25,
       "status": "pass",
-      "runtime_s": 0.266,
+      "runtime_s": 0.268,
       "engine_exit_code": 0,
       "engine_killed_by_signal": null,
       "measurements": [
@@ -386,17 +386,17 @@
         },
         {
           "name": "vpad_en0_clktog",
-          "value": 9.29135e-08,
+          "value": 9.29758e-08,
           "unit": "V",
           "status": "pass",
-          "margin": 0.0699999070865
+          "margin": 0.0699999070242
         },
         {
           "name": "vpad_en1_clk0",
-          "value": 9.29859e-08,
+          "value": 9.2989e-08,
           "unit": "V",
           "status": "pass",
-          "margin": 0.06999990701410001
+          "margin": 0.069999907011
         },
         {
           "name": "vpad_en1_clk1",
@@ -423,7 +423,7 @@
       },
       "temperature_c": 25,
       "status": "pass",
-      "runtime_s": 0.267,
+      "runtime_s": 0.266,
       "engine_exit_code": 0,
       "engine_killed_by_signal": null,
       "measurements": [
@@ -436,17 +436,17 @@
         },
         {
           "name": "vpad_en0_clktog",
-          "value": 1.18216e-07,
+          "value": 1.18232e-07,
           "unit": "V",
           "status": "pass",
-          "margin": 0.069999881784
+          "margin": 0.06999988176800001
         },
         {
           "name": "vpad_en1_clk0",
-          "value": 1.18226e-07,
+          "value": 1.18232e-07,
           "unit": "V",
           "status": "pass",
-          "margin": 0.069999881774
+          "margin": 0.06999988176800001
         },
         {
           "name": "vpad_en1_clk1",

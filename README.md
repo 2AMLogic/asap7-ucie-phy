@@ -207,9 +207,9 @@ verification/functional_verification_sdf.sh
 # Needs ngspice 47 and a locally built, uncommitted OSDI module
 # under sim/build/osdi/ (gitignored; rebuild with klt's scripts/fetch-asap7-sim-toolchain.sh
 # and check the sha256 in decision 0010). The committed reports came from client klt
-# 0.9.2.dev885 (tx_cell) and 0.9.2.dev1029 (the other three) on the batch fleet, not the
-# .github/klt-version pin the commands above use, so they are not bit-reproducible in this
-# pinned form.
+# 0.9.2.dev885 (tx_cell), 0.9.2.dev1029 (rx_cell, rx_clk_cell) and 0.9.3.dev3 (tx_clk_cell)
+# on the batch fleet, not the .github/klt-version pin the commands above use, so they are
+# not bit-reproducible in this pinned form.
 klt sim design/sim/tx_cell.sim.json --backend batch --wait-for-capacity 600 \
     --report-out sim/tx_cell.batch.report.json
 klt sim design/sim/rx_cell.sim.json --backend batch --wait-for-capacity 600 \

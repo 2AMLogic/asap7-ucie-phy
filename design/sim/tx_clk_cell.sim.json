@@ -34,7 +34,7 @@
     },
     {
       "name": "vpad_en0_clktog",
-      "spice": ".meas tran vpad_en0_clktog find v(pad) at=1180p",
+      "spice": ".meas tran vpad_en0_clktog find v(pad) at=800p",
       "unit": "V",
       "limits": {
         "max": 0.07
