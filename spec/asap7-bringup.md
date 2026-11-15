@@ -610,6 +610,127 @@ klt `0.9.1` (`.github/klt-version`) in a throwaway `uvx` environment.
   digital stays **unmet** and #20 stays open, parked on #169; the drawn-cell `r2` matches stand.
   The analog half is unchanged.
 
+## The r5–r13 residue attributed: the routed circuits correspond exactly; the residue is the layout's supply/well domain (analysis of the committed r13 artifacts, no new run, appended 2026-11-15, issue #169)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was waived and no
+netlist, deck or option was edited (decision 0005). No new `klt` run was made: this section is
+analysis of artifacts already committed (`slice_routed.r13.extract.v`, `slice_routed.r13.report.json`,
+`layout/slice_routed.v`, `slice_routed.r13.refnets.json`), so it keeps the `slice_routed.r13.`
+prefix per the repo's revision convention. Every figure below is reproduced by the committed script
+and its committed output; a second run is byte-identical.
+
+- **What ran.** `evidence/item4-lvs/slice_routed.r13.netdiff.py` (output `.netdiff.json`), a per-net
+  diff extending the committed `…r13.refnets.py` parsers: both netlists are parsed into instances
+  with named port connections (the extract's positional X-card nodes resolved through each leaf
+  variant's own `.SUBCKT` header, `$N` names namespaced per subcircuit, cell variants folded to
+  their base cell, pin names folded to lower case exactly as the report's
+  `reference.gate_level_pin_case_folded` entries do). The diff runs on the top circuit of each
+  side — module `slice` against the `.SUBCKT` with the most X-cards — and pairs instances by
+  anchored propagation: net correspondences are seeded only where both sides use the same display
+  name *and* the name's full membership profile agrees (202 such seeds, zero profile mismatches,
+  zero ambiguities), then an instance pairs only when exactly one same-cell candidate agrees on
+  every port whose reference net is already mapped, each pairing contributing new net
+  correspondences, to a fixpoint. Display names are never themselves evidence of identity; every
+  seed is membership-verified and everything the seeds cannot reach is reported as unpaired rather
+  than forced. Ports neither side shares (the extract-only `VDD`, `VSS`, `VDD$1`, `vsubs`) are
+  excluded from the pairing graph and characterised separately. The script hard-fails if any of 18
+  committed baseline figures cannot be recovered (the r13 category counts, the report's `\$0`
+  statistics, both tops at 2594 instances, `rx_clk` at 528 cell pins both sides, equal per-cell
+  edge counts, the committed `refnets.json` baselines), so a silent parse regression fails instead
+  of reporting zeros.
+- **The routed circuits correspond exactly.** The propagation pairs **2594 of 2594** instances
+  (100% coverage, 9 rounds) and all **2713** pairing-domain nets correspond **1:1** — zero splits,
+  zero merges, zero partial nets, zero unmatched nets on either side; the net map at fixpoint is a
+  bijection over 2713 names. The domains reconcile exactly: the reference's 2940 nets are the 2713
+  connected nets plus the 227 zero-cell-pin nets `refnets.json` already counted (64 of them port
+  bits), and the extract's 2955 distinct top-level node tokens are the same 2713 plus 242
+  layout-only nets (below). The pairing-domain edge counts are equal per cell (9263 on each side).
+  Every top-level port bit the reference actually connects (202 of 266; the other 64 — the
+  `rx_a`/`rx_b` bits — connect to no cell pin on either side) pairs 1:1 with an extract net of the
+  same case-folded name, so r13's 67 `hints.rejected` "unconfirmed" pin anchors are artifacts of
+  the comparer's failed matching, not boundary topology disagreements. The r13 `topology.flattened`
+  note "93 circuit(s) were collapsed into 9 top-level circuit(s)" is also explained: the 9 are
+  `slice` plus the 8 unused empty `TAPCELL`/`FILLER` leaf variants (measured: exactly those 8 are
+  never instantiated), which remain roots after flattening; the reference side's "50 → 1" is clean.
+- **The layout-only domain is the supply/well netlist.** The 242 extract-only nets are 239
+  anonymous fragments plus the three named nets `VDD`/`VSS`/`vsubs`: 157 fragments touch only the
+  `VDD`/`VDD$1` positions (5160 terminals, largest 54), one more on `VDD`-only (10) and one on
+  `VDD$1`-only (10); 80 fragments touch only the `VSS` position and hold **2593 of the 2594** `VSS`
+  terminals — the net actually named `VSS` holds **1**; `vsubs` is a single net carrying all 2594
+  nmos bulk terminals. The leaf bulk census (from the extract's own M-cards, weighted by instance
+  counts) gives 1494 instances whose leaf bodies put the pmos bulk on the `VDD` port and 1100 on
+  `VDD$1`, and names no cell with a bulk anywhere else; 10584 flat PMOS bodies land on a
+  non-supply leaf net by this census. The reference side has no counterpart for any of this:
+  module `slice` connects no `VDD`/`VSS`/well pins at all, and the reference conversion
+  synthesises bulk connectivity from the library CDL under `options.finfet_bulk` — the report's
+  own `device.finfet_bulk_tied` entries (168, 692 devices at circuit level) describe exactly that
+  caller assertion, joining named bulk nets (`vsubs` onto `VSS`, `VDD` onto `VDD`) before
+  comparing.
+- **The r13 report corroborates the mechanism.** `device.body_unverified` (1 entry) says 14363
+  PMOS device body terminals "were compared against an anonymous, KLayout-synthesized well net,
+  not a real schematic net -- either no drawn or derived well-tap geometry exists, or the
+  tap-connected net carries no name label (a body resolves only to a *named* net; label the
+  tap-connected conductor, e.g. VDD, to resolve it)". That is consistent with the census above:
+  the named `VDD`/`VSS` nets hold 8 and 1 terminals respectively, so nearly every flat PMOS body
+  sits on an anonymous fragment — the leaf census puts the flat PMOS device count at 14431
+  (`flat_pmos_body_count_from_extract`: 3847 with leaf bulk on the `VDD` port plus 10584 on
+  `VDD$1`, its `flat_pmos_bodies_by_leaf_bulk_net` breakdown); the residual against the report's
+  14363 is device bookkeeping this analysis cannot decompose from the committed report.
+  `net.supply_fragmented` fired 84 times, every entry naming `VDD`. With the layout's supply/well
+  terminals spread over ~240 nets where the reference asserts two named supplies, device matching
+  — which pairs devices by terminal-net correspondence — collapses wholesale: 55444
+  `device.unmatched` entries against 233 matched devices, and net correspondence inherits the
+  collapse: 408 matched nets (199 pin-anchored entries whose layout name equals the reference
+  name case-folded, plus 209 entries whose layout display name is anonymous — 182 of them the
+  `\$0` collapse), 15269 `net.split` entries, 14967 `net.merged` entries — i.e. essentially
+  every net on both sides is accused, on circuits whose routed connectivity this section measures
+  as identical.
+- **The `\$0` headline shape is a reporting artifact.** The `net.split` entries carry, on every
+  entry, only `category`/`description`/`severity`/`side` and the display name: `net.reference` is
+  null, `circuit`/`subcircuit`/`details` are null, and there is no id or pin-set field. 12812 of
+  the 15269 entries (84%) name the layout net as the single string `\$0`; the remaining 2457
+  entries have 2457 distinct names, each appearing exactly once. `\$0` is therefore the rendering
+  of many distinct anonymous layout nets, not one giant net — the same artifact class as the
+  metals-union claim r13 withdrew. The report alone cannot answer "how many distinct layout nets
+  does the split list accuse": that identity had to be re-derived from the netlists by pin
+  membership (this section). Filed generically at `2AMLogic/klayout-tools#5833` (no design
+  detail); #3920 is the adjacent, already-addressed finding about the missing
+  `net.supply_fragmented` signal itself.
+- **Attribution.** Of the residue's four candidate homes: **(d) the reference** is eliminated
+  (r13 — the layout was routed from this exact netlist and mismatches identically). **(a)
+  extraction, at the routed-signal level this diff measures, is eliminated** — the committed
+  extract reproduces the committed reference's routed connectivity exactly, net for net and
+  instance for instance. **(c) the stream** is eliminated for the routed signal structure (r13's
+  via-aware geometry trace plus the 1:1 netlist correspondence above), and **remains open for the
+  supply/well domain only**: whether the ~240 supply/well fragments are real PDN geometry (rails
+  and straps genuinely disjoint, tap conductors unlabelled — a `regen.py` DEF/PDN question, the
+  fallback this issue named) or an extractor connect-chain/label handling gap is not decidable
+  from the committed artifacts, because r13's geometry trace covered the M2–M6 signal routing
+  only and `device.body_unverified`'s own text says the tool cannot distinguish absent tap
+  geometry from an unlabelled conductor. **(b) the comparison/reporting layer** is where the
+  residue manifests: the flat comparer's device matching collapses on the fragmented
+  supply/well terminals and drags net correspondence with it, and the report then renders its own
+  list unusable for attribution (`\$0` collapse, no stable identity — `2AMLogic/klayout-tools#5833`).
+  The determined statement: **the r5–r13 `net.split`/`net.merged` residue is the layout
+  extraction's supply/well domain — ~240 layout-only fragment nets where the reference asserts
+  two named supplies — cascading through the flat comparer's device/net matching; the routed
+  signal circuits themselves correspond exactly and no stream signal defect exists.** The next
+  step for an item-4 `match` is one of: label/tie the tap-connected conductors and supply rails
+  in the stream flow (stream fix, then an r14 — the fallback this issue named), or a klt-side
+  change that lets the comparison bridge the anonymous well/supply fragments (tool side, to be
+  discussed upstream under #5833's tracker).
+- **Not done here.** No stream was regenerated, no new `klt lvs` run was made (there is no
+  `r14`), the item-3 DRC record gap stays **#19**'s, and `evidence/item4-attempts.json` and the
+  block manifest are untouched — an analysis-only landing. `python3 -I
+  layout/pnr/regen.py --check-input` still exits 0 and the committed stream hash is unchanged.
+- **Signoff:** the manifest still cites the r13 report (append-only). T1 item 4 digital stays
+  **unmet** — nothing has matched; what changed is that the residue now has a measured cause and
+  a named next step. #20 is parked on this issue; its park should be revisited when this lands:
+  the attribution is in, the fix (stream-side or tool-side) is not. `spec/asap7-bringup.md` is a
+  T1 item-10 hygiene inventory member, so the envelope (`manifests/t1-item10.envelope.json`) is
+  regenerated and committed in the same commit as this edit (command in `README.md` § T1
+  evidence); only the envelope changes.
+
 ## Correction: the item-1 r2–r7 chain is six byte-identical files (appended 2026-11-15, issue #178)
 
 Documentation-only convention; no tool run in this section. The section appended

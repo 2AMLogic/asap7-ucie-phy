@@ -1,0 +1,1076 @@
+{
+ "consumes": [
+  "evidence/item4-lvs/slice_routed.r13.extract.v",
+  "layout/slice_routed.v",
+  "evidence/item4-lvs/slice_routed.r13.report.json",
+  "evidence/item4-lvs/slice_routed.r13.refnets.json"
+ ],
+ "domain": {
+  "assign_statements_reference": 0,
+  "extract_top": "slice",
+  "extract_top_xcards": 2594,
+  "identity": "pin membership (instance, port); instances paired by anchored propagation seeded by display names verified by membership; display names never used as identity themselves",
+  "pairing_edges_ext": 9263,
+  "pairing_edges_ref": 9263,
+  "ports_used": "folded intersection of reference .NAME ports and leaf .SUBCKT header ports, per cell",
+  "propagation_rounds": 9,
+  "reference_connected_instances": 2594,
+  "reference_connectionless_instances": 0,
+  "reference_module": "slice"
+ },
+ "domain_reconciliation": {
+  "extract_identity": "pairing domain + extract-only nets = refnets total",
+  "extract_only_nets": 242,
+  "extract_pairing_domain_nets": 2713,
+  "extract_top_distinct_node_tokens": 2955,
+  "reference_declared_nets_refnets": 2940,
+  "reference_identity": "pairing domain + zero-cell-pin nets = refnets total",
+  "reference_pairing_domain_nets": 2713,
+  "reference_zero_cell_pin_nets": 227
+ },
+ "instance_pairing": {
+  "instance_coverage": 1.0,
+  "instances_paired": 2594,
+  "unpaired_extract_ambiguous_sample": [],
+  "unpaired_extract_diagnosis": {},
+  "unpaired_extract_no_candidate_sample": [],
+  "unpaired_reference_ambiguous_sample": [],
+  "unpaired_reference_diagnosis": {},
+  "unpaired_reference_no_candidate_sample": []
+ },
+ "net_correspondence_structural": {
+  "extract_nets_on_unpaired_instances_only": 0,
+  "extract_nets_total_pairing_domain": 2713,
+  "extract_nets_with_no_paired_membership": 0,
+  "extract_nets_without_reference_counterpart": 0,
+  "extract_no_paired_membership_sample": [],
+  "extract_without_counterpart_sample": [],
+  "matched_1_to_1": 2713,
+  "matched_sample": [
+   {
+    "layout": "\\$11101",
+    "reference": "_00_",
+    "shared_terminals": 2
+   },
+   {
+    "layout": "\\$8980",
+    "reference": "_01_",
+    "shared_terminals": 2
+   },
+   {
+    "layout": "\\$9190",
+    "reference": "_02_",
+    "shared_terminals": 2
+   },
+   {
+    "layout": "\\$11517",
+    "reference": "_03_",
+    "shared_terminals": 2
+   },
+   {
+    "layout": "\\$8226",
+    "reference": "accept",
+    "shared_terminals": 66
+   },
+   {
+    "layout": "clk",
+    "reference": "clk",
+    "shared_terminals": 1
+   },
+   {
+    "layout": "\\$3676",
+    "reference": "clknet_0_clk",
+    "shared_terminals": 17
+   },
+   {
+    "layout": "\\$1029",
+    "reference": "clknet_4_0_0_clk",
+    "shared_terminals": 9
+   },
+   {
+    "layout": "\\$14626",
+    "reference": "clknet_4_10_0_clk",
+    "shared_terminals": 21
+   },
+   {
+    "layout": "\\$15550",
+    "reference": "clknet_4_11_0_clk",
+    "shared_terminals": 15
+   },
+   {
+    "layout": "\\$13554",
+    "reference": "clknet_4_12_0_clk",
+    "shared_terminals": 9
+   },
+   {
+    "layout": "\\$13683",
+    "reference": "clknet_4_13_0_clk",
+    "shared_terminals": 11
+   },
+   {
+    "layout": "\\$16642",
+    "reference": "clknet_4_14_0_clk",
+    "shared_terminals": 15
+   },
+   {
+    "layout": "\\$11999",
+    "reference": "clknet_4_15_0_clk",
+    "shared_terminals": 11
+   },
+   {
+    "layout": "\\$6920",
+    "reference": "clknet_4_1_0_clk",
+    "shared_terminals": 10
+   },
+   {
+    "layout": "\\$8429",
+    "reference": "clknet_4_2_0_clk",
+    "shared_terminals": 15
+   },
+   {
+    "layout": "\\$9681",
+    "reference": "clknet_4_3_0_clk",
+    "shared_terminals": 11
+   },
+   {
+    "layout": "\\$1736",
+    "reference": "clknet_4_4_0_clk",
+    "shared_terminals": 10
+   },
+   {
+    "layout": "\\$1437",
+    "reference": "clknet_4_5_0_clk",
+    "shared_terminals": 10
+   },
+   {
+    "layout": "\\$7831",
+    "reference": "clknet_4_6_0_clk",
+    "shared_terminals": 10
+   },
+   {
+    "layout": "\\$6895",
+    "reference": "clknet_4_7_0_clk",
+    "shared_terminals": 7
+   },
+   {
+    "layout": "\\$12396",
+    "reference": "clknet_4_8_0_clk",
+    "shared_terminals": 14
+   },
+   {
+    "layout": "\\$9431",
+    "reference": "clknet_4_9_0_clk",
+    "shared_terminals": 16
+   },
+   {
+    "layout": "rx_a[0]",
+    "reference": "des_word[0]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[5]",
+    "reference": "des_word[10]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[5]",
+    "reference": "des_word[11]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[6]",
+    "reference": "des_word[12]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[6]",
+    "reference": "des_word[13]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[7]",
+    "reference": "des_word[14]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[7]",
+    "reference": "des_word[15]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[8]",
+    "reference": "des_word[16]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[8]",
+    "reference": "des_word[17]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[9]",
+    "reference": "des_word[18]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[9]",
+    "reference": "des_word[19]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[0]",
+    "reference": "des_word[1]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[10]",
+    "reference": "des_word[20]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[10]",
+    "reference": "des_word[21]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[11]",
+    "reference": "des_word[22]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_b[11]",
+    "reference": "des_word[23]",
+    "shared_terminals": 8
+   },
+   {
+    "layout": "rx_a[12]",
+    "reference": "des_word[24]",
+    "shared_terminals": 8
+   }
+  ],
+  "merge_entries": [],
+  "merges": 0,
+  "nets_mapped_at_fixpoint": 2713,
+  "partial_entries": [],
+  "partials": 0,
+  "reference_nets_on_unpaired_instances_only": 0,
+  "reference_nets_total_pairing_domain": 2713,
+  "reference_nets_with_no_paired_membership": 0,
+  "reference_nets_without_extract_counterpart": 0,
+  "reference_no_paired_membership_sample": [],
+  "reference_without_counterpart_sample": [],
+  "split_entries": [],
+  "splits": 0
+ },
+ "net_seeds": {
+  "accepted": 202,
+  "name_ambiguous_extract_side": [],
+  "name_ambiguous_total": 0,
+  "profile_mismatch": [],
+  "profile_mismatch_total": 0
+ },
+ "power_well": {
+  "VDD_net": {
+   "distinct_ports": [
+    "vdd",
+    "vdd$1"
+   ],
+   "terminal_count": 8
+  },
+  "VSS_net": {
+   "distinct_ports": [
+    "vss"
+   ],
+   "terminal_count": 1
+  },
+  "empty_leaf_subckts": [
+   "FILLER_ASAP7_75t_R",
+   "FILLER_ASAP7_75t_R$VAR1",
+   "FILLERxp5_ASAP7_75t_R",
+   "FILLERxp5_ASAP7_75t_R$VAR1",
+   "TAPCELL_ASAP7_75t_R",
+   "TAPCELL_ASAP7_75t_R$VAR1",
+   "TAPCELL_ASAP7_75t_R$VAR2",
+   "TAPCELL_ASAP7_75t_R$VAR3"
+  ],
+  "extract_only_supply_well_domain": {
+   "groups": [
+    {
+     "largest_net_terminals": 10,
+     "named_non_anonymous": [],
+     "net_count": 1,
+     "ports": [
+      "vdd"
+     ],
+     "terminal_count": 10
+    },
+    {
+     "largest_net_terminals": 54,
+     "named_non_anonymous": [],
+     "net_count": 157,
+     "ports": [
+      "vdd",
+      "vdd$1"
+     ],
+     "terminal_count": 5160
+    },
+    {
+     "largest_net_terminals": 10,
+     "named_non_anonymous": [],
+     "net_count": 1,
+     "ports": [
+      "vdd$1"
+     ],
+     "terminal_count": 10
+    },
+    {
+     "largest_net_terminals": 49,
+     "named_non_anonymous": [],
+     "net_count": 80,
+     "ports": [
+      "vss"
+     ],
+     "terminal_count": 2593
+    }
+   ],
+   "net_count_total": 239,
+   "note": "tokens never touched by a pairing-domain (common port) connection, grouped by which extract-only ports touch them; the reference side has none of these -- module slice connects no VDD/VSS/well pins and the reference conversion asserts bulk ties onto its named supply nets (options.finfet_bulk)",
+   "report_net_supply_fragmented_entries": 84
+  },
+  "extract_top_port_tokens": 269,
+  "extract_top_ports_outside_reference_port_bits": [
+   "VDD",
+   "VSS",
+   "vsubs"
+  ],
+  "extract_top_power_ports": [
+   "VDD",
+   "VSS",
+   "vsubs"
+  ],
+  "flat_device_count_from_extract": 29436,
+  "flat_pmos_bodies_by_leaf_bulk_net": {
+   "VDD": 3847,
+   "VDD$1": 10584
+  },
+  "flat_pmos_bodies_on_non_supply_leaf_net": 10584,
+  "flat_pmos_body_count_from_extract": 14431,
+  "leaf_bulk_census": [
+   {
+    "cell": "AND2x2_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 34,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AND2x2_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 32,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AND5x1_ASAP7_75t_R",
+    "devices": 12,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AO21x1_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AOI21x1_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 162,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "AOI21x1_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 125,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "AOI21xp33_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 5,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AOI21xp5_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 84,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AOI21xp5_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 80,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AOI311xp33_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "AOI31xp33_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "BUFx3_ASAP7_75t_R",
+    "devices": 4,
+    "instances": 14,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "BUFx3_ASAP7_75t_R$VAR1",
+    "devices": 4,
+    "instances": 19,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "BUFx4_ASAP7_75t_R",
+    "devices": 4,
+    "instances": 8,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "BUFx4_ASAP7_75t_R$VAR1",
+    "devices": 4,
+    "instances": 9,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "BUFx5_ASAP7_75t_R",
+    "devices": 4,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "BUFx5_ASAP7_75t_R$VAR1",
+    "devices": 4,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "CKINVDCx10_ASAP7_75t_R",
+    "devices": 14,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "CKINVDCx10_ASAP7_75t_R$VAR1",
+    "devices": 14,
+    "instances": 5,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "CKINVDCx11_ASAP7_75t_R",
+    "devices": 14,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "CKINVDCx5p33_ASAP7_75t_R",
+    "devices": 14,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "CKINVDCx8_ASAP7_75t_R",
+    "devices": 14,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "CKINVDCx8_ASAP7_75t_R$VAR1",
+    "devices": 14,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "DFFASRHQNx1_ASAP7_75t_R",
+    "devices": 32,
+    "instances": 97,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "DFFASRHQNx1_ASAP7_75t_R$VAR1",
+    "devices": 32,
+    "instances": 82,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "DFFHQNx1_ASAP7_75t_R",
+    "devices": 24,
+    "instances": 250,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "DFFHQNx1_ASAP7_75t_R$VAR1",
+    "devices": 24,
+    "instances": 262,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "INVx1_ASAP7_75t_R",
+    "devices": 2,
+    "instances": 7,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVx1_ASAP7_75t_R$VAR1",
+    "devices": 2,
+    "instances": 14,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVx5_ASAP7_75t_R",
+    "devices": 2,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVx6_ASAP7_75t_R",
+    "devices": 2,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVx6_ASAP7_75t_R$VAR1",
+    "devices": 2,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVxp33_ASAP7_75t_R",
+    "devices": 2,
+    "instances": 4,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVxp33_ASAP7_75t_R$VAR1",
+    "devices": 2,
+    "instances": 4,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVxp67_ASAP7_75t_R",
+    "devices": 2,
+    "instances": 70,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "INVxp67_ASAP7_75t_R$VAR1",
+    "devices": 2,
+    "instances": 69,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND2xp33_ASAP7_75t_R",
+    "devices": 4,
+    "instances": 37,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND2xp33_ASAP7_75t_R$VAR1",
+    "devices": 4,
+    "instances": 51,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND2xp5_ASAP7_75t_R",
+    "devices": 4,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND2xp5_ASAP7_75t_R$VAR1",
+    "devices": 4,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND3xp33_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND3xp33_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NAND5xp2_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NOR2xp33_ASAP7_75t_R",
+    "devices": 4,
+    "instances": 4,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NOR2xp33_ASAP7_75t_R$VAR1",
+    "devices": 4,
+    "instances": 11,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NOR3x1_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "NOR3xp33_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 219,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NOR3xp33_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 231,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "NOR4xp25_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "O2A1O1Ixp33_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "O2A1O1Ixp33_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OA211x2_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "OA21x2_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OA21x2_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OA222x2_ASAP7_75t_R",
+    "devices": 14,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "OA222x2_ASAP7_75t_R$VAR1",
+    "devices": 14,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "OAI211xp5_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI211xp5_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI21xp33_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI21xp33_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI21xp5_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 32,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI21xp5_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 54,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI222xp33_ASAP7_75t_R",
+    "devices": 12,
+    "instances": 35,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "OAI222xp33_ASAP7_75t_R$VAR1",
+    "devices": 12,
+    "instances": 55,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "OAI22xp33_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 60,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI22xp33_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 52,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI22xp5_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI22xp5_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI311xp33_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI311xp33_ASAP7_75t_R$VAR1",
+    "devices": 10,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OAI31xp33_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OR2x2_ASAP7_75t_R",
+    "devices": 6,
+    "instances": 6,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OR2x2_ASAP7_75t_R$VAR1",
+    "devices": 6,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OR3x1_ASAP7_75t_R",
+    "devices": 8,
+    "instances": 27,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OR3x1_ASAP7_75t_R$VAR1",
+    "devices": 8,
+    "instances": 20,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OR4x1_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 11,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "OR4x1_ASAP7_75t_R$VAR1",
+    "devices": 10,
+    "instances": 6,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "TIEHIx1_ASAP7_75t_R",
+    "devices": 2,
+    "instances": 89,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "TIEHIx1_ASAP7_75t_R$VAR1",
+    "devices": 2,
+    "instances": 90,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD"
+   },
+   {
+    "cell": "XNOR2xp5_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "XNOR2xp5_ASAP7_75t_R$VAR1",
+    "devices": 10,
+    "instances": 3,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "XOR2x2_ASAP7_75t_R",
+    "devices": 12,
+    "instances": 1,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "XOR2xp5_ASAP7_75t_R",
+    "devices": 10,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   },
+   {
+    "cell": "XOR2xp5_ASAP7_75t_R$VAR1",
+    "devices": 10,
+    "instances": 2,
+    "nmos_bulk": "vsubs",
+    "pmos_bulk": "VDD$1"
+   }
+  ],
+  "leaf_bulk_instance_totals": {
+   "nmos_bulk='vsubs',pmos_bulk='VDD$1'": 1100,
+   "nmos_bulk='vsubs',pmos_bulk='VDD'": 1494
+  },
+  "reference_module_port_bits": 266,
+  "reference_side_power_note": "module slice names no VDD/VSS/well pins; the reference conversion synthesises bulk connectivity from the library CDL under options.finfet_bulk (the report's device.finfet_bulk_tied entries), so the reference side of the power/well domain is not present in the committed Verilog.",
+  "unused_leaf_variants": [
+   "FILLER_ASAP7_75t_R",
+   "FILLER_ASAP7_75t_R$VAR1",
+   "FILLERxp5_ASAP7_75t_R",
+   "FILLERxp5_ASAP7_75t_R$VAR1",
+   "TAPCELL_ASAP7_75t_R",
+   "TAPCELL_ASAP7_75t_R$VAR1",
+   "TAPCELL_ASAP7_75t_R$VAR2",
+   "TAPCELL_ASAP7_75t_R$VAR3"
+  ],
+  "vsubs_net": {
+   "distinct_ports": [
+    "vsubs"
+   ],
+   "terminal_count": 2594
+  },
+  "well_nets_dollar_i": null
+ },
+ "report_identity": {
+  "net_correspondence_report": {
+   "distinct_layout_names": 227,
+   "distinct_reference_names": 408,
+   "entries": 408,
+   "entries_with_anonymous_layout_name": 209,
+   "entries_with_layout_name_backslash_dollar_zero": 182,
+   "pin_anchored_entries": 199
+  },
+  "net_merged": {
+   "distinct_reference_names": 14967,
+   "entries": 14967,
+   "fields_present_across_all_entries": [
+    "category",
+    "circuit",
+    "description",
+    "details",
+    "device",
+    "instance",
+    "net",
+    "property",
+    "severity",
+    "side",
+    "subcircuit"
+   ]
+  },
+  "net_split": {
+   "distinct_layout_display_names": 2458,
+   "entries": 15269,
+   "entries_under_display_name_backslash_dollar_zero": 12812,
+   "entries_with_layout_name": 15269,
+   "entries_with_reference_name": 0,
+   "entries_with_subcircuit_or_circuit": 0,
+   "fields_present_across_all_entries": [
+    "category",
+    "circuit",
+    "description",
+    "details",
+    "device",
+    "instance",
+    "net",
+    "property",
+    "severity",
+    "side",
+    "subcircuit"
+   ],
+   "named_display_names_appearing_more_than_once": [],
+   "stable_identity_available": false,
+   "stable_identity_note": "net.split entries carry only category/description/severity/side plus net.layout display name; net.reference is null and no id, subcircuit or pin-set field exists, so the 12812 entries under \\$0 cannot be attributed to distinct nets from the report alone. The structural correspondence in net_correspondence_structural establishes identity from the netlists by pin membership instead."
+  }
+ },
+ "script": "slice_routed.r13.netdiff.py",
+ "self_checks_passed": 18,
+ "top_level_pin_check": {
+  "connected_port_bits_paired": 202,
+  "connected_port_bits_same_name_casefolded": 202,
+  "note": "every port bit the reference actually connects pairs 1:1 with an extract net of the same case-folded name, so the r13 hints.rejected anchors are artifacts of the comparer's failed matching, not boundary topology disagreements",
+  "r13_hints_rejected_unconfirmed_anchors": 67,
+  "reference_port_bits": 266,
+  "unconnected_port_bits_reference": 64,
+  "unconnected_port_bits_sample": [
+   "rx_a[0]",
+   "rx_a[10]",
+   "rx_a[11]",
+   "rx_a[12]",
+   "rx_a[13]",
+   "rx_a[14]",
+   "rx_a[15]",
+   "rx_a[16]",
+   "rx_a[17]",
+   "rx_a[18]",
+   "rx_a[19]",
+   "rx_a[1]",
+   "rx_a[20]",
+   "rx_a[21]",
+   "rx_a[22]",
+   "rx_a[23]",
+   "rx_a[24]",
+   "rx_a[25]",
+   "rx_a[26]",
+   "rx_a[27]",
+   "rx_a[28]",
+   "rx_a[29]",
+   "rx_a[2]",
+   "rx_a[30]",
+   "rx_a[31]",
+   "rx_a[3]",
+   "rx_a[4]",
+   "rx_a[5]",
+   "rx_a[6]",
+   "rx_a[7]",
+   "rx_a[8]",
+   "rx_a[9]",
+   "rx_b[0]",
+   "rx_b[10]",
+   "rx_b[11]",
+   "rx_b[12]",
+   "rx_b[13]",
+   "rx_b[14]",
+   "rx_b[15]",
+   "rx_b[16]"
+  ],
+  "unpaired_port_bits": []
+ }
+}
