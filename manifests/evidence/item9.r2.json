@@ -31,7 +31,7 @@
         "role": "testbench",
         "path": "verification/functional_verification_sdf.sh",
         "passed": true,
-        "content_hash": "sha256:d87f04bd259cdfe54111ba27c54e56cf3ad3f7cc02bb2675ebc70bbd89e8b19a"
+        "content_hash": "sha256:5d1ddcdeac1faf472536ce9e65a18ad5f12d1fcceb162c514eb215c3babca5c9"
       },
       {
         "check": "present",

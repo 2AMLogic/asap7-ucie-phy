@@ -24,10 +24,12 @@ check iverilog "$(iverilog -V 2>/dev/null | head -1 | sed -n 's/.*version \([0-9
 SCRATCH="$(mktemp -d)"; trap 'rm -rf "$SCRATCH"' EXIT
 python3 -I - "$ROOT" "$HERE/.sdf-models" "$ARCHIVE" "$SCRATCH" <<'PY'
 import importlib.util, pathlib, sys, tarfile
-root, dest, given, scratch = map(pathlib.Path, sys.argv[1:5])
+root, dest, given, scratch = sys.argv[1:5]
+root, dest, scratch = map(pathlib.Path, (root, dest, scratch))
+# given stays the raw string: pathlib.Path("") is Path("."), which fetch would take as a real path.
 spec = importlib.util.spec_from_file_location("lambdapdk", root / "design" / "lambdapdk.py")
 L = importlib.util.module_from_spec(spec); spec.loader.exec_module(L)
-archive = L.fetch(scratch, str(given) if str(given) else None)
+archive = L.fetch(scratch, given or None)
 dest.mkdir(exist_ok=True)
 prefix = L.ROOT + "libs/asap7sc7p5t_rvt/verilog/"
 with tarfile.open(archive) as tar:
