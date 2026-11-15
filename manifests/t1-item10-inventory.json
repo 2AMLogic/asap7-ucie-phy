@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 10,
-  "description": "Repo hygiene: README, license, the ratified spec and decision records, and the signoff workflow, with the pad-checker self-test and the manifest JSON validity check as the audit commands.",
+  "description": "Repo hygiene: README, license, the ratified spec and decision records, and the signoff workflow, audited by the commands declared in the checks array below.",
   "hygiene": [
     "README.md",
     "LICENSE",

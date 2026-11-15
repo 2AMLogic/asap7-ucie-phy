@@ -57,6 +57,7 @@ jobs:
             echo "  Re-attest the stale evidence; do NOT regenerate the verdict, which would only record the drift as the verdict of record (and the next step would fail anyway)."
             echo "  Most often this is T1 item 10, whose inventoried members include README.md and .github/workflows/signoff.yml -- see manifests/t1-item10-inventory.json for the full list:"
             echo "    uv run --no-project --with \"klayout-tools==\$(cat .github/klt-version)\" --with \"klayout==\$(cat .github/klayout-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
+            echo "  Exception: if item 10 is stale because the inventory itself (manifests/t1-item10-inventory.json) changed, the envelope is already fresh and that re-attest is a no-op -- update item 10's content_hash in manifests/asap7-ucie-phy.json to the new sha256 of the inventory, then regenerate the verdict (CAUSE 2's command)."
             echo "CAUSE 2 -- the verdict itself is stale (the manifest changed and the evidence is fine). Regenerate and commit it in this PR:"
             echo "    uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --manifest manifests/asap7-ucie-phy.json --format json > manifests/asap7-ucie-phy.signoff.json"
             exit 1
@@ -124,12 +125,15 @@ jobs:
       # anything else is an error.
       #
       # README.md and this workflow file are themselves inventoried members, so
-      # an ordinary prose or CI edit drifts the envelope. The remediation below
-      # deliberately stops at the envelope: item 10's
-      # content_hash in manifests/asap7-ucie-phy.json binds the *inventory*
-      # (manifests/t1-item10-inventory.json), not the envelope file, so a
-      # re-attest needs neither the block manifest re-pinned nor
-      # manifests/asap7-ucie-phy.signoff.json regenerated.
+      # an ordinary prose or CI edit drifts the envelope. Item 10's content_hash
+      # in manifests/asap7-ucie-phy.json binds the *inventory*
+      # (manifests/t1-item10-inventory.json), not the envelope file — note the
+      # asymmetry: .evidence["10"].file in the block manifest names the
+      # envelope, but the pinned hash is of the inventory bytes. That makes two
+      # drift cases: an inventoried *member* edit stops at the envelope (no
+      # manifest re-pin, no verdict regeneration), while an edit to the
+      # *inventory itself* additionally re-pins item 10's content_hash and
+      # regenerates manifests/asap7-ucie-phy.signoff.json.
       - name: Check the committed T1 item 10 attestation still reproduces
         run: |
           set -uo pipefail
@@ -140,7 +144,8 @@ jobs:
           if [ "$rc" -eq 3 ]; then
             echo "::error::manifests/t1-item10.envelope.json is stale: an inventoried file or the inventory itself changed, or a declared check now fails. README.md and .github/workflows/signoff.yml are themselves inventoried — see manifests/t1-item10-inventory.json for the full member list. Re-attest on a host with the pinned tools and commit the envelope in this PR:"
             echo "  uv run --no-project --with \"klayout-tools==\$(cat .github/klt-version)\" --with \"klayout==\$(cat .github/klayout-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
-            echo "The block manifest and the verdict do NOT need regenerating for item 10: its content_hash binds the inventory, not the envelope."
+            echo "If an inventoried member changed, stop there: the block manifest and the verdict do NOT need regenerating — item 10's content_hash in manifests/asap7-ucie-phy.json binds the inventory (manifests/t1-item10-inventory.json), not the envelope."
+            echo "If the inventory itself (manifests/t1-item10-inventory.json) changed, update the item 10 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
             exit 1
           elif [ "$rc" -ne 0 ]; then
             echo "::error::klt signoff --attest 10 --check exited $rc (expected 0 or 3): the inventory, the envelope or the pinned tooling is broken"
