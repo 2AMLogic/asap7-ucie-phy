@@ -35,25 +35,25 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.r7.json",
+        "file": "evidence/item1.r8.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:68bed81cf49a426c594c989c87cdc8a51ade813f324d76440cb9558c7d93fa47",
+        "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": null,
-          "content_hash": "sha256:68bed81cf49a426c594c989c87cdc8a51ade813f324d76440cb9558c7d93fa47",
+          "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449",
           "input_verified": true,
           "members": [
             {
               "path": {
-                "path": "attest/item1.r7.json",
+                "path": "attest/item1.r8.json",
                 "scope": "repo"
               },
-              "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b",
+              "content_hash": "sha256:60c9172fda00dd2fb05ac82a949293b4046e80c9856a037e0ece2e25354d0cda",
               "status": "verified"
             },
             {
@@ -114,6 +114,14 @@
             },
             {
               "path": {
+                "path": "design/sim/tx_cell.osdi.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e",
+              "status": "verified"
+            },
+            {
+              "path": {
                 "path": "design/synth/regen.py",
                 "scope": "repo"
               },
@@ -161,13 +169,13 @@
               "status": "verified"
             }
           ],
-          "summary": "T1 item 1 (Design sources): 18/18 attestation checks passed (klt signoff --attest)",
-          "source": "attest/item1.r7.json",
+          "summary": "T1 item 1 (Design sources): 20/20 attestation checks passed (klt signoff --attest)",
+          "source": "attest/item1.r8.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 18,
-            "passed_count": 18
+            "check_count": 20,
+            "passed_count": 20
           }
         }
       }
@@ -184,25 +192,25 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.r7.json",
+        "file": "evidence/item1.r8.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:68bed81cf49a426c594c989c87cdc8a51ade813f324d76440cb9558c7d93fa47",
+        "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": null,
-          "content_hash": "sha256:68bed81cf49a426c594c989c87cdc8a51ade813f324d76440cb9558c7d93fa47",
+          "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449",
           "input_verified": true,
           "members": [
             {
               "path": {
-                "path": "attest/item1.r7.json",
+                "path": "attest/item1.r8.json",
                 "scope": "repo"
               },
-              "content_hash": "sha256:78f71a7e6f46ef41aabfb12be97fbd8303de61132c120fb5c3c39ad7f411242b",
+              "content_hash": "sha256:60c9172fda00dd2fb05ac82a949293b4046e80c9856a037e0ece2e25354d0cda",
               "status": "verified"
             },
             {
@@ -263,6 +271,14 @@
             },
             {
               "path": {
+                "path": "design/sim/tx_cell.osdi.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e",
+              "status": "verified"
+            },
+            {
+              "path": {
                 "path": "design/synth/regen.py",
                 "scope": "repo"
               },
@@ -310,13 +326,13 @@
               "status": "verified"
             }
           ],
-          "summary": "T1 item 1 (Design sources): 18/18 attestation checks passed (klt signoff --attest)",
-          "source": "attest/item1.r7.json",
+          "summary": "T1 item 1 (Design sources): 20/20 attestation checks passed (klt signoff --attest)",
+          "source": "attest/item1.r8.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 18,
-            "passed_count": 18
+            "check_count": 20,
+            "passed_count": 20
           }
         }
       }
