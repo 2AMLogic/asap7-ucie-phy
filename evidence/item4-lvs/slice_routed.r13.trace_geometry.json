@@ -1,0 +1,85 @@
+{
+  "kind": "r13-trace-geometry",
+  "gds": "layout/slice_routed.gds",
+  "dbu_um": 0.00025,
+  "top_cell": "slice",
+  "stack": {
+    "M2": "20/0",
+    "V2": "25/0",
+    "M3": "30/0",
+    "V3": "35/0",
+    "M4": "40/0",
+    "V4": "45/0",
+    "M5": "50/0",
+    "V5": "55/0",
+    "M6": "60/0"
+  },
+  "engine": "klayout.LayoutToNetlist",
+  "klayout_version": "0.30.13",
+  "variants": {
+    "metals_union": {
+      "merged_polygon_counts": {
+        "M2": 14361,
+        "V2": 15591,
+        "M3": 7850,
+        "V3": 2316,
+        "M4": 1258,
+        "V4": 149,
+        "M5": 79,
+        "V5": 14,
+        "M6": 7
+      },
+      "components": 233,
+      "total_area_dbu2": 5551268864,
+      "largest_area_dbu2": 5517798944,
+      "largest_share_of_area": 0.99397,
+      "largest_bbox_dbu": [
+        0,
+        4696,
+        95340,
+        176744
+      ],
+      "top5_area_dbu2": [
+        5517798944,
+        6267456,
+        6267456,
+        6267456,
+        261504
+      ]
+    },
+    "via_aware": {
+      "merged_polygon_counts": {
+        "M2": 14361,
+        "V2": 15591,
+        "M3": 7850,
+        "V3": 2316,
+        "M4": 1258,
+        "V4": 149,
+        "M5": 79,
+        "V5": 14,
+        "M6": 7
+      },
+      "components": 5485,
+      "total_area_dbu2": 5649646016,
+      "largest_area_dbu2": 166673088,
+      "largest_share_of_area": 0.0295,
+      "largest_bbox_dbu": [
+        29428,
+        4696,
+        95340,
+        176744
+      ],
+      "top5_area_dbu2": [
+        166673088,
+        98995200,
+        67537056,
+        58806912,
+        58758048
+      ]
+    }
+  },
+  "sanity": {
+    "component_counts_differ": true,
+    "note": "via layers change the component count, so the via_aware fill is via-mediated"
+  }
+}

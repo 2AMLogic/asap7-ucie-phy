@@ -32,6 +32,16 @@ class Link:
     forwarded-clock edge lands that far off the grid an unoffset replay would
     have used. scenario() checks that offset rather than only asserting it in
     prose.
+
+    A new scenario must pick phase_ps so that it is not a non-zero whole
+    multiple of the replay grid gcd(rx_period_ps // 4, rx_period_ps // 2) —
+    every delay replay() takes is a multiple of that grid, so a phase of
+    k * quantum measures at rx_clk as residue 0, which is exactly what an
+    *unapplied* offset reads. scenario()'s residue check could then not tell
+    the two apart and would pass vacuously. phase_ps == 0 is permitted and
+    means the scenario claims no offset: replay() applies no delay, the
+    residue is genuinely 0, and the check still verifies that no spurious
+    offset appeared. __init__ asserts this constraint on its own parameters.
     """
 
     def __init__(self, dut, rx_period_ps, phase_ps):
@@ -44,6 +54,17 @@ class Link:
         # applied phase offset is observable at rx_clk as a constant residue
         # on this grid: phase_ps % quantum, where no offset at all gives 0.
         self.quantum = gcd(rx_period_ps // 4, rx_period_ps // 2)
+        # Guard the scenario's own parameters, not the DUT: costs no
+        # simulation time and cannot flake. A zero phase claims no offset and
+        # stays legal; a non-zero whole multiple of the grid does not.
+        assert not phase_ps or phase_ps % self.quantum, (
+            f"scenario phase {phase_ps} ps is a whole multiple of the "
+            f"{self.quantum} ps replay grid "
+            f"(gcd({rx_period_ps} // 4, {rx_period_ps} // 2)), so it measures "
+            f"at rx_clk as residue 0 — the same value an unapplied offset "
+            f"reads — and scenario()'s residue check cannot tell an applied "
+            f"offset from an unapplied one; pick a phase with a non-zero "
+            f"remainder on that grid (phase 0 is allowed and claims no offset)")
 
     def flush(self):
         self.q.clear()

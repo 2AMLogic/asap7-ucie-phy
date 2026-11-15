@@ -422,6 +422,31 @@ a match and `power_connectivity` / `supply_nets` were not waived (decision 0005)
 - **Signoff:** the manifest cites the r10 report and record. T1 item 4 digital stays **unmet**; the drawn-cell `r2`
   matches stand. The analog half is unchanged.
 
+## Item-1 signoff convention: reuse the inventory, revision only the evidence (appended 2026-11-14, issue #145)
+
+Documentation-only convention; no tool run in this section. The item-1 signoff
+**inventory is an input, not a measurement**: it holds a source list, a description
+and the `--check` argv — no hash, no tool version, no timestamp and no result. The
+measurement lives in the evidence output, which re-hashes the inventoried files and
+therefore genuinely differs per revision.
+
+**Convention:** for T1 signoff attestations, revision the evidence output, not the
+inventory, unless the inventory's own content changes. Mint a further
+`attest/item1.rN.json` only when the `sources` list or the declared `derived` checks
+actually change; otherwise pass the unchanged inventory to
+`klt signoff --attest 1 --inventory` and revision only the `-o`/`--check` evidence
+record. Items 9 (`manifests/attest/item9.json` against `manifests/evidence/item9.json`
+and `item9.r2.json`) and 10 (`manifests/t1-item10-inventory.json`, re-used across
+revisions per `README.md`, "T1 evidence") already follow this; item 1 historically
+did not — `attest/item1.r2.json` through `attest/item1.r7.json` are byte-identical
+except for the r2 `sources` edit.
+
+**Inventory of record:** `attest/item1.r7.json` is the item-1 inventory going
+forward — `.github/workflows/signoff.yml` and the block manifest already cite it,
+so nothing moves today. The existing r2-r7 copies stay as committed history: each
+is pinned by content hash inside its append-only evidence record and is not edited
+or deleted.
+
 ## Why the routed slice extracted 2 top-level pins, and the layer-map fix (r12, appended 2026-11-14, issue #149)
 
 Predictive-model tool results only. Earlier sections are left as written; nothing was waived and the
@@ -525,3 +550,62 @@ layout/pnr/test_layermap.py`.
 - **Signoff:** the manifest cites the r12 report and record, and `evidence/item2.r8.json` for item 2.
   T1 item 4 digital stays **unmet** and #20 stays open; the drawn-cell `r2` matches stand. The
   analog half is unchanged.
+
+## The reference-netlist variable is closed; the r5–r13 residue remains undetermined (r13, appended 2026-11-14; tracing reworked after review, 2026-11-15, issue #20)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was waived and no
+netlist, deck or option was edited (decision 0005). Every number below was measured under the pinned
+klt `0.9.1` (`.github/klt-version`) in a throwaway `uvx` environment.
+
+- **r13** (`evidence/item4-lvs/slice_routed.r13.request.json`, report
+  `slice_routed.r13.report.json`, record `evidence/item4-slice-attempt.r13.json`): the r12 request
+  verbatim apart from the reference, which is now `layout/slice_routed.v` — the post-route netlist
+  the committed stream was routed from, committed by the same flow. This closes the hypothesis the
+  #109 analysis left open ("an LVS run against a reference that is the netlist the layout
+  implements"). Verdict **`mismatch`**, exit 3. Nets matched 408 (r12, against the synthesis
+  reference: 352), `net.split` 15269 (was 15331), `net.merged` 14967 (was 15246),
+  `device.unmatched` 55444 (was 56195), pins 268/266 as in r12. The reference converts fine (15501
+  nets / 28862 devices — post-route totals, against the synthesis reference's 15718 / 29356), so
+  the reference is not the problem.
+- **Reading:** the layout was placed and routed from this exact netlist, so a correct extraction of
+  the stream must match it; it does not. The different-netlist hypothesis is refuted and the
+  reference-netlist choice is eliminated as a variable.
+- **Trace (reworked after review).** The first version of this section published a "determined
+  cause" whose measurements did not survive review reproduction; the corrected trace commits every
+  script and intermediate artifact it cites. Cell-internal extraction is correct — the r9
+  single-cell probe stands, a two-instance abutment probe (two `BUFx4` at exact abutment, one
+  further local `klt lvs` run) leaves the cells' internal `AN` nets separate, and `klt extract`
+  reproduces every library cell's CDL topology hierarchically. At the top level the extract is
+  chain-structured and close to the reference, not fragmented: the committed extract netlist
+  (`evidence/item4-lvs/slice_routed.r13.extract.v`) and the committed counter
+  (`slice_routed.r13.refnets.py`, output `.refnets.json`; counting domain stated in its docstring)
+  give 2594 X instances, 199 one-cell-pin nets (all top-level port bits) against the reference's
+  198 (likewise all port bits), 1801 two-cell-pin nets against the reference's 1801, and `rx_clk`
+  at 528 cell pins against the reference's 528. The figures first published here (855 one-pin
+  extract nets, `rx_clk` 179, 6/1649 reference figures) were not reproducible and are withdrawn.
+- **No determined cause.** The die-spanning "one connected web" first published here was an
+  artifact of the measurement: the scratch fill joined the M2–M6 metal layers wherever they
+  overlap — a plain 2D union — and never consulted the via layers. The committed script
+  (`slice_routed.r13.trace_geometry.py`, output `.trace_geometry.json`; `klayout`
+  `LayoutToNetlist`, flattened, top circuit `slice`) measures both connectivities: metals-union
+  reproduces the artifact (233 components, largest holding 99.397% of the stack's routing area at
+  bbox (0,4696)–(95340,176744) dbu; merged M2 14361 and M3 7850 as first published), while
+  via-aware connectivity (M2–V2–M3–V3–M4–V4–M5–V5–M6) yields 5485 components with the largest at
+  2.95% of routing area, bbox (29428,4696)–(95340,176744) dbu — strap-scale, not die-spanning; the
+  review's independent via-aware measurement (3949 components, largest 2.99%) agrees
+  qualitatively. A sanity assertion is recorded in the script: the via layers change the component
+  count, so the via-aware fill is via-mediated — and the published count surviving removal of the
+  via layers is what proved the original fill never consulted them. The "sub-minimum-width M2"
+  claim is also withdrawn: all 14361 merged M2 polygons on the stream have minimum dimension
+  exactly 72 dbu = 0.018 um, the ASAP7 M2 drawn width at 1x. What remains is the r5–r13
+  `net.split`/`net.merged` residue with no
+  measured cause; the next step is a per-net diff of the extracted circuit against the reference,
+  or attribution inside the place-and-route flow.
+- **Not attributed further here.** No stream defect is asserted, so nothing is attributed to
+  `regen.py`'s DEF or its DEF→GDS merge; `regen.py` re-runs the flow when a hypothesis exists.
+  Stream fix and the r14 against a changed stream are **#169**, whose "one via-mediated web /
+  global short" premise is withdrawn by this rework. The DRC record of record (#155) binds the
+  previous stream `eae888dc...` and is stale for this one; item 3 is outside this issue.
+- **Signoff:** the manifest cites the r13 report (r12's files stay, append-only). T1 item 4
+  digital stays **unmet** and #20 stays open, parked on #169; the drawn-cell `r2` matches stand.
+  The analog half is unchanged.

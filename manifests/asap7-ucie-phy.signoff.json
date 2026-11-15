@@ -528,20 +528,14 @@
       "citation": null,
       "citations_graded": [
         {
-          "citation": "evidence/item4-lvs/slice_routed.r12.report.json",
+          "citation": "evidence/item4-lvs/slice_routed.r13.report.json",
           "status": "unmet",
           "reason": "check_failed"
-        },
-        {
-          "citation": "evidence/item4-slice-attempt.r12.json",
-          "status": "unmet",
-          "reason": "unrecognized_envelope"
         }
       ],
       "detail": {
         "failed_citations": [
-          "evidence/item4-lvs/slice_routed.r12.report.json",
-          "evidence/item4-slice-attempt.r12.json"
+          "evidence/item4-lvs/slice_routed.r13.report.json"
         ]
       }
     },
@@ -845,7 +839,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+        "content_hash": "sha256:162b46328366ccf1496b3ac357554d9ed1e1328c6458e4626fd1a1acf22b8f33",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -854,7 +848,7 @@
             "path": "manifests/attest/item9.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+          "content_hash": "sha256:162b46328366ccf1496b3ac357554d9ed1e1328c6458e4626fd1a1acf22b8f33",
           "input_verified": true,
           "summary": "T1 item 9 (Testbenches shipped): 8/8 attestation checks passed (klt signoff --attest)",
           "source": "manifests/attest/item9.json",
@@ -883,7 +877,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+        "content_hash": "sha256:162b46328366ccf1496b3ac357554d9ed1e1328c6458e4626fd1a1acf22b8f33",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -892,7 +886,7 @@
             "path": "manifests/attest/item9.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:c74ec067a2838f3ba29983ad7d0833d0d94b0efd2af1c515f125ab21d256f588",
+          "content_hash": "sha256:162b46328366ccf1496b3ac357554d9ed1e1328c6458e4626fd1a1acf22b8f33",
           "input_verified": true,
           "summary": "T1 item 9 (Testbenches shipped): 8/8 attestation checks passed (klt signoff --attest)",
           "source": "manifests/attest/item9.json",
