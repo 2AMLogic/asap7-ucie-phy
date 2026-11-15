@@ -7,12 +7,12 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r8.json",
-      "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449"
+      "file": "evidence/item1.r9.json",
+      "content_hash": "sha256:730a1f2d1ec28c2ee54d487471d01c8a993a4cfdaa59cc256edd35fdb327fade"
     },
     "1.digital": {
-      "file": "evidence/item1.r8.json",
-      "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449"
+      "file": "evidence/item1.r9.json",
+      "content_hash": "sha256:730a1f2d1ec28c2ee54d487471d01c8a993a4cfdaa59cc256edd35fdb327fade"
     },
     "6.digital": {
       "not_applicable": {
