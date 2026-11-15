@@ -13,7 +13,7 @@
   "pairing_edges_ext": 9263,
   "pairing_edges_ref": 9263,
   "ports_used": "folded intersection of reference .NAME ports and leaf .SUBCKT header ports, per cell",
-  "propagation_rounds": 11,
+  "propagation_rounds": 9,
   "reference_connected_instances": 2594,
   "reference_connectionless_instances": 0,
   "reference_module": "slice"
@@ -259,8 +259,6 @@
   "reference_nets_without_extract_counterpart": 0,
   "reference_no_paired_membership_sample": [],
   "reference_without_counterpart_sample": [],
-  "reference_zero_cell_pin_nets": 0,
-  "reference_zero_cell_pin_sample": [],
   "split_entries": [],
   "splits": 0
  },
@@ -351,7 +349,12 @@
    "vsubs"
   ],
   "flat_device_count_from_extract": 29436,
+  "flat_pmos_bodies_by_leaf_bulk_net": {
+   "VDD": 3847,
+   "VDD$1": 10584
+  },
   "flat_pmos_bodies_on_non_supply_leaf_net": 10584,
+  "flat_pmos_body_count_from_extract": 14431,
   "leaf_bulk_census": [
    {
     "cell": "AND2x2_ASAP7_75t_R",
@@ -971,6 +974,7 @@
    "distinct_layout_names": 227,
    "distinct_reference_names": 408,
    "entries": 408,
+   "entries_with_anonymous_layout_name": 209,
    "entries_with_layout_name_backslash_dollar_zero": 182,
    "pin_anchored_entries": 199
   },

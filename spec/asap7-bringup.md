@@ -639,7 +639,7 @@ and its committed output; a second run is byte-identical.
   edge counts, the committed `refnets.json` baselines), so a silent parse regression fails instead
   of reporting zeros.
 - **The routed circuits correspond exactly.** The propagation pairs **2594 of 2594** instances
-  (100% coverage, 11 rounds) and all **2713** pairing-domain nets correspond **1:1** — zero splits,
+  (100% coverage, 9 rounds) and all **2713** pairing-domain nets correspond **1:1** — zero splits,
   zero merges, zero partial nets, zero unmatched nets on either side; the net map at fixpoint is a
   bijection over 2713 names. The domains reconcile exactly: the reference's 2940 nets are the 2713
   connected nets plus the 227 zero-cell-pin nets `refnets.json` already counted (64 of them port
@@ -673,14 +673,16 @@ and its committed output; a second run is byte-identical.
   tap-connected conductor, e.g. VDD, to resolve it)". That is consistent with the census above:
   the named `VDD`/`VSS` nets hold 8 and 1 terminals respectively, so nearly every flat PMOS body
   sits on an anonymous fragment — the leaf census puts the flat PMOS device count at 14431
-  (3847 with leaf bulk on the `VDD` port + 10584 on `VDD$1`); the residual against the report's
-  14363 is device bookkeeping this analysis cannot decompose from the committed report).
+  (`flat_pmos_body_count_from_extract`: 3847 with leaf bulk on the `VDD` port plus 10584 on
+  `VDD$1`, its `flat_pmos_bodies_by_leaf_bulk_net` breakdown); the residual against the report's
+  14363 is device bookkeeping this analysis cannot decompose from the committed report.
   `net.supply_fragmented` fired 84 times, every entry naming `VDD`. With the layout's supply/well
   terminals spread over ~240 nets where the reference asserts two named supplies, device matching
   — which pairs devices by terminal-net correspondence — collapses wholesale: 55444
   `device.unmatched` entries against 233 matched devices, and net correspondence inherits the
-  collapse: 408 matched nets (the 266 anchored pins plus case-folded names and a residual 142
-  anonymous pairings), 15269 `net.split` entries, 14967 `net.merged` entries — i.e. essentially
+  collapse: 408 matched nets (199 pin-anchored entries whose layout name equals the reference
+  name case-folded, plus 209 entries whose layout display name is anonymous — 182 of them the
+  `\$0` collapse), 15269 `net.split` entries, 14967 `net.merged` entries — i.e. essentially
   every net on both sides is accused, on circuits whose routed connectivity this section measures
   as identical.
 - **The `\$0` headline shape is a reporting artifact.** The `net.split` entries carry, on every
@@ -728,6 +730,7 @@ and its committed output; a second run is byte-identical.
   T1 item-10 hygiene inventory member, so the envelope (`manifests/t1-item10.envelope.json`) is
   regenerated and committed in the same commit as this edit (command in `README.md` § T1
   evidence); only the envelope changes.
+
 ## Correction: the item-1 r2–r7 chain is six byte-identical files (appended 2026-11-15, issue #178)
 
 Documentation-only convention; no tool run in this section. The section appended

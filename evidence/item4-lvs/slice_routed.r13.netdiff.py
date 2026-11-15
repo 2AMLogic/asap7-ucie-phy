@@ -245,9 +245,9 @@ def anchor_pair(ref_insts, ref_net_of, ext_insts, ext_net_of, net_seeds):
     rev: dict[tuple, str] = {v: k for k, v in netmap.items()}
     paired: dict[str, int] = {}
     used: set[int] = set()
+    ext_base = {e["idx"]: e["base"] for e in ext_insts}
 
     for rounds in range(1, MAX_ROUNDS + 1):
-        avail = [e["idx"] for e in ext_insts if e["idx"] not in used]
         ext_index: dict[tuple, list[int]] = collections.defaultdict(list)
         for e in ext_insts:
             if e["idx"] in used:
@@ -267,7 +267,8 @@ def anchor_pair(ref_insts, ref_net_of, ext_insts, ext_net_of, net_seeds):
                     continue
                 constrained += 1
                 for j in ext_index.get((p, node), []):
-                    votes[j] += 1
+                    if ext_base[j] == i["base"]:
+                        votes[j] += 1
             if constrained == 0:
                 continue
             full = [j for j, v in votes.items() if v == constrained]
@@ -467,7 +468,6 @@ def main() -> int:
                                                          if i in rev_inst_map)})
 
     ref_empty = [net for net in ref_members if not ref_key(net)]
-    ref_empty_nopins = [net for net in ref_empty if not ref_members[net]]
     ref_empty_unpaired_only = [net for net in ref_empty if ref_members[net]]
     ext_empty = [node for node in ext_members if not ext_key(node)]
     ext_empty_unpaired_only = [node for node in ext_empty if ext_members[node]]
@@ -482,7 +482,7 @@ def main() -> int:
         if side == "ref":
             items = [(i["name"], i) for i in ref_insts if i["name"] not in paired]
             others = [e for e in ext_insts if e["idx"] not in used_ext]
-            mmap = netmap
+            mmap, mmap_rev = netmap, rev
             other_conn = lambda e: e["conn"]
             my_conn = lambda i: i["conn"]
             other_base = lambda e: e["base"]
@@ -490,7 +490,7 @@ def main() -> int:
         else:
             items = [(e["idx"], e) for e in ext_insts if e["idx"] not in used_ext]
             others = [i for i in ref_insts if i["name"] not in paired]
-            mmap_rev = rev
+            mmap, mmap_rev = netmap, rev
             other_conn = lambda i: i["conn"]
             my_conn = lambda e: e["conn"]
             other_base = lambda i: i["base"]
@@ -594,10 +594,16 @@ def main() -> int:
                                 "devices": nmos + pmos, "instances": inst})
             census_totals[(nb, pb)] += inst
     flat_devices = sum(e["devices"] * e["instances"] for e in leaf_census)
-    pmos_anon = sum(sum(1 for m in subs[c]["mcards"]
-                        if len(m) > 5 and m[5].startswith("pmos")
-                        and m[4] not in ("VDD", "vsubs")) * target_counts.get(c, 0)
-                    for c in set(target_counts) if c in subs)
+    flat_pmos_by_bulk: collections.Counter = collections.Counter()
+    for c in set(target_counts):
+        if c not in subs:
+            continue
+        for m in subs[c]["mcards"]:
+            if len(m) > 5 and m[5].startswith("pmos"):
+                flat_pmos_by_bulk[m[4]] += target_counts[c]
+    flat_pmos_total = sum(flat_pmos_by_bulk.values())
+    pmos_anon = sum(v for k, v in flat_pmos_by_bulk.items()
+                    if k not in ("VDD", "vsubs"))
     unused_variants = sorted(set(subs) - {top} - set(target_counts))
 
     power_well = {
@@ -631,6 +637,8 @@ def main() -> int:
                                       for k, v in sorted(census_totals.items(),
                                                          key=lambda kv: str(kv[0]))},
         "flat_device_count_from_extract": flat_devices,
+        "flat_pmos_body_count_from_extract": flat_pmos_total,
+        "flat_pmos_bodies_by_leaf_bulk_net": dict(sorted(flat_pmos_by_bulk.items())),
         "flat_pmos_bodies_on_non_supply_leaf_net": pmos_anon,
         "unused_leaf_variants": unused_variants,
         "empty_leaf_subckts": sorted(n for n, s in subs.items()
@@ -686,6 +694,8 @@ def main() -> int:
             "distinct_reference_names": len({e["reference"] for e in nc}),
             "distinct_layout_names": len(nc_layout_names),
             "entries_with_layout_name_backslash_dollar_zero": nc_layout_names.get("\\$0", 0),
+            "entries_with_anonymous_layout_name": sum(
+                1 for e in nc if e["layout"].startswith("\\")),
             "pin_anchored_entries": sum(1 for e in nc if e.get("pin")),
         },
     }
@@ -786,7 +796,6 @@ def main() -> int:
             "reference_nets_without_extract_counterpart": len(ref_unpaired_membership),
             "extract_nets_without_reference_counterpart": len(ext_unpaired_membership),
             "reference_nets_with_no_paired_membership": len(ref_empty),
-            "reference_zero_cell_pin_nets": len(ref_empty_nopins),
             "reference_nets_on_unpaired_instances_only": len(ref_empty_unpaired_only),
             "extract_nets_with_no_paired_membership": len(ext_empty),
             "extract_nets_on_unpaired_instances_only": len(ext_empty_unpaired_only),
@@ -798,7 +807,6 @@ def main() -> int:
             "extract_without_counterpart_sample": sorted(ext_unpaired_membership)[:MAX_SAMPLES],
             "reference_no_paired_membership_sample": sorted(ref_empty_unpaired_only)[:MAX_SAMPLES],
             "extract_no_paired_membership_sample": sorted(ext_empty_unpaired_only)[:MAX_SAMPLES],
-            "reference_zero_cell_pin_sample": sorted(ref_empty_nopins)[:MAX_SAMPLES],
         },
         "top_level_pin_check": {
             "reference_port_bits": len(ref["ports"]),
