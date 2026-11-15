@@ -48,10 +48,13 @@ start:
   in `spec/decisions/0010-analog-simulation-flow.md`, which supersedes that
   blocker: on ngspice 47 the drawn `tx_cell` runs end to end against the
   ASAP7 BSIM-CMG cards at TT/SS/FF, checked for logic levels only
-  (`sim/tx_cell.batch.report.json`). The RX front-end and the clock cells are
-  still not simulated, and no delay, rate, eye, jitter or power statement
-  comes from that run. Timing claims for the lane datapath come from static
-  timing analysis against the ASAP7 libraries.
+  (`sim/tx_cell.batch.report.json`). All four drawn cells now have logic-level
+  runs at TT/SS/FF on the same route — decision 0010 records the `tx_cell`
+  run; the `rx_cell`, `tx_clk_cell` and `rx_clk_cell` decks, requests and
+  reports extend it (`sim/*.batch.report.json`, `design/sim/`). No delay,
+  rate, eye, jitter or power statement comes from those runs. Timing claims
+  for the lane datapath come from static timing analysis against the ASAP7
+  libraries.
 
 ASAP7 is not in the fleet's `open_pdks` store, so bringing it up under `klt`
 is part of the work. If a sibling ASAP7 canary has already done that
@@ -175,15 +178,23 @@ KLT="uvx --from klayout-tools==$(cat .github/klt-version) klt" python3 -I sta/re
 # Item 7 stays `unmet` / `no_evidence` on both partitions.
 verification/functional_verification_sdf.sh
 
-# Circuit sim of the drawn tx_cell against the ASAP7 BSIM-CMG cards at TT/SS/FF
-# (spec/decisions/0010-analog-simulation-flow.md; logic levels only — no delay, rate, eye,
-# jitter or power statement). Needs ngspice 47 and a locally built, uncommitted OSDI module
+# Circuit sim of all four drawn cells against the ASAP7 BSIM-CMG cards at TT/SS/FF
+# (spec/decisions/0010-analog-simulation-flow.md records the tx_cell run; the other three
+# extend the same route; logic levels only — no delay, rate, eye, jitter or power statement).
+# Needs ngspice 47 and a locally built, uncommitted OSDI module
 # under sim/build/osdi/ (gitignored; rebuild with klt's scripts/fetch-asap7-sim-toolchain.sh
-# and check the sha256 in decision 0010). The committed report came from client klt
-# 0.9.2.dev885 on the batch fleet, not the .github/klt-version pin the commands above use,
-# so it is not bit-reproducible in this pinned form.
+# and check the sha256 in decision 0010). The committed reports came from client klt
+# 0.9.2.dev885 (tx_cell) and 0.9.2.dev1029 (the other three) on the batch fleet, not the
+# .github/klt-version pin the commands above use, so they are not bit-reproducible in this
+# pinned form.
 klt sim design/sim/tx_cell.sim.json --backend batch --wait-for-capacity 600 \
     --report-out sim/tx_cell.batch.report.json
+klt sim design/sim/rx_cell.sim.json --backend batch --wait-for-capacity 600 \
+    --report-out sim/rx_cell.batch.report.json
+klt sim design/sim/tx_clk_cell.sim.json --backend batch --wait-for-capacity 600 \
+    --report-out sim/tx_clk_cell.batch.report.json
+klt sim design/sim/rx_clk_cell.sim.json --backend batch --wait-for-capacity 600 \
+    --report-out sim/rx_clk_cell.batch.report.json
 
 # Pad check: drawn pad centres vs the committed bump map (needs the `klayout` pip package)
 python3 layout/selftest.py

@@ -6,11 +6,11 @@ against the predictive ASAP7 model; nothing here is a fabricated part.
 
 | Path | Role |
 |---|---|
-| `gen_cells.py` | source of the drawn cells (`tx_cell`, `rx_cell`, `tx_clk_cell`, `rx_clk_cell`): device-level topology, ports as in `rtl/README.md`. Topology only: `tx_cell` has a logic-level simulation (decision 0010), the others none; no sizing or rate claim |
+| `gen_cells.py` | source of the drawn cells (`tx_cell`, `rx_cell`, `tx_clk_cell`, `rx_clk_cell`): device-level topology, ports as in `rtl/README.md`. Topology only; all four cells have a logic-level simulation (decision 0010 for `tx_cell`, the same route extended to the other three); no sizing or rate claim |
 | `netlist/{tx,rx,tx_clk,rx_clk}_cell.sp` | derived SPICE from `gen_cells.py` |
 | `synth/slice.synth.json` | `klt synthesize` request: top `slice`, N=16, ASAP7 RVT, TT, 0.25 ns clock target, `abc_constr` BUFx2 / 3.898 fF (decision 0009 option 3) |
 | `synth/regen.py` | reproduces the synthesis netlist from the pinned lambdapdk archive |
-| `sim/` | ASAP7 BSIM-CMG simulation of `tx_cell`: adapted netlist `tx_cell.osdi.sp`, testbench `tx_cell.tb.sp`, corner lib `asap7_bsimcmg.lib`, `klt sim` request `tx_cell.sim.json`; report in `../sim/tx_cell.batch.report.json` (decision 0010) |
+| `sim/` | ASAP7 BSIM-CMG simulation of all four drawn cells: adapted netlists `<cell>.osdi.sp`, testbenches `<cell>.tb.sp`, corner lib `asap7_bsimcmg.lib`, `klt sim` requests `<cell>.sim.json`; reports in `../sim/<cell>.batch.report.json` (decision 0010 for `tx_cell`, same route extended to the other three) |
 | `lambdapdk.py` | pinned lambdapdk URL/sha256 and Liberty cell-group merge, shared by `synth/regen.py` and `sta/regen.py` |
 | `netlist/slice_asap7.v` | derived gate-level netlist of `slice` (generated, ~16k lines) |
 
