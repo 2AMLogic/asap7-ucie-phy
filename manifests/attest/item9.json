@@ -2,11 +2,12 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 9,
-  "description": "Testbenches shipped: the cocotb slice bench and the pad-checker self-test, run from a cold start. Re-attest when the STA/SDF and corner benches land.",
+  "description": "Testbenches shipped: the cocotb slice bench, the SDF-annotated post-route bench, and the pad-checker self-test, run from a cold start.",
   "testbenches": [
     "verification/run.sh",
     "verification/runner.py",
     "verification/test_slice.py",
+    "verification/functional_verification_sdf.sh",
     "verification/cold_start.sh",
     "layout/selftest.py"
   ],
@@ -22,7 +23,7 @@
       "iverilog": "13.0",
       "cocotb": "2.1.0",
       "klayout": "0.30.12",
-      "klt": "0.9.1"
+      "klt": "0.9.2"
     }
   }
 }
