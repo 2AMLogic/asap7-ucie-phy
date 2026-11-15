@@ -8,7 +8,7 @@ model. `WORK_PLAN.md` is the generated label view of the tracker; this file says
 
 ## Where it stands
 
-The verdict of record is `manifests/asap7-ucie-phy.signoff.json` (`klt signoff`, klayout-tools 0.9.1,
+The verdict of record is `manifests/asap7-ucie-phy.signoff.json` (`klt signoff`, klayout-tools 0.9.2,
 the pin in `.github/klt-version`): **9 of 22 T1 rows met, 1 not applicable, tier `null`**. The block is
 mixed-signal, so each of the 11 T1 items is graded twice (analog = the four drawn TX/RX cells,
 digital = `slice` and its submodules). Tracker: #3.
@@ -33,8 +33,9 @@ What the unmet rows rest on today:
   instances, each family attributed to a filed tool gap (PR #67, #68). That run used klt 0.8.0 on a
   column stream that is no longer the committed one: the slice was re-routed (PR #115) and the column
   regenerated (PR #118) afterwards, and no DRC run exists on the current `layout/lane_column.gds`.
-- **LVS (item 4, digital).** The four drawn cells match. The routed datapath is `mismatch` under
-  klt 0.9.1 (r10, r11; PR #116): device totals are within 80 (29436 layout / 29356 reference), but the
+- **LVS (item 4, digital).** The four drawn cells match. The routed datapath is `mismatch` (klt 0.9.1
+  at the time; r10, r11; PR #116; not yet re-run at the 0.9.2 pin): device totals are within 80
+  (29436 layout / 29356 reference), but the
   layout extracts 2 top-level pins against 266 in the reference and the cause is recorded as
   undetermined (`spec/asap7-bringup.md`, last section).
 - **Timing (item 5, digital).** Pre-route `klt sta` at RVT TT/SS/FF: tt +0.030, ss -0.097, ff +0.085 ns
@@ -43,8 +44,9 @@ What the unmet rows rest on today:
 - **Circuit simulation.** `tx_cell` has one logic-level BSIM-CMG run, passing at TT/SS/FF on ngspice 47
   (decision 0010, PR #129). `rx_cell` and the two clock cells have none.
 - **Post-layout (item 7).** `layout/slice_routed.v` and `layout/slice_routed.sdf` are committed with a
-  harness (PR #123); the SDF-annotated run does not complete under klt 0.9.1
-  (`verification/functional-verification-sdf.report.json` records the refusal).
+  harness (PR #123); the SDF-annotated run refuses under klt 0.9.2 on exactly the four
+  `Could not find intermodpath!` diagnostics (safe-SDF lines 1679–1682) — the COND half of the old
+  refusal is gone (`verification/functional-verification-sdf.report.json` records it, 2026-11-15).
 - **Power (item 11).** The M5/M6 straps were dropped to clear DRC families, so the slice's rows are tied
   only by M1/M2 followpin rails (`verification/drc/README.md`, issue #66); LVS `power_connectivity` is
   `unchecked`.
@@ -81,10 +83,11 @@ Unblocked by a named item above or by a tool release.
 - **Re-run routed-datapath LVS (#20)** once Now 2 identifies the pin cause. Done when a `klt lvs` report
   with `status: match` and `power_connectivity.status` not `mismatch` is cited by the manifest, or the
   failing report and its blocker are recorded.
-- **SDF-annotated functional re-run (#23).** Waits on a published klayout-tools release containing the
-  fix for klayout-tools#5296 (closed 2026-11-11; 0.9.1 is still the latest release) and a bump of
-  `.github/klt-version`. Done when `verification/functional_verification_sdf.sh` writes a passing
-  annotated report and the manifest cites it under `7.digital`.
+- **SDF-annotated functional re-run (#23).** The 0.9.2 bump has landed and cleared the COND half of
+  klayout-tools#5296; the run now refuses only on the four `intermodpath` diagnostics of the
+  one-modpath-per-bit-selected-net cap (klayout-tools#5705). Done when
+  `verification/functional_verification_sdf.sh` writes a passing annotated report and the manifest
+  cites it under `7.digital`, which waits on an upstream fix for the residual shape.
 - **Deck-clean power grid on the slice (#66).** Its recorded blocker (#64's baseline) now exists on
   `main`; re-scope it against the Now 1 record. Done when `layout/pnr/slice.pnr.report.json` reports
   power delivery other than `partial` and the column DRC shows no new strap-related families.

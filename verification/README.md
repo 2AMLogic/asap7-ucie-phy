@@ -30,8 +30,10 @@ Lint and synthesis checks from the issue:
 
 `functional_verification_sdf.sh` runs the same bench against the routed gate netlist
 (`layout/slice_routed.v`) with `layout/slice_routed.sdf` applied (T1 item 7, digital).
-It needs the pinned lambdapdk archive for the ASAP7 cell models. As of klt 0.9.1 it does
-not complete: Icarus rejects the SDF's `COND` arcs and four INTERCONNECT entries, and klt
-refuses to report a zero-delay run as annotated (klayout-tools#5296). The refusal is
-recorded in `functional-verification-sdf.report.json`; it is not a pass or a test failure,
-and no manifest entry cites it.
+It needs the pinned lambdapdk archive for the ASAP7 cell models. Under klt 0.9.2 the
+`COND` arcs of the old 0.9.1 refusal (klayout-tools#5296, COND half) are dropped by klt
+and annotate cleanly; the run still refuses, now only on the four INTERCONNECT entries of
+the one-modpath-per-bit-selected-net cap (klayout-tools#5705, measured 2026-11-15 on an
+internal bit-selected net, all four entries rejected). The refusal is recorded in
+`functional-verification-sdf.report.json`; it is not a pass or a test failure, and no
+manifest entry cites it.

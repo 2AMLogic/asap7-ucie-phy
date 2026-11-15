@@ -149,7 +149,7 @@ The two item-10 commands are therefore run with `uv run --with`, not the
 environment, so a module added to that environment is not importable from the
 check: under `uvx --with klayout==…` the self-test exits 1 with
 `ModuleNotFoundError: No module named 'klayout'` and klt refuses to write the
-envelope (measured, klt 0.9.1; tool gap filed as
+envelope (measured, klt 0.9.1 and 0.9.2; tool gap filed as
 [`2AMLogic/klayout-tools#5565`](https://github.com/2AMLogic/klayout-tools/issues/5565),
 with the missing engine-version record as
 [`#5690`](https://github.com/2AMLogic/klayout-tools/issues/5690)). `uv run --with`
