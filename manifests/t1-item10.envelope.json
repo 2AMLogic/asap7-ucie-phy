@@ -3,21 +3,21 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 23/23 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 24/24 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 23,
-    "passed_count": 23,
+    "check_count": 24,
+    "passed_count": 24,
     "checks": [
       {
         "check": "present",
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:42910f477185c3d0a7062fe2f0093adc9ee16753783ad22c629530f0179b29a3"
+        "content_hash": "sha256:b203931d5171b7ec650dda321504835144b5f639d6d4ba11a066be7fcc044a65"
       },
       {
         "check": "present",
@@ -125,6 +125,13 @@
         "content_hash": "sha256:7def0f98bc22c4acf0c47762151e9435aec88c4d182cc04fc30ba017ebc479c5"
       },
       {
+        "check": "present",
+        "role": "hygiene",
+        "path": "verification/check-records-json.sh",
+        "passed": true,
+        "content_hash": "sha256:ad9069460bfd3e2561693529355ecc680b406dfeef1f329b78e5a867edfc749f"
+      },
+      {
         "check": "command",
         "role": "audit",
         "name": "pad-checker-self-test",
@@ -204,11 +211,10 @@
       {
         "check": "command",
         "role": "audit",
-        "name": "manifests-json-valid",
+        "name": "records-json-valid",
         "argv": [
-          "python3",
-          "-c",
-          "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('manifests').rglob('*.json')]"
+          "bash",
+          "verification/check-records-json.sh"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -226,7 +232,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:e7c743d4d14db41878349b0e2bf58a7208a574411b926c45b071bdc64de9571b"
+      "content_hash": "sha256:d18fe822bb412cd530aa145e83e88a65ec170fee56d0f64416c32ca9d28509e6"
     }
   }
 }
