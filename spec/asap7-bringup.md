@@ -728,3 +728,17 @@ and its committed output; a second run is byte-identical.
   T1 item-10 hygiene inventory member, so the envelope (`manifests/t1-item10.envelope.json`) is
   regenerated and committed in the same commit as this edit (command in `README.md` § T1
   evidence); only the envelope changes.
+## Correction: the item-1 r2–r7 chain is six byte-identical files (appended 2026-11-15, issue #178)
+
+Documentation-only convention; no tool run in this section. The section appended
+2026-11-14 (issue #145) closes with "`attest/item1.r2.json` through
+`attest/item1.r7.json` are byte-identical except for the r2 `sources` edit",
+which reads as carving `attest/item1.r2.json` out of the identical set. It does
+not: `attest/item1.r2.json` through `attest/item1.r7.json` are **six
+byte-identical files**, `r2` included (sha256 `78f71a7e...`, all six). The only
+real edit in the chain is `attest/item1.json` -> `attest/item1.r2.json` — one
+line, adding `design/lambdapdk.py` to `sources` — a step relative to a file that
+sentence does not name. The convention that section records is unaffected and
+stands: the inventory is an input, not a measurement; revision only the evidence
+output; `attest/item1.r7.json` is the inventory of record. Earlier sections are
+left as written.

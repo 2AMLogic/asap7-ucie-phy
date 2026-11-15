@@ -17,7 +17,7 @@
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:a1399e6e5ade99e9d91ff53740755d51cfdf864519c69e7a9ba09993d8f5de38"
+        "content_hash": "sha256:42910f477185c3d0a7062fe2f0093adc9ee16753783ad22c629530f0179b29a3"
       },
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "hygiene",
         "path": "spec/asap7-bringup.md",
         "passed": true,
-        "content_hash": "sha256:73503483c5e03f26c963ae898bf4ae26bb5bf00019e713d32ddf6da38c6469ba"
+        "content_hash": "sha256:d53c7d9d65840b59722723d33e61efc082bd0572a1c6dff8305f169b59385f7a"
       },
       {
         "check": "present",
