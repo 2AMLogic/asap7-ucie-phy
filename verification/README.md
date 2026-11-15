@@ -17,7 +17,11 @@ word, so the three scenarios cross the boundary at three distinct alignments. It
 in-order delivery, no loss or duplication under `valid`/`ready` stalls, `tx_ready` timing,
 `tx_fwd_en` per accepted word, no RX overflow, long valid-low runs, reset mid-stream, and that
 the forwarded clock carries the stated offset — measured at `rx_clk` and reported per scenario
-in the simulation log, not assumed. Simulator time units carry no rate or timing claim.
+in the simulation log, not assumed. That offset is measured as a residue on the replay grid
+`gcd(period // 4, period // 2)`, so a new scenario's phase must leave a non-zero remainder on
+that grid (or be exactly 0, claiming no offset); `Link.__init__` asserts it, because a phase
+that is a non-zero whole multiple of the grid would measure as 0 and so read the same as no
+offset at all. Simulator time units carry no rate or timing claim.
 
 Lint and synthesis checks from the issue:
 
