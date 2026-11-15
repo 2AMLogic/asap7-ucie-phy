@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 9,
-  "summary": "T1 item 9 (Testbenches shipped): 8/8 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 9 (Testbenches shipped): 9/9 attestation checks passed (klt signoff --attest)",
   "source": "manifests/attest/item9.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 8,
-    "passed_count": 8,
+    "check_count": 9,
+    "passed_count": 9,
     "checks": [
       {
         "check": "present",
@@ -25,6 +25,13 @@
         "path": "verification/cold_start.sh",
         "passed": true,
         "content_hash": "sha256:7e2bfd9c28f56ee1d990bb61468e33ce53a9cdab605e41cb7d67075e0c18e8ac"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "verification/functional_verification_sdf.sh",
+        "passed": true,
+        "content_hash": "sha256:d87f04bd259cdfe54111ba27c54e56cf3ad3f7cc02bb2675ebc70bbd89e8b19a"
       },
       {
         "check": "present",
@@ -75,7 +82,7 @@
           "cocotb": "2.1.0",
           "iverilog": "13.0",
           "klayout": "0.30.12",
-          "klt": "0.9.1",
+          "klt": "0.9.2",
           "verilator": "5.050",
           "yosys": "0.67"
         }
@@ -83,7 +90,7 @@
     ]
   },
   "provenance": {
-    "klt_version": "0.9.1",
+    "klt_version": "0.9.2",
     "klayout_version": null,
     "pdk": null,
     "deck": null,
@@ -92,7 +99,7 @@
         "path": "manifests/attest/item9.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:162b46328366ccf1496b3ac357554d9ed1e1328c6458e4626fd1a1acf22b8f33"
+      "content_hash": "sha256:1c116d7b097a7583adf15e80c1d4ea9b089461c7547e919db0dd3b305e6cf6fb"
     }
   }
 }
