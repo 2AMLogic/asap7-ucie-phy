@@ -118,9 +118,13 @@ The block's T1 evidence state is machine-readable. The block manifest
 ([`manifests/asap7-ucie-phy.json`](manifests/asap7-ucie-phy.json)) cites the
 evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
-is the committed output of `klt signoff` against it. It grades 9 of the 22 T1 rows `met`
-(`t1_met_count: 9`) and the tier is `null`. Items 1, 2, 9 and 10 (repo hygiene, cited from
-[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) are `met` on both
+is the committed output of `klt signoff` against it. It grades 11 of the 22 T1 rows `met`
+(`t1_met_count: 11`) and the tier is `null`. Items 1, 2, 9 and 10 (repo hygiene, cited from
+[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) and item 8
+("Characterization report", cited from
+[`manifests/evidence/item8.json`](manifests/evidence/item8.json), whose attestation inventory is
+[`manifests/attest/item8.json`](manifests/attest/item8.json) and whose human-readable face is the
+[characterization report](verification/characterization-report.md)) are `met` on both
 partitions, and item 4 ("LVS clean") is `met` on the **analog** partition only — its digital
 partition is `unmet` / `check_failed`
 (item 6's digital partition is `not_applicable`; its analog partition is a declared gap, `unmet` /

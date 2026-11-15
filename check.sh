@@ -70,6 +70,15 @@ run_check "layout/pnr/regen.py --check-input" \
 run_check "layout/pnr/test_check_input.py" \
     python3 -I layout/pnr/test_check_input.py
 
+# The routed STA report's input tie-off, and the self-test of that gate: the
+# same pair as the pnr block above, for the sta regen script. Both are
+# stdlib-only python3.
+run_check "sta/regen.py --check-input" \
+    python3 -I sta/regen.py --check-input
+
+run_check "sta/test_check_input.py" \
+    python3 -I sta/test_check_input.py
+
 # Every committed manifest JSON parses. Mirrors the first step of
 # .github/workflows/signoff.yml and the manifests-json-valid check declared in
 # manifests/t1-item10-inventory.json, so a malformed manifest fails here too

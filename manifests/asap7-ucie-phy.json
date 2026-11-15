@@ -7,12 +7,12 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r7.json",
-      "content_hash": "sha256:68bed81cf49a426c594c989c87cdc8a51ade813f324d76440cb9558c7d93fa47"
+      "file": "evidence/item1.r8.json",
+      "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449"
     },
     "1.digital": {
-      "file": "evidence/item1.r7.json",
-      "content_hash": "sha256:68bed81cf49a426c594c989c87cdc8a51ade813f324d76440cb9558c7d93fa47"
+      "file": "evidence/item1.r8.json",
+      "content_hash": "sha256:f8823d04fda36fe6cbae81afee09b27bc09a4b8d3da536dc868a915838f0f449"
     },
     "6.digital": {
       "not_applicable": {
@@ -33,6 +33,10 @@
     "9": {
       "file": "manifests/evidence/item9.r2.json",
       "content_hash": "sha256:1c116d7b097a7583adf15e80c1d4ea9b089461c7547e919db0dd3b305e6cf6fb"
+    },
+    "8": {
+      "file": "manifests/evidence/item8.json",
+      "content_hash": "sha256:80a176551c2789b09ca03e7708f057ebbdd00d7a9d7f0cb46abc1fce0ab31f7d"
     },
     "5.digital": [
       {

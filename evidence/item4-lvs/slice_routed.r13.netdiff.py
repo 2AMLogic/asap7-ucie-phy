@@ -63,7 +63,10 @@ len(net_correspondence) 408, counts nets 15803/15501/408 and devices
 entries; 2,458 distinct layout display names), the committed refnets.json
 netlist statistics, both tops at 2,594 instances, rx_clk at 528 cell pins on
 both sides, and equal per-cell edge counts on the shared port vocabulary --
-so a silent parse regression fails instead of reporting zeros.
+so a silent parse regression fails instead of reporting zeros. Outside that
+count, the pairing hard-fails if the instance map is not injective, so
+coverage cannot read 100% while two reference names point at one extract
+instance.
 
 Usage: python3 -I slice_routed.r13.netdiff.py   (no arguments; paths resolve
 relative to this script's directory). Writes one JSON object to stdout.
@@ -232,14 +235,38 @@ def fold(name: str) -> str:
 # ---------------------------------------------------------------- pairing
 
 
+def require_injective(paired):
+    """Hard-fail if the instance map is not injective.
+
+    A bare sys.exit in the style of anchor_pair's net-map guards -- naming
+    every extract index claimed by more than one reference instance and the
+    names claiming it. Deliberately not a checks entry: an invariant is not a
+    committed baseline figure, and a 19th entry would move
+    self_checks_passed, and with it the spec's 18-figure sentence.
+    """
+    claims: dict[int, list[str]] = collections.defaultdict(list)
+    for name, j in paired.items():
+        claims[j].append(name)
+    colliding = {j: names for j, names in claims.items() if len(names) > 1}
+    if colliding:
+        detail = "; ".join(f"extract idx {j} claimed by {sorted(names)}"
+                           for j, names in sorted(colliding.items()))
+        sys.exit("FATAL: instance pairing is not injective: " + detail)
+
+
 def anchor_pair(ref_insts, ref_net_of, ext_insts, ext_net_of, net_seeds):
     """Seed net correspondence, then propagate instance pairings to a fixpoint.
 
     Returns (inst_map ref-name->ext-idx, netmap ref-net->ext-node, rounds,
     seed stats). Pairing is unambiguous only: a reference instance pairs when
     exactly one unpaired extract instance of the same cell agrees with it on
-    every port whose reference net is already mapped. Seeds are verified by
-    membership profile before entering the map.
+    every port whose reference net is already mapped. Pairing is also
+    injective: a within-round collision -- two reference instances whose
+    unique full-vote match is the same extract index -- defers every claimant
+    of that index to a later round, and the fixpoint map is asserted
+    injective before return, so instances_paired never counts two reference
+    names against one extract instance. Seeds are verified by membership
+    profile before entering the map.
     """
     netmap: dict[str, tuple] = dict(net_seeds)
     rev: dict[tuple, str] = {v: k for k, v in netmap.items()}
@@ -276,6 +303,20 @@ def anchor_pair(ref_insts, ref_net_of, ext_insts, ext_net_of, net_seeds):
                 newly[name] = full[0]
         if not newly:
             break
+        # Unambiguous in both directions: two reference instances whose
+        # unique full-vote match is the same extract index leave both claims
+        # deferred -- every claimant of a contested index waits for a later
+        # round, where more mapped nets may disambiguate them. Letting the
+        # first ref_insts-order claimant win would make the evidence depend
+        # on input ordering; committing both would pair one extract instance
+        # twice while the coverage figure still read 100%.
+        contested = {j for j, c in collections.Counter(newly.values()).items()
+                     if c > 1}
+        if contested:
+            newly = {name: j for name, j in newly.items()
+                     if j not in contested}
+            if not newly:
+                break
         for name, j in newly.items():
             paired[name] = j
             used.add(j)
@@ -293,6 +334,7 @@ def anchor_pair(ref_insts, ref_net_of, ext_insts, ext_net_of, net_seeds):
                         sys.exit(f"FATAL: reverse collision at {node!r}: "
                                  f"{rev[node]!r} vs {net!r}")
                     rev[node] = net
+    require_injective(paired)
     return paired, netmap, rev, rounds
 
 

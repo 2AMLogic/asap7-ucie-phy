@@ -5,6 +5,22 @@ triage role; entries are newest first.
 
 ### 2026-11-15
 
+- **PR #197**: fix: defer contested pairing claims and assert instance-map injectivity in the r13 netdiff
+- **PR #190**: Pin klt 0.9.2 and record the SDF-annotated run's bit-select residual refusal
+- **PR #186**: evidence: per-net diff attributes the r5-r13 LVS residue to the layout supply/well domain; routed circuits correspond exactly
+- **Issue #187** (closed): netdiff pairing: instance injectivity is unasserted (a double-pairing would still report 100% coverage)
+- **Issue #169** (closed): Determine the r5–r13 net.split/net.merged LVS residue: per-net diff of the r13 extract against layout/slice_routed.v
+- **Issue #23** (closed): T1 item 7 (post-layout verification): SDF-annotated functional re-run of the cocotb suite on the routed slice netlist
+- **PR #183**: Correct the item-1 r2-r7 chain note: six byte-identical files, r2 included
+- **PR #181**: fix(signoff): item 9 drift message now separates testbench from inventory edits
+- **PR #177**: signoff: gate the five unwired layout guards in the T1 item 10 inventory
+- **PR #176**: sim: logic-level ASAP7 BSIM-CMG runs of rx_cell, tx_clk_cell and rx_clk_cell (decision 0010 route)
+- **PR #173**: fix: ignore root pnpm install artifacts (node_modules/, /pnpm-lock.yaml)
+- **Issue #178** (closed): spec/asap7-bringup.md item-1 convention section: 'byte-identical except for the r2 sources edit' reads as if r2 differs from r3-r7
+- **Issue #175** (closed): Run the unwired layout self-tests and drift checks in the T1 item 10 inventory
+- **Issue #159** (closed): signoff.yml: item 9 drift message tells you to edit the block manifest, which pins the inventory not the envelope
+- **Issue #157** (closed): gitignore node_modules/ and pnpm-lock.yaml: pnpm run leaves them untracked at the repo root
+- **Issue #150** (closed): Logic-level ASAP7 BSIM-CMG simulation of rx_cell, tx_clk_cell and rx_clk_cell (decision 0010 method)
 - **PR #174**: fix: re-pin klt 0.9.1 in the item 9 inventory and regenerate its chain
 - **PR #170**: evidence: rule out the reference netlist in digital LVS and determine the residue (r13)
 - **PR #168**: docs: record the reuse-the-inventory convention for item-1 re-attestations
