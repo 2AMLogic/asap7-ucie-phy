@@ -12,16 +12,18 @@
 # SCOPE -- read this before quoting an exit 0.
 #
 # Every check below is stdlib-only python3: no klayout-tools CLI, no klayout
-# module, no
-# OpenROAD, no yosys, no iverilog, no PDK archive, no network. That is the
-# point -- it is the same verdict on any host, so there is no "tool missing, so
-# skipped, so passed" path. The cost is that it is NOT T1 signoff and NOT the
-# functional testbench. An exit 0 here says the committed cell netlists, the
-# routed-stream input tie-off and the committed JSON records have not drifted.
-# It says
-# nothing about DRC, LVS, STA, the cocotb bench or the signoff verdict. Those
-# need the toolchain and are listed under "Reproduce" in README.md; CI runs the
-# attestation --check commands in .github/workflows/signoff.yml.
+# module, no OpenROAD, no yosys, no iverilog, no PDK archive, no network. The
+# JSON-validity check additionally needs git and a working checkout of this
+# repo, because its file list comes from `verification/check-records-json.sh
+# --list` (git ls-files); outside a checkout it fails closed rather than
+# passing vacuously. That is the point -- it is the same verdict on any host,
+# so there is no "tool missing, so skipped, so passed" path. The cost is that
+# it is NOT T1 signoff and NOT the functional testbench. An exit 0 here says
+# the committed cell netlists, the routed-stream input tie-off and the
+# committed JSON records have not drifted. It says nothing about DRC, LVS,
+# STA, the cocotb bench or the signoff verdict. Those need the toolchain and
+# are listed under "Reproduce" in README.md; CI runs the attestation --check
+# commands in .github/workflows/signoff.yml.
 #
 # Adding a check here: it must run unconditionally. Never guard one behind
 # `command -v <tool>` and fall through to success when the tool is absent --

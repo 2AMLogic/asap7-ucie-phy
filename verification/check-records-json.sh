@@ -62,7 +62,7 @@ case "${1:-}" in
     *) echo "usage: $0 [--list]" >&2; exit 2 ;;
 esac
 
-mapfile -t records < <(record_set | grep -vF -- "$STREAM_EXCEPTION")
+mapfile -t records < <(record_set | grep -vxF -- "$STREAM_EXCEPTION")
 if [ "${#records[@]}" -eq 0 ]; then
     fail "the tracked JSON record set is empty -- the gate cannot run and must not look like it passed"
 fi
