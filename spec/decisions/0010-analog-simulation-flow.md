@@ -32,7 +32,7 @@ limits. ngspice 47 (`environment.engine_version`), batch job `klt-sim-7911111351
 | `bsimcmg.osdi` sha256 | `4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3` (matches klt's reference build; staged with the job, runner reports the same hash) |
 | Model cards | lambdapdk `v0.2.17` (archive sha256 as in `spec/asap7-bringup.md`) `7nm_TT_160803.pm` `684708eec0f7d5960be1df6a045de811c8dd2d6b0e1ed7d0f805a3f697f262fc`, `7nm_SS_160803.pm` `ae06193a1a31e72d759a852dabda5b4c02b631068a34a02731e7285fa7e7b302`, `7nm_FF_160803.pm` `cdb1f67e81cbfb49cd9f570c276dcdbab860cd1f06deb1878d0e1137911c5b56` |
 | Adapted corner library | `design/sim/asap7_bsimcmg.lib`, sha256 `c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280` |
-| Adapted netlist | `design/sim/tx_cell.osdi.sp`, from `design/netlist/tx_cell.sp` |
+| Adapted netlist | `design/sim/tx_cell.osdi.sp`, from `design/netlist/tx_cell.sp`; `design/sim/regen.py --check` re-runs the netlist adaptation and fails (exit 3) on drift |
 
 Adaptation used `klayout_tools.asap7_bsimcmg` (`adapt_model_cards`, `corner_library`,
 `adapt_extracted_netlist`) in klt 0.9.2.dev885; the one-call `adapt` request key was not used
