@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "kind": "layout-stream-inventory",
+  "t1_item": 2,
+  "description": "Layout streams after layout/slice_routed.gds was re-generated with the pin-geometry layer-map fix (issue #149) and layout/lane_column.gds was re-assembled to embed it; re-attestation of attest/item2.r7.json, kept as history. Only the DEF->GDS merge changed: the staged KLayout LEF/DEF layer map now also sends each top-level DEF PINS rectangle to its metal's drawing purpose, so the pin's own name label coincides with a conductor and `klt lvs` can extract it. Placement and routing are unchanged (same netlist, same seed, route_drc_violation_count 0, antenna_violation_count 0, clock skew 0.00771 ns in layout/pnr/slice.pnr.report.json). Pinned by sha256 of raw bytes: the assembled column and its inputs (routed slice, drawn TX/RX cells). Layout geometry only; the DRC result is the separate record under verification/drc/ and is not re-measured here, and the LVS results are the separate records under evidence/item4-lvs/ (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
+  "assembled": {
+    "path": "layout/lane_column.gds",
+    "generator": "python3 layout/assemble_column.py",
+    "check": [
+      "python3",
+      "layout/assemble_column.py",
+      "--check"
+    ],
+    "top": "lane_column",
+    "lane_cells": 17,
+    "data_lanes": 16,
+    "clock_lane_index": 8,
+    "bump_pitch_um": 45,
+    "pads": 34,
+    "note": "Re-assembled with `python3 layout/assemble_column.py` so the column embeds this slice stream; `--check` exits 0. The drawn TX/RX cells are unchanged, so only the embedded slice geometry moved."
+  },
+  "pad_check": {
+    "record": "layout/pad_check_record.json",
+    "argv": [
+      "python3",
+      "layout/check_pads.py",
+      "--gds",
+      "layout/lane_column.gds",
+      "--top",
+      "lane_column",
+      "--map",
+      "layout/bump_map_target.csv",
+      "--out",
+      "layout/pad_check_record.json"
+    ],
+    "status": "pass",
+    "note": "Re-run against the re-assembled column: status pass, 34/34 pad centres matched, layout/pad_check_record.json byte-identical to r7's. The pad layer (96/0) lives in the drawn cells, which this change does not touch."
+  },
+  "streams": [
+    {
+      "path": "layout/lane_column.gds",
+      "sha256": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
+    },
+    {
+      "path": "layout/slice_routed.gds",
+      "sha256": "sha256:27dbfd1ddbb7478e8eebf65a61110f5996e3c826d603a37e615ec61e27c795f6"
+    },
+    {
+      "path": "layout/cells/tx_cell.gds",
+      "sha256": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871"
+    },
+    {
+      "path": "layout/cells/rx_cell.gds",
+      "sha256": "sha256:17418099e4fa45f9150638095be44d617e1eac9254df72723aafd15ef22ed81f"
+    },
+    {
+      "path": "layout/cells/tx_clk_cell.gds",
+      "sha256": "sha256:4c36c18edeac86457c78702a3047ef218672a0dedc878bd5f4bc8a2bfdd33b2e"
+    },
+    {
+      "path": "layout/cells/rx_clk_cell.gds",
+      "sha256": "sha256:6c825f2bfc0cbcdbfcd4aa09099cd964e9087332d602db29ca8ef4df26992c6c"
+    }
+  ],
+  "generator": {
+    "path": "layout/pnr/regen.py",
+    "check_input": [
+      "python3",
+      "layout/pnr/regen.py",
+      "--check-input"
+    ],
+    "check": [
+      "python3",
+      "-I",
+      "layout/pnr/regen.py",
+      "--check"
+    ],
+    "report": "layout/pnr/slice.pnr.report.json",
+    "note": "The routed slice is reproducible from the committed netlist and the pinned lambdapdk archive; `--check` reproduces it byte-for-byte."
+  },
+  "envelope": {
+    "file": "evidence/item2.r8.json",
+    "command": [
+      "klt",
+      "signoff",
+      "--attest",
+      "2",
+      "--input",
+      "layout/lane_column.gds",
+      "--generator",
+      "python3 layout/assemble_column.py",
+      "--regenerated-hash",
+      "sha256:<the re-assembled column's hash>"
+    ],
+    "note": "The klt-produced envelope the block manifest cites for item 2; this file is the companion stream inventory."
+  }
+}

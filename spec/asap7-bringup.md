@@ -421,3 +421,107 @@ a match and `power_connectivity` / `supply_nets` were not waived (decision 0005)
   has almost no anchor for the net correspondence; no tool defect is attributed and the cause is undetermined.
 - **Signoff:** the manifest cites the r10 report and record. T1 item 4 digital stays **unmet**; the drawn-cell `r2`
   matches stand. The analog half is unchanged.
+
+## Why the routed slice extracted 2 top-level pins, and the layer-map fix (r12, appended 2026-11-14, issue #149)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was waived and the
+reference netlist was not edited (decision 0005). Every number below was measured under the pinned klt
+`0.9.1` (`.github/klt-version`) in a throwaway `uvx` environment, never the host's `0.9.2.dev`.
+
+**The cause was not missing labels.** On the stream r10/r11 ran against
+(`layout/slice_routed.gds` sha256 `eae888dc...`), top cell `slice`, `dbu` 0.00025:
+
+| layer/datatype | deck role | top-cell texts | top-cell polygons |
+|---|---|---|---|
+| `40/251` | `M4.pin` | **266** | **266** |
+| `20/251` | `M2.pin` | 2 (`VDD`, `VSS`) | 162 |
+| `40/0` | `M4.drawing` | 0 | 3991 (flattened) |
+
+All 266 reference top-level ports carried a label, each co-located with its own DEF `PINS`
+rectangle at the east/west die edge. `30/251` and `50/251` were absent. (`20/251` carries 360
+texts when counted recursively; 358 of those are standard-cell-internal M2 pin labels, not
+top-level ports.)
+
+**What `klt lvs`'s `asap7` deck reads as a top-level pin.** Read from the pinned deck source, not
+inferred — `klayout_tools/decks/asap7.py` and `klayout_tools/extract_finfet.py`:
+
+- the label layers are `metal_labels=tuple((layer, 251) for layer, _ in _METALS)`, paired
+  **positionally** with the conductors `_METALS = ((19,0),(20,0),(30,0),(40,0),(50,0),(60,0),(70,0),(80,0),(90,0))`
+  — so `M1=19`, `M2=20`, `M3=30`, **`M4=40`**, `M5=50` (`40/251` is `M4.pin`, not M3's);
+- connectivity is built per pair by `l2n.connect(conductor, layers.texts(label_ld, name))` in
+  `_connect_beol`, where `layers.texts` is `make_text_layer` — it takes the **texts** from
+  `(metal, 251)` and nothing else.
+
+Two consequences: the 266 pin **polygons** on `40/251` are read by nothing in the deck (its
+conductors are `(metal, 0)` only), and a `40/251` text names a net only where a `40/0` shape
+coincides with the text's own point.
+
+**The two pins the extraction found were `VDD` and `VSS`** — the only labels whose text point lay on
+conducting metal of their own declared layer (`M2.pin` text over `M2.drawing`, where the `M1`/`M2`
+followpin rails run).
+
+**Why no M4 port label coincided with M4, precisely.** Each DEF `PINS` rectangle is 336 x 96 dbu
+(0.084 x 0.024 um, i.e. M4 minimum width tall) and KLayout draws the pin's name label at its
+**centre**. Every one of the 266 rectangles *is* overlapped by `M4.drawing` — the router did reach
+them — but only at one end: for `tx_a[21]`, rect x 95004–95340 dbu against M4 x 95004–95088. The
+centre text point therefore sits on bare pin-purpose geometry, 72 dbu (66 labels) or 84 dbu (200
+labels) clear of the nearest `40/0` edge. Probing each of the 268 labels declared by
+`layout/pnr/slice.pnr.report.json` (266 on M4, 2 on M2) against a 1 dbu box at its text point:
+
+| declared | metal present at the label's text point | count |
+|---|---|---|
+| M4 | M3 only | 170 |
+| M4 | **nothing** | 93 |
+| M4 | M2+M3 | 2 |
+| M4 | M3+M6 | 1 |
+| M2 | M1+M2 → extracted | 2 |
+
+Predicted extractable top-level pins **2**; r10/r11 reported **2**.
+
+**Not a stream regression to revert.** The previous stream (`53e4dc7`, sha256 `b264dd56...`) had an
+identical label structure and reported 201 pins only because its router metal happened to cover the
+rectangle centres; 65 of its 266 ports had no pin even then. `klt place-and-route` writes the DEF
+`PINS` rectangle and its name label to the layer map's **pin** purpose (`M4 PIN 40 251`, `NAME
+M4/PIN 40 251` in the pinned lambdapdk `base/apr/asap7.layermap`), which the same tool's ASAP7
+extraction deck consumes as a label layer only. The two klt verbs disagree about what a top-level
+pin is, so a klt-produced routed GDS has no reliably extractable top-level pin at all. **Filed
+generically upstream as 2AMLogic/klayout-tools#5700** (tool gap only, no design detail).
+
+**The fix, and what it did not fix.** `layout/pnr/regen.py` now stages the pinned layer map through
+`pin_geometry_on_drawing()`, which adds a `PIN` entry on the metal's own drawing layer/datatype for
+every LEF layer declaring both a `NET` and a `PIN` purpose (M1–M9; the via layers declare no `NET`,
+so they are untouched). The pin rectangle becomes real routing metal under its own label — what a
+top-level pin physically is — and the pin-purpose entry stays, so the change only adds geometry. The
+KLayout map-file semantics behind it were confirmed on a minimal LEF/DEF fixture: `<M> PIN <l> 251`
+alone puts rectangle and label on `251`; adding `<M> PIN <l> 0` puts the rectangle on both while
+`NAME <M>/PIN <l> 251` keeps the label on the deck's label layer. Self-test: `python3 -I
+layout/pnr/test_layermap.py`.
+
+- **Stream:** `python3 -I layout/pnr/regen.py` (pinned klt 0.9.1, OpenROAD 26Q3-1510, one run),
+  `layout/slice_routed.gds` now sha256 `27dbfd1d...`; `regen.py --check` exits 0 (byte-for-byte) and
+  `--check-input` exits 0. `40/0` 3991 → 4257 flattened polygons (+266), `20/0` 40859 → 41021
+  (+162); `40/251` unchanged. Placement and routing did not change: stage `route`,
+  `route_drc_violation_count` 0, `antenna_violation_count` 0, clock skew 0.00771 ns, power delivery
+  still `partial` (#66) — all identical to the previous report. All 268 top-level labels now lie on
+  their own declared metal. `layout/lane_column.gds` was re-assembled (`--check` exits 0) and item 2
+  re-attested as `attest/item2.r8.json` / `evidence/item2.r8.json`.
+- **r12** (`evidence/item4-lvs/slice_routed.r12.request.json`, report `slice_routed.r12.report.json`,
+  record `evidence/item4-slice-attempt.r12.json`): the r11 request verbatim apart from the scratch
+  PDK paths, so the stream is the only variable. Verdict **`mismatch`**, exit 3 — the grade is
+  unchanged. Pins **268** layout / 266 reference (r10/r11: 2 / 266) and 266 pin names anchored by
+  name before comparing (`topology.top_level_pins_anchored`; r10/r11 anchored none). With an anchor
+  the compare pairs far more: nets matched **352** (was 34), devices matched **199** (was 37). The
+  residual net-level disagreement barely moved and still dominates: `net.split` 15331 (was 15761),
+  `net.merged` 15246 (was 15676), `device.unmatched` 56195 (was 56563), `device.unmerged_fingers`
+  621, `net.supply_fragmented` 84. `hints.rejected` returns at 68 because there are now pin hints to
+  reject. `power_connectivity.status` is `unchecked` for the same reason r10/r11 record (the
+  `gate-level-verilog` reference form puts supply connectivity in the ordinary compare) — not a
+  waiver; `supply_nets` is untouched.
+- **Reading:** the pin-extraction defect diagnosed above is fixed and measured, and it was not the
+  cause of the net-level disagreement — removing it moved `net.split`/`net.merged` by under 3%. The
+  residual ~15k split/merged nets remain **undetermined** and are now the only thing between this
+  stream and a `match`; tracing one split net by hand is still the next step. No tool defect is
+  attributed to that residue.
+- **Signoff:** the manifest cites the r12 report and record, and `evidence/item2.r8.json` for item 2.
+  T1 item 4 digital stays **unmet** and #20 stays open; the drawn-cell `r2` matches stand. The
+  analog half is unchanged.

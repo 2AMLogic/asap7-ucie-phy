@@ -31,7 +31,7 @@
         "role": "hygiene",
         "path": "README.md",
         "passed": true,
-        "content_hash": "sha256:bb247446a75c4eb49eaf79377f7032c930d28e14a3e8ccc3181539da69832f39"
+        "content_hash": "sha256:1c5788f7b044502f9263303a30ce30852162248454ed760b15c31f1049953bbb"
       },
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "hygiene",
         "path": "spec/asap7-bringup.md",
         "passed": true,
-        "content_hash": "sha256:1bc686d03694651f827c819635031dd91d51e7caa7ef06bb48bcaef2990a65e6"
+        "content_hash": "sha256:ba56739b5e2f304d7ab34aa68def2ab2bb5efcb651fa07506db9c91c1dd1a54a"
       },
       {
         "check": "present",
