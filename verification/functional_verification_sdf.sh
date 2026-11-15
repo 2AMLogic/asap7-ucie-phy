@@ -41,7 +41,7 @@ PY
 export SEED="${SEED:-$(pin seed)}" LANES=16 NEG_CONTROL=0 SUMMARY_PATH="$SCRATCH/summary.json"
 out="$HERE/functional-verification-sdf.report.json"
 set +e
-uvx --from "klayout-tools[functional-verification]==$KLT_PIN" klt functional-verification \
+uvx --quiet --from "klayout-tools[functional-verification]==$KLT_PIN" klt functional-verification \
   "$HERE/functional-verification-sdf.json" -o "$SCRATCH/run" --format json >"$out" 2>"$SCRATCH/err"
 krc=$?
 set -e
