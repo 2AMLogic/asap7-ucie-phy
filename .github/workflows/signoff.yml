@@ -4,7 +4,9 @@ name: klt signoff
 # verdict of record (manifests/asap7-ucie-phy.signoff.json) must still
 # reproduce from the committed block manifest
 # (manifests/asap7-ucie-phy.json) under the klayout-tools version pinned in
-# .github/klt-version. Every committed JSON file under manifests/ must parse.
+# .github/klt-version. Every committed JSON project record must parse --
+# verification/check-records-json.sh, the single copy of that gate, over the
+# whole tracked record set (not just manifests/).
 
 on:
   push:
@@ -26,22 +28,17 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Validate committed JSON parses
-        run: |
-          python3 - <<'PY'
-          import json, pathlib, sys
-          bad = 0
-          for p in sorted(pathlib.Path("manifests").rglob("*.json")):
-              try:
-                  json.loads(p.read_text())
-              except ValueError as e:
-                  print(f"::error file={p}::not valid JSON: {e}")
-                  bad += 1
-          sys.exit(1 if bad else 0)
-          PY
-
       - name: Install pinned klt and the klayout module the pad self-test imports
         run: pip install "klayout-tools==$(cat .github/klt-version)" "klayout==$(cat .github/klayout-version)"
+
+      # The single copy of the JSON-validity gate: the pinned klt
+      # env-provenance validity gate over every tracked JSON record, wherever
+      # it lives. Passes on exit 0 and 3 (3 = the pre-existing absolute-path
+      # findings, #172), fails on 1 (some record does not parse), 2 and
+      # anything else. It runs after the klt install because the gate needs
+      # the pinned tool.
+      - name: Validate committed JSON records parse (whole tracked record set)
+        run: bash verification/check-records-json.sh
 
       # klt signoff --check exits 0 when the committed report still
       # reproduces, 3 when it has drifted, anything else is an error.
@@ -97,6 +94,26 @@ jobs:
             exit 1
           fi
 
+      # T1 item 8 (characterization report): re-attest the inventory. Its
+      # envelope_checks are the cheap ones (hash checks and pure-python
+      # re-runs); nothing needs OpenROAD or the PDK. Exit 0 = still
+      # reproduces, 3 = drifted, anything else is an error.
+      - name: Check the item 8 characterization attestation still reproduces
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --attest 8 --inventory manifests/attest/item8.json \
+                      --check manifests/evidence/item8.json || rc=$?
+          if [ "$rc" -eq 3 ]; then
+            echo "::error::manifests/evidence/item8.json is stale (the report, a cited envelope or the inventory changed). Identify the drifted check printed above, fix or re-produce that record, then re-attest on a host with the pinned tools and commit:"
+            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 8 --inventory manifests/attest/item8.json -o manifests/evidence/item8.json"
+            echo "If the inventory itself (manifests/attest/item8.json) changed, update the item 8 content_hash in manifests/asap7-ucie-phy.json (it binds the inventory, not the envelope) and regenerate manifests/asap7-ucie-phy.signoff.json."
+            exit 1
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::klt signoff --attest 8 --check exited $rc (expected 0 or 3)"
+            exit 1
+          fi
+
       # Re-verify the item-1 attestation envelope: every inventoried file is
       # re-hashed, and the freshness commands that need no toolchain beyond
       # python3 are re-run. The synthesis freshness command needs Yosys and the
@@ -106,11 +123,11 @@ jobs:
         run: |
           set -uo pipefail
           rc=0
-          klt signoff --attest 1 --inventory attest/item1.r7.json \
-                      --check evidence/item1.r7.json || rc=$?
+          klt signoff --attest 1 --inventory attest/item1.r8.json \
+                      --check evidence/item1.r9.json || rc=$?
           if [ "$rc" -eq 3 ]; then
-            echo "::error::evidence/item1.r7.json is stale. Regenerate and commit it in this PR:"
-            echo "  klt signoff --attest 1 --inventory attest/item1.r7.json -o evidence/item1.r7.json"
+            echo "::error::evidence/item1.r9.json is stale. Regenerate and commit it in this PR:"
+            echo "  klt signoff --attest 1 --inventory attest/item1.r8.json -o evidence/item1.r9.json"
             echo "  (then update the content_hash cited in manifests/asap7-ucie-phy.json and regenerate the verdict)"
             exit 1
           elif [ "$rc" -ne 0 ]; then

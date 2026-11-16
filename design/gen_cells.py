@@ -18,7 +18,11 @@ the w = 27 nm x nfin convention follow the pinned ASAP7 CDL (spec/asap7-bringup.
 they are produced by klt's adapt_extracted_netlist (spec/decisions/0010), not
 by this script, so write mode does not touch them; the check reproduces the
 device-card rewrite the adapter applies and compares byte-for-byte, so a
-generator edit that leaves sim/ stale behind its header fails loudly.
+generator edit that leaves sim/ stale behind its header fails loudly. The
+exception is tx_cell: design/sim/regen.py re-runs the adapter itself, its
+committed bytes stay adapter-emitted (sha256 pinned in
+sim/tx_cell.batch.report.json), and its drift gate is that script -- not
+this byte-for-byte expectation.
 """
 import pathlib
 import re
@@ -80,7 +84,8 @@ class Cell:
         """Expected design/sim/<name>.osdi.sp: the netlist with the device-card
         rewrite klt's adapt_extracted_netlist applies (decision 0010) and a
         truthful provenance line in place of this script's header. Hand-kept
-        copies; --check compares this expectation byte-for-byte."""
+        copies; --check compares this expectation byte-for-byte (tx_cell is
+        adapter-bound and checked by design/sim/regen.py instead)."""
         out = []
         for line in self.render().splitlines():
             line = re.sub(r"^M(\d+)", r"N\1", line)
@@ -163,7 +168,13 @@ def main(argv):
             if not path.is_file() or path.read_text() != text:
                 print(f"drifted: {path}", file=sys.stderr)
                 drift += 1
-            if not sim_path.is_file() or sim_path.read_text() != sim_text:
+            # tx_cell.osdi.sp is adapter-bound, not hand-kept: its committed
+            # bytes must stay exactly what the adapter emits (sha256 pinned in
+            # sim/tx_cell.batch.report.json), so its drift gate is
+            # design/sim/regen.py --check, not this expectation.
+            if cell.name != "tx_cell" and (
+                not sim_path.is_file() or sim_path.read_text() != sim_text
+            ):
                 print(f"drifted: {sim_path}", file=sys.stderr)
                 drift += 1
         else:

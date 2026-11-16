@@ -5,6 +5,20 @@ triage role; entries are newest first.
 
 ### 2026-11-15
 
+- **PR #196**: signoff: attest T1 item 8 (characterization report) with per-corner metric bindings and a sta check-input mode
+- **PR #195**: docs: record measured klt 0.9.2 SDF drop counts and fix contradictory COND wording in verification README
+- **PR #194**: gate: one klt lint-envelope JSON-validity gate over the whole tracked record set
+- **PR #179**: feat(signoff): bind tx_cell.osdi.sp to a re-adapt check, attest item 1 as r8
+- **Issue #193** (closed): Record the klt 0.9.2 SDF drop counts in-repo, and fix the contradictory COND wording in verification/README.md
+- **Issue #166** (closed): Replace the three directory-scoped JSON-validity gates with `klt env-provenance lint-envelope` over the whole tracked record set
+- **Issue #163** (closed): Bind design/sim/tx_cell.osdi.sp to a re-adapt check: nothing re-runs the klt adaptation that produces it, and its in-file provenance names the wrong generator
+- **Issue #24** (closed): T1 item 8 (characterization report): aggregated per-row report with Fmax, area and power across TT/SS/FF
+- **PR #197**: fix: defer contested pairing claims and assert instance-map injectivity in the r13 netdiff
+- **PR #190**: Pin klt 0.9.2 and record the SDF-annotated run's bit-select residual refusal
+- **PR #186**: evidence: per-net diff attributes the r5-r13 LVS residue to the layout supply/well domain; routed circuits correspond exactly
+- **Issue #187** (closed): netdiff pairing: instance injectivity is unasserted (a double-pairing would still report 100% coverage)
+- **Issue #169** (closed): Determine the r5–r13 net.split/net.merged LVS residue: per-net diff of the r13 extract against layout/slice_routed.v
+- **Issue #23** (closed): T1 item 7 (post-layout verification): SDF-annotated functional re-run of the cocotb suite on the routed slice netlist
 - **PR #183**: Correct the item-1 r2-r7 chain note: six byte-identical files, r2 included
 - **PR #181**: fix(signoff): item 9 drift message now separates testbench from inventory edits
 - **PR #177**: signoff: gate the five unwired layout guards in the T1 item 10 inventory

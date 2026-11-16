@@ -11,15 +11,19 @@
 #
 # SCOPE -- read this before quoting an exit 0.
 #
-# Every check below is stdlib-only python3: no klt, no klayout module, no
-# OpenROAD, no yosys, no iverilog, no PDK archive, no network. That is the
-# point -- it is the same verdict on any host, so there is no "tool missing, so
-# skipped, so passed" path. The cost is that it is NOT T1 signoff and NOT the
-# functional testbench. An exit 0 here says the committed cell netlists, the
-# routed-stream input tie-off and the manifest JSON have not drifted. It says
-# nothing about DRC, LVS, STA, the cocotb bench or the signoff verdict. Those
-# need the toolchain and are listed under "Reproduce" in README.md; CI runs the
-# attestation --check commands in .github/workflows/signoff.yml.
+# Every check below is stdlib-only python3: no klayout-tools CLI, no klayout
+# module, no OpenROAD, no yosys, no iverilog, no PDK archive, no network. The
+# JSON-validity check additionally needs git and a working checkout of this
+# repo, because its file list comes from `verification/check-records-json.sh
+# --list` (git ls-files); outside a checkout it fails closed rather than
+# passing vacuously. That is the point -- it is the same verdict on any host,
+# so there is no "tool missing, so skipped, so passed" path. The cost is that
+# it is NOT T1 signoff and NOT the functional testbench. An exit 0 here says
+# the committed cell netlists, the routed-stream input tie-off and the
+# committed JSON records have not drifted. It says nothing about DRC, LVS,
+# STA, the cocotb bench or the signoff verdict. Those need the toolchain and
+# are listed under "Reproduce" in README.md; CI runs the attestation --check
+# commands in .github/workflows/signoff.yml.
 #
 # Adding a check here: it must run unconditionally. Never guard one behind
 # `command -v <tool>` and fall through to success when the tool is absent --
@@ -70,20 +74,43 @@ run_check "layout/pnr/regen.py --check-input" \
 run_check "layout/pnr/test_check_input.py" \
     python3 -I layout/pnr/test_check_input.py
 
-# Every committed manifest JSON parses. Mirrors the first step of
-# .github/workflows/signoff.yml and the manifests-json-valid check declared in
-# manifests/t1-item10-inventory.json, so a malformed manifest fails here too
-# rather than only in CI.
-run_check "manifests/**/*.json parses" \
+# The routed STA report's input tie-off, and the self-test of that gate: the
+# same pair as the pnr block above, for the sta regen script. Both are
+# stdlib-only python3.
+run_check "sta/regen.py --check-input" \
+    python3 -I sta/regen.py --check-input
+
+run_check "sta/test_check_input.py" \
+    python3 -I sta/test_check_input.py
+
+# Every committed JSON project record parses. The file list comes from the
+# single copy of the record-set rule, verification/check-records-json.sh
+# --list (git + shell only, never the signoff toolchain), and the validator
+# here stays stdlib-only so this check keeps the same verdict on any host with
+# python3 and no signoff toolchain. Covers the whole tracked record set --
+# evidence/, attest/, sta/, verification/, sim/, design/ and manifests/ alike
+# -- so a malformed record outside manifests/ fails here too rather than only
+# in CI.
+run_check "committed JSON records parse (whole tracked record set)" \
     python3 -I -c '
-import json, pathlib, sys
+import json, subprocess, sys
+res = subprocess.run(["bash", "verification/check-records-json.sh", "--list"],
+                     capture_output=True, text=True)
+if res.returncode != 0:
+    sys.stderr.write(res.stderr)
+    sys.exit(res.returncode)
+paths = sorted(p for p in res.stdout.splitlines() if p)
+if not paths:
+    print("    empty record set -- the gate cannot run and must not look like it passed")
+    sys.exit(1)
 bad = 0
-for p in sorted(pathlib.Path("manifests").rglob("*.json")):
+for p in paths:
     try:
-        json.loads(p.read_text())
+        json.loads(open(p, encoding="utf-8").read())
     except ValueError as e:
         print("    not valid JSON: %s: %s" % (p, e))
         bad += 1
+print("    %d records checked" % len(paths))
 sys.exit(1 if bad else 0)
 '
 

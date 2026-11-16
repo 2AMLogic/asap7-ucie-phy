@@ -16,9 +16,16 @@ and written to sta/operating-conditions.json, which is what the FF anomaly repor
     regen.py            overwrite the committed report and operating-conditions record
     regen.py --report slice.sta.r2.report.json
                         write a new appended record beside it; the old report is not touched
+    regen.py --check-input [--report slice.sta.r5.report.json]
+                        pure-python (no klt, OpenROAD or PDK): exit 0 if the request's netlist
+                        still hashes to the record's provenance.input.content_hash, 3 if the
+                        netlist drifted since the record was run, 2 on bad input. --report
+                        defaults here to the current adopted record (r5; r6 is the RPIPE=1
+                        variant that was not adopted and whose netlist has since drifted).
 """
 import argparse
 import gzip
+import hashlib
 import importlib.util
 import json
 import os
@@ -35,6 +42,10 @@ REPO = HERE.parent
 REQUEST = HERE / "slice.sta.json"
 REPORT = HERE / "slice.sta.report.json"
 OPCOND = HERE / "operating-conditions.json"
+#: The current adopted record, and the --check-input default (sta/README.md):
+#: r6 carried the RPIPE=1 read-pipeline variant that was not adopted, so the
+#: committed netlist no longer matches r6's recorded input hash.
+CURRENT_RECORD = "slice.sta.r5.report.json"
 
 def _load_lambdapdk():
     path = REPO / "design" / "lambdapdk.py"
@@ -90,11 +101,39 @@ def operating_conditions(libs):
             "corners": rec}
 
 
+def check_input(request=None, report=None, out=sys.stderr):
+    """Compare the request's netlist hash with the one a committed record was run against.
+
+    Returns 0 on a match, 3 on drift, 2 on missing or unparseable input."""
+    request = REQUEST if request is None else pathlib.Path(request)
+    report = HERE / (report or CURRENT_RECORD)
+    try:
+        req = json.loads(request.read_text())
+        recorded = json.loads(report.read_text())["provenance"]["input"]["content_hash"]
+        netlist = (request.parent / req["verilog"]).read_bytes()
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        print(f"check-input: cannot read inputs: {e!r}", file=out)
+        return 2
+    current = "sha256:" + hashlib.sha256(netlist).hexdigest()
+    if current == recorded:
+        return 0
+    print(f"drifted: netlist hashes to {current}\n"
+          f"         report records      {recorded}\n"
+          "remedy: KLT=<pinned klt> python3 -I sta/regen.py --report slice.sta.r<N>.report.json"
+          " (append-only; needs openroad and the pinned lambdapdk archive)", file=out)
+    return 3
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdk-archive")
-    ap.add_argument("--report", default=REPORT.name, help="report file name under sta/")
+    ap.add_argument("--check-input", action="store_true")
+    ap.add_argument("--report", default=None,
+                    help="report file name under sta/ (default: slice.sta.report.json when "
+                    "writing; the current record, %s, with --check-input)" % CURRENT_RECORD)
     args = ap.parse_args()
+    if args.check_input:
+        return check_input(report=args.report)
     with tempfile.TemporaryDirectory(prefix="slice-sta-") as tmp:
         scratch = pathlib.Path(tmp)
         libs, others = read_members(L.fetch(scratch, args.pdk_archive))
@@ -121,7 +160,7 @@ def main():
         if not cp.stdout.strip():
             sys.exit(f"klt sta exited {cp.returncode} with no report:\n{cp.stderr}")
         report = json.loads(cp.stdout)
-    out = HERE / args.report
+    out = HERE / (args.report or REPORT.name)
     out.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     OPCOND.write_text(json.dumps(operating_conditions(libs), indent=2) + "\n")
     print(f"klt sta exit {cp.returncode}; wrote {out.name}, {OPCOND.name}")
