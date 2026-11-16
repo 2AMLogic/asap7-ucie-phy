@@ -271,8 +271,7 @@ if [ "$CHANGED" -eq 1 ]; then
     fi
 
     mapfile -t changed_records < <(printf '%s\n' "${range_files[@]}" \
-        | grep -E '\.json$' \
-        | grep -vE '^\.(loom|claude|agents|github)/')
+        | grep -Fxf <(printf '%s\n' "${records[@]}"))
     if [ "${#changed_records[@]}" -eq 0 ]; then
         # A computed result, not a failure to compute: the four validations
         # above passed, the range names files, and none of them is a tracked
