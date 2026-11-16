@@ -5,6 +5,7 @@ triage role; entries are newest first.
 
 ### 2026-11-16
 
+- **PR #207**: chore(loom): resync installed Loom to v0.19.1302
 - **PR #218**: fix: gate changed records through the single record-set rule; cite decision 0012 in signoff.yml
 - **Issue #217** (closed): Record gate tidy-ups: signoff.yml cites the wrong decision number, and the record-set rule has two copies
 - **PR #216**: docs: cite only item 10 from the T1 item-10 envelope in README
