@@ -6,7 +6,10 @@ name: klt signoff
 # (manifests/asap7-ucie-phy.json) under the klayout-tools version pinned in
 # .github/klt-version. Every committed JSON project record must parse --
 # verification/check-records-json.sh, the single copy of that gate, over the
-# whole tracked record set (not just manifests/).
+# whole tracked record set (not just manifests/) -- and every record added or
+# changed by this event's commit range must additionally be free of new
+# absolute host paths (the forward-only gate, #172 /
+# spec/decisions/0011-record-path-hygiene-gate.md).
 
 on:
   push:
@@ -23,6 +26,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The forward-only record gate (#172) diffs the changed-record
+          # range between this event's base commit and HEAD, so the base
+          # must be fetchable: pull_request.base.sha (pull_request) or
+          # github.event.before (push) is absent from a depth-1 clone, and
+          # the gate would fail -- loudly, but for a reason a checkout
+          # setting prevents.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -39,6 +50,40 @@ jobs:
       # the pinned tool.
       - name: Validate committed JSON records parse (whole tracked record set)
         run: bash verification/check-records-json.sh
+
+      # The forward-only gate (#172, spec/decisions/0011): every record
+      # added or changed by this event's commit range is gated on BOTH klt
+      # env-provenance checks, and exit 3 is fatal for those records. The
+      # whole-set run above stays validity-only (#166's contract); this gate
+      # never re-lints frozen history. It fails rather than passes when the
+      # changed-record list cannot be computed (no resolvable base, empty
+      # range, broken record-set rule) -- no vacuous pass.
+      - name: Resolve the base commit the forward-only record gate diffs against
+        id: record-base
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          base="$PR_BASE_SHA"
+          if [ -z "$base" ] || [ "$base" = "null" ]; then
+            base="$PUSH_BEFORE"
+          fi
+          if [ -z "$base" ] || [ "$base" = "null" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            # workflow_dispatch (or an event without a base): gate the last
+            # commit. A root commit has no parent and fails below -- rightly.
+            base="$(git rev-parse HEAD^)"
+          fi
+          git rev-parse --verify "${base}^{commit}" >/dev/null \
+            || { echo "::error::no usable base commit ($base) for the forward-only record gate"; exit 1; }
+          git merge-base --is-ancestor "$base" HEAD \
+            || { echo "::error::base $base is not an ancestor of HEAD; the changed-record range cannot be computed"; exit 1; }
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+
+      - name: Gate records added or changed by this commit range (forward-only, #172)
+        env:
+          RECORD_BASE: ${{ steps.record-base.outputs.base }}
+        run: bash verification/check-records-json.sh --changed --base "$RECORD_BASE"
 
       # klt signoff --check exits 0 when the committed report still
       # reproduces, 3 when it has drifted, anything else is an error.
