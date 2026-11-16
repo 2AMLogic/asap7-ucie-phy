@@ -57,7 +57,11 @@
 # is matched against the value the envelope itself declares). Nothing else is
 # admitted: NOT --allow-prefix /home/..., which the tool's help rules out
 # because a lint whose verdict depends on the linting machine cannot be
-# trusted in CI. The exception is self-limiting -- once klt stops writing the
+# trusted in CI. Both post-filters reconcile what they classified against the
+# report's own schema_version and total (finding_count / leak_count) and
+# refuse to pass on any mismatch, so a report-schema change under pin drift
+# fails loudly instead of silently voiding the exception walk. The exception
+# is self-limiting -- once klt stops writing the
 # absolute path, the finding it admits no longer exists. REMOVE it when
 # #5709 is closed and .github/klt-version is at or past the fix, verified by
 # regenerating a DRC envelope and confirming the top-level deck is no longer
@@ -193,6 +197,11 @@ if [ "$CHANGED" -eq 1 ]; then
 import json, sys
 
 report = json.load(open(sys.argv[1], encoding="utf-8"))
+if report.get("schema_version") != 1:
+    print(f"lint-envelope: report schema_version {report.get('schema_version')!r} "
+          f"is not 1 -- the report schema is not what this filter expects; "
+          f"refusing to pass", file=sys.stderr)
+    sys.exit(3)
 residual = []
 excepted = 0
 for f in report.get("files", []):
@@ -210,6 +219,13 @@ for f in report.get("files", []):
             excepted += 1
             continue
         residual.append((name, x.get("field"), x.get("match")))
+total = report.get("finding_count")
+if total != excepted + len(residual):
+    print(f"lint-envelope: report accounting mismatch: klt reported {total!r} "
+          f"finding(s), the filter classified {excepted + len(residual)} -- the "
+          f"report schema is not what this filter expects; refusing to pass",
+          file=sys.stderr)
+    sys.exit(3)
 if residual:
     for name, field, match in residual:
         print(f"  {name} :: {field} = {match}", file=sys.stderr)
@@ -241,6 +257,11 @@ PY
 import json, sys
 
 report = json.load(open(sys.argv[1], encoding="utf-8"))
+if report.get("schema_version") != 1:
+    print(f"scan: report schema_version {report.get('schema_version')!r} "
+          f"is not 1 -- the report schema is not what this filter expects; "
+          f"refusing to pass", file=sys.stderr)
+    sys.exit(3)
 residual = []
 excepted = 0
 for f in report.get("files", []):
@@ -269,6 +290,13 @@ for f in report.get("files", []):
             excepted += 1
             continue
         residual.append((name, x.get("kind"), x.get("line"), match))
+total = report.get("leak_count")
+if total != excepted + len(residual):
+    print(f"scan: report accounting mismatch: klt reported {total!r} "
+          f"leak(s), the filter classified {excepted + len(residual)} -- the "
+          f"report schema is not what this filter expects; refusing to pass",
+          file=sys.stderr)
+    sys.exit(3)
 if residual:
     for name, kind, line, match in residual:
         print(f"  {name}:{line} :: {kind} = {match}", file=sys.stderr)

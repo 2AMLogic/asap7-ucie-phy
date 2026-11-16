@@ -122,7 +122,7 @@
         "role": "hygiene",
         "path": "spec/decisions/0011-record-path-hygiene-gate.md",
         "passed": true,
-        "content_hash": "sha256:7e2870486c350dc3ba7e18cd83983d59582641928559c731419ab90fe3ed5124"
+        "content_hash": "sha256:deb6cd4ecf386279b092792ace18b538e17eebb4009cb89912af5f64a0359a67"
       },
       {
         "check": "present",
@@ -136,7 +136,7 @@
         "role": "hygiene",
         "path": "verification/check-records-json.sh",
         "passed": true,
-        "content_hash": "sha256:9b7effd4c7361afb64e9e730c4636864db85e758a20bdf2c101975543c49cb5d"
+        "content_hash": "sha256:1f41a00603248bf019ccde66b451394f29237badb7eb06324640f4b73006ffc6"
       },
       {
         "check": "command",

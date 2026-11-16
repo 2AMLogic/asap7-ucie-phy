@@ -49,7 +49,11 @@ would have.
    the single line carrying that field for scan (scan is line-matched and has
    no exception flag), each matched against the value the envelope itself
    declares. It is a field exception, not a prefix; a run record's prose cites
-   `provenance.deck.content_hash`, never a path. The exception is
+   `provenance.deck.content_hash`, never a path. Both filters reconcile what
+   they classified against the report's own `schema_version` and total
+   (`finding_count` / `leak_count`) and fail on any mismatch, so a
+   report-schema change under pin drift cannot silently void the exception
+   walk. The exception is
    self-limiting — once klt stops writing the absolute path, the finding it
    admits no longer exists — and is REMOVED once #5709 is closed and
    `.github/klt-version` is at or past the fix, verified by regenerating a DRC
