@@ -51,7 +51,7 @@ jobs:
       - name: Validate committed JSON records parse (whole tracked record set)
         run: bash verification/check-records-json.sh
 
-      # The forward-only gate (#172, spec/decisions/0011): every record
+      # The forward-only gate (#172, spec/decisions/0012): every record
       # added or changed by this event's commit range is gated on BOTH klt
       # env-provenance checks, and exit 3 is fatal for those records. The
       # whole-set run above stays validity-only (#166's contract); this gate
