@@ -31,7 +31,6 @@ Human-approved issues ready for implementation (`loom:issue`).
 
 - **#19**: T1 item 3 (DRC clean): klt drc report on the assembled lane-column GDS with ASAP7 deck coverage gaps disclosed
 - **#66**: Layout: restore a deck-clean M5/M6 power grid on the routed slice (PDN is partial after #64)
-- **#198**: Nothing re-runs the netdiff pairing self-test: wire slice_routed.r13.netdiff.selftest.py into the item-10 inventory checks
 - **#202**: spec: the #178 tail section still names attest/item1.r7.json as the item-1 inventory of record
 - **#209**: README § "T1 evidence" attributes items 1, 2 and 9 to the item-10 envelope, which cites only item 10
 
@@ -65,7 +64,6 @@ Issues carrying `loom:curated`.
 - **#158**: Wire buildGate.command at ./check.sh so the pre-flight receipt is earned, not skipped *(curated)*
 - **#172**: 54 absolute host paths in 22 committed evidence records, including four leaked /home/ubuntu paths *(curated)*
 - **#191**: evidence/item4-lvs/slice_routed.r13.refnets.json is a two-document JSON stream, so no JSON-validity gate can cover it *(curated)*
-- **#198**: Nothing re-runs the netdiff pairing self-test: wire slice_routed.r13.netdiff.selftest.py into the item-10 inventory checks *(curated)*
 - **#209**: README § "T1 evidence" attributes items 1, 2 and 9 to the item-10 envelope, which cites only item 10 *(curated)*
 
 ## Proposed (Architect / Hermit)
@@ -84,11 +82,11 @@ _None._
 | Operator merge-risk holds | 2 |
 | Very important | 1 |
 | Important | 3 |
-| Ready (`loom:issue`) | 5 |
+| Ready (`loom:issue`) | 4 |
 | In Progress (`loom:building`) | 3 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 2 |
-| Curated | 7 |
+| Curated | 6 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
