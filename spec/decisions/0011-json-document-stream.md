@@ -13,8 +13,8 @@ sides. Its producer, `evidence/item4-lvs/slice_routed.r13.refnets.py` (usage at
 `:20`, `<netlist> [<netlist2> ...]`), prints one `json.dumps(result, indent=2)` per
 netlist argument (`:216`): two netlists in, two documents out. Its only consumer,
 `evidence/item4-lvs/slice_routed.r13.netdiff.py`, reads the file with
-`json.JSONDecoder().raw_decode()` in a loop (`:303-311`) and asserts on
-`refnets_baseline[0]` and `refnets_baseline[1]` (`:728`, `:735`): a
+`json.JSONDecoder().raw_decode()` in a loop (`:345-353`) and asserts on
+`refnets_baseline[0]` and `refnets_baseline[1]` (`:770`, `:777`): a
 single-document file would break it.
 
 The extension `.json` therefore names a format the file intentionally is not, and
