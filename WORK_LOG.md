@@ -3,6 +3,19 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-16
+
+- **PR #212**: drc: record lane-column re-run at pinned klt 0.9.2 on committed streams; no delta vs r3
+- **PR #205**: records: validate .json evidence records per document as JSON streams (0011)
+- **Issue #191** (closed): evidence/item4-lvs/slice_routed.r13.refnets.json is a two-document JSON stream, so no JSON-validity gate can cover it
+- **Issue #64** (closed): Layout: clear remaining router-metal and cell DRC violations on the assembled lane column
+- **PR #208**: docs: drop hand-copied per-item T1 status from README, keep aggregates and tool pointer
+- **Issue #171** (closed): Decide whether § "T1 evidence" should keep hand-copied per-item status at all
+- **PR #201**: signoff: bind design/sim/regen.py in the item-1 inventory of record (r9)
+- **PR #189**: docs: split T1 item 10 remediation into member-edit and inventory-edit cases
+- **Issue #182** (closed): Item-1 attestation binds no hash for design/sim/regen.py, the script backing its newest freshness check
+- **Issue #184** (closed): Item 10: stale inventory description, and no remediation path for an 'inventory itself changed' drift
+
 ### 2026-11-15
 
 - **PR #196**: signoff: attest T1 item 8 (characterization report) with per-corner metric bindings and a sta check-input mode

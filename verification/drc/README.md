@@ -262,3 +262,89 @@ here. Filed as [#5661](https://github.com/2AMLogic/klayout-tools/issues/5661).
 
 `klt signoff` item 3 stays **unmet**, the manifest is unchanged and cites no record in this directory, and
 no GDS or evidence revision changed in this pass.
+
+## Issue #64: re-run at the current pin, on the currently committed streams (r4, 2026-11-16)
+
+Record: `lane_column.r4.drc.run-record.json`, with the summary-only envelopes
+`slice_routed.r4.envelope.json` and `lane_column.r4.envelope.json` committed beside it. klt **0.9.2**
+(the pin in `.github/klt-version`, via `uvx --from "klayout-tools==0.9.2"`), `--engine klayout` with the
+packaged ASAP7 deck, the same **267**-id expectation file as r3 (byte-identical: 0.9.2 declares the same
+`RULE_IDS`), no `--rules`, no `--waivers`, nothing filtered or relaxed. The six earlier records are
+unedited. Still **not clean**; layout results against a predictive PDK, not measurements.
+
+**Why this run exists.** Two things changed after the r3 record, and no DRC record carried either
+current input:
+
+1. **The streams changed.** The DEF-PINS fix (commit `9494c37`, 2026-11-14) re-staged top-level pin
+   geometry on the metal drawing layer: `layout/slice_routed.gds` is now sha256 `27dbfd1d...` (r3
+   measured `eae888dc...`) and `layout/lane_column.gds` is `6e1df816...` (r3 measured `4937a7bd...`;
+   the new column hash is attested as `evidence/item2.r8.json`).
+2. **The pin moved.** `.github/klt-version` is now 0.9.2 (r3 ran 0.9.1, and #64's Revision 2 ordered one
+   measurement at the pin on the committed column). The packaged deck changed with the release:
+   sha256 `14f146f0...` -> `fa303c03...`.
+
+Issue #64's earlier framing ("wait for klayout-tools#4495/#4501, then expect improvement") is
+overtaken by events: #4501 closed docs-only, #4495 closed 2026-11-16 as a **no-op** (the closing note
+says `via_pad_trim` already existed on `origin/main` and the live before/after DRC was not performed),
+and #4496 was already docs-only. None of the three families had a pending tool fix, so the open
+question was purely what the current pin measures on the current streams. Measured now.
+
+**Measured now**, both runs completed, expectation satisfied (`missing_names` and `unexpected_names`
+empty, 267 of 267 categories checked, `PAD` 96/0 unchecked on the column):
+
+| Stream | sha256 | Status | Violations | Rules |
+|---|---|---|---|---|
+| `layout/slice_routed.gds` | `27dbfd1d...` | `violations` | **906** | 5 |
+| `layout/lane_column.gds` | `6e1df816...` | `violations` | **14,496** | 5 |
+
+The column is again exactly **16 x** the slice in every rule count.
+
+### Nothing moved
+
+Every per-rule count is **byte-identical to r3**, despite both the stream and the deck changing between
+the two runs:
+
+| Rule | r3 (0.9.1) | r4 (0.9.2) | Change |
+|---|---|---|---|
+| `SDT.ACTIVE.AUX.2` | 9,504 | 9,504 | 0 |
+| `M1.S.4` | 3,120 | 3,120 | 0 |
+| `M1.S.3` | 576 | 576 | 0 |
+| `M1.S.5` | 1,008 | 1,008 | 0 |
+| `M1.S.2` | 288 | 288 | 0 |
+| `M4.AUX.2` / `M4.W.3` | 0 / 0 | 0 / 0 | 0 |
+
+Read together with the r3 table against the 8,208 baseline, the deltas stand as recorded there; this
+run adds no movement and no attribution. Two honest statements about what this identity does and does
+not establish:
+
+- The DEF-PINS regeneration did not change this layout's DRC outcome: the staged pin geometry trips no
+  deck rule on either stream. The slice's own hash changed and its counts did not.
+- The 0.9.1 -> 0.9.2 deck change produced no rule-outcome difference on this layout. This is one layout
+  at one pin pair, not a statement about the deck generally; the deck hash changed and what else it
+  affects is not probed here.
+
+### What remains, per rule (unchanged, now measured at the pin)
+
+- **`SDT.ACTIVE.AUX.2` — 9,504 (66%).** Shipped standard-cell retained deviations (OAI22, BUFx4,
+  fillers); [#4496](https://github.com/2AMLogic/klayout-tools/issues/4496) closed docs-only. Stays in a
+  deck-unwaived run unless the layout stops using those cells — a design decision, out of scope here.
+- **`M1.S.2/.3/.4/.5` — 4,992 (34%).** Router V1 landing pads;
+  [#4495](https://github.com/2AMLogic/klayout-tools/issues/4495) closed as a no-op. Measured for the
+  first time since that closure: the family is unchanged, and the committed stream was produced with
+  the trim active (`layout/pnr/slice.pnr.report.json` carries `via_pad_trim` `status: trimmed`), so the
+  closure moved nothing here — now measured, not inferred.
+- **`M4.AUX.2` / `M4.W.3` — 0.** Cleared since r2; [#4501](https://github.com/2AMLogic/klayout-tools/issues/4501)
+  closed docs-only.
+
+No new tool gap surfaced in this pass. The two known envelope quirks stand unchanged at 0.9.2 and are
+recorded in the r4 record: `provenance.klayout_version` still reports the uvx wheel instead of the
+engine binary ([#5660](https://github.com/2AMLogic/klayout-tools/issues/5660)), and `klt drc --check`
+still resolves the deck by the envelope's absolute uv-cache path, so the deck assertion does not
+re-verify off the authoring host ([#5709](https://github.com/2AMLogic/klayout-tools/issues/5709);
+authoring-host `--check` on the r4 envelope: `match`, exit 0).
+
+`klt signoff` item 3 stays **unmet** — the run is `violations`, not `clean` — and the manifest cites no
+record in this directory. No GDS was regenerated and no evidence revision was created in this pass; the
+committed column hash remains attested as `evidence/item2.r8.json`. Whether this issue closes as
+completed-with-limitations, and whether the shipped cells that trip `SDT.ACTIVE.AUX.2` should be
+replaced, are Champion/human calls and are not made here.

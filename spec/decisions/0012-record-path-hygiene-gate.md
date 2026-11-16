@@ -1,4 +1,4 @@
-# 0011: committed evidence records carry absolute host paths only as frozen history; records added or changed are gated forward-only
+# 0012: committed evidence records carry absolute host paths only as frozen history; records added or changed are gated forward-only
 
 Status: accepted. Date: 2026-11-16. Issue: #172.
 

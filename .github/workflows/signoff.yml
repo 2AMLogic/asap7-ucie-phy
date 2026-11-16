@@ -9,7 +9,7 @@ name: klt signoff
 # whole tracked record set (not just manifests/) -- and every record added or
 # changed by this event's commit range must additionally be free of new
 # absolute host paths (the forward-only gate, #172 /
-# spec/decisions/0011-record-path-hygiene-gate.md).
+# spec/decisions/0012-record-path-hygiene-gate.md).
 
 on:
   push:

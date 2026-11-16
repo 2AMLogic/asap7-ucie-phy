@@ -6,16 +6,21 @@
 # directory list, so a JSON record added anywhere is covered on arrival with
 # no edit here.
 #
-# Two modes:
+# Three modes:
 #
 #   default             the whole tracked record set, validity-only: every
-#                       committed record must parse. Absolute-path findings
-#                       (exit 3) are tolerated -- they are the frozen history
-#                       recorded in spec/decisions/0011-record-path-hygiene-
-#                       gate.md, and #136/#20 own any edit or re-run of it
-#                       (#166's contract, unchanged by #172).
+#                       committed record must be a valid JSON document stream
+#                       (spec/decisions/0011-json-document-stream.md), and
+#                       lint-envelope runs over the single-document partition
+#                       with absolute-path findings tolerated -- they are the
+#                       frozen history recorded in spec/decisions/0012-
+#                       record-path-hygiene-gate.md, and #136/#20 own any
+#                       edit or re-run of it (#166's contract).
 #
-#   --changed --base B  the forward-only gate (#172, decision 0011): every
+#   --validate          the per-document stream walk only, no klt -- what
+#                       check.sh consumes (stdlib-only scope).
+#
+#   --changed --base B  the forward-only gate (#172, decision 0012): every
 #                       record ADDED OR CHANGED between base B and HEAD is
 #                       gated on BOTH klt env-provenance checks --
 #
@@ -36,17 +41,31 @@
 #
 #     git ls-files '*.json' | grep -vE '^\.(loom|claude|agents|github)/'
 #
-# The validity check itself is `klt env-provenance lint-envelope`, not a
-# repo-local json.loads loop: klt ships it, it is a strict superset of a
-# json.loads walk, and the pinned klt is what CI installs. Its exit contract
-# (measured on 0.9.1 and 0.9.2):
+# The validity check itself is a repo-local raw_decode walk, not klt: a
+# document stream is valid committed evidence (decision
+# 0011-json-document-stream) and klt cannot read one (filed upstream as
+# 2AMLogic/klayout-tools#5887). klt's own exit contract, measured on the
+# 0.9.1 and 0.9.2 pins:
 #     0  all files valid, no absolute host paths
-#     3  all files valid, absolute paths present (frozen history, decision 0011)
+#     3  all files valid, absolute paths present (frozen history, decision
+#        0012 in default mode; fatal in --changed mode)
 #     1  some file unreadable or not valid JSON -- names the first and aborts
 #     2  no FILE arguments (argparse usage error)
 # `scan` shares the contract: 3 = leaks found, 0 = clean, 1 = unreadable.
 #
-# THE DECK EXCEPTION (decision 0011; 2AMLogic/klayout-tools#5709) -- read
+# STREAM COVERAGE -- read before touching the changed-record klt leg. klt
+# cannot read a document stream (#5887), so a stream record handed to it
+# whole would be a hole: a newly changed stream record could carry an
+# absolute path and never be seen. The --changed mode closes that by
+# splitting each multi-document record into per-document temp files (exact
+# byte slices, so content is unchanged) and remapping klt's diagnostics back
+# to the real record path and line before the deck-exception filters judge
+# them. Default mode stays findings-tolerant (validity-only) and hands klt
+# the single-document partition only -- a stream record gets the per-document
+# validity verdict there, and its absolute paths are covered forward-only by
+# --changed.
+#
+# THE DECK EXCEPTION (decision 0012; 2AMLogic/klayout-tools#5709) -- read
 # before loosening it. While #5709 is open every klt-generated DRC envelope
 # records its deck as a bare absolute host path (a uv cache directory keyed
 # by a build hash; measured again at the 0.9.2 pin -- a pin bump is not the
@@ -61,22 +80,10 @@
 # report's own schema_version and total (finding_count / leak_count) and
 # refuse to pass on any mismatch, so a report-schema change under pin drift
 # fails loudly instead of silently voiding the exception walk. The exception
-# is self-limiting -- once klt stops writing the
-# absolute path, the finding it admits no longer exists. REMOVE it when
-# #5709 is closed and .github/klt-version is at or past the fix, verified by
-# regenerating a DRC envelope and confirming the top-level deck is no longer
-# absolute.
-#
-# STREAM EXCEPTION (#191): this committed record is a deliberate
-# two-document JSON stream (its producer prints one json.dumps per netlist;
-# its consumer raw_decode()s them in a loop), so a single-document parser
-# rejects it. It is excepted by exactly this one literal path -- never a
-# glob, never a directory -- until #191 rules on its disposition. The
-# exception self-retires: the gate fails if the path disappears or if the
-# file starts parsing as a single JSON document, so the exception cannot
-# outlive #191 silently. It is excluded from BOTH modes: the whole-set run
-# (exit 1 dominates exit 3) and the changed-record run (a commit touching it
-# would otherwise go red for a reason #191, not #172, owns).
+# is self-limiting -- once klt stops writing the absolute path, the finding
+# it admits no longer exists. REMOVE it when #5709 is closed and
+# .github/klt-version is at or past the fix, verified by regenerating a DRC
+# envelope and confirming the top-level deck is no longer absolute.
 #
 # NO VACUOUS PASS. The changed-record list "cannot be computed" -- and the
 # gate FAILS -- when the base is not a commit this checkout can see, when the
@@ -90,18 +97,15 @@
 # `--list` prints the record set and uses only git and the shell -- never
 # klt -- so check.sh (which must stay toolchain-free) can consume it. This
 # script itself needs klt (default and --changed modes) and python3 (the
-# stream-exception self-retire check and the decision-0011 deck-exception
-# filters); it fails loudly when either is missing rather than reporting a
-# vacuous pass.
+# per-document validity walk, the stream splitter and the decision-0012
+# deck-exception filters); it fails loudly when either is missing rather than
+# reporting a vacuous pass.
 
 set -uo pipefail
 
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)" || exit 1
 
-# The stream exception (#191): see the header comment.
-STREAM_EXCEPTION="evidence/item4-lvs/slice_routed.r13.refnets.json"
-
-# The class-2 prefix set (decision 0011): machine-wide tool install prefixes
+# The class-2 prefix set (decision 0012): machine-wide tool install prefixes
 # that may legitimately appear in a committed record. Measured minimal at the
 # pinned klt 0.9.2 -- adding /opt/pdk admits nothing at this tree and is
 # deliberately absent. NEVER add /tmp (a per-run scratch path is the exact
@@ -118,22 +122,105 @@ fail() {
     exit 1
 }
 
+# The per-document validity walk: reads the record set from stdin (one path
+# per line) and prints "path<TAB>document-count" per file. Fails -- exit 3,
+# this caller's own "invalid record" code -- on any file whose bytes are not
+# a clean document stream: zero bytes, whitespace only, or a parse error
+# before end of input are all invalid, and every failure names its file.
+# One copy of the rule, used by every mode.
+validate_stream() {
+    python3 -c '
+import json, sys
+bad = 0
+dec = json.JSONDecoder()
+ws = " \t\n\r"
+for path in (line.rstrip("\n") for line in sys.stdin if line.strip()):
+    count = 0
+    try:
+        with open(path, "rb") as fh:
+            data = fh.read()
+        if len(data) == 0:
+            print("not a valid JSON document stream (zero bytes): %s" % path, file=sys.stderr)
+            bad += 1
+        else:
+            text = data.decode("utf-8")
+            idx = 0
+            while True:
+                while idx < len(text) and text[idx] in ws:
+                    idx += 1
+                if idx >= len(text):
+                    break
+                _, idx = dec.raw_decode(text, idx)
+                count += 1
+            if count == 0:
+                print("not a valid JSON document stream (no document, whitespace only): %s" % path, file=sys.stderr)
+                bad += 1
+    except (ValueError, UnicodeDecodeError) as exc:
+        print("not a valid JSON document stream: %s: %s" % (path, exc), file=sys.stderr)
+        bad += 1
+    print("%s\t%d" % (path, count))
+sys.exit(3 if bad else 0)
+'
+}
+
+# The stream splitter (--changed mode only): reads multi-document record
+# paths from stdin, writes each document as an exact byte slice into
+# $1/<flattened>.doc<N>.json, and writes $1/mapping.json mapping each part
+# path to {"path": <real record>, "offset": <1-based line where the document
+# starts in the original>}. Prints one part path per line. The filters remap
+# klt's diagnostics (file, line) back to the real record before judging them.
+split_stream() {
+    python3 - "$1" <<'PY'
+import json, os, sys
+tmp = sys.argv[1]
+dec = json.JSONDecoder()
+ws = " \t\n\r"
+mapping = {}
+parts = []
+for path in (line.rstrip("\n") for line in sys.stdin if line.strip()):
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    i = 0
+    doc = 0
+    while True:
+        while i < len(text) and text[i] in ws:
+            i += 1
+        if i >= len(text):
+            break
+        start = i
+        _, i = dec.raw_decode(text, i)
+        doc += 1
+        part = os.path.join(tmp, "%s.doc%d.json" % (path.replace("/", "__"), doc))
+        with open(part, "w", encoding="utf-8") as fh:
+            fh.write(text[start:i])
+        offset = text.count("\n", 0, start) + 1
+        mapping[part] = {"path": path, "offset": offset}
+        parts.append(part)
+with open(os.path.join(tmp, "mapping.json"), "w", encoding="utf-8") as fh:
+    json.dump(mapping, fh)
+for p in parts:
+    print(p)
+PY
+}
+
 LIST_ONLY=0
+VALIDATE_ONLY=0
 CHANGED=0
 BASE_SHA=""
 case "${1:-}" in
     "") ;;
     --list) LIST_ONLY=1 ;;
+    --validate) VALIDATE_ONLY=1 ;;
     --changed)
         CHANGED=1
         [ "${2:-}" = "--base" ] || { echo "usage: $0 --changed --base <commit>" >&2; exit 2; }
         BASE_SHA="${3-}"
         [ -n "$BASE_SHA" ] || { echo "usage: $0 --changed --base <commit> (--base needs a commit)" >&2; exit 2; }
         ;;
-    *) echo "usage: $0 [--list | --changed --base <commit>]" >&2; exit 2 ;;
+    *) echo "usage: $0 [--list | --validate | --changed --base <commit>]" >&2; exit 2 ;;
 esac
 
-mapfile -t records < <(record_set | grep -vxF -- "$STREAM_EXCEPTION")
+mapfile -t records < <(record_set)
 if [ "${#records[@]}" -eq 0 ]; then
     fail "the tracked JSON record set is empty -- the gate cannot run and must not look like it passed"
 fi
@@ -143,10 +230,26 @@ if [ "$LIST_ONLY" -eq 1 ]; then
     exit 0
 fi
 
-command -v python3 >/dev/null 2>&1 || fail "python3 not found on PATH -- cannot run the stream-exception self-retire check or the decision-0011 deck-exception filters"
+command -v python3 >/dev/null 2>&1 || fail "python3 not found on PATH -- cannot run the per-document validity walk, the stream splitter or the decision-0012 deck-exception filters; a gate that cannot run must not look like one that passed"
+
+# --- the per-document walk (every mode past --list) ---
+
+walk_rc=0
+counts="$(printf '%s\n' "${records[@]}" | validate_stream)" || walk_rc=$?
+if [ "$walk_rc" -ne 0 ]; then
+    fail "a committed JSON record is not a valid JSON document stream (named above); every tracked record must be one or more whitespace-separated JSON documents (spec/decisions/0011-json-document-stream.md)"
+fi
+
+total_docs="$(awk -F'\t' '{ s += $2 } END { print s + 0 }' <<<"$counts")"
+
+if [ "$VALIDATE_ONLY" -eq 1 ]; then
+    echo "records-json --validate: ${#records[@]} record(s) valid as JSON document streams ($total_docs document(s) total)"
+    exit 0
+fi
+
 command -v klt >/dev/null 2>&1 || fail "klt not found on PATH -- install the pinned klayout-tools (.github/klt-version); a gate that cannot run must not look like one that passed"
 
-# --- --changed --base B: the forward-only gate (#172, decision 0011) ---
+# --- --changed --base B: the forward-only gate (#172, decision 0012) ---
 
 if [ "$CHANGED" -eq 1 ]; then
 
@@ -165,8 +268,7 @@ if [ "$CHANGED" -eq 1 ]; then
 
     mapfile -t changed_records < <(printf '%s\n' "${range_files[@]}" \
         | grep -E '\.json$' \
-        | grep -vE '^\.(loom|claude|agents|github)/' \
-        | grep -vxF -- "$STREAM_EXCEPTION")
+        | grep -vE '^\.(loom|claude|agents|github)/')
     if [ "${#changed_records[@]}" -eq 0 ]; then
         # A computed result, not a failure to compute: the four validations
         # above passed, the range names files, and none of them is a tracked
@@ -177,26 +279,64 @@ if [ "$CHANGED" -eq 1 ]; then
     fi
     echo "records-json: changed-record gate: ${#changed_records[@]} record(s) added or changed since ${BASE_SHA:0:12}: ${changed_records[*]}"
 
-    lint_report="$(mktemp)"
-    scan_report="$(mktemp)"
-    trap 'rm -f "$lint_report" "$scan_report"' EXIT
+    # Partition the changed records by document count (the walk above already
+    # counted every tracked record). Multi-document streams are split into
+    # per-document temp files so klt sees every document (see STREAM
+    # COVERAGE); the filters remap diagnostics back to the real path/line.
+    single_doc=()
+    multi_doc=()
+    for r in "${changed_records[@]}"; do
+        n="$(awk -F'\t' -v p="$r" '$1 == p { print $2; exit }' <<<"$counts")"
+        if [ "${n:-0}" -gt 1 ]; then
+            multi_doc+=("$r")
+        else
+            single_doc+=("$r")
+        fi
+    done
 
-    # lint-envelope over the changed records, with the class-2 prefix set.
+    workdir="$(mktemp -d)"
+    lint_report="$workdir/lint.json"
+    scan_report="$workdir/scan.json"
+    mapping="$workdir/mapping.json"
+    trap 'rm -rf "$workdir"' EXIT
+    printf '{}' > "$mapping"
+
+    klt_inputs=("${single_doc[@]}")
+    if [ "${#multi_doc[@]}" -gt 0 ]; then
+        mapfile -t parts < <(printf '%s\n' "${multi_doc[@]}" | split_stream "$workdir")
+        if [ "${#parts[@]}" -eq 0 ] || [ ! -s "$mapping" ]; then
+            fail "the stream splitter produced no parts for ${multi_doc[*]} -- the klt leg would silently skip those documents, so refusing rather than guessing"
+        fi
+        klt_inputs+=("${parts[@]}")
+    fi
+    if [ "${#klt_inputs[@]}" -eq 0 ]; then
+        fail "the klt leg has no inputs -- a gate with nothing to look at must not look like it passed"
+    fi
+
+    # lint-envelope over the changed records (streams as per-document parts),
+    # with the class-2 prefix set.
     lint_args=(--format json)
     for p in "${CLASS2_PREFIXES[@]}"; do lint_args+=(--allow-prefix "$p"); done
     lint_rc=0
-    klt env-provenance lint-envelope "${lint_args[@]}" "${changed_records[@]}" > "$lint_report" || lint_rc=$?
+    klt env-provenance lint-envelope "${lint_args[@]}" "${klt_inputs[@]}" > "$lint_report" || lint_rc=$?
     case "$lint_rc" in
         0) echo "records-json: lint-envelope: ${#changed_records[@]} changed record(s) carry no absolute host path outside the declared prefixes" ;;
         3)
-            # Post-filter the decision-0011 deck exception, then judge the
-            # residual. A finding survives unless it is exactly the
-            # top-level `deck` field of a changed *.envelope.json whose
-            # value is the deck path that envelope itself declares.
-            if ! python3 - "$lint_report" <<'PY'
+            # Post-filter the decision-0012 deck exception (with the stream
+            # split remapped back to real paths), then judge the residual.
+            # A finding survives unless it is exactly the top-level `deck`
+            # field of a changed *.envelope.json whose value is the deck path
+            # that envelope itself declares.
+            if ! python3 - "$lint_report" "$mapping" <<'PY'
 import json, sys
 
 report = json.load(open(sys.argv[1], encoding="utf-8"))
+mapping = json.load(open(sys.argv[2], encoding="utf-8"))
+def remap(name, line):
+    m = mapping.get(name)
+    if m is None:
+        return name, line
+    return m["path"], (m["offset"] + line - 1 if line else line)
 if report.get("schema_version") != 1:
     print(f"lint-envelope: report schema_version {report.get('schema_version')!r} "
           f"is not 1 -- the report schema is not what this filter expects; "
@@ -205,7 +345,7 @@ if report.get("schema_version") != 1:
 residual = []
 excepted = 0
 for f in report.get("files", []):
-    name = f.get("file", "")
+    name, _ = remap(f.get("file", ""), 0)
     deck = None
     if name.endswith(".envelope.json"):
         try:
@@ -230,13 +370,13 @@ if residual:
     for name, field, match in residual:
         print(f"  {name} :: {field} = {match}", file=sys.stderr)
     print(f"lint-envelope: {len(residual)} finding(s) remain after the "
-          f"decision-0011 deck exception ({excepted} excepted)", file=sys.stderr)
+          f"decision-0012 deck exception ({excepted} excepted)", file=sys.stderr)
     sys.exit(3)
-print(f"lint-envelope: only the decision-0011 deck exception applied "
+print(f"lint-envelope: only the decision-0012 deck exception applied "
       f"({excepted} excepted deck field(s)); nothing else")
 PY
             then
-                fail "a record added or changed by this range carries an absolute host path (findings above). The frozen history of decision 0011 (spec/decisions/0011-record-path-hygiene-gate.md) is not reopened by this gate: write repo-relative references or a content hash, and cite a deck by provenance.deck.content_hash, never by path"
+                fail "a record added or changed by this range carries an absolute host path (findings above). The frozen history of decision 0012 (spec/decisions/0012-record-path-hygiene-gate.md) is not reopened by this gate: write repo-relative references or a content hash, and cite a deck by provenance.deck.content_hash, never by path"
             fi
             ;;
         1) fail "a record added or changed by this range does not parse (named above); every changed record must parse" ;;
@@ -247,16 +387,23 @@ PY
     # scan over the changed records: no home-directory path may arrive.
     # scan is line-matched and has no field or exception flag, so the deck
     # exception here is the single line carrying the top-level `deck` field,
-    # matched against the value the envelope itself declares.
+    # matched against the value the envelope itself declares (lines remapped
+    # out of split parts first).
     scan_rc=0
-    klt env-provenance scan --format json "${changed_records[@]}" > "$scan_report" || scan_rc=$?
+    klt env-provenance scan --format json "${klt_inputs[@]}" > "$scan_report" || scan_rc=$?
     case "$scan_rc" in
         0) echo "records-json: scan: ${#changed_records[@]} changed record(s) name no home directory" ;;
         3)
-            if ! python3 - "$scan_report" <<'PY'
+            if ! python3 - "$scan_report" "$mapping" <<'PY'
 import json, sys
 
 report = json.load(open(sys.argv[1], encoding="utf-8"))
+mapping = json.load(open(sys.argv[2], encoding="utf-8"))
+def remap(name, line):
+    m = mapping.get(name)
+    if m is None or not isinstance(line, int):
+        return name, line
+    return m["path"], m["offset"] + line - 1
 if report.get("schema_version") != 1:
     print(f"scan: report schema_version {report.get('schema_version')!r} "
           f"is not 1 -- the report schema is not what this filter expects; "
@@ -265,7 +412,7 @@ if report.get("schema_version") != 1:
 residual = []
 excepted = 0
 for f in report.get("files", []):
-    name = f.get("file", "")
+    name, _ = remap(f.get("file", ""), 0)
     deck = None
     deck_line = None
     if name.endswith(".envelope.json"):
@@ -283,13 +430,14 @@ for f in report.get("files", []):
             deck_line = None
     for x in f.get("leaks", []):
         match = x.get("match", "")
+        line, _ = remap(f.get("file", ""), x.get("line"))
         if (name.endswith(".envelope.json") and isinstance(deck, str)
                 and deck_line is not None
-                and x.get("line") == deck_line
+                and line == deck_line
                 and match.startswith(deck) and match.rstrip('",') == deck):
             excepted += 1
             continue
-        residual.append((name, x.get("kind"), x.get("line"), match))
+        residual.append((name, x.get("kind"), line, match))
 total = report.get("leak_count")
 if total != excepted + len(residual):
     print(f"scan: report accounting mismatch: klt reported {total!r} "
@@ -300,39 +448,46 @@ if total != excepted + len(residual):
 if residual:
     for name, kind, line, match in residual:
         print(f"  {name}:{line} :: {kind} = {match}", file=sys.stderr)
-    print(f"scan: {len(residual)} leak(s) remain after the decision-0011 "
+    print(f"scan: {len(residual)} leak(s) remain after the decision-0012 "
           f"deck exception ({excepted} excepted deck line(s))", file=sys.stderr)
     sys.exit(3)
-print(f"scan: only the decision-0011 deck exception applied "
+print(f"scan: only the decision-0012 deck exception applied "
       f"({excepted} excepted deck line(s)); nothing else")
 PY
             then
-                fail "a record added or changed by this range carries a home-directory path (leaks above). Decision 0011 (spec/decisions/0011-record-path-hygiene-gate.md) gates new records on scan: a run record cites a deck by provenance.deck.content_hash, never by path"
+                fail "a record added or changed by this range carries a home-directory path (leaks above). Decision 0012 (spec/decisions/0012-record-path-hygiene-gate.md) gates new records on scan: a run record cites a deck by provenance.deck.content_hash, never by path"
             fi
             ;;
         1) fail "scan could not read a record added or changed by this range (named above)" ;;
         *) fail "scan exited $scan_rc on the changed records (expected 0, 3 or 1) -- treating as a failure" ;;
     esac
 
-    echo "records-json: changed-record gate: PASS -- ${#changed_records[@]} changed record(s) clean under lint-envelope (class-2 prefixes) and scan; deck exception per decision 0011 where it applied"
+    echo "records-json: changed-record gate: PASS -- ${#changed_records[@]} changed record(s) clean under lint-envelope (class-2 prefixes) and scan; deck exception per decision 0012 where it applied"
     exit 0
 fi
 
-# --- default mode: the whole-set validity gate ---
+# --- default mode: the whole-set validity gate, then klt over the partition ---
 
-# Self-retire the stream exception (#191).
-if [ ! -f "$STREAM_EXCEPTION" ]; then
-    fail "stream exception is stale: $STREAM_EXCEPTION is gone -- remove the exception (see #191)"
+# klt is fed the single-document partition only. COVERAGE NOTE: because klt
+# cannot read a document stream (2AMLogic/klayout-tools#5887), a
+# multi-document stream record gets the per-document validity verdict above
+# only -- its absolute paths are NOT linted here. That is the settled
+# validity-only contract of default mode (#166); the forward-only gate
+# (--changed, decision 0012) covers every document of every changed record by
+# splitting streams into per-document files and remapping the diagnostics
+# back, so a changed record cannot use the stream format to smuggle an
+# absolute path past this script.
+partition="$(awk -F'\t' '$2 == 1 { print $1 }' <<<"$counts")"
+if [ -z "$partition" ]; then
+    fail "the single-document partition handed to lint-envelope is empty (every record is a stream) -- the klt leg would be a vacuous pass, so failing loudly"
 fi
-if python3 -c 'import json,sys; json.load(open(sys.argv[1]))' "$STREAM_EXCEPTION" 2>/dev/null; then
-    fail "stream exception is stale: $STREAM_EXCEPTION now parses as a single JSON document -- remove the exception (see #191)"
-fi
+mapfile -t single_doc <<<"$partition"
 
 rc=0
-klt env-provenance lint-envelope "${records[@]}" || rc=$?
+klt env-provenance lint-envelope "${single_doc[@]}" || rc=$?
 case "$rc" in
-    0) echo "records-json: clean: ${#records[@]} record(s) valid, no absolute paths" ;;
-    3) echo "records-json: ${#records[@]} record(s) valid; lint-envelope reported absolute-path findings (pass -- frozen history per decision 0011, enforced forward-only by --changed)" ;;
+    0) echo "records-json: clean: ${#records[@]} record(s) valid ($total_docs document(s) total), no absolute paths" ;;
+    3) echo "records-json: ${#records[@]} record(s) valid ($total_docs document(s) total); lint-envelope reported absolute-path findings (pass -- frozen history per decision 0012, enforced forward-only by --changed)" ;;
     1) fail "a committed JSON record does not parse (named above); every tracked record must parse" ;;
     2) fail "lint-envelope usage error (exit 2) -- the record set invocation is broken" ;;
     *) fail "lint-envelope exited $rc (expected 0, 3, 1 or 2) -- treating as a failure" ;;
