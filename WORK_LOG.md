@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-16
 
+- **PR #208**: docs: drop hand-copied per-item T1 status from README, keep aggregates and tool pointer
+- **Issue #171** (closed): Decide whether § "T1 evidence" should keep hand-copied per-item status at all
 - **PR #201**: signoff: bind design/sim/regen.py in the item-1 inventory of record (r9)
 - **PR #189**: docs: split T1 item 10 remediation into member-edit and inventory-edit cases
 - **Issue #182** (closed): Item-1 attestation binds no hash for design/sim/regen.py, the script backing its newest freshness check
