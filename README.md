@@ -165,8 +165,11 @@ content hash — **including this README and
 members most often edited for reasons unrelated to signoff. Editing any member
 makes the envelope stale, so re-attest item 10 in the same commit or the
 `signoff` job fails. That inventory is the authoritative member list; consult
-it rather than assuming. Only the envelope changes: item 10's `content_hash`
-in the block manifest binds the inventory, not the envelope file.
+it rather than assuming. If a member changed, only the envelope changes: item
+10's `content_hash` in the block manifest binds the inventory, not the
+envelope file. If the inventory itself changed, that pin is what goes stale:
+update item 10's `content_hash` in `manifests/asap7-ucie-phy.json` and
+regenerate the verdict as well.
 
 To regenerate the verdict, and the item-10 envelope after changing any
 inventoried file:
