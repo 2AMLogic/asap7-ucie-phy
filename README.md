@@ -131,8 +131,8 @@ The evidence cited from that table: item 8's characterization evidence
 [characterization report](verification/characterization-report.md)); item 6's declared analog
 gap ([decision 0008](spec/decisions/0008-item6-analog-declared-gap.md)); item 5's pre-route
 `klt sta` reports ([`sta/`](sta/README.md), with the r5 timing report at
-[`sta/slice.sta.r5.report.json`](sta/slice.sta.r5.report.json)); and items 1, 2, 9 and 10
-(repo hygiene) cited from the
+[`sta/slice.sta.r5.report.json`](sta/slice.sta.r5.report.json)); and item 10 (repo hygiene)
+cited from the
 [`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json) attested below.
 
 The item-10 attestation additionally needs the `klayout` Python module, which
