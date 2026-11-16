@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 24/24 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 25/25 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 24,
-    "passed_count": 24,
+    "check_count": 25,
+    "passed_count": 25,
     "checks": [
       {
         "check": "present",
@@ -219,6 +219,19 @@
         "cwd": ".",
         "exit_status": 0,
         "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "netdiff-pairing-self-test",
+        "argv": [
+          "python3",
+          "-I",
+          "evidence/item4-lvs/slice_routed.r13.netdiff.selftest.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
       }
     ]
   },
@@ -232,7 +245,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:3df61fdf746071e2b3a064d6d2ac27f9b4d11dd29cbd565a46a173c1c95da9bf"
+      "content_hash": "sha256:7bd1fb97997866b2558b5fb2b47f9140d35f701666bb2d971c54cf480734ab9b"
     }
   }
 }
