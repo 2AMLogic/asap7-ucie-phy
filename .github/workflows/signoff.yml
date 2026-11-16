@@ -4,7 +4,9 @@ name: klt signoff
 # verdict of record (manifests/asap7-ucie-phy.signoff.json) must still
 # reproduce from the committed block manifest
 # (manifests/asap7-ucie-phy.json) under the klayout-tools version pinned in
-# .github/klt-version. Every committed JSON file under manifests/ must parse.
+# .github/klt-version. Every committed JSON project record must parse --
+# verification/check-records-json.sh, the single copy of that gate, over the
+# whole tracked record set (not just manifests/).
 
 on:
   push:
@@ -26,22 +28,17 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Validate committed JSON parses
-        run: |
-          python3 - <<'PY'
-          import json, pathlib, sys
-          bad = 0
-          for p in sorted(pathlib.Path("manifests").rglob("*.json")):
-              try:
-                  json.loads(p.read_text())
-              except ValueError as e:
-                  print(f"::error file={p}::not valid JSON: {e}")
-                  bad += 1
-          sys.exit(1 if bad else 0)
-          PY
-
       - name: Install pinned klt and the klayout module the pad self-test imports
         run: pip install "klayout-tools==$(cat .github/klt-version)" "klayout==$(cat .github/klayout-version)"
+
+      # The single copy of the JSON-validity gate: the pinned klt
+      # env-provenance validity gate over every tracked JSON record, wherever
+      # it lives. Passes on exit 0 and 3 (3 = the pre-existing absolute-path
+      # findings, #172), fails on 1 (some record does not parse), 2 and
+      # anything else. It runs after the klt install because the gate needs
+      # the pinned tool.
+      - name: Validate committed JSON records parse (whole tracked record set)
+        run: bash verification/check-records-json.sh
 
       # klt signoff --check exits 0 when the committed report still
       # reproduces, 3 when it has drifted, anything else is an error.
