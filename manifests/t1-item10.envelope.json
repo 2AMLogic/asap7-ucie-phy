@@ -136,7 +136,7 @@
         "role": "hygiene",
         "path": "verification/check-records-json.sh",
         "passed": true,
-        "content_hash": "sha256:63921aaba90c35b573bdc7e4598117da8b390b5ec21c7376cc5ccdfd7989bda6"
+        "content_hash": "sha256:a6b74f596666d7a2127adedd1a0e1c057be035a75364c09272431c228cc2316d"
       },
       {
         "check": "command",

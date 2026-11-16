@@ -177,25 +177,29 @@ dec = json.JSONDecoder()
 ws = " \t\n\r"
 mapping = {}
 parts = []
-for path in (line.rstrip("\n") for line in sys.stdin if line.strip()):
-    with open(path, encoding="utf-8") as fh:
-        text = fh.read()
-    i = 0
-    doc = 0
-    while True:
-        while i < len(text) and text[i] in ws:
-            i += 1
-        if i >= len(text):
-            break
-        start = i
-        _, i = dec.raw_decode(text, i)
-        doc += 1
-        part = os.path.join(tmp, "%s.doc%d.json" % (path.replace("/", "__"), doc))
-        with open(part, "w", encoding="utf-8") as fh:
-            fh.write(text[start:i])
-        offset = text.count("\n", 0, start) + 1
-        mapping[part] = {"path": path, "offset": offset}
-        parts.append(part)
+with open(os.path.join(tmp, "multi.txt"), encoding="utf-8") as list_fh:
+    for line in list_fh:
+        path = line.rstrip("\n")
+        if not path.strip():
+            continue
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        i = 0
+        doc = 0
+        while True:
+            while i < len(text) and text[i] in ws:
+                i += 1
+            if i >= len(text):
+                break
+            start = i
+            _, i = dec.raw_decode(text, i)
+            doc += 1
+            part = os.path.join(tmp, "%s.doc%d.json" % (path.replace("/", "__"), doc))
+            with open(part, "w", encoding="utf-8") as fh:
+                fh.write(text[start:i])
+            offset = text.count("\n", 0, start) + 1
+            mapping[part] = {"path": path, "offset": offset}
+            parts.append(part)
 with open(os.path.join(tmp, "mapping.json"), "w", encoding="utf-8") as fh:
     json.dump(mapping, fh)
 for p in parts:
@@ -303,7 +307,8 @@ if [ "$CHANGED" -eq 1 ]; then
 
     klt_inputs=("${single_doc[@]}")
     if [ "${#multi_doc[@]}" -gt 0 ]; then
-        mapfile -t parts < <(printf '%s\n' "${multi_doc[@]}" | split_stream "$workdir")
+        printf '%s\n' "${multi_doc[@]}" > "$workdir/multi.txt"
+        mapfile -t parts < <(split_stream "$workdir")
         if [ "${#parts[@]}" -eq 0 ] || [ ! -s "$mapping" ]; then
             fail "the stream splitter produced no parts for ${multi_doc[*]} -- the klt leg would silently skip those documents, so refusing rather than guessing"
         fi
@@ -336,7 +341,7 @@ def remap(name, line):
     m = mapping.get(name)
     if m is None:
         return name, line
-    return m["path"], (m["offset"] + line - 1 if line else line)
+    return m["path"], line
 if report.get("schema_version") != 1:
     print(f"lint-envelope: report schema_version {report.get('schema_version')!r} "
           f"is not 1 -- the report schema is not what this filter expects; "
@@ -350,7 +355,10 @@ for f in report.get("files", []):
     if name.endswith(".envelope.json"):
         try:
             with open(name, encoding="utf-8") as fh:
-                deck = json.load(fh).get("deck")
+                text = fh.read()
+            # raw_decode, not json.load: a record may be a document stream
+            # (decision 0011-json-document-stream); the deck lives in doc 1.
+            deck = json.JSONDecoder().raw_decode(text)[0].get("deck")
         except Exception:
             deck = None
     for x in f.get("findings", []):
@@ -418,26 +426,28 @@ for f in report.get("files", []):
     if name.endswith(".envelope.json"):
         try:
             with open(name, encoding="utf-8") as fh:
-                deck = json.load(fh).get("deck")
+                text = fh.read()
+            # raw_decode, not json.load: a record may be a document stream
+            # (decision 0011-json-document-stream); the deck lives in doc 1.
+            deck = json.JSONDecoder().raw_decode(text)[0].get("deck")
             if isinstance(deck, str):
-                with open(name, encoding="utf-8") as fh:
-                    for i, line in enumerate(fh, 1):
-                        if line.strip().startswith('"deck"'):
-                            deck_line = i
-                            break
+                for i, line in enumerate(text.split("\n"), 1):
+                    if line.strip().startswith('"deck"'):
+                        deck_line = i
+                        break
         except Exception:
             deck = None
             deck_line = None
     for x in f.get("leaks", []):
         match = x.get("match", "")
-        line, _ = remap(f.get("file", ""), x.get("line"))
+        _, real_line = remap(f.get("file", ""), x.get("line"))
         if (name.endswith(".envelope.json") and isinstance(deck, str)
                 and deck_line is not None
-                and line == deck_line
+                and real_line == deck_line
                 and match.startswith(deck) and match.rstrip('",') == deck):
             excepted += 1
             continue
-        residual.append((name, x.get("kind"), line, match))
+        residual.append((name, x.get("kind"), real_line, match))
 total = report.get("leak_count")
 if total != excepted + len(residual):
     print(f"scan: report accounting mismatch: klt reported {total!r} "
