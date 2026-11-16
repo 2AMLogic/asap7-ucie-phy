@@ -14,9 +14,9 @@
 # Every check below is stdlib-only python3: no klayout-tools CLI, no klayout
 # module, no OpenROAD, no yosys, no iverilog, no PDK archive, no network. The
 # JSON-validity check additionally needs git and a working checkout of this
-# repo, because its file list comes from `verification/check-records-json.sh
-# --list` (git ls-files); outside a checkout it fails closed rather than
-# passing vacuously. That is the point -- it is the same verdict on any host,
+# repo: it calls `verification/check-records-json.sh --validate` (git
+# ls-files plus the stdlib per-document walk, still no signoff toolchain);
+# outside a checkout it fails closed rather than passing vacuously. That is the point -- it is the same verdict on any host,
 # so there is no "tool missing, so skipped, so passed" path. The cost is that
 # it is NOT T1 signoff and NOT the functional testbench. An exit 0 here says
 # the committed cell netlists, the routed-stream input tie-off and the
@@ -83,36 +83,19 @@ run_check "sta/regen.py --check-input" \
 run_check "sta/test_check_input.py" \
     python3 -I sta/test_check_input.py
 
-# Every committed JSON project record parses. The file list comes from the
-# single copy of the record-set rule, verification/check-records-json.sh
-# --list (git + shell only, never the signoff toolchain), and the validator
-# here stays stdlib-only so this check keeps the same verdict on any host with
-# python3 and no signoff toolchain. Covers the whole tracked record set --
-# evidence/, attest/, sta/, verification/, sim/, design/ and manifests/ alike
-# -- so a malformed record outside manifests/ fails here too rather than only
-# in CI.
+# Every committed JSON project record is a valid JSON document stream
+# (spec/decisions/0011-json-document-stream.md): one or more JSON documents
+# separated only by whitespace -- a single-document record is the n == 1
+# case. The single copy of that rule is verification/check-records-json.sh
+# --validate (git + python3 only, never the signoff toolchain), so this check
+# calls it instead of carrying a second copy of the convention. It still
+# needs git and a working checkout of this repo (the record set comes from
+# `git ls-files` inside the gate); outside a checkout it fails closed rather
+# than passing vacuously. Covers the whole tracked record set -- evidence/,
+# attest/, sta/, verification/, sim/, design/ and manifests/ alike -- so a
+# malformed record outside manifests/ fails here too rather than only in CI.
 run_check "committed JSON records parse (whole tracked record set)" \
-    python3 -I -c '
-import json, subprocess, sys
-res = subprocess.run(["bash", "verification/check-records-json.sh", "--list"],
-                     capture_output=True, text=True)
-if res.returncode != 0:
-    sys.stderr.write(res.stderr)
-    sys.exit(res.returncode)
-paths = sorted(p for p in res.stdout.splitlines() if p)
-if not paths:
-    print("    empty record set -- the gate cannot run and must not look like it passed")
-    sys.exit(1)
-bad = 0
-for p in paths:
-    try:
-        json.loads(open(p, encoding="utf-8").read())
-    except ValueError as e:
-        print("    not valid JSON: %s: %s" % (p, e))
-        bad += 1
-print("    %d records checked" % len(paths))
-sys.exit(1 if bad else 0)
-'
+    bash verification/check-records-json.sh --validate
 
 # Structural guard on this script itself, not a comment asking nicely: if the
 # check list is ever emptied or every invocation is edited away, exit non-zero
