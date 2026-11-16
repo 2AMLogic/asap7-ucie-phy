@@ -745,3 +745,18 @@ sentence does not name. The convention that section records is unaffected and
 stands: the inventory is an input, not a measurement; revision only the evidence
 output; `attest/item1.r7.json` is the inventory of record. Earlier sections are
 left as written.
+
+## Item-1 inventory of record is now `attest/item1.r9.json` (appended 2026-11-15, issue #182)
+
+Documentation-only pointer; the tool runs behind it are recorded in
+`evidence/item1.r9.json`. The section appended 2026-11-14 (issue #145) names
+`attest/item1.r7.json` as the inventory of record; that was superseded by
+`attest/item1.r8.json` when #179 added the extracted OSDI netlist as a `derived`
+member, and is superseded again now: `attest/item1.r9.json` adds
+`design/sim/regen.py` — the script that backs the r8 inventory's newest
+freshness check — to `sources`, so every generator of an inventoried `derived`
+member is itself bound by a content hash. Per the #145 convention this is
+exactly the case that mints a further revision (the `sources` list changed);
+`.github/workflows/signoff.yml` and the block manifest cite r9, and the
+committed evidence (`evidence/item1.r9.json`, 21/21 checks) is the record.
+Earlier sections are left as written.
