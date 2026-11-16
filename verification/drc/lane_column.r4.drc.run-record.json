@@ -1,0 +1,190 @@
+{
+ "schema_version": 1,
+ "kind": "drc-run-record",
+ "issue": 64,
+ "t1_item": 3,
+ "run_date": "2026-11-16",
+ "claim": "NOT clean, and unchanged from the previous record. First klt drc run at the current pin (klt 0.9.2) on the currently committed layout/slice_routed.gds and layout/lane_column.gds, per issue #64 Revision 2. The stream hashes changed after the r3 record (DEF-PINS fix, commit 9494c37) and no DRC record carried either hash; the pin moved 0.9.1 -> 0.9.2 and the packaged deck changed with it. Every per-rule count is byte-identical to r3: nothing moved. Layout results against a predictive PDK, not measurements. Not T1 item 3 evidence; the manifest does not cite it and item 3 stays unmet. Nothing waived, filtered or relaxed: the packaged ASAP7 deck and the full 267-id rule-category expectation set are unmodified, no --rules, no --waivers. Both runs completed; the summary-only envelopes are committed alongside this record.",
+ "tool": {
+  "klt": "0.9.2 (pinned, .github/klt-version; uvx --from klayout-tools==0.9.2)",
+  "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+  "engine": "klayout",
+  "klayout": {
+   "engine_binary": "/usr/bin/klayout",
+   "engine_version": "0.30.12",
+   "engine_version_source": "klayout -v on the standalone binary the deck ran under (--engine klayout shells out; --min-klayout-version 0.30.12 probed and passed)",
+   "envelope_reports": "0.30.13",
+   "note": "The envelopes' provenance.klayout_version says 0.30.13 and sets klayout_version_mismatch: true, but 0.30.13 is the klayout Python wheel inside the pinned uvx environment, not the engine. The standalone binary that ran the deck is /usr/bin/klayout 0.30.12, the same version every earlier record used. Known envelope quirk, filed generically as 2AMLogic/klayout-tools#5660; no engine-version difference against any earlier record."
+  },
+  "deck": {
+   "file": "klayout_tools/decks/asap7.drc",
+   "content_hash": "sha256:fa303c032c18f91c5185bcdb08a8f76067aa234558f60442e0e0e4ea7c7dc61d",
+   "released": false,
+   "note": "Differs from the sha256:14f146f0... deck the r3 record used: the deck changed again between klt 0.9.1 and 0.9.2. See the confound note in comparison_to_baseline."
+  },
+  "expectation_file": "267 ids from klayout_tools.decks.asap7_rules.RULE_IDS at klt 0.9.2, sorted, one per line, unfiltered; no waivers. sha256:816302d52ed5028ee40b14ca8f41af817a32d2af747bf30c1fa2b558e89d4664",
+  "expectation_file_note": "Byte-identical to the r3 expectation file (same sha256): 0.9.2 declares the same 267 RULE_IDS as 0.9.1, so the r3 list was reused rather than regenerated. Both runs report expectation satisfied with empty missing_names and unexpected_names (267 of 267 categories declared and checked).",
+  "command": "uvx --from klayout-tools==0.9.2 klt drc <input> --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <267 ids> --min-klayout-version 0.30.12 --format json --timeout-s <1500 slice | 3600 column> --max-violations 0 -o <envelope>"
+ },
+ "envelopes_committed": {
+  "files": ["verification/drc/slice_routed.r4.envelope.json", "verification/drc/lane_column.r4.envelope.json"],
+  "why": "--max-violations 0 is summary-only (~30 KB per envelope): violation_count, rule_counts and status carry the true totals and violations_truncated marks the capped marker list. Nothing is waived, filtered or relaxed; only the marker list is dropped from the serialized report.",
+  "verified": {
+   "command": "uvx --from klayout-tools==0.9.2 klt drc --check verification/drc/lane_column.r4.envelope.json",
+   "run_date": "2026-11-16",
+   "result": "status: match, provenance.input.content_hash [OK] and provenance.deck.content_hash [OK], exit 0",
+   "scope": "Authoring-host result only. The envelope's top-level deck field is still the absolute uv-cache path of the authoring env, so the deck assertion does not re-verify off that host; 2AMLogic/klayout-tools#5709 stands unchanged at 0.9.2. The input half is a portable {path, scope: repo} locator and re-verifies anywhere."
+  }
+ },
+ "slice_routed": {
+  "input": "layout/slice_routed.gds",
+  "input_content_hash": "sha256:27dbfd1ddbb7478e8eebf65a61110f5996e3c826d603a37e615ec61e27c795f6",
+  "input_dbu_um": 0.00025,
+  "note": "committed stream, already at deck dbu 0.00025; no rescale applied or needed. Hash differs from the r3 record's eae888dc... because commit 9494c37 (2026-11-14) re-staged top-level DEF PINS geometry on the metal drawing layer; the per-rule counts below are nevertheless byte-identical to r3.",
+  "status": "violations",
+  "violation_count": 906,
+  "rules_violated": 5,
+  "rule_counts": {
+   "M1.S.2": 18,
+   "M1.S.3": 36,
+   "M1.S.4": 195,
+   "M1.S.5": 63,
+   "SDT.ACTIVE.AUX.2": 594
+  },
+  "envelope": {
+   "file": "slice_routed.r4.envelope.json",
+   "violations_serialized": 0,
+   "violations_truncated": true
+  },
+  "coverage": {
+   "expectation_satisfied": true,
+   "expectation_missing_names": [],
+   "expectation_unexpected_names": [],
+   "rule_categories_declared": 267,
+   "rules_checked": 267,
+   "layers_in_stream_without_rules": [],
+   "rules_skipped": [],
+   "unchecked_rules": [],
+   "unmodeled_rule_count": 67,
+   "isolation_only_rule_count": 5
+  }
+ },
+ "lane_column": {
+  "input": "layout/lane_column.gds",
+  "input_content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+  "input_dbu_um": 0.00025,
+  "note": "committed stream, assembled from 16 slice instances. Hash differs from the r3 record's 4937a7bd... (same 9494c37 regeneration); the current hash is attested as evidence/item2.r8.json. No GDS was regenerated in this pass, so no new item 2 revision is created here.",
+  "status": "violations",
+  "violation_count": 14496,
+  "rules_violated": 5,
+  "rule_counts": {
+   "M1.S.2": 288,
+   "M1.S.3": 576,
+   "M1.S.4": 3120,
+   "M1.S.5": 1008,
+   "SDT.ACTIVE.AUX.2": 9504
+  },
+  "envelope": {
+   "file": "lane_column.r4.envelope.json",
+   "violations_serialized": 0,
+   "violations_truncated": true
+  },
+  "coverage": {
+   "expectation_satisfied": true,
+   "expectation_missing_names": [],
+   "expectation_unexpected_names": [],
+   "rule_categories_declared": 267,
+   "rules_checked": 267,
+   "layers_in_stream_without_rules": [],
+   "rules_skipped": [],
+   "unchecked_rules": [
+    {
+     "rule": "PAD.*",
+     "layer": "96/0",
+     "reason": "the deck reads PAD only as the layer enclosing V9 (V9.PAD.EN.2, V9.AUX.1); shapes on PAD itself are not checked"
+    }
+   ],
+   "unmodeled_rule_count": 67,
+   "isolation_only_rule_count": 5
+  }
+ },
+ "relation": {
+  "column_is_16x_slice": true,
+  "check": "every rule count in lane_column equals 16x the slice count, and 16 x 906 = 14,496",
+  "note": "The same exact-16x relation the r2 pass found (16 x 513 = 8,208) and the r3 record found (16 x 906 = 14,496) still holds, so every violation in the column is on a slice instance and none is created by the column assembly."
+ },
+ "comparison_to_baseline": {
+  "previous_record": "lane_column.r3.drc.run-record.json: 14,496 across 5 rules (klt 0.9.1, stream 4937a7bd..., deck 14f146f0...)",
+  "now": "14,496 across 5 rules (klt 0.9.2, stream 6e1df816..., deck fa303c03...)",
+  "delta_by_rule_vs_r3": {
+   "M1.S.2": {"r3": 288, "now": 288, "change": 0},
+   "M1.S.3": {"r3": 576, "now": 576, "change": 0},
+   "M1.S.4": {"r3": 3120, "now": 3120, "change": 0},
+   "M1.S.5": {"r3": 1008, "now": 1008, "change": 0},
+   "SDT.ACTIVE.AUX.2": {"r3": 9504, "now": 9504, "change": 0}
+  },
+  "headline": "Nothing moved. Every per-rule count is identical to r3, and the slice is byte-identical in counts as well (906/5). Two inputs changed between the two runs and neither produced a DRC delta on this layout: (1) the streams were regenerated by the DEF-PINS fix (9494c37), adding top-level pin geometry on the metal drawing layer that trips no deck rule; (2) the packaged deck changed 14f146f0... -> fa303c03... with the 0.9.1 -> 0.9.2 pin move, and no rule outcome changed under it. No rule family moved, so no release change is credited with any movement.",
+  "baseline_8208": {
+   "record": "lane_column.r2.drc.run-record.json after-run: 8,208 across 7 rules (klt 0.8.0, stream 2a70c692..., deck 48ac590a...)",
+   "delta_by_rule": {
+    "M1.S.2": {"baseline": 848, "now": 288, "change": -560},
+    "M1.S.3": {"baseline": 64, "now": 576, "change": 512},
+    "M1.S.4": {"baseline": 400, "now": 3120, "change": 2720},
+    "M1.S.5": {"baseline": 960, "now": 1008, "change": 48},
+    "M4.AUX.2": {"baseline": 64, "now": 0, "change": -64},
+    "M4.W.3": {"baseline": 48, "now": 0, "change": -48},
+    "SDT.ACTIVE.AUX.2": {"baseline": 5824, "now": 9504, "change": 3680}
+   },
+   "confound": "Carried over unchanged from the r3 record: between the 8,208 baseline and now, the deck, the klt release and the stream all changed, the baseline stream is not committed, and the two cannot be separated by re-running. The r3 record's per-rule table against the baseline is reproduced above because this run's counts are identical to r3's; no new attribution is derived from it here."
+  }
+ },
+ "filed_tool_gaps": {
+  "note": "Applicability by family, inherited from the r2/components attribution: under --engine klayout every marker comes back with source_cell: null, so a native-deck run cannot re-derive which cell contains a violation (2AMLogic/klayout-tools#5661). No new tool gap was found in this pass; the two known envelope quirks below stand unchanged at 0.9.2.",
+  "2AMLogic/klayout-tools#4496": {
+   "families": ["SDT.ACTIVE.AUX.2"],
+   "state": "closed 2026-10-28, docs-only: the pinned library's standard cells (OAI22, BUFx4, fillers) trip the rule by design as documented retained deviations, and the deck does not waive them",
+   "still_applies": true,
+   "detail": "Still the largest family at 9,504 (66% of the total), byte-identical to r3. The hits sit on shipped standard-cell instances, so they remain in a deck-unwaived run unless the layout stops using those cells, which is a design decision outside this issue's scope."
+  },
+  "2AMLogic/klayout-tools#4495": {
+   "families": ["M1.S.2", "M1.S.3", "M1.S.4", "M1.S.5"],
+   "state": "closed 2026-11-16 as a no-op: the closing builder note says via_pad_trim already exists on origin/main and no code change was needed, and the live ASAP7 before/after DRC was not performed",
+   "still_applies": true,
+   "detail": "Measured now, first time since the closure: the family is still present at 4,992 (34%), byte-identical to r3, and the committed stream was produced with the trim feature active (layout/pnr/slice.pnr.report.json carries via_pad_trim status trimmed, pads_trimmed 1, pads_left 1). The no-op closure moved nothing here, now measured rather than inferred."
+  },
+  "2AMLogic/klayout-tools#4501": {
+   "families": ["M4.AUX.2", "M4.W.3"],
+   "state": "closed 2026-10-28, docs-only",
+   "still_applies": false,
+   "detail": "Both families remain zero, as in r3."
+  },
+  "2AMLogic/klayout-tools#5660": {
+   "families": [],
+   "state": "open",
+   "still_applies": true,
+   "detail": "provenance.klayout_version still reports the uvx wheel (0.30.13) instead of the engine binary (0.30.12). Unchanged at 0.9.2."
+  },
+  "2AMLogic/klayout-tools#5709": {
+   "families": [],
+   "state": "open",
+   "still_applies": true,
+   "detail": "klt drc --check still resolves the deck by the envelope's absolute uv-cache path, so the deck assertion does not re-verify off the authoring host. Unchanged at 0.9.2 (authoring-host --check: match, exit 0)."
+  }
+ },
+ "signoff": {
+  "t1_item_3": "unmet",
+  "manifest_changed": false,
+  "note": "status is violations, not clean, so per this issue's acceptance criteria the manifest and verdict are untouched. No manifest cites verification/drc/. verification/drc/README.md and the envelopes are not members of manifests/t1-item10-inventory.json (re-verified 2026-11-16: the inventory's members are repo-hygiene files - README, license, spec and decision records, signoff workflow), so no envelope re-attestation is due. The committed GDS hashes are unchanged by this pass and lane_column.gds remains attested as evidence/item2.r8.json."
+ },
+ "prior_records": {
+  "note": "Left byte-unchanged by this pass; this record is append-only.",
+  "files": [
+   "cells.drc.run-record.json",
+   "components.r2.drc.run-record.json",
+   "lane_column.drc.run-record.json",
+   "lane_column.r2.drc.run-record.json",
+   "lane_column.r3.drc.run-record.json",
+   "slice.drc.run-record.json"
+  ]
+ }
+}
