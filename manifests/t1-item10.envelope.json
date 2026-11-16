@@ -17,7 +17,7 @@
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:6dd6f51803a5c328e85dcb82eba9cd7eb8a86b5a1b0c7827b4bc8e796c03d988"
+        "content_hash": "sha256:f672396c5dba0ce4d8f46bc8558c096480d6e5181b79192623be24610e4dd415"
       },
       {
         "check": "present",
@@ -31,7 +31,7 @@
         "role": "hygiene",
         "path": "README.md",
         "passed": true,
-        "content_hash": "sha256:40dc4029f68a5aacb83ce262c3bc40ef3da0c81cf6aea1188f1b581baeba315a"
+        "content_hash": "sha256:ce60f12fe9b76d8774fdfb45518c0dd93eb51f6af04963ce62b076cc2b3f6063"
       },
       {
         "check": "present",
@@ -232,7 +232,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:d18fe822bb412cd530aa145e83e88a65ec170fee56d0f64416c32ca9d28509e6"
+      "content_hash": "sha256:3df61fdf746071e2b3a064d6d2ac27f9b4d11dd29cbd565a46a173c1c95da9bf"
     }
   }
 }
