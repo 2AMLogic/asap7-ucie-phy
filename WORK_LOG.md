@@ -5,6 +5,10 @@ triage role; entries are newest first.
 
 ### 2026-11-16
 
+- **PR #216**: docs: cite only item 10 from the T1 item-10 envelope in README
+- **Issue #209** (closed): README § "T1 evidence" attributes items 1, 2 and 9 to the item-10 envelope, which cites only item 10
+- **PR #206**: signoff: gate records added or changed by a commit range on absolute host paths (forward-only)
+- **Issue #172** (closed): 54 absolute host paths in 22 committed evidence records, including four that leak a home-directory path
 - **PR #214**: signoff: wire netdiff-pairing-self-test into the item-10 checks array
 - **Issue #198** (closed): Nothing re-runs the netdiff pairing self-test: wire slice_routed.r13.netdiff.selftest.py into the item-10 inventory checks
 - **PR #212**: drc: record lane-column re-run at pinned klt 0.9.2 on committed streams; no delta vs r3
