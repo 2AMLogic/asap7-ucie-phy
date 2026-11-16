@@ -963,7 +963,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:5063c2a852501194498d56cfb24a6af8572c49498957f9f50619bbe2f934eabf",
+        "content_hash": "sha256:0d5bd66ba042388ecfabb92532192247c26aaec246833266dc90cb8b50c720d1",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -972,7 +972,7 @@
             "path": "manifests/t1-item10-inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:5063c2a852501194498d56cfb24a6af8572c49498957f9f50619bbe2f934eabf",
+          "content_hash": "sha256:0d5bd66ba042388ecfabb92532192247c26aaec246833266dc90cb8b50c720d1",
           "input_verified": true,
           "summary": "T1 item 10 (Repo hygiene): 25/25 attestation checks passed (klt signoff --attest)",
           "source": "manifests/t1-item10-inventory.json",
@@ -1001,7 +1001,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:5063c2a852501194498d56cfb24a6af8572c49498957f9f50619bbe2f934eabf",
+        "content_hash": "sha256:0d5bd66ba042388ecfabb92532192247c26aaec246833266dc90cb8b50c720d1",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -1010,7 +1010,7 @@
             "path": "manifests/t1-item10-inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:5063c2a852501194498d56cfb24a6af8572c49498957f9f50619bbe2f934eabf",
+          "content_hash": "sha256:0d5bd66ba042388ecfabb92532192247c26aaec246833266dc90cb8b50c720d1",
           "input_verified": true,
           "summary": "T1 item 10 (Repo hygiene): 25/25 attestation checks passed (klt signoff --attest)",
           "source": "manifests/t1-item10-inventory.json",
