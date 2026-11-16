@@ -3,21 +3,21 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 1,
-  "summary": "T1 item 1 (Design sources): 20/20 attestation checks passed (klt signoff --attest)",
-  "source": "attest/item1.r8.json",
+  "summary": "T1 item 1 (Design sources): 21/21 attestation checks passed (klt signoff --attest)",
+  "source": "attest/item1.r9.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 20,
-    "passed_count": 20,
+    "check_count": 21,
+    "passed_count": 21,
     "checks": [
       {
         "check": "present",
         "role": "source",
         "path": "design/gen_cells.py",
         "passed": true,
-        "content_hash": "sha256:18d1c0b64a1c28e088d5beaef90e1643f070f7efe6ef869d33dbc04531f083ce"
+        "content_hash": "sha256:8878aff47be2fe435e1f6b786dc3cbb30ca55276eb66f6f96de011aaf3a6890f"
       },
       {
         "check": "present",
@@ -25,6 +25,13 @@
         "path": "design/lambdapdk.py",
         "passed": true,
         "content_hash": "sha256:b5d7ce7f58a106563acc55c4347fd020cb0dc92483cbe087416c3c8f209e388d"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sim/regen.py",
+        "passed": true,
+        "content_hash": "sha256:7fd68288893d5aa6440db60a56b25332c48d4f0c604e2142dad82ee3391aef4b"
       },
       {
         "check": "present",
@@ -211,17 +218,17 @@
       "paths": [
         {
           "path": {
-            "path": "attest/item1.r8.json",
+            "path": "attest/item1.r9.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:60c9172fda00dd2fb05ac82a949293b4046e80c9856a037e0ece2e25354d0cda"
+          "content_hash": "sha256:5f74b40fdbe1c847a33e802d5308918e27f0200e993b49f4c312a8aa15fca163"
         },
         {
           "path": {
             "path": "design/gen_cells.py",
             "scope": "repo"
           },
-          "content_hash": "sha256:18d1c0b64a1c28e088d5beaef90e1643f070f7efe6ef869d33dbc04531f083ce"
+          "content_hash": "sha256:8878aff47be2fe435e1f6b786dc3cbb30ca55276eb66f6f96de011aaf3a6890f"
         },
         {
           "path": {
@@ -264,6 +271,13 @@
             "scope": "repo"
           },
           "content_hash": "sha256:0f49941d605e128ecacf59346f98e63fe92551db6e50222dea12dcbb3e324e9b"
+        },
+        {
+          "path": {
+            "path": "design/sim/regen.py",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:7fd68288893d5aa6440db60a56b25332c48d4f0c604e2142dad82ee3391aef4b"
         },
         {
           "path": {
@@ -315,7 +329,7 @@
           "content_hash": "sha256:918090805b616874c9a1d5eeae6d4d44f1a2e0a05f6d7c3ff702c5d6ef0468b8"
         }
       ],
-      "content_hash": "sha256:0a7a215a0e80be677e731cc5567135e5de4e06c0a1022c7b593124319e76c9b8"
+      "content_hash": "sha256:730a1f2d1ec28c2ee54d487471d01c8a993a4cfdaa59cc256edd35fdb327fade"
     }
   }
 }

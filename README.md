@@ -119,25 +119,21 @@ The block's T1 evidence state is machine-readable. The block manifest
 evidence; the verdict of record
 ([`manifests/asap7-ucie-phy.signoff.json`](manifests/asap7-ucie-phy.signoff.json))
 is the committed output of `klt signoff` against it. It grades 11 of the 22 T1 rows `met`
-(`t1_met_count: 11`) and the tier is `null`. Items 1, 2, 9 and 10 (repo hygiene, cited from
-[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json)) and item 8
-("Characterization report", cited from
-[`manifests/evidence/item8.json`](manifests/evidence/item8.json), whose attestation inventory is
-[`manifests/attest/item8.json`](manifests/attest/item8.json) and whose human-readable face is the
-[characterization report](verification/characterization-report.md)) are `met` on both
-partitions, and item 4 ("LVS clean") is `met` on the **analog** partition only — its digital
-partition is `unmet` / `check_failed`
-(item 6's digital partition is `not_applicable`; its analog partition is a declared gap, `unmet` /
-`no_evidence`, not evidence — see [decision 0008](spec/decisions/0008-item6-analog-declared-gap.md)).
-Item 5's digital partition cites a pre-route `klt sta` report
-([`sta/`](sta/README.md)) and two `klt functional-verification` reports; it is `unmet` because
-setup slack is still negative at ss — the cited
-[`sta/slice.sta.r5.report.json`](sta/slice.sta.r5.report.json) reports tt +0.030 / ss -0.097 /
-ff +0.085 ns. Every other item is `unmet`. Read the per-item table from the tool rather than from
-this summary — `klt signoff --manifest manifests/asap7-ucie-phy.json --format text` prints one
+(`t1_met_count: 11`) and the tier is `null`. The per-item table comes from the tool:
+`klt signoff --manifest manifests/asap7-ucie-phy.json --format text` prints one
 graded line per row with its reason and citation (exit 3 is the grading status, not an error). CI
 re-checks the verdict against the manifest
 with the `klayout-tools` version pinned in `.github/klt-version`.
+
+The evidence cited from that table: item 8's characterization evidence
+([`manifests/evidence/item8.json`](manifests/evidence/item8.json), attested through
+[`manifests/attest/item8.json`](manifests/attest/item8.json) and readable as the
+[characterization report](verification/characterization-report.md)); item 6's declared analog
+gap ([decision 0008](spec/decisions/0008-item6-analog-declared-gap.md)); item 5's pre-route
+`klt sta` reports ([`sta/`](sta/README.md), with the r5 timing report at
+[`sta/slice.sta.r5.report.json`](sta/slice.sta.r5.report.json)); and item 10 (repo hygiene)
+cited from the
+[`manifests/t1-item10.envelope.json`](manifests/t1-item10.envelope.json) attested below.
 
 The item-10 attestation additionally needs the `klayout` Python module, which
 has its own pin file: `.github/klayout-version`. CI installs that version, and
@@ -169,8 +165,11 @@ content hash — **including this README and
 members most often edited for reasons unrelated to signoff. Editing any member
 makes the envelope stale, so re-attest item 10 in the same commit or the
 `signoff` job fails. That inventory is the authoritative member list; consult
-it rather than assuming. Only the envelope changes: item 10's `content_hash`
-in the block manifest binds the inventory, not the envelope file.
+it rather than assuming. If a member changed, only the envelope changes: item
+10's `content_hash` in the block manifest binds the inventory, not the
+envelope file. If the inventory itself changed, that pin is what goes stale:
+update item 10's `content_hash` in `manifests/asap7-ucie-phy.json` and
+regenerate the verdict as well.
 
 To regenerate the verdict, and the item-10 envelope after changing any
 inventoried file:

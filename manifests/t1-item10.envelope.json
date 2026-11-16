@@ -3,21 +3,21 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 24/24 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 26/26 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 24,
-    "passed_count": 24,
+    "check_count": 26,
+    "passed_count": 26,
     "checks": [
       {
         "check": "present",
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:b932bb24858a7228baa1a9e7e3b944ecc10e12b3c25d103660ff787e9a9f96ff"
+        "content_hash": "sha256:341f255b2b9c8239c5a7d3cab75036635854c577b158e181c5ce703aaf28b9f9"
       },
       {
         "check": "present",
@@ -31,7 +31,7 @@
         "role": "hygiene",
         "path": "README.md",
         "passed": true,
-        "content_hash": "sha256:40dc4029f68a5aacb83ce262c3bc40ef3da0c81cf6aea1188f1b581baeba315a"
+        "content_hash": "sha256:622f5aaea21b6bb79a5673e4f4f3a91a91e3fe52404e810066e912ed27f9868e"
       },
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "hygiene",
         "path": "spec/asap7-bringup.md",
         "passed": true,
-        "content_hash": "sha256:4653bf7a7dfe779aceacf03977e65fff1b69a67424ff40048e3d83752d56ab0f"
+        "content_hash": "sha256:2452ccd154d9ec581facab36d0307b9fbff74410dbb87000996884b12383f4af"
       },
       {
         "check": "present",
@@ -120,6 +120,13 @@
       {
         "check": "present",
         "role": "hygiene",
+        "path": "spec/decisions/0012-record-path-hygiene-gate.md",
+        "passed": true,
+        "content_hash": "sha256:aac7571122f702054c9e531f67c515d6a507d8b71c99a5764f2885f39a67836a"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
         "path": "spec/ucie-phy.md",
         "passed": true,
         "content_hash": "sha256:7def0f98bc22c4acf0c47762151e9435aec88c4d182cc04fc30ba017ebc479c5"
@@ -129,7 +136,7 @@
         "role": "hygiene",
         "path": "verification/check-records-json.sh",
         "passed": true,
-        "content_hash": "sha256:53c76d1ecfaa90f6ca069e782785cf5c6d8c07a44efb8c49a5ec42abec22415e"
+        "content_hash": "sha256:5db4cbe620d693f3b74f58b0db2711c4782a172d68ec812013ca31cb8a7f188a"
       },
       {
         "check": "command",
@@ -219,6 +226,19 @@
         "cwd": ".",
         "exit_status": 0,
         "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "netdiff-pairing-self-test",
+        "argv": [
+          "python3",
+          "-I",
+          "evidence/item4-lvs/slice_routed.r13.netdiff.selftest.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
       }
     ]
   },
@@ -232,7 +252,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:d18fe822bb412cd530aa145e83e88a65ec170fee56d0f64416c32ca9d28509e6"
+      "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011"
     }
   }
 }

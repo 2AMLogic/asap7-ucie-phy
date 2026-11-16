@@ -3,6 +3,27 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-16
+
+- **PR #218**: fix: gate changed records through the single record-set rule; cite decision 0012 in signoff.yml
+- **Issue #217** (closed): Record gate tidy-ups: signoff.yml cites the wrong decision number, and the record-set rule has two copies
+- **PR #216**: docs: cite only item 10 from the T1 item-10 envelope in README
+- **Issue #209** (closed): README § "T1 evidence" attributes items 1, 2 and 9 to the item-10 envelope, which cites only item 10
+- **PR #206**: signoff: gate records added or changed by a commit range on absolute host paths (forward-only)
+- **Issue #172** (closed): 54 absolute host paths in 22 committed evidence records, including four that leak a home-directory path
+- **PR #214**: signoff: wire netdiff-pairing-self-test into the item-10 checks array
+- **Issue #198** (closed): Nothing re-runs the netdiff pairing self-test: wire slice_routed.r13.netdiff.selftest.py into the item-10 inventory checks
+- **PR #212**: drc: record lane-column re-run at pinned klt 0.9.2 on committed streams; no delta vs r3
+- **PR #205**: records: validate .json evidence records per document as JSON streams (0011)
+- **Issue #191** (closed): evidence/item4-lvs/slice_routed.r13.refnets.json is a two-document JSON stream, so no JSON-validity gate can cover it
+- **Issue #64** (closed): Layout: clear remaining router-metal and cell DRC violations on the assembled lane column
+- **PR #208**: docs: drop hand-copied per-item T1 status from README, keep aggregates and tool pointer
+- **Issue #171** (closed): Decide whether § "T1 evidence" should keep hand-copied per-item status at all
+- **PR #201**: signoff: bind design/sim/regen.py in the item-1 inventory of record (r9)
+- **PR #189**: docs: split T1 item 10 remediation into member-edit and inventory-edit cases
+- **Issue #182** (closed): Item-1 attestation binds no hash for design/sim/regen.py, the script backing its newest freshness check
+- **Issue #184** (closed): Item 10: stale inventory description, and no remediation path for an 'inventory itself changed' drift
+
 ### 2026-11-15
 
 - **PR #196**: signoff: attest T1 item 8 (characterization report) with per-corner metric bindings and a sta check-input mode

@@ -47,9 +47,11 @@ synthesized lane datapath plus drawn TX/RX cells — so both flows apply.
   job red. The two members routinely edited for reasons unrelated to signoff
   are **`README.md`** and **`.github/workflows/signoff.yml`**; check the
   inventory before assuming a file is not a member. Regenerate and commit the
-  envelope alongside the edit (command in `README.md`, § T1 evidence); only
-  the envelope changes, because item 10's `content_hash` in
+  envelope alongside the edit (command in `README.md`, § T1 evidence); for a
+  member edit only the envelope changes, because item 10's `content_hash` in
   `manifests/asap7-ucie-phy.json` binds the inventory, not the envelope file.
+  If the inventory itself changed, additionally re-pin that `content_hash` and
+  regenerate `manifests/asap7-ucie-phy.signoff.json`.
 - Spec changes go through `spec/` with a decision record; agents do not relax
   the ratified spec to make results pass.
 - **16 GT/s STA closure is the target.** 4 GT/s is the fallback and 32 GT/s

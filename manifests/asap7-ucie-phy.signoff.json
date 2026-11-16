@@ -9,7 +9,7 @@
   "tier": null,
   "t1_item_count": 22,
   "build_t1_item_count": 22,
-  "t1_met_count": 7,
+  "t1_met_count": 11,
   "t1_not_applicable_count": 1,
   "source_doc": "docs/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:d9287ec9dc6107e560e00b1a8b7a670f757722713b5c651dee3d2cbde058490a",
@@ -31,37 +31,161 @@
       "partition_boundary": "The drawn TX/RX cells: tx_cell, rx_cell, tx_clk_cell, rx_clk_cell (design/netlist/*.sp) and their boundary nets tx_a/tx_b, rx_a/rx_b, sel1/sel2, ph, clk/fwd_en/rx_clk and the pad nets.",
       "text": "committed schematic sources (or generator) plus the netlist derived from them, regenerated on design change.",
       "notes": [],
-      "status": "unmet",
-      "reason": "stale_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null,
-      "detail": {
-        "content_hash_pin": "stale",
-        "hash_check": {
-          "field": "provenance.input.content_hash",
-          "expected": "sha256:131d6db374ba0fbbece6cb37ef948ec4cd56a759b9fd2ad4b6d0d66e9d85da00",
-          "actual": "sha256:0a7a215a0e80be677e731cc5567135e5de4e06c0a1022c7b593124319e76c9b8",
-          "match": false
-        },
-        "compared_against": [
-          "attest/item1.r8.json",
-          "design/gen_cells.py",
-          "design/lambdapdk.py",
-          "design/netlist/rx_cell.sp",
-          "design/netlist/rx_clk_cell.sp",
-          "design/netlist/slice_asap7.v",
-          "design/netlist/tx_cell.sp",
-          "design/netlist/tx_clk_cell.sp",
-          "design/sim/tx_cell.osdi.sp",
-          "design/synth/regen.py",
-          "design/synth/slice.synth.json",
-          "rtl/lane_rx_des.v",
-          "rtl/lane_tx_ser.v",
-          "rtl/rx_cdc_fifo.v",
-          "rtl/slice.v"
-        ],
-        "pin_is_envelope_file_hash": true,
-        "hint": "the pinned content_hash is the sha256 of the evidence envelope file evidence/item1.r9.json itself; content_hash must be the input-set digest over the files in compared_against (provenance.input.content_hash), not the hash of the evidence envelope file"
+      "citation": {
+        "file": "evidence/item1.r10.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:16d44dc0caeae72f02befdb58f4d6d9e9163ee6b274d55cafb06fa4c6ecc7002",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 1,
+          "path": null,
+          "content_hash": "sha256:16d44dc0caeae72f02befdb58f4d6d9e9163ee6b274d55cafb06fa4c6ecc7002",
+          "input_verified": true,
+          "members": [
+            {
+              "path": {
+                "path": "attest/item1.r9.json",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:5f74b40fdbe1c847a33e802d5308918e27f0200e993b49f4c312a8aa15fca163",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/gen_cells.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:18d1c0b64a1c28e088d5beaef90e1643f070f7efe6ef869d33dbc04531f083ce",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/lambdapdk.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:b5d7ce7f58a106563acc55c4347fd020cb0dc92483cbe087416c3c8f209e388d",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/rx_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:cc4e32ed6b6d0e6700d8bdb906f2b602850690804d8aaa7869d7479b071443bb",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/rx_clk_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:f53b368deb6018fa660b329233714fcb6fa8af27a3e3361c3e75763bdad8f184",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/slice_asap7.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/tx_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/tx_clk_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0f49941d605e128ecacf59346f98e63fe92551db6e50222dea12dcbb3e324e9b",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/sim/regen.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:6d6d8443d968b16c1d6d0c26f28f11fc4ed734b6e2736bb6ac7c898e6628a984",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/sim/tx_cell.osdi.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/synth/regen.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:3978c0e33a2c2f6361091899809406c8429911d6d5d360b1eeae7e3d2a3d3eee",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/synth/slice.synth.json",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:e399b70470e0631d6dc8b73371008a529c522e4f792a199baa2db4de3c609853",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/lane_rx_des.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:45adf6aa9e31fda9343a88c527218dfb9b226ec0bce6344d42eb82af4dafca03",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/lane_tx_ser.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0f0cac1650ad7118921981f79ec94d693cdde445fbb69a40dd617e19046c9978",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/rx_cdc_fifo.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:5561441e684a116d7741803f7e8d87a9e136e93dc04736e9f0b9794b9035b069",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/slice.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:918090805b616874c9a1d5eeae6d4d44f1a2e0a05f6d7c3ff702c5d6ef0468b8",
+              "status": "verified"
+            }
+          ],
+          "summary": "T1 item 1 (Design sources): 21/21 attestation checks passed (klt signoff --attest)",
+          "source": "attest/item1.r9.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 21,
+            "passed_count": 21
+          }
+        }
       }
     },
     {
@@ -72,37 +196,161 @@
       "partition_boundary": "Module slice and its submodules lane_tx_ser, lane_rx_des, rx_cdc_fifo (rtl/); the interface to the drawn cells is the boundary-port table in rtl/README.md.",
       "text": "committed RTL sources plus the synthesized gate-level netlist derived from them, regenerated on design change. For a hand-captured full-custom digital partition (no RTL, no synthesis step \u2014 see \"Full-custom digital sub-case\" above), this item is satisfied instead by the Analog column's artifact: committed schematic sources (or generator) plus the netlist derived from them, regenerated on design change, with every logic gate captured as a schematic exactly like an analog partition's.",
       "notes": [],
-      "status": "unmet",
-      "reason": "stale_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null,
-      "detail": {
-        "content_hash_pin": "stale",
-        "hash_check": {
-          "field": "provenance.input.content_hash",
-          "expected": "sha256:131d6db374ba0fbbece6cb37ef948ec4cd56a759b9fd2ad4b6d0d66e9d85da00",
-          "actual": "sha256:0a7a215a0e80be677e731cc5567135e5de4e06c0a1022c7b593124319e76c9b8",
-          "match": false
-        },
-        "compared_against": [
-          "attest/item1.r8.json",
-          "design/gen_cells.py",
-          "design/lambdapdk.py",
-          "design/netlist/rx_cell.sp",
-          "design/netlist/rx_clk_cell.sp",
-          "design/netlist/slice_asap7.v",
-          "design/netlist/tx_cell.sp",
-          "design/netlist/tx_clk_cell.sp",
-          "design/sim/tx_cell.osdi.sp",
-          "design/synth/regen.py",
-          "design/synth/slice.synth.json",
-          "rtl/lane_rx_des.v",
-          "rtl/lane_tx_ser.v",
-          "rtl/rx_cdc_fifo.v",
-          "rtl/slice.v"
-        ],
-        "pin_is_envelope_file_hash": true,
-        "hint": "the pinned content_hash is the sha256 of the evidence envelope file evidence/item1.r9.json itself; content_hash must be the input-set digest over the files in compared_against (provenance.input.content_hash), not the hash of the evidence envelope file"
+      "citation": {
+        "file": "evidence/item1.r10.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:16d44dc0caeae72f02befdb58f4d6d9e9163ee6b274d55cafb06fa4c6ecc7002",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 1,
+          "path": null,
+          "content_hash": "sha256:16d44dc0caeae72f02befdb58f4d6d9e9163ee6b274d55cafb06fa4c6ecc7002",
+          "input_verified": true,
+          "members": [
+            {
+              "path": {
+                "path": "attest/item1.r9.json",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:5f74b40fdbe1c847a33e802d5308918e27f0200e993b49f4c312a8aa15fca163",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/gen_cells.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:18d1c0b64a1c28e088d5beaef90e1643f070f7efe6ef869d33dbc04531f083ce",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/lambdapdk.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:b5d7ce7f58a106563acc55c4347fd020cb0dc92483cbe087416c3c8f209e388d",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/rx_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:cc4e32ed6b6d0e6700d8bdb906f2b602850690804d8aaa7869d7479b071443bb",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/rx_clk_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:f53b368deb6018fa660b329233714fcb6fa8af27a3e3361c3e75763bdad8f184",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/slice_asap7.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:4d1baf357fa867906d5c23c5d7a541515872e66345c8468e8b5d793f7fdef4fe",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/tx_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/netlist/tx_clk_cell.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0f49941d605e128ecacf59346f98e63fe92551db6e50222dea12dcbb3e324e9b",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/sim/regen.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:6d6d8443d968b16c1d6d0c26f28f11fc4ed734b6e2736bb6ac7c898e6628a984",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/sim/tx_cell.osdi.sp",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/synth/regen.py",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:3978c0e33a2c2f6361091899809406c8429911d6d5d360b1eeae7e3d2a3d3eee",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "design/synth/slice.synth.json",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:e399b70470e0631d6dc8b73371008a529c522e4f792a199baa2db4de3c609853",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/lane_rx_des.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:45adf6aa9e31fda9343a88c527218dfb9b226ec0bce6344d42eb82af4dafca03",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/lane_tx_ser.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:0f0cac1650ad7118921981f79ec94d693cdde445fbb69a40dd617e19046c9978",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/rx_cdc_fifo.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:5561441e684a116d7741803f7e8d87a9e136e93dc04736e9f0b9794b9035b069",
+              "status": "verified"
+            },
+            {
+              "path": {
+                "path": "rtl/slice.v",
+                "scope": "repo"
+              },
+              "content_hash": "sha256:918090805b616874c9a1d5eeae6d4d44f1a2e0a05f6d7c3ff702c5d6ef0468b8",
+              "status": "verified"
+            }
+          ],
+          "summary": "T1 item 1 (Design sources): 21/21 attestation checks passed (klt signoff --attest)",
+          "source": "attest/item1.r9.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 21,
+            "passed_count": 21
+          }
+        }
       }
     },
     {
@@ -601,7 +849,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:80a176551c2789b09ca03e7708f057ebbdd00d7a9d7f0cb46abc1fce0ab31f7d",
+        "content_hash": "sha256:2a834c22077cbcb16a77944898a5e70102461a06f7c3e7d321da654f4b6aec35",
         "input_verified": true,
         "exit_status": 0,
         "attestation": {
@@ -628,7 +876,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:80a176551c2789b09ca03e7708f057ebbdd00d7a9d7f0cb46abc1fce0ab31f7d",
+        "content_hash": "sha256:2a834c22077cbcb16a77944898a5e70102461a06f7c3e7d321da654f4b6aec35",
         "input_verified": true,
         "exit_status": 0,
         "attestation": {
@@ -723,17 +971,33 @@
       "partition_boundary": "The drawn TX/RX cells: tx_cell, rx_cell, tx_clk_cell, rx_clk_cell (design/netlist/*.sp) and their boundary nets tx_a/tx_b, rx_a/rx_b, sel1/sel2, ph, clk/fwd_en/rx_clk and the pad nets.",
       "text": "a README stating what the block is, its spec table, and how to reproduce every result; a license; CI that at minimum keeps the harness and evidence formats valid.",
       "notes": [],
-      "status": "unmet",
-      "reason": "stale_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null,
-      "detail": {
-        "content_hash_pin": "stale",
-        "hash_check": {
-          "field": "provenance.input.content_hash",
-          "expected": "sha256:fbee55cc83c208fcdc81c382d5fb5fa8d8ac691b60634359f9b30c69b9d07e1a",
-          "actual": "sha256:d18fe822bb412cd530aa145e83e88a65ec170fee56d0f64416c32ca9d28509e6",
-          "match": false
+      "citation": {
+        "file": "manifests/t1-item10.envelope.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 10,
+          "path": {
+            "path": "manifests/t1-item10-inventory.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011",
+          "input_verified": true,
+          "summary": "T1 item 10 (Repo hygiene): 26/26 attestation checks passed (klt signoff --attest)",
+          "source": "manifests/t1-item10-inventory.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 26,
+            "passed_count": 26
+          }
         }
       }
     },
@@ -745,17 +1009,33 @@
       "partition_boundary": "Module slice and its submodules lane_tx_ser, lane_rx_des, rx_cdc_fifo (rtl/); the interface to the drawn cells is the boundary-port table in rtl/README.md.",
       "text": "a README stating what the block is, its spec table, and how to reproduce every result; a license; CI that at minimum keeps the harness and evidence formats valid.",
       "notes": [],
-      "status": "unmet",
-      "reason": "stale_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null,
-      "detail": {
-        "content_hash_pin": "stale",
-        "hash_check": {
-          "field": "provenance.input.content_hash",
-          "expected": "sha256:fbee55cc83c208fcdc81c382d5fb5fa8d8ac691b60634359f9b30c69b9d07e1a",
-          "actual": "sha256:d18fe822bb412cd530aa145e83e88a65ec170fee56d0f64416c32ca9d28509e6",
-          "match": false
+      "citation": {
+        "file": "manifests/t1-item10.envelope.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 10,
+          "path": {
+            "path": "manifests/t1-item10-inventory.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011",
+          "input_verified": true,
+          "summary": "T1 item 10 (Repo hygiene): 26/26 attestation checks passed (klt signoff --attest)",
+          "source": "manifests/t1-item10-inventory.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 26,
+            "passed_count": 26
+          }
         }
       }
     },
