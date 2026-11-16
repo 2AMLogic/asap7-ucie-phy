@@ -5,6 +5,10 @@ triage role; entries are newest first.
 
 ### 2026-11-16
 
+- **PR #212**: drc: record lane-column re-run at pinned klt 0.9.2 on committed streams; no delta vs r3
+- **PR #205**: records: validate .json evidence records per document as JSON streams (0011)
+- **Issue #191** (closed): evidence/item4-lvs/slice_routed.r13.refnets.json is a two-document JSON stream, so no JSON-validity gate can cover it
+- **Issue #64** (closed): Layout: clear remaining router-metal and cell DRC violations on the assembled lane column
 - **PR #208**: docs: drop hand-copied per-item T1 status from README, keep aggregates and tool pointer
 - **Issue #171** (closed): Decide whether § "T1 evidence" should keep hand-copied per-item status at all
 - **PR #201**: signoff: bind design/sim/regen.py in the item-1 inventory of record (r9)
