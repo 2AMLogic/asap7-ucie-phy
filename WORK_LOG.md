@@ -3,6 +3,13 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-16
+
+- **PR #201**: signoff: bind design/sim/regen.py in the item-1 inventory of record (r9)
+- **PR #189**: docs: split T1 item 10 remediation into member-edit and inventory-edit cases
+- **Issue #182** (closed): Item-1 attestation binds no hash for design/sim/regen.py, the script backing its newest freshness check
+- **Issue #184** (closed): Item 10: stale inventory description, and no remediation path for an 'inventory itself changed' drift
+
 ### 2026-11-15
 
 - **PR #196**: signoff: attest T1 item 8 (characterization report) with per-corner metric bindings and a sta check-input mode
