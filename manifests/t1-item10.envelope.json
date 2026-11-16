@@ -3,21 +3,21 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 25/25 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 26/26 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 25,
-    "passed_count": 25,
+    "check_count": 26,
+    "passed_count": 26,
     "checks": [
       {
         "check": "present",
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:f672396c5dba0ce4d8f46bc8558c096480d6e5181b79192623be24610e4dd415"
+        "content_hash": "sha256:1999bce3830d060ccbbfc1e31a16b9e51562e7c73fc07afe2d7dc5d5258e66a7"
       },
       {
         "check": "present",
@@ -120,6 +120,13 @@
       {
         "check": "present",
         "role": "hygiene",
+        "path": "spec/decisions/0012-record-path-hygiene-gate.md",
+        "passed": true,
+        "content_hash": "sha256:aac7571122f702054c9e531f67c515d6a507d8b71c99a5764f2885f39a67836a"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
         "path": "spec/ucie-phy.md",
         "passed": true,
         "content_hash": "sha256:7def0f98bc22c4acf0c47762151e9435aec88c4d182cc04fc30ba017ebc479c5"
@@ -129,7 +136,7 @@
         "role": "hygiene",
         "path": "verification/check-records-json.sh",
         "passed": true,
-        "content_hash": "sha256:a534f46fddf8f6fc0911468926754ba69ae31ed5fe25b8b39e1efafd84ab87f8"
+        "content_hash": "sha256:a6b74f596666d7a2127adedd1a0e1c057be035a75364c09272431c228cc2316d"
       },
       {
         "check": "command",
@@ -245,7 +252,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:7bd1fb97997866b2558b5fb2b47f9140d35f701666bb2d971c54cf480734ab9b"
+      "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011"
     }
   }
 }

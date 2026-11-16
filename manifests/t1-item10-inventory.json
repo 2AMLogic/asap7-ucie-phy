@@ -19,6 +19,7 @@
     "spec/decisions/0008-item6-analog-declared-gap.md",
     "spec/decisions/0009-cdc-fifo-read-mux-select-timing.md",
     "spec/decisions/0010-analog-simulation-flow.md",
+    "spec/decisions/0012-record-path-hygiene-gate.md",
     ".github/workflows/signoff.yml",
     "verification/check-records-json.sh"
   ],
