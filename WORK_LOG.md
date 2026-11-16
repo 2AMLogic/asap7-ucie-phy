@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-16
 
+- **PR #218**: fix: gate changed records through the single record-set rule; cite decision 0012 in signoff.yml
+- **Issue #217** (closed): Record gate tidy-ups: signoff.yml cites the wrong decision number, and the record-set rule has two copies
 - **PR #216**: docs: cite only item 10 from the T1 item-10 envelope in README
 - **Issue #209** (closed): README § "T1 evidence" attributes items 1, 2 and 9 to the item-10 envelope, which cites only item 10
 - **PR #206**: signoff: gate records added or changed by a commit range on absolute host paths (forward-only)
