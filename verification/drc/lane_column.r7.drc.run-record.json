@@ -83,7 +83,7 @@
   "via_cell_census_on_committed_slice": {
    "via_cells_total": 8,
    "with_m1_pads_in_committed_stream": "exactly one: VIA_VIA12, the router's standard V1 (M1-M2) via cell - 1 merged pad 18 x 22 nm (72 x 88 dbu at the stream's 0.25 nm dbu), placed 8,905 times in the top cell",
-   "power_via_array": "VIA_via1_2_21762_18_1_604_36_36 (162 placements, 604 V1 cuts, ~43.5 um bar) carries no M1 shapes in the committed stream - consistent with the trim report's one dropped pad being this array's merged M1 pad (dropped because the M1 followpin wire covers it fully in all placements, the only cell the pass rewrote); the pre-merge pad shapes are inferred from the committed report plus the committed GDS, since the scratch stream was discarded at generation time",
+   "power_via_array": "VIA_via1_2_21762_18_1_604_36_36 (162 placements, 604 V1 cuts, ~21.73 um bar; measured on the committed slice - the cell's single M2 L20/0 shape spans 86,920 x 72 dbu = 21.730 x 0.018 um and its 604 L21/0 V1 cuts span 86,904 x 72 dbu = 21.726 um; cross-checks: the name's 21762 field read as nm gives 21.76 um and 604 cuts at 36 nm pitch give ~21.7 um) carries no M1 shapes in the committed stream - consistent with the trim report's one dropped pad being this array's merged M1 pad (dropped because the M1 followpin wire covers it fully in all placements, the only cell the pass rewrote); the pre-merge pad shapes are inferred from the committed report plus the committed GDS, since the scratch stream was discarded at generation time",
    "other_via_cells": "VIA_VIA45/VIA56/23/34 and the M4-M5/M5-M6 arrays have no M1 shapes (upper-metal vias)"
   },
   "drop_test_on_surviving_pad": {
