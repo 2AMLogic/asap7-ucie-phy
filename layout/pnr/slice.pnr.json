@@ -120,6 +120,31 @@
         "width_um": 0.018,
         "pitch_um": 0.54,
         "followpins": true
+      },
+      {
+        "layer": "M5",
+        "width_um": 0.216,
+        "pitch_um": 5.4,
+        "offset_um": 0.306,
+        "spacing_um": 0.312
+      },
+      {
+        "layer": "M6",
+        "width_um": 0.288,
+        "pitch_um": 5.376,
+        "offset_um": 0.344,
+        "spacing_um": 0.096
+      }
+    ],
+    "connects": [
+      {
+        "layers": ["M2", "M5"],
+        "max_columns": 1,
+        "ongrid": ["M3", "M4"]
+      },
+      {
+        "layers": ["M5", "M6"],
+        "max_columns": 1
       }
     ]
   },

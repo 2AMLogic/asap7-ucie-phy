@@ -36,7 +36,7 @@
     },
     "8": {
       "file": "manifests/evidence/item8.json",
-      "content_hash": "sha256:2a834c22077cbcb16a77944898a5e70102461a06f7c3e7d321da654f4b6aec35"
+      "content_hash": "sha256:238e7c594728b69dfb5b784430952cf72616ce7fe19a34da06efeda0a35abef1"
     },
     "5.digital": [
       {
@@ -51,12 +51,12 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.r8.json",
-      "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
+      "file": "evidence/item2.r9.json",
+      "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43"
     },
     "2.digital": {
-      "file": "evidence/item2.r8.json",
-      "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b"
+      "file": "evidence/item2.r9.json",
+      "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43"
     },
     "4.analog": [
       {
@@ -78,8 +78,8 @@
     ],
     "4.digital": [
       {
-        "file": "evidence/item4-lvs/slice_routed.r13.report.json",
-        "content_hash": "sha256:4cb450ff3f97c219b37486925cc37251503dc9a536bcb36af2a7ebe9623f492c"
+        "file": "evidence/item4-lvs/slice_routed.r15.report.json",
+        "content_hash": "sha256:59bd8ce11d46cc23d52f076341628ff923b7c8637f6e9afe5aba83fef482fb22"
       }
     ]
   }

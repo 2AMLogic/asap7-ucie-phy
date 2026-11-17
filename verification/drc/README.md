@@ -348,3 +348,102 @@ record in this directory. No GDS was regenerated and no evidence revision was cr
 committed column hash remains attested as `evidence/item2.r8.json`. Whether this issue closes as
 completed-with-limitations, and whether the shipped cells that trip `SDT.ACTIVE.AUX.2` should be
 replaced, are Champion/human calls and are not made here.
+
+## Issue #66: the M5/M6 power grid restored with the shipped ASAP7 recipe (r5, 2026-11-17)
+
+Record: `lane_column.r5.drc.run-record.json`, with the summary-only envelopes
+`slice_routed.r5.envelope.json` and `lane_column.r5.envelope.json` committed beside it. klt **0.9.2**
+(the pin, via `uvx --from "klayout-tools==0.9.2"`), `--engine klayout` with the packaged ASAP7 deck,
+the same **267**-id expectation file as r3/r4 (byte-identical, re-hashed), no `--rules`, no `--waivers`,
+nothing filtered or relaxed. The seven earlier records are unedited. Still **not clean**; layout results
+against a predictive PDK, not measurements.
+
+**Why this run exists.** #64 cleared the router-metal families by dropping the M5/M6 PDN straps, which
+left power delivery `partial` (followpin rails only, 0 stripe segments). This issue restores the grid
+with klt's own `asap7sc7p5t` recipe (M5 w 0.216 / M6 w 0.288, `M2<->M5` `max_columns 1 ongrid {M3 M4}`,
+`M5<->M6` `max_columns 1`) transcribed **explicitly** into `slice.pnr.json`, because the shipped
+`power.preset` form is unreachable in this request: the preset validates `pdk.cell_library` as
+`asap7sc7p5t_28` while `post_route_spef`/`post_route_sdf` validate it as `asap7sc7p5t_rvt`, and this
+request needs the post-route SDF. Both exact errors are quoted in the record; filed generically as
+[#6029](https://github.com/2AMLogic/klayout-tools/issues/6029). One number deviates from the recipe on
+purpose, measured: the **M5 strap offset is 0.306 µm, not the recipe's 0.312**, because the deck's
+`Mx.AUX.1` grids are absolute (offset 0) while pdngen offsets are core-origin relative, and this
+floorplan's core origin x (1.026 µm ≡ 18 mod 24) put every M5 strap edge 6 nm off the 24 nm grid at the
+recipe value. The M6 offset already lands on the 32 nm grid here and is kept. The P&R report now grades
+**power delivery `complete`** (1,016 VDD / 1,021 VSS `STRIPE` segments), and the routed netlist and
+placement are unchanged (byte-identical `slice_routed.v`; only the routed metal moved).
+
+**Measured now**, both runs completed, expectation satisfied (267 of 267 categories checked; `PAD`
+96/0 unchecked on the column). This comparison **is** deck-controlled against r4 — same pin, same deck
+bytes, same expectation file; the one changed input is the stream:
+
+| Stream | sha256 | Status | Violations | Rules |
+|---|---|---|---|---|
+| `layout/slice_routed.gds` | `cc4a7c72...` | `violations` | **1,620** | 9 |
+| `layout/lane_column.gds` | `66179d88...` | `violations` | **25,920** | 9 |
+
+Again exactly **16 x** the slice in every rule count: the assembly adds nothing.
+
+### The prohibited families are zero; four new families are not
+
+The families that made #64 drop the straps — `V4.M5.AUX.2`, `M4.AUX.*`, `M5.AUX.*` — are **all zero**
+with the grid restored. The acceptance criteria's prohibited set is clean, and power is `complete`.
+What the grid does add, reported by name and count (the grid is therefore **not** deck-clean, and no
+claim here says otherwise):
+
+| Rule | Slice | Column | Cause | Filed |
+|---|---|---|---|---|
+| `V4.M4.EN.1` | 648 | 10,368 | the recipe's wide-V4 bar has zero M4 enclosure by design; count = stack crossings exactly | documented in [#4499](https://github.com/2AMLogic/klayout-tools/issues/4499) ("no existing request field changes that") |
+| `V4.M5.EN.2` | 12 | 192 | same recipe family (M5 enclosure of the wide bar) | documented in #4499 (tool PR measured ~13 on its tiny block) |
+| `M3.S.2` | 15 | 240 | pdngen's M2<->M5 stack M3 stubs closer than 40 nm along-track at some rail pitches; markers all sit inside strap columns at rail crossings | new: [#6030](https://github.com/2AMLogic/klayout-tools/issues/6030) |
+| `M5.W.3` | 46 | 736 | router, not pdngen: across-track extents 336/384/432 nm (even × 24 nm), none at a strap edge — TritonRoute landing patches under the strap-congested route | recipe residual family, already noted in the tool docs |
+
+Per-rule against r4 (slice counts; the column is 16× in every row): `M1.S.2` 18→16, `M1.S.3` 36→32,
+`M1.S.4` 195→193, `M1.S.5` 63→64 (single-digit router pin-access movement around the new blockages),
+`SDT.ACTIVE.AUX.2` 594→594 (byte-identical), plus the four new families above.
+
+**Signoff consequence.** Unlike r3/r4, both committed streams changed, so the item 2 attestation moved:
+`evidence/item2.r9.json` + `attest/item2.r9.json` (34/34 pad centres re-checked, record byte-identical),
+manifest re-pinned, verdict regenerated (`--check`: match, exit 0, `t1_met_count` 11 unchanged, no
+`stale_evidence` rows). Item 3 stays **unmet**. The manifest still cites no record in this directory.
+
+## Issue #66, addendum: the routed-slice LVS re-take (r15) and its PDK provenance (2026-11-17)
+
+The grid restoration regenerated the routed stream (`cc4a7c72...`), so the routed-slice LVS had to be
+re-taken. This is the recorded decision for that re-take; the committed pair is
+`evidence/item4-lvs/slice_routed.r15.{request,report}.json` (the prior routed-slice record r13 stays in
+the tree as history, not citable as current evidence).
+
+**Why r15 exists (request forms tried).** The first re-take on the regenerated stream named the reference
+pin-order CDL by absolute, machine-local paths (`/tmp/lambdapdk-r14/...`), exactly as r13 had before it
+(`/tmp/lambdapdk-r13/...`), both resolves of the pinned `siliconcompiler/lambdapdk v0.2.17`. The record
+gate refuses absolute paths (decision 0012 §1), so that form was re-taken as r15: `portable_paths: true`,
+`reference.pdk: asap7`, and the request naming the CDL by the `$PDK_ROOT` token
+(`$PDK_ROOT/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl`). Only the two committed forms
+existed: absolute (gate-refused) and portable (committed).
+
+**What the r15 report records.** Under portable paths the tool deliberately records no host location:
+`provenance.pdk` and `reference_conversion.pdk_root` are `null`, and the pin-order source is
+`{"path": null, "scope": "external"}` with `cells: 209` consumed. That the token resolved at run time is
+measured by the recorded cell count; the host tree it resolved against is the extracted release below
+(the tree the gate-refused takes had named by absolute path).
+
+**The provenance is recoverable, recorded here (decision 0012 §3's remedy: repo-relative references or a
+content hash).** Three repo-side facts reconstruct the reference side of `s7-lvs`:
+
+1. The PDK release is pinned in [`evidence/item4-attempts.json`](../../evidence/item4-attempts.json):
+   `siliconcompiler/lambdapdk v0.2.17, archive sha256 ac7e950c...` — re-measured 2026-11-17 on the
+   extracted tree's archive copy:
+   `ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2` (228,891,082 bytes).
+2. Inside that release, the file at the request token's relative path
+   (`asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl`) is 146,201 bytes,
+   `sha256 3e3e2548fb8f571c2e373dcbf565ecb0288e6433e803fbf06561cb16b70caf53` (re-measured 2026-11-17).
+3. The committed r15 report consumed 209 pin-order cells from that file and records the compare outcome
+   (8,333 mismatches / 8,043 errors — materially better than r13's 86,629 / 86,371 on the pre-grid
+   stream, which the restored supply grid plausibly explains; no claim beyond the recorded counts).
+
+So a reader of `s7-lvs` can reconstruct: lambdapdk v0.2.17 (archive `ac7e950c...`) →
+`asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl` (sha256 `3e3e2548...`, 209 cells). If a future
+take should have the tool itself record the reference hash, that is a tool request, not a gate edit; the
+compare was not re-run to test alternative request shapes (decision 0012 §2 — re-runs belong to #20).
+
