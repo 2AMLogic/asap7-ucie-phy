@@ -1,4 +1,5 @@
 {
+ "portable_paths": true,
  "layout": {
   "file": "../../layout/slice_routed.gds",
   "deck": "asap7",
@@ -9,9 +10,8 @@
   "top": "slice",
   "form": "gate-level-verilog",
   "pdk": "asap7",
-  "pdk_root": "/tmp/lambdapdk-r14/x/lambdapdk-0.2.17/lambdapdk",
   "pin_order_files": [
-   "/tmp/lambdapdk-r14/x/lambdapdk-0.2.17/lambdapdk/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl"
+   "$PDK_ROOT/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl"
   ]
  },
  "options": {

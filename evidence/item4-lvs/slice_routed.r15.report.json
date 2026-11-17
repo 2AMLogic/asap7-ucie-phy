@@ -15,9 +15,12 @@
     "form": "gate-level-verilog",
     "library": null,
     "pdk": "asap7",
-    "pdk_root": "/tmp/lambdapdk-r14/x/lambdapdk-0.2.17/lambdapdk",
+    "pdk_root": null,
     "pin_order_files": [
-      "/tmp/lambdapdk-r14/x/lambdapdk-0.2.17/lambdapdk/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl"
+      {
+        "path": null,
+        "scope": "external"
+      }
     ]
   },
   "parameter_tolerance": null,
@@ -143,7 +146,10 @@
     "pin_order_sources": [
       {
         "library": null,
-        "path": "/tmp/lambdapdk-r14/x/lambdapdk-0.2.17/lambdapdk/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
         "cells": 209
       }
     ]
