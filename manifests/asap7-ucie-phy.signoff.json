@@ -365,11 +365,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r8.json",
+        "file": "evidence/item2.r9.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+        "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -378,7 +378,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+          "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -390,7 +390,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+            "regenerated_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
             "executed_by_klt": false
           }
         }
@@ -408,11 +408,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r8.json",
+        "file": "evidence/item2.r9.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+        "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -421,7 +421,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+          "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -433,7 +433,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:6e1df81653c1ec289935ce720aafb446d1ac8fcff90e2de196f3c296de857d6b",
+            "regenerated_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
             "executed_by_klt": false
           }
         }

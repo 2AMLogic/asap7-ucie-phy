@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "kind": "drc-run-record",
+ "issue": 66,
+ "run_date": "2026-11-17",
+ "claim": "The M5/M6 power grid is restored on the routed slice (issue #66) and measured. Power delivery in layout/pnr/slice.pnr.report.json is complete (1,016 VDD / 1,021 VSS STRIPE segments, 1,085/1,089 vias), up from the post-#64 partial state (0 stripe segments). The deck-prohibited families from the pre-#64 straps are all zero: V4.M5.AUX.2, M4.AUX.1/2/3 and M5.AUX.1/2/3 at both levels. Four residual families are NEW from the grid and are reported by name and count below; the grid is therefore NOT deck-clean and nothing here claims it is. The recipes' own documented V4 enclosure residuals are present as predicted by 2AMLogic/klayout-tools#4499. First DRC run on the regenerated streams at the current pin (klt 0.9.2), same command form as the r4 record, full 267-id expectation set, nothing waived, filtered or relaxed: the packaged ASAP7 deck is unmodified, no --rules, no --waivers. Both runs completed; the summary-only envelopes are committed alongside this record and --check matches on the authoring host. Layout results against a predictive PDK, not measurements. Not T1 item 3 evidence: the manifest does not cite it and item 3 stays unmet. Not T1 item 10 evidence: none of the files this issue edits is a member of manifests/t1-item10-inventory.json (re-verified 2026-11-17), so the item-10 envelope is untouched.",
+ "request_change": {
+  "file": "layout/pnr/slice.pnr.json",
+  "what": "power.straps gains the klt asap7sc7p5t recipe transcribed explicitly (M5 w 0.216 / p 5.4 / off 0.306 / sp 0.312; M6 w 0.288 / p 5.376 / off 0.344 / sp 0.096, after the unchanged M1/M2 followpin rails), and power.connects carries the recipe's two via-stack tunings (M2<->M5 max_columns 1 ongrid {M3 M4}; M5<->M6 max_columns 1). power_net/ground_net, the floorplan, the tracks and every other request field are unchanged.",
+  "why_preset_not_used": "The shipped \"power\": {\"preset\": \"asap7sc7p5t\"} form cannot be combined with this request's post_route_spef/post_route_sdf: the preset validates pdk.cell_library as asap7sc7p5t_28 (exact match, measured verbatim error), while the post-route pass validates it as asap7sc7p5t_rvt, the only ASAP7 entry in the extract-deck table (second verbatim error, measured by also trying the renamed library). Dropping post_route_spef/sdf to use the preset verbatim would stale the committed post-route SDF that STA and SDF-annotated simulation consume. Filed generically as 2AMLogic/klayout-tools#6029; the docs' explicit form is stated to be validated identically, which this run confirms (the request echoes the recipe's geometry and via tuning unchanged apart from the M5 offset below).",
+  "why_m5_offset_0p306": "The deck's Mx.AUX.1 grids are absolute (offset 0 from the layout origin, asap7.drc GRID ORIGIN note), while pdngen strap offsets are core-origin relative. This floorplan's core origin x is 1.026 um (ROW ROW_0 x, 1026 nm = 18 mod 24), so the recipe's M5 offset 0.312 puts every M5 strap edge at 6 mod 24 nm - off the deck grid. Measured from the floorplan-stage DEF (pdngen runs at floorplan; strap centerlines extracted from SPECIALNETS): at offset 0.312 all eight M5 centerlines sat at 18 mod 24 nm (edges 6 mod 24); at 0.306 every M5 strap edge sits on the 24 nm grid. The envelope's M5.AUX.1 count of 0 is the committed-stream measurement of the same fact. The M6 offset 0.344 already lands every M6 strap edge on the 32 nm grid at this core origin (edges 0 mod 32, M6.AUX.1 = 0), so it is kept at the recipe value. The offset change is the minimal deck-grid correction of the recipe for this core origin; widths, pitch and spacing are the recipe's unchanged."
+ },
+ "tool": {
+  "klt": "0.9.2 (pinned, .github/klt-version; uvx --from klayout-tools==0.9.2)",
+  "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+  "engine": "klayout",
+  "klayout": {
+   "engine_binary": "/usr/bin/klayout",
+   "engine_version": "0.30.12",
+   "engine_version_source": "klayout -v on the standalone binary the deck ran under (--engine klayout shells out; --min-klayout-version 0.30.12 probed and passed)",
+   "envelope_reports": "0.30.13",
+   "note": "Same known envelope quirk as r3/r4: provenance.klayout_version is the uvx wheel inside the pinned environment, not the engine (2AMLogic/klayout-tools#5660, unchanged at 0.9.2). No engine-version difference against any earlier record."
+  },
+  "deck": {
+   "file": "klayout_tools/decks/asap7.drc",
+   "content_hash": "sha256:fa303c032c18f91c5185bcdb08a8f76067aa234558f60442e0e0e4ea7c7dc61d",
+   "released": false,
+   "note": "Identical to the deck the r4 record used (same pin, same bytes), so this run is deck-controlled against r4: the only input that changed is the stream."
+  },
+  "expectation_file": "267 ids from klayout_tools.decks.asap7_rules.RULE_IDS at klt 0.9.2, sorted, one per line, unfiltered; no waivers. sha256:816302d52ed5028ee40b14ca8f41af817a32d2af747bf30c1fa2b558e89d4664",
+  "expectation_file_note": "Byte-identical to the r3/r4 expectation file (same sha256), regenerated for this run and re-hashed.",
+  "command": "uvx --from klayout-tools==0.9.2 klt drc <input> --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <267 ids> --min-klayout-version 0.30.12 --format json --timeout-s <1500 slice | 3600 column> --max-violations 0 -o <envelope>"
+ },
+ "envelopes_committed": {
+  "files": ["verification/drc/slice_routed.r5.envelope.json", "verification/drc/lane_column.r5.envelope.json"],
+  "why": "--max-violations 0 is summary-only (~30 KB per envelope): violation_count, rule_counts and status carry the true totals and violations_truncated marks the capped marker list. Nothing is waived, filtered or relaxed; only the marker list is dropped from the serialized report.",
+  "verified": {
+   "command": "uvx --from klayout-tools==0.9.2 klt drc --check verification/drc/slice_routed.r5.envelope.json (and the lane_column.r5 envelope)",
+   "run_date": "2026-11-17",
+   "result": "both: status match, provenance.input.content_hash [OK] and provenance.deck.content_hash [OK], exit 0",
+   "scope": "Authoring-host result only. The envelope's top-level deck field is still the absolute uv-cache path of the authoring env (2AMLogic/klayout-tools#5709 stands unchanged at 0.9.2), so the deck assertion does not re-verify off that host; the input half is a portable {path, scope: repo} locator and re-verifies anywhere. Changed-record gate: the decision-0012 deck exception admits exactly this field."
+  }
+ },
+ "slice_routed": {
+  "input": "layout/slice_routed.gds",
+  "input_content_hash": "sha256:cc4a7c726b760da0391ddc4804cd9af24fcb29b88b100a4e5d81a4349ca32367",
+  "input_dbu_um": 0.00025,
+  "note": "Regenerated by this issue (python3 -I layout/pnr/regen.py; regen.py --check reproduces it byte-for-byte, exit 0). Hash differs from the r4 record's 27dbfd1d... because the power grid changed the routed geometry; the tied netlist is unchanged (regen.py --check-input exit 0, same provenance.input.content_hash in slice.pnr.report.json) and placement is unchanged (layout/slice_routed.v is byte-identical to the pre-change stream; only the routed metal moved around the new straps).",
+  "status": "violations",
+  "violation_count": 1620,
+  "rules_violated": 9,
+  "rule_counts": {
+   "M1.S.2": 16,
+   "M1.S.3": 32,
+   "M1.S.4": 193,
+   "M1.S.5": 64,
+   "M3.S.2": 15,
+   "M5.W.3": 46,
+   "SDT.ACTIVE.AUX.2": 594,
+   "V4.M4.EN.1": 648,
+   "V4.M5.EN.2": 12
+  },
+  "prohibited_families": {
+   "V4.M5.AUX.2": 0,
+   "M4.AUX.1": 0,
+   "M4.AUX.2": 0,
+   "M4.AUX.3": 0,
+   "M5.AUX.1": 0,
+   "M5.AUX.2": 0,
+   "M5.AUX.3": 0,
+   "note": "The families that made #64 drop the straps. All zero with the grid restored; the acceptance criteria's prohibited set is clean."
+  },
+  "envelope": {
+   "file": "slice_routed.r5.envelope.json",
+   "violations_serialized": 0,
+   "violations_truncated": true
+  },
+  "coverage": {
+   "expectation_satisfied": true,
+   "expectation_missing_names": [],
+   "expectation_unexpected_names": [],
+   "rule_categories_declared": 267,
+   "rules_checked": 267,
+   "layers_in_stream_without_rules": [],
+   "rules_skipped": [],
+   "unchecked_rules": [],
+   "unmodeled_rule_count": 67,
+   "isolation_only_rule_count": 5
+  }
+ },
+ "lane_column": {
+  "input": "layout/lane_column.gds",
+  "input_content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
+  "input_dbu_um": 0.00025,
+  "note": "Re-assembled from the regenerated slice (python3 layout/assemble_column.py; --check exits 0). Hash differs from the r4 record's 6e1df816... (which evidence/item2.r8.json attests); the new stream is attested as evidence/item2.r9.json and the manifest re-pinned. check_pads.py re-run: status pass, 34/34 pad centres matched, layout/pad_check_record.json byte-identical to r8's (the pads live in the drawn cells, which this issue does not touch).",
+  "status": "violations",
+  "violation_count": 25920,
+  "rules_violated": 9,
+  "rule_counts": {
+   "M1.S.2": 256,
+   "M1.S.3": 512,
+   "M1.S.4": 3088,
+   "M1.S.5": 1024,
+   "M3.S.2": 240,
+   "M5.W.3": 736,
+   "SDT.ACTIVE.AUX.2": 9504,
+   "V4.M4.EN.1": 10368,
+   "V4.M5.EN.2": 192
+  },
+  "envelope": {
+   "file": "lane_column.r5.envelope.json",
+   "violations_serialized": 0,
+   "violations_truncated": true
+  },
+  "coverage": {
+   "expectation_satisfied": true,
+   "expectation_missing_names": [],
+   "expectation_unexpected_names": [],
+   "rule_categories_declared": 267,
+   "rules_checked": 267,
+   "layers_in_stream_without_rules": [],
+   "rules_skipped": [],
+   "unchecked_rules": [
+    {
+     "rule": "PAD.*",
+     "layer": "96/0",
+     "reason": "the deck reads PAD only as the layer enclosing V9 (V9.PAD.EN.2, V9.AUX.1); shapes on PAD itself are not checked"
+    }
+   ],
+   "unmodeled_rule_count": 67,
+   "isolation_only_rule_count": 5
+  }
+ },
+ "relation": {
+  "column_is_16x_slice": true,
+  "check": "every rule count in lane_column equals 16x the slice count, and 16 x 1,620 = 25,920",
+  "note": "The same exact-16x relation the r2/r3/r4 passes found still holds with the grid restored: every violation in the column is on a slice instance and the column assembly adds none."
+ },
+ "comparison_to_baseline": {
+  "previous_record": "lane_column.r4.drc.run-record.json: slice 906 across 5 rules, column 14,496 across 5 rules (klt 0.9.2, slice stream 27dbfd1d..., deck fa303c03...)",
+  "now": "slice 1,620 across 9 rules, column 25,920 across 9 rules (klt 0.9.2, slice stream cc4a7c72..., same deck fa303c03...)",
+  "controlled": "Deck-controlled: same klt pin, same deck bytes, same expectation file as r4. The one changed input is the stream (the restored grid), so every delta below is attributable to the grid.",
+  "delta_by_rule_vs_r4": {
+   "M1.S.2": {"r4": 18, "now": 16, "change": -2},
+   "M1.S.3": {"r4": 36, "now": 32, "change": -4},
+   "M1.S.4": {"r4": 195, "now": 193, "change": -2},
+   "M1.S.5": {"r4": 63, "now": 64, "change": 1},
+   "M3.S.2": {"r4": 0, "now": 15, "change": 15},
+   "M5.W.3": {"r4": 0, "now": 46, "change": 46},
+   "SDT.ACTIVE.AUX.2": {"r4": 594, "now": 594, "change": 0},
+   "V4.M4.EN.1": {"r4": 0, "now": 648, "change": 648},
+   "V4.M5.EN.2": {"r4": 0, "now": 12, "change": 12}
+  },
+  "headline": "The grid's own families are back, but only the ones #4499's recipe still carries: zero prohibited AUX families, and the pre-existing #64 families are unchanged or marginally smaller (the M1.S.* counts moved by single digits because the router's pin-access geometry changed around the new blockages; SDT.ACTIVE.AUX.2 is byte-identical)."
+ },
+ "new_families_from_the_grid": {
+  "note": "Reported by name and count per the acceptance criteria. With these present, power delivery is complete but the grid is NOT deck-clean and no claim here says otherwise. Under --engine klayout every marker returns source_cell: null (2AMLogic/klayout-tools#5661), so the attributions below are from a marker-geometry study: a separate marker-bearing run on the slice (same deck, default cap, scratch envelope not committed) plus the floorplan-stage DEF of the same request.",
+  "V4.M4.EN.1": {
+   "count_slice": 648,
+   "count_column": 10368,
+   "cause": "The recipe's wide-V4 via bar (VIARULE M5_M4widePWR0p864, CUTSIZE 216x24) has zero M4 enclosure by design; the count equals the stack crossings exactly (648 = 2 nets x 324 stacks). Documented as inherent to the recipe by 2AMLogic/klayout-tools#4499 ('the tech LEF's wide V4 bar has zero M4 enclosure ... no existing request field changes that'). Not re-filed.",
+   "documented": true
+  },
+  "V4.M5.EN.2": {
+   "count_slice": 12,
+   "count_column": 192,
+   "cause": "Same recipe family: M5 enclosure of the wide V4 bar at 12 crossings. The tool PR measured ~13 on its much smaller block. Documented as inherent to the recipe by #4499. Not re-filed.",
+   "documented": true
+  },
+  "M3.S.2": {
+   "count_slice": 15,
+   "count_column": 240,
+   "cause": "pdngen's M2<->M5 stack stub geometry: every marker sits inside an M5 strap column at a followpin-rail crossing, i.e. on the connect's own M3 patches, which can sit closer than the deck's 40 nm along-track spacing at some rail pitches. max_columns is already 1 and ongrid {M3 M4} is what the recipe is; the docs' split_cuts route is documented DRC-dirty (#4301). New at block scale - the tool PR measured 0 on its tiny block. Filed generically as 2AMLogic/klayout-tools#6030.",
+   "documented": false
+  },
+  "M5.W.3": {
+   "count_slice": 46,
+   "count_column": 736,
+   "cause": "Router, not pdngen: the violating shapes' across-track extents are 336/384/432 nm - even multiples of the 24 nm grid - and none aligns with a strap edge or the 216 nm strap width, so these are TritonRoute's own M5 via-landing patches widened under the strap-congested route (r4's strapless route produced 0). No place-and-route request field tunes router patch geometry. The tool docs note 1-2 M5.W.3 as a known recipe residual; the count here is larger because the family scales with routed area. Counted with the recipe residuals; no separate filing, as the docs already record the family as a known remainder of this recipe.",
+   "documented": true
+  }
+ },
+ "pre_existing_families": {
+  "SDT.ACTIVE.AUX.2": "594, byte-identical to r4. Shipped standard-cell retained deviations; 2AMLogic/klayout-tools#4496 closed docs-only. Out of scope here per the issue.",
+  "M1.S.2/.3/.4/.5": "305 total (was 312). Router V1 landing pads; #4495 closed as a no-op. The single-digit movement is the router's changed pin-access geometry around the new blockages; the family is unchanged in kind and stays out of scope per the issue."
+ },
+ "signoff": {
+  "t1_item_3": "unmet",
+  "t1_item_2": "re-attested",
+  "manifest_changed": true,
+  "note": "Unlike the r3/r4 passes, this issue DID change both committed streams, so the item 2 attestation had to move: evidence/item2.r9.json (klt signoff --attest 2, 3/3 checks pass, sha256:66179d88...) with companion inventory attest/item2.r9.json, manifest partitions 2.analog/2.digital re-pinned, verdict regenerated. klt signoff --check: status match, doc_drift false, exit 0; t1_met_count 11 unchanged; no stale_evidence rows. Item 3 stays unmet (status violations, not clean) and the manifest still cites no record in verification/drc/. None of the files this issue edits is a member of manifests/t1-item10-inventory.json (re-verified 2026-11-17: the inventory's members are repo-hygiene files - root README, license, spec and decision records, signoff workflow, the JSON-record gate), so no item-10 envelope re-attestation is due and manifests/t1-item10.envelope.json is untouched. The LVS r13 report and STA r5 report the manifest cites are unchanged files whose own cited netlist (provenance.input) is byte-identical; the post-route SDF changed but no gated record binds it (the STA report binds the netlist, not the SDF)."
+ },
+ "prior_records": {
+  "note": "Left byte-unchanged by this pass; this record is append-only.",
+  "files": [
+   "cells.drc.run-record.json",
+   "components.r2.drc.run-record.json",
+   "lane_column.drc.run-record.json",
+   "lane_column.r2.drc.run-record.json",
+   "lane_column.r3.drc.run-record.json",
+   "lane_column.r4.drc.run-record.json",
+   "slice.drc.run-record.json"
+  ]
+ }
+}

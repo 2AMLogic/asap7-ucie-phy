@@ -16,18 +16,19 @@
     "detailed_route": {
       "converged": true,
       "drc_violations_per_iteration": [
-        1237,
-        114,
-        118,
+        1235,
+        167,
+        159,
+        1,
         0
       ],
-      "first_iteration_drc_violation_count": 1237,
-      "iteration_count": 4
+      "first_iteration_drc_violation_count": 1235,
+      "iteration_count": 5
     },
     "global_route": {
       "max_gcell_usage_pct": null,
       "max_horizontal_overflow": 0,
-      "max_layer_usage_pct": 22.59,
+      "max_layer_usage_pct": 22.65,
       "max_vertical_overflow": 0,
       "overflow_per_layer": {
         "M1": {
@@ -39,42 +40,42 @@
           "usage_pct": 0.0
         },
         "M2": {
-          "demand": 7470,
+          "demand": 7489,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
           "resource": 49171,
           "total_overflow": 0,
-          "usage_pct": 15.19
+          "usage_pct": 15.23
         },
         "M3": {
-          "demand": 12391,
+          "demand": 12282,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 54863,
+          "resource": 54215,
           "total_overflow": 0,
-          "usage_pct": 22.59
+          "usage_pct": 22.65
         },
         "M4": {
-          "demand": 3135,
+          "demand": 3118,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 40893,
+          "resource": 40325,
           "total_overflow": 0,
-          "usage_pct": 7.67
+          "usage_pct": 7.73
         },
         "M5": {
-          "demand": 206,
+          "demand": 314,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 41251,
+          "resource": 37991,
           "total_overflow": 0,
-          "usage_pct": 0.5
+          "usage_pct": 0.83
         },
         "M6": {
           "demand": 0,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 30702,
+          "resource": 27217,
           "total_overflow": 0,
           "usage_pct": 0.0
         },
@@ -87,16 +88,18 @@
           "usage_pct": 0.0
         }
       },
+      "overflow_regions": null,
       "routed_net_count": 2713,
       "total_overflow": 0,
-      "usage_pct": 9.36
+      "usage_pct": 9.68
     },
     "null_reasons": {
       "completeness.partially_routed_net_count": "OpenROAD exposes no per-net connectivity check; only nets with no routed wire at all are counted",
-      "global_route.max_gcell_usage_pct": "OpenROAD's global router reports usage per routing layer, not per GCell"
+      "global_route.max_gcell_usage_pct": "OpenROAD's global router reports usage per routing layer, not per GCell",
+      "global_route.overflow_regions": "no `global_route -congestion_report_file` report was produced or it held no congestion violations"
     },
     "placement": {
-      "final_weighted_congestion": 0.2855,
+      "final_weighted_congestion": 0.384,
       "overflowed_tile_count": 0,
       "total_routing_overflow": 0.0
     }
@@ -128,7 +131,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "0abe605df1b946319d6c4ee9a79ed657",
+      "invocation_id": "ad39c592eeb245e49edfe7ca2039474a",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -145,7 +148,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "3c295549b9e7d7cdf351649c8135d8f285b62dffff5ecb9a94f723671933863f",
+      "script_sha256": "520c4fcaf5e642df9e00f8caf562718ca9459cedf69b8304395af0a3881bb4c6",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -160,7 +163,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "1f2f53e08b0f4ac68f020c6874cd8134",
+      "invocation_id": "bb287f5bcee34fd4bc40dd0129af4d90",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -177,7 +180,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "b1430daeafa16595e6a1a1c9db89724ea7090340f03cd0b2e05a26c953a6f718",
+      "script_sha256": "5c4f942a01d7383ec457c49c90ec11c260d9fdc7f741f4a3a0f910b55525ab2c",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -192,7 +195,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "2667704fdc3f471ea30988ab3e2b48d2",
+      "invocation_id": "7c4bc4bdfb2540a8acfc7e276b5b4647",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -209,7 +212,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "9eca1ebc2231c08ec78434517cc9db73f0c25e07a69fc3372e38d5e60aabd433",
+      "script_sha256": "0d7ca989beeb40cd7af045cba31dcc018b61c2ccb934cc5349f3cc21088bfafe",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -224,7 +227,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "8162600e2bfa41f9bdcacabc5092a05f",
+      "invocation_id": "8f855cbc8fc84752a8691b22ba50e08e",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -241,7 +244,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "2b2b3f1b21a369a251a4f9533f4b5fa7ed0995a3318ed9c870859738d6e6a497",
+      "script_sha256": "499a654216c683a484c02678ac9ed1573fa1beb2d4bb9c62976315ba1ae4eca3",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -256,7 +259,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "7b6df2cb7c184327b93476975fa56529",
+      "invocation_id": "f9b7d830002e4068abedee84428089b0",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -273,7 +276,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "038c14148a7eabcd009e2dad367e31a909ab79361805a667cb69d8aadcb81cae",
+      "script_sha256": "822a188144ce25711e5b2498d1d5f6d706213467f6cd6b9f4df3377ea99c364b",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -320,17 +323,17 @@
   "pins": [
     {
       "edge": "north",
-      "layer": "M2",
+      "layer": "M6",
       "name": "VDD",
       "x_um": 11.907,
-      "y_um": 44.55
+      "y_um": 39.44
     },
     {
       "edge": "north",
-      "layer": "M2",
+      "layer": "M6",
       "name": "VSS",
       "x_um": 11.907,
-      "y_um": 44.28
+      "y_um": 44.432
     },
     {
       "edge": "east",
@@ -2205,6 +2208,27 @@
         "max_columns": null,
         "ongrid": null,
         "split_cuts": null
+      },
+      {
+        "layers": [
+          "M2",
+          "M5"
+        ],
+        "max_columns": 1,
+        "ongrid": [
+          "M3",
+          "M4"
+        ],
+        "split_cuts": null
+      },
+      {
+        "layers": [
+          "M5",
+          "M6"
+        ],
+        "max_columns": 1,
+        "ongrid": null,
+        "split_cuts": null
       }
     ],
     "connects_overridden": false,
@@ -2222,30 +2246,40 @@
       "endcaps": 322,
       "evidence": "def",
       "fillers": 19896,
-      "missing": [
-        "stripe_segments"
-      ],
+      "missing": [],
       "special_nets": [
         {
           "followpin_segments": 243,
           "name": "VDD",
-          "other_segments": 0,
-          "stripe_layers": [],
-          "stripe_segments": 0,
+          "other_segments": 324,
+          "stripe_layers": [
+            "M6",
+            "M5",
+            "M4",
+            "M3",
+            "M2"
+          ],
+          "stripe_segments": 1016,
           "use": "POWER",
-          "vias": 81
+          "vias": 1085
         },
         {
           "followpin_segments": 243,
           "name": "VSS",
-          "other_segments": 0,
-          "stripe_layers": [],
-          "stripe_segments": 0,
+          "other_segments": 244,
+          "stripe_layers": [
+            "M6",
+            "M5",
+            "M4",
+            "M3",
+            "M2"
+          ],
+          "stripe_segments": 1021,
           "use": "GROUND",
-          "vias": 81
+          "vias": 1089
         }
       ],
-      "status": "partial",
+      "status": "complete",
       "tapcells": 322,
       "unavailable_reason": null
     },
@@ -2266,6 +2300,14 @@
       {
         "layer": "M2",
         "spacing_um": null
+      },
+      {
+        "layer": "M5",
+        "spacing_um": 0.312
+      },
+      {
+        "layer": "M6",
+        "spacing_um": 0.096
       }
     ],
     "tapcell_distance_um": 25,
@@ -2293,9 +2335,9 @@
       "role": "netlist"
     },
     "klayout_version": "0.30.13",
-    "klt_git_commit": "4d0d29be4fd991f499d59e783a908082d5e24c56",
-    "klt_reinstall_spec": "klayout-tools==0.9.1",
-    "klt_version": "0.9.1",
+    "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+    "klt_reinstall_spec": "klayout-tools==0.9.2",
+    "klt_version": "0.9.2",
     "pdk": {
       "name": "asap7",
       "source": "--pdk-root flag",
@@ -2313,13 +2355,13 @@
     "design_nets_total": 2717,
     "hold_violation_count": 0,
     "nets_annotated": 2523,
-    "nets_total": 2873,
+    "nets_total": 2715,
     "sdf_path": "<scratch>/run/.klt/place-and-route/slice_route.sdf",
     "setup_violation_count": 0,
     "spef_path": "<scratch>/run/.klt/place-and-route/slice_route.spef",
     "timing_status": "constrained",
     "total_negative_slack_ns": 0,
-    "worst_slack_ns": 0.22584
+    "worst_slack_ns": 0.22579
   },
   "stage_reached": "route",
   "stages": [
@@ -2375,18 +2417,19 @@
         "detailed_route": {
           "converged": true,
           "drc_violations_per_iteration": [
-            1237,
-            114,
-            118,
+            1235,
+            167,
+            159,
+            1,
             0
           ],
-          "first_iteration_drc_violation_count": 1237,
-          "iteration_count": 4
+          "first_iteration_drc_violation_count": 1235,
+          "iteration_count": 5
         },
         "global_route": {
           "max_gcell_usage_pct": null,
           "max_horizontal_overflow": 0,
-          "max_layer_usage_pct": 22.59,
+          "max_layer_usage_pct": 22.65,
           "max_vertical_overflow": 0,
           "overflow_per_layer": {
             "M1": {
@@ -2398,42 +2441,42 @@
               "usage_pct": 0.0
             },
             "M2": {
-              "demand": 7470,
+              "demand": 7489,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
               "resource": 49171,
               "total_overflow": 0,
-              "usage_pct": 15.19
+              "usage_pct": 15.23
             },
             "M3": {
-              "demand": 12391,
+              "demand": 12282,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 54863,
+              "resource": 54215,
               "total_overflow": 0,
-              "usage_pct": 22.59
+              "usage_pct": 22.65
             },
             "M4": {
-              "demand": 3135,
+              "demand": 3118,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 40893,
+              "resource": 40325,
               "total_overflow": 0,
-              "usage_pct": 7.67
+              "usage_pct": 7.73
             },
             "M5": {
-              "demand": 206,
+              "demand": 314,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 41251,
+              "resource": 37991,
               "total_overflow": 0,
-              "usage_pct": 0.5
+              "usage_pct": 0.83
             },
             "M6": {
               "demand": 0,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 30702,
+              "resource": 27217,
               "total_overflow": 0,
               "usage_pct": 0.0
             },
@@ -2446,16 +2489,18 @@
               "usage_pct": 0.0
             }
           },
+          "overflow_regions": null,
           "routed_net_count": 2713,
           "total_overflow": 0,
-          "usage_pct": 9.36
+          "usage_pct": 9.68
         },
         "null_reasons": {
           "completeness.partially_routed_net_count": "OpenROAD exposes no per-net connectivity check; only nets with no routed wire at all are counted",
-          "global_route.max_gcell_usage_pct": "OpenROAD's global router reports usage per routing layer, not per GCell"
+          "global_route.max_gcell_usage_pct": "OpenROAD's global router reports usage per routing layer, not per GCell",
+          "global_route.overflow_regions": "no `global_route -congestion_report_file` report was produced or it held no congestion violations"
         },
         "placement": {
-          "final_weighted_congestion": 0.2855,
+          "final_weighted_congestion": 0.384,
           "overflowed_tile_count": 0,
           "total_routing_overflow": 0.0
         }
@@ -2473,7 +2518,7 @@
       "timing_status": "constrained",
       "total_negative_slack_ns": 0,
       "utilization_pct": 40.4467,
-      "wirelength_um": 12926,
+      "wirelength_um": 12991,
       "worst_slack_ns": 0.232
     }
   ],
@@ -2491,10 +2536,8 @@
     "reason": null,
     "status": "trimmed"
   },
-  "warnings": [
-    "request.power was supplied but the produced DEF has no STRIPE strap segments (322 tapcell(s), 322 endcap(s), 19896 filler cell(s), 2 power special net(s), 486 FOLLOWPIN rail segment(s), 0 STRIPE strap segment(s), 162 PDN via(s)). Power delivery is partial -- check the request's strap layers/pitch/width against the platform's own PDN config before using this run's numbers."
-  ],
-  "wirelength_um": 12926,
+  "warnings": [],
+  "wirelength_um": 12991,
   "worst_hold_slack_ns": null,
   "worst_setup_slack_ns": null,
   "worst_slack_ns": 0.232

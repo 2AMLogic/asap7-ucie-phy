@@ -218,3 +218,17 @@ history, untouched) and are the records cited by the manifest. Placement and rou
 the DEF->GDS merge -- so the P&R report's `route_drc_violation_count` 0, `antenna_violation_count` 0 and
 clock skew 0.00771 ns are unchanged. DRC figures are not re-measured here; the LVS re-run on this stream is
 `evidence/item4-slice-attempt.r12.json` (still `mismatch`). Layout geometry only; ASAP7 is predictive.
+
+**Record r9 (issue #66).** The M5/M6 power grid was restored in `layout/pnr/slice.pnr.json` (the klt
+`asap7sc7p5t` recipe transcribed explicitly, M5 strap offset 0.306 um -- see
+`verification/drc/lane_column.r5.drc.run-record.json` for why the preset form is unreachable here and why
+the offset deviates), so `layout/slice_routed.gds` was regenerated (`regen.py --check` reproduces it
+byte-for-byte; power delivery in `slice.pnr.report.json` is now `complete`, 1,016/1,021 `STRIPE`
+segments) and `layout/lane_column.gds` was re-assembled (`--check` exits 0; `layout/slice_routed.gds`
+sha256 `cc4a7c72...`, column sha256 `66179d88...`). Placement is unchanged: the tied netlist hash in the
+P&R report is byte-identical and so is the committed routed netlist `slice_routed.v`. `check_pads.py`
+still passes on 34 pads (record byte-identical to r8's). `attest/item2.r9.json` /
+`evidence/item2.r9.json` supersede r8 (kept as history, untouched) and are the records cited by the
+manifest. The routed metal moved around the new straps, so the post-route SDF changed with this
+regeneration; the DRC re-measurement on both streams is the r5 record above (still not clean; the
+grid's residual families are reported there). Layout geometry only; ASAP7 is predictive.
