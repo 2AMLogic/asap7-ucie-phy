@@ -22,9 +22,9 @@
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item1.r7.json",
+        "path": "evidence/item1.r10.json",
         "passed": true,
-        "content_hash": "sha256:d1080338b7351bb1cb5f25ac552fbf3a7e5dfe2a317429448ac32bb3df67d1dc"
+        "content_hash": "sha256:395c54dca64ad02288257d91eacedfe0b24794af4f2817d0b9abb412738e4160"
       },
       {
         "check": "present",
@@ -73,7 +73,7 @@
         "role": "spec_row",
         "row": "s1-clock-lanes",
         "envelopes": [
-          "evidence/item1.r7.json",
+          "evidence/item1.r10.json",
           "evidence/item2.r9.json"
         ],
         "passed": true
@@ -83,7 +83,7 @@
         "role": "spec_row",
         "row": "s1-data-lanes",
         "envelopes": [
-          "evidence/item1.r7.json",
+          "evidence/item1.r10.json",
           "evidence/item2.r9.json"
         ],
         "passed": true
@@ -93,7 +93,7 @@
         "role": "spec_row",
         "row": "s1-spare-lanes",
         "envelopes": [
-          "evidence/item1.r7.json",
+          "evidence/item1.r10.json",
           "evidence/item2.r9.json"
         ],
         "passed": true
@@ -121,7 +121,7 @@
         "role": "spec_row",
         "row": "s2-serialization-ratio",
         "envelopes": [
-          "evidence/item1.r7.json",
+          "evidence/item1.r10.json",
           "sta/slice.sta.r5.report.json"
         ],
         "passed": true
@@ -201,7 +201,7 @@
         "role": "spec_row",
         "row": "s4-drawn-cells",
         "envelopes": [
-          "evidence/item1.r7.json",
+          "evidence/item1.r10.json",
           "evidence/item2.r9.json",
           "evidence/item4-lvs/tx_cell.r2.report.json"
         ],
@@ -212,7 +212,7 @@
         "role": "spec_row",
         "row": "s4-serializer-boundary",
         "envelopes": [
-          "evidence/item1.r7.json",
+          "evidence/item1.r10.json",
           "evidence/item4-lvs/slice_routed.r14.report.json",
           "evidence/item4-lvs/tx_cell.r2.report.json",
           "sta/slice.sta.r5.report.json"
@@ -260,16 +260,16 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item1.r7.json",
+        "target": "evidence/item1.r10.json",
         "argv": [
           "klt",
           "signoff",
           "--attest",
           "1",
           "--inventory",
-          "attest/item1.r7.json",
+          "attest/item1.r9.json",
           "--check",
-          "evidence/item1.r7.json"
+          "evidence/item1.r10.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -468,7 +468,7 @@
         "path": "manifests/attest/item8.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:5cd5a569137b5d53e018c63f44a9bd746f7d1cc5256a0dcf3f0334116cdd42fd"
+      "content_hash": "sha256:432536f32fa6c47a45e257d8304358c131c8c22d4467b42a8f2a76b3d999e3db"
     }
   }
 }
