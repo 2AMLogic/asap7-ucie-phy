@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "kind": "drc-run-record",
+  "issue": 228,
+  "run_date": "2026-11-17",
+  "claim": "The committed lane-column grid families are inherent to the shipped klt asap7sc7p5t PDN recipe, not a stale transcription of it. Statically, the committed power block equals the 0.9.2 preset table except the one measured deviation r5 records (M5 offset 0.306 vs the preset's 0.312, the core-origin adjustment the tool docs themselves direct for this floorplan). Measured, a full place-and-route re-run with the preset-exact offset, same netlist and seed, leaves V4.M4.EN.1 (648), V4.M5.EN.2 (12) and M3.S.2 (15) byte-identical and introduces M5.AUX.1 = 32 whose markers all sit at M5 strap edges 6 nm off the 24 nm grid. M5.W.3 (46 -> 0) is route-dependent, not strap-geometry-bound: it trades against M5.AUX.1 through the one field that positions the straps, and neither setting clears both. No committed file changed in this pass; the committed-stream measurement of record remains r5.",
+  "scope": {
+    "committed_streams_unchanged": true,
+    "measured_here": "a scratch routed slice generated from a copy of layout/pnr/slice.pnr.json with the preset-exact M5 offset (0.312); the scratch worktree, request copy, GDS, netlist and SDF were discarded after the run and only hashes and counts are recorded here",
+    "why_no_committed_stream_rerun": "both committed streams are byte-identical to the ones r5 measured (hashes re-verified below), and r4 already demonstrated byte-identical inputs give byte-identical counts, so re-running DRC on them adds no information"
+  },
+  "static_comparison": {
+    "reference": "klayout_tools.place_and_route_request._PDN_PRESETS[\"asap7sc7p5t\"] at the pin (klt 0.9.2), the preset klayout-tools#4499 merged 2026-10-28",
+    "straps": {
+      "M1": "identical (w 0.018 / p 0.54 / followpins, offset 0)",
+      "M2": "identical (w 0.018 / p 0.54 / followpins, offset 0)",
+      "M5": "identical except offset: committed 0.306, preset 0.312 (w 0.216 / p 5.4 / sp 0.312 are the preset's)",
+      "M6": "identical (w 0.288 / p 5.376 / off 0.344 / sp 0.096)"
+    },
+    "connects": "identical (M2<->M5 max_columns 1 ongrid {M3 M4}; M5<->M6 max_columns 1)",
+    "conclusion": "the committed grid is the current shipped recipe, transcribed explicitly because the preset form is still unreachable with post_route_sdf at this pin (klayout-tools#6029 open), with the single documented deviation",
+    "the_deviation_is_tool_sanctioned": "the pin's docs/cli/place-and-route.md, asap7sc7p5t section: pdngen offsets are core-origin relative, the edge-grid result was measured with core origin 0.96 um, and other origins can leave M5.AUX.1/M6.AUX.1 hits - adjust power.straps explicitly in that case. This floorplan's core origin x is 1.026 um; r5's request_change.why_m5_offset_0p306 measured the strap edges off-grid at 0.312 and on-grid at 0.306"
+  },
+  "tool": {
+    "klt": "0.9.2 (pinned, .github/klt-version; uvx --from klayout-tools==0.9.2)",
+    "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+    "engine": "klayout",
+    "klayout": {
+      "engine_binary": "/usr/bin/klayout",
+      "engine_version": "0.30.12",
+      "engine_version_source": "klayout -v on the standalone binary the deck ran under (--engine klayout shells out; --min-klayout-version 0.30.12 probe passed)",
+      "envelope_reports": "0.30.13",
+      "note": "Same known envelope quirk as r3/r4/r5: provenance.klayout_version is the uvx wheel inside the pinned environment, not the engine binary (klayout-tools#5660); the wheel-vs-tested-version mismatch warning (0.30.13 vs 0.30.12) was emitted and the verdict is unaffected per the tool's own contract"
+    },
+    "deck": {
+      "file": "<klayout_tools>/decks/asap7.drc",
+      "content_hash": "sha256:fa303c032c18f91c5185bcdb08a8f76067aa234558f60442e0e0e4ea7c7dc61d",
+      "released": false,
+      "note": "Identical to the deck the r5 record used (same pin, same bytes), so the rerun comparison below is deck-controlled: the only changed inputs are the strap offset and the route it produces"
+    },
+    "expectation_file": "267 ids from klayout_tools.decks.asap7_rules.RULE_IDS at klt 0.9.2, sorted, one per line, unfiltered; no waivers. sha256:816302d52ed5028ee40b14ca8f41af817a32d2af747bf30c1fa2b558e89d4664",
+    "expectation_file_note": "Byte-identical to the r3/r4/r5 expectation file (same sha256), regenerated for this run and re-hashed",
+    "command": "uvx --from klayout-tools==0.9.2 klt drc <scratch>/layout/slice_routed.gds --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <267 ids> --min-klayout-version 0.30.12 --format json --timeout-s 1500 --max-violations 0 -o <envelope> (a second run without --max-violations serialized the markers the M5.AUX.1 attribution below cites)"
+  },
+  "committed_streams": {
+    "slice_routed": {
+      "input": "layout/slice_routed.gds",
+      "input_content_hash": "sha256:cc4a7c726b760da0391ddc4804cd9af24fcb29b88b100a4e5d81a4349ca32367",
+      "status": "violations",
+      "violation_count": 1620,
+      "rules_violated": 9,
+      "note": "sha256 re-verified this pass; measured by r5, unchanged by it and by this pass"
+    },
+    "lane_column": {
+      "input": "layout/lane_column.gds",
+      "input_content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
+      "status": "violations",
+      "violation_count": 25920,
+      "rules_violated": 9,
+      "note": "sha256 re-verified this pass; exactly 16x the slice in every rule count at r5; unchanged by this pass"
+    },
+    "regen_reproducibility": "python3 -I layout/pnr/regen.py --check-input exits 0 this pass (the tied netlist still hashes to the committed report's provenance.input.content_hash)"
+  },
+  "preset_exact_rerun": {
+    "request_change": {
+      "file": "<scratch copy of layout/pnr/slice.pnr.json>",
+      "what": "power.straps M5 offset_um 0.306 -> 0.312 (the preset's value); a formatted diff of the two requests shows exactly this one line",
+      "everything_else": "seed 1, floorplan, tracks, connects, cells, netlist and every other request field byte-identical to the committed request"
+    },
+    "flow": {
+      "command": "KLT='uvx --from klayout-tools==0.9.2 klt' python3 -I layout/pnr/regen.py --pdk-archive <pinned archive>",
+      "pdk_archive": "siliconcompiler/lambdapdk v0.2.17 tag tarball, sha256 ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2 (the spec/asap7-bringup.md pin; verified by the flow's own fetch gate)",
+      "openroad": "26Q3-1510-g6cb3f2b704",
+      "exit": 0
+    },
+    "scratch_stream": {
+      "input": "<scratch>/layout/slice_routed.gds",
+      "input_content_hash": "sha256:5548c04134ab516a986fcbc934678dad3ad3919c726c2d7ec3065beeb08e8b10",
+      "input_dbu_um": 0.00025,
+      "note": "Differs from the committed slice (cc4a7c72...) as expected: the 6 nm strap shift changes the blockages, so TritonRoute's metal differs while the netlist does not"
+    },
+    "route_netlist_and_timing": {
+      "routed_netlist": "byte-identical to the committed layout/slice_routed.v",
+      "sdf": "differs from the committed layout/slice_routed.sdf only in its DATE header and sub-picosecond cell-delay deltas (max 0.001 ns observed); the same netlist is timed",
+      "report": "fmax_mhz 3731.41, hold_violation_count 0, setup_violation_count 0 - identical to the committed report"
+    },
+    "power_delivery": {
+      "status": "complete",
+      "VDD": {"stripe_segments": 1016, "vias": 1085, "followpin_segments": 243},
+      "VSS": {"stripe_segments": 1021, "vias": 1089, "followpin_segments": 243},
+      "note": "Identical to the committed report, segment for segment and via for via: the offset deviation does not trade against power delivery in either direction"
+    },
+    "drc": {
+      "status": "violations",
+      "violation_count": 1603,
+      "rules_violated": 9,
+      "rule_counts": {
+        "M1.S.2": 16,
+        "M1.S.3": 34,
+        "M1.S.4": 190,
+        "M1.S.5": 62,
+        "M3.S.2": 15,
+        "M5.AUX.1": 32,
+        "M5.W.3": 0,
+        "SDT.ACTIVE.AUX.2": 594,
+        "V4.M4.EN.1": 648,
+        "V4.M5.EN.2": 12
+      },
+      "coverage": {
+        "expectation_satisfied": true,
+        "expectation_missing_names": [],
+        "expectation_unexpected_names": [],
+        "rule_categories_declared": 267,
+        "rules_checked": 267,
+        "layers_in_stream_without_rules": [],
+        "rules_skipped": [],
+        "unchecked_rules": [],
+        "unmodeled_rule_count": 67,
+        "isolation_only_rule_count": 5
+      }
+    },
+    "m5_aux_1_markers": {
+      "count": 32,
+      "attribution": "every marker bbox left edge sits at x = 6 nm mod 24 (16 distinct edge x positions across the four M5 strap columns, pitch 5.4 um apart), measured on a marker-serializing rerun of the same DRC",
+      "interpretation": "the recipe-exact offset puts every M5 strap edge at 6 mod 24 nm at this core origin, exactly as r5's request_change.why_m5_offset_0p306 derived from the floorplan DEF and as the pin's preset docs warn for non-0.96 um core origins; M6.AUX.1 stays 0 because the M6 offset 0.344 already lands on the 32 nm grid here"
+    }
+  },
+  "comparison_against_r5_slice": {
+    "identical_counts": {
+      "V4.M4.EN.1": "648 in both - byte-identical despite the shifted strap geometry and a different route",
+      "V4.M5.EN.2": "12 in both",
+      "M3.S.2": "15 in both",
+      "SDT.ACTIVE.AUX.2": "594 in both (shipped-cell family, untouched by either strap offset)",
+      "M1.S.2": "16 in both"
+    },
+    "moved_counts": {
+      "M1.S.3": "32 -> 34",
+      "M1.S.4": "193 -> 190",
+      "M1.S.5": "64 -> 62",
+      "note": "single-digit router pin-access movement around the shifted blockages, the same wiggle scale r5 recorded around the grid's arrival",
+      "M5.AUX.1": "0 -> 32 (the off-grid strap edges above)",
+      "M5.W.3": "46 -> 0 (see verdict_per_family: route-dependent, not strap-geometry-bound)"
+    },
+    "totals": "1620 -> 1603; the preset-exact request is not a fix: it trades a route-dependent family for the deck's off-grid family and keeps the enclosure and stub families byte-identical"
+  },
+  "verdict_per_family": {
+    "V4.M4.EN.1": {
+      "verdict": "recipe-inherent; no in-flow change",
+      "evidence": "count 648 under both strap offsets = the M2<->M5 stack crossings exactly; the tech LEF's wide V4 bar (VIARULE M5_M4widePWR0p864, the only wide V4 for the recipe's 0.216 M5) has zero M4 enclosure",
+      "upstream": "klayout-tools#4499 (closed 2026-10-28) shipped the preset with this documented; the pin's docs/cli/place-and-route.md states no existing request field changes that"
+    },
+    "V4.M5.EN.2": {
+      "verdict": "recipe-inherent; no in-flow change",
+      "evidence": "count 12 under both strap offsets; same wide-V4 bar family",
+      "upstream": "klayout-tools#4499 and the pin's preset docs (measured ~13 on the tool's own tiny block)"
+    },
+    "M3.S.2": {
+      "verdict": "recipe-inherent; no in-flow change",
+      "evidence": "count 15 under both strap offsets; pdngen M2<->M5 stack M3 stubs closer than the deck's 40 nm along-track spacing at some rail pitches",
+      "upstream": "klayout-tools#6030, closed completed 2026-11-17: no connect tuning moves them; residual documented post-pin by klayout-tools#6180 (merged 2026-11-17, after the 0.9.2 cut, so the pin's docs do not carry it yet)"
+    },
+    "M5.W.3": {
+      "verdict": "route-dependent, not recipe-inherent; not clearable by the preset form either",
+      "evidence": "46 -> 0 on the same netlist when the strap offset moved 6 nm: the family follows the route TritonRoute produces under the strap blockages, and the offset that removes it is the one this core origin cannot use (it introduces M5.AUX.1 = 32)",
+      "upstream": "klayout-tools#6453 (filed from this trace, generic): TritonRoute M5 landing patches can exceed the M5.W.3 width buckets under PDN-strap congestion; no request field moves them"
+    }
+  },
+  "envelopes_committed": {
+    "files": [],
+    "why": "the only DRC run this pass measured a scratch stream that is deliberately not committed, so a summary envelope for it could not be re-verified by klt drc --check off the authoring host (its input content hash names a discarded file); the full summary, coverage and marker attribution that an envelope would carry are recorded inline above instead. The committed streams are unchanged and remain measured by r5, whose envelopes (slice_routed.r5, lane_column.r5) stay the current committed-stream envelopes"
+  },
+  "no_waivers": "no --rules, no --waivers, nothing filtered or relaxed; the full 267-id expectation set was checked with none skipped, none unchecked, and no stream layer without a rule",
+  "signoff_consequence": "none: no GDS, evidence, manifest or attestation file changed in this pass. klt signoff item 3 stays unmet (the committed column is violations, 25,920), item 2's attestation (evidence/item2.r9.json) stays current, and the manifest still cites no record in this directory"
+}
