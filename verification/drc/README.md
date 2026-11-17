@@ -407,3 +407,43 @@ Per-rule against r4 (slice counts; the column is 16× in every row): `M1.S.2` 18
 manifest re-pinned, verdict regenerated (`--check`: match, exit 0, `t1_met_count` 11 unchanged, no
 `stale_evidence` rows). Item 3 stays **unmet**. The manifest still cites no record in this directory.
 
+## Issue #66, addendum: the routed-slice LVS re-take (r15) and its PDK provenance (2026-11-17)
+
+The grid restoration regenerated the routed stream (`cc4a7c72...`), so the routed-slice LVS had to be
+re-taken. This is the recorded decision for that re-take; the committed pair is
+`evidence/item4-lvs/slice_routed.r15.{request,report}.json` (the prior routed-slice record r13 stays in
+the tree as history, not citable as current evidence).
+
+**Why r15 exists (request forms tried).** The first re-take on the regenerated stream named the reference
+pin-order CDL by absolute, machine-local paths (`/tmp/lambdapdk-r14/...`), exactly as r13 had before it
+(`/tmp/lambdapdk-r13/...`), both resolves of the pinned `siliconcompiler/lambdapdk v0.2.17`. The record
+gate refuses absolute paths (decision 0012 §1), so that form was re-taken as r15: `portable_paths: true`,
+`reference.pdk: asap7`, and the request naming the CDL by the `$PDK_ROOT` token
+(`$PDK_ROOT/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl`). Only the two committed forms
+existed: absolute (gate-refused) and portable (committed).
+
+**What the r15 report records.** Under portable paths the tool deliberately records no host location:
+`provenance.pdk` and `reference_conversion.pdk_root` are `null`, and the pin-order source is
+`{"path": null, "scope": "external"}` with `cells: 209` consumed. That the token resolved at run time is
+measured by the recorded cell count; the host tree it resolved against is the extracted release below
+(the tree the gate-refused takes had named by absolute path).
+
+**The provenance is recoverable, recorded here (decision 0012 §3's remedy: repo-relative references or a
+content hash).** Three repo-side facts reconstruct the reference side of `s7-lvs`:
+
+1. The PDK release is pinned in [`evidence/item4-attempts.json`](../../evidence/item4-attempts.json):
+   `siliconcompiler/lambdapdk v0.2.17, archive sha256 ac7e950c...` — re-measured 2026-11-17 on the
+   extracted tree's archive copy:
+   `ac7e950c4d0394a829658b6e219fea4a4b0c61a998183d5520f8b9e38c6efff2` (228,891,082 bytes).
+2. Inside that release, the file at the request token's relative path
+   (`asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl`) is 146,201 bytes,
+   `sha256 3e3e2548fb8f571c2e373dcbf565ecb0288e6433e803fbf06561cb16b70caf53` (re-measured 2026-11-17).
+3. The committed r15 report consumed 209 pin-order cells from that file and records the compare outcome
+   (8,333 mismatches / 8,043 errors — materially better than r13's 86,629 / 86,371 on the pre-grid
+   stream, which the restored supply grid plausibly explains; no claim beyond the recorded counts).
+
+So a reader of `s7-lvs` can reconstruct: lambdapdk v0.2.17 (archive `ac7e950c...`) →
+`asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl` (sha256 `3e3e2548...`, 209 cells). If a future
+take should have the tool itself record the reference hash, that is a tool request, not a gate edit; the
+compare was not re-run to test alternative request shapes (decision 0012 §2 — re-runs belong to #20).
+

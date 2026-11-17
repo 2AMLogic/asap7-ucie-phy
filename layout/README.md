@@ -231,4 +231,8 @@ still passes on 34 pads (record byte-identical to r8's). `attest/item2.r9.json` 
 `evidence/item2.r9.json` supersede r8 (kept as history, untouched) and are the records cited by the
 manifest. The routed metal moved around the new straps, so the post-route SDF changed with this
 regeneration; the DRC re-measurement on both streams is the r5 record above (still not clean; the
-grid's residual families are reported there). Layout geometry only; ASAP7 is predictive.
+grid's residual families are reported there). The routed-slice LVS was re-taken on the regenerated
+stream as `evidence/item4-lvs/slice_routed.r15.report.json` (the path-gate-clean r15 of the re-take;
+8,043 errors, still `mismatch`), and the PDK provenance that the portable-path form drops is
+reconstructed in the r15 addendum of `verification/drc/README.md`. Layout geometry only; ASAP7 is
+predictive.
