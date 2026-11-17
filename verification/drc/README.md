@@ -447,3 +447,83 @@ So a reader of `s7-lvs` can reconstruct: lambdapdk v0.2.17 (archive `ac7e950c...
 take should have the tool itself record the reference hash, that is a tool request, not a gate edit; the
 compare was not re-run to test alternative request shapes (decision 0012 §2 — re-runs belong to #20).
 
+## Issue #228: the grid families are recipe-inherent, not a stale preset (r6, 2026-11-17)
+
+Record: `lane_column.r6.drc.run-record.json`. klt **0.9.2** (the pin), `--engine klayout` with the
+packaged ASAP7 deck (bytes identical to r5's, deck-controlled), the same **267**-id expectation file as
+r3/r4/r5 (byte-identical, re-hashed), no `--rules`, no `--waivers`, nothing filtered or relaxed. The
+eight earlier records are unedited. **No committed file changed in this pass**: both committed streams
+still hash to r5's inputs (`cc4a7c72...` slice, `66179d88...` column) and r5 remains their measurement
+of record; this pass measured a **scratch** routed slice and records only its hashes and counts. Still
+**not clean**; layout results against a predictive PDK, not measurements.
+
+**Why this run exists.** Issue #228 (step 3 of the Curator's order, measurement first) asks one question
+about the four grid families r5 reported — `V4.M4.EN.1` 648, `V4.M5.EN.2` 12, `M3.S.2` 15, `M5.W.3` 46
+on the slice: are they inherent to the shipped `asap7sc7p5t` PDN recipe, or the stale transcription of
+an older one? klayout-tools#4499 merged that preset on 2026-10-28, five days before r5 transcribed it;
+whether the committed grid matches what actually shipped had not been traced.
+
+**Static answer: the committed grid is the shipped recipe.** The committed `power.straps`/`connects`
+equal the 0.9.2 preset table value for value, except the one deviation r5 records on purpose: the M5
+strap offset **0.306, not the preset's 0.312**. That deviation is the tool's own documented adjustment —
+the pin's preset docs state pdngen offsets are core-origin relative, the edge-grid result was measured
+at core origin 0.96 µm, and *other origins can leave `M5.AUX.1`/`M6.AUX.1` hits (adjust
+`power.straps` explicitly in that case)*. This floorplan's core origin x is 1.026 µm; r5 measured the
+strap edges off-grid at 0.312 and on-grid at 0.306. (The preset form itself remains unreachable with
+`post_route_sdf` at this pin: klayout-tools#6029 is open.)
+
+**Measured answer: the recipe-inherent families do not move, and the recipe-exact offset is worse.** A
+full place-and-route re-run of the same netlist with the same seed, changing only the M5 offset to the
+preset's 0.312, routed to a scratch stream (`5548c041...`) and measured at the pin. The routed netlist
+is byte-identical to the committed one; power delivery is segment-for-segment and via-for-via identical
+(VDD 1,016 / VSS 1,021 stripe segments, 1,085 / 1,089 vias, `complete`); report fmax (3,731.41 MHz) and
+hold/setup violation counts (0 / 0) are identical. DRC, 267 of 267 categories checked:
+
+| Rule (slice) | r5 committed (off 0.306) | preset-exact (off 0.312) | |
+|---|---|---|---|
+| `V4.M4.EN.1` | 648 | 648 | byte-identical |
+| `V4.M5.EN.2` | 12 | 12 | byte-identical |
+| `M3.S.2` | 15 | 15 | byte-identical |
+| `SDT.ACTIVE.AUX.2` | 594 | 594 | byte-identical |
+| `M1.S.2` | 16 | 16 | byte-identical |
+| `M1.S.3/.4/.5` | 32 / 193 / 64 | 34 / 190 / 62 | pin-access wiggle |
+| `M5.AUX.1` | 0 | **32** | off-grid strap edges |
+| `M5.W.3` | 46 | **0** | route-dependent |
+
+Totals: 1,620 → 1,603 — not a fix. A marker-serializing rerun attributes every one of the 32 new
+`M5.AUX.1` markers: all sit at M5 strap edges **6 nm off the 24 nm grid** (16 edge positions across the
+four strap columns), exactly what r5 derived from the floorplan DEF and the preset docs warn for this
+core origin. `M6.AUX.1` stays 0. And `M5.W.3` is **route-dependent, not strap-geometry-bound**: the
+same netlist routed with zero `M5.W.3` under the shifted strap blockages — but that route is the one
+this core origin cannot use, because it carries the off-grid family. The two families trade through the
+one field that positions the straps; neither setting clears both.
+
+**Verdict per family, with the upstream disposition each now carries:**
+
+- `V4.M4.EN.1` (648) / `V4.M5.EN.2` (12): recipe-inherent — counts byte-identical under both offsets,
+  and the count is the M2↔M5 stack crossings exactly. The tech LEF's wide V4 bar
+  (`VIARULE M5_M4widePWR0p864`, the only wide V4 for the recipe's 0.216 M5) has zero M4 enclosure.
+  [#4499](https://github.com/2AMLogic/klayout-tools/issues/4499) shipped the preset with this
+  documented; the pin's own preset docs state *no existing request field changes that*.
+- `M3.S.2` (15): recipe-inherent — byte-identical under both offsets; pdngen's M2↔M5 stack M3 stubs sit
+  closer than the deck's 40 nm along-track spacing at some rail pitches.
+  [#6030](https://github.com/2AMLogic/klayout-tools/issues/6030) closed completed 2026-11-17 (*no
+  connect tuning moves them*), with the residual documented post-pin by
+  [#6180](https://github.com/2AMLogic/klayout-tools/issues/6180) (merged after the 0.9.2 cut, so the
+  pin's docs do not carry it yet).
+- `M5.W.3` (46): route-dependent, not recipe-inherent — but not clearable by the preset form either
+  (the offset that removes it is the one this core origin cannot use). Filed generically from this
+  trace as [#6453](https://github.com/2AMLogic/klayout-tools/issues/6453): TritonRoute M5 landing
+  patches can exceed the `M5.W.3` width buckets under PDN-strap congestion; no request field moves
+  them.
+
+For issue #228 this settles its step 3: the grid families stand as recorded, by name and count, with
+upstream issues; no in-flow change to the committed grid clears them, and the alternative to the grid —
+dropping the straps — is the #66 trade this issue's own acceptance criteria prohibit. The envelope
+consequence: no committed stream changed, so item 2's attestation (`evidence/item2.r9.json`) stays
+current, `klt signoff` item 3 stays **unmet**, and the manifest still cites no record in this
+directory. No envelope is committed for the scratch stream (its input hash names a deliberately
+discarded file, so `klt drc --check` could not re-verify it off the authoring host); the summary,
+coverage and marker attribution an envelope would carry are recorded inline in the r6 record. Issue
+#228's step 2 (`M1.S.*`) and step 1 (`SDT.ACTIVE.AUX.2`) are separate measurements, not taken here.
+
