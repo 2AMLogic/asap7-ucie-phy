@@ -33,6 +33,11 @@
       "documentation"
     ]
   },
+  "buildGate": {
+    "command": "./check.sh",
+    "fastCommand": "./check.sh",
+    "enabled": true
+  },
   "terminals": [
     {
       "id": "terminal-1",
