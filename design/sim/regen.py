@@ -4,10 +4,11 @@
 Re-runs the OSDI adaptation decision 0010 records for the drawn TX cell
 (`klayout_tools.asap7_bsimcmg.adapt_extracted_netlist`, the same call that
 produced the committed file): design/netlist/tx_cell.sp in,
-design/sim/tx_cell.osdi.sp out. Without it the adapted netlist is bound to no
-drift check -- `gen_cells.py --check` re-renders only design/netlist/*.sp --
-so tx_cell.osdi.sp would keep an outdated topology if tx_cell moved while
-`sim/tx_cell.batch.report.json` still reads as recorded evidence.
+design/sim/tx_cell.osdi.sp out. Without it tx_cell.osdi.sp would keep an
+outdated topology if tx_cell moved while `sim/tx_cell.batch.report.json`
+still reads as recorded evidence: `gen_cells.py --check` drift-checks the
+three hand-kept adapted netlists but has no writer for `sim/` -- this
+script is the writer and the byte-for-byte gate for `tx_cell`.
 
 Needs `klayout_tools` importable: run as plain `python3`, not `-I` (-I hides
 the package, on the worker and in the klt interpreter alike; see
