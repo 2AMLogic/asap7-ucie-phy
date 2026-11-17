@@ -1,0 +1,135 @@
+{
+ "schema_version": 1,
+ "kind": "drc-run-record",
+ "issue": 228,
+ "run_date": "2026-11-17",
+ "claim": "Issue #228 step 2 (the Curator's order): the committed stream's M1.S.2/.3/.4/.5 family survives because klt's via_pad_trim pass structurally cannot touch it, measured on the committed slice at the pin. The pass already did everything it can do here: it dropped the one redundant pad (the power via array's merged M1 pad, fully wire-covered in all placements; report cells_touched 1, pads_trimmed 1, pads_left 1). The surviving pad - the router's standard V1 via cell VIA_VIA12, one 18 x 22 nm pad at 8,905 placements - fails the drop test at 8,237 of 8,905 placements (the pad protrudes past routed M1 exactly at the wire-endpoint placements where it is the connection, so it is not redundant), and fails the shrink test by construction: the pad is a strict subset of the pass's shrink floor (V1 cut 18 x 18 nm sized by the pass's 5 nm enclosure bound = 28 x 28 nm), so pad & (cut sized 5 nm) == pad and the pass's own strict-reduction test rejects any change. The deck's M1.S.* markers are placement-specific pad-to-neighbor spacing pairs: 270 of the 305 marker bboxes interact with a surviving pad placement (35 are pad-free routed-wire tip pairs). Both trim tests are uniform across every placement of a cell and neither reads deck spacing, so a pad that is required at one placement and too close to a neighbor at another cannot be edited at all. The upstream disposition is 2AMLogic/klayout-tools#4508 (open): trim protruding VIA_* M1 pad tips to clear M1.S.2-5. Its acceptance criteria's shrink-to-minimum-enclosure fallback is present at the 0.9.2 pin and is measured here to be a no-op for this pad; the family therefore stands recorded by name and count with an open upstream issue. No committed file changed in this pass; the committed-stream measurement of record moves from r5 to this record byte-identically.",
+ "scope": {
+  "committed_streams_unchanged": true,
+  "measured_here": "both committed streams re-run at the pin (byte-identical per-rule counts to r5), plus geometric analysis of the committed slice against the pinned trim module and a marker-serializing slice run for the M1.S.* attribution",
+  "why_remeasure_committed_streams": "the M1.S.* attribution below is derived from a fresh marker-serializing run, so the summary counts it cites are re-measured in the same pass rather than inherited, making the marker count and the summary count one measurement"
+ },
+ "tool": {
+  "klt": "0.9.2 (pinned, .github/klt-version; installed as klayout-tools==0.9.2 into a throwaway venv on the host python 3.12, because uvx resolution on this worker hangs on a broken uv-managed cpython 3.11 shim left by an earlier step - a host defect, recorded here because the pinned package is identical: same dist-info version, same klt_git_commit 046ba746... as r6 records for the pin, same deck bytes)",
+  "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+  "engine": "klayout",
+  "klayout": {
+   "engine_binary": "/usr/bin/klayout",
+   "engine_version": "0.30.12",
+   "envelope_reports": "0.30.12",
+   "note": "No wheel-vs-binary mismatch this pass: the pinned venv's klayout wheel is 0.30.12, matching the engine binary, so the mismatch warning r3-r6 emitted is absent here"
+  },
+  "deck": {
+   "file": "<klayout_tools>/decks/asap7.drc",
+   "content_hash": "sha256:fa303c032c18f91c5185bcdb08a8f76067aa234558f60442e0e0e4ea7c7dc61d",
+   "released": false,
+   "note": "Byte-identical to the deck r5/r6 used (same pin) - deck-controlled against r5: the only difference from r5's runs is nothing; the committed streams are also byte-identical"
+  },
+  "expectation_file": "267 ids from klayout_tools.decks.asap7_rules.RULE_IDS at klt 0.9.2, sorted, one per line, unfiltered; no waivers. sha256:816302d52ed5028ee40b14ca8f41af817a32d2af747bf30c1fa2b558e89d4664 (byte-identical to the r3-r6 expectation file)",
+  "command": "klt drc layout/slice_routed.gds --engine klayout --deck-file <klayout_tools>/decks/asap7.drc --expect-rule-categories-file <267 ids> --min-klayout-version 0.30.12 --format json --timeout-s 1500 --max-violations 0 -o verification/drc/slice_routed.r7.envelope.json ; the same command on layout/lane_column.gds -o verification/drc/lane_column.r7.envelope.json ; a further slice run without --max-violations serialized all 1,620 markers for the attribution below (markers not committed; the attribution is recorded here)",
+  "envelope_check": "klt drc <input> --check <envelope> on both committed envelopes: match, exit 0 (provenance.input.content_hash and provenance.deck.content_hash both OK; run from the worktree root with the input named on the command line)"
+ },
+ "committed_streams": {
+  "slice_routed": {
+   "input": "layout/slice_routed.gds",
+   "input_content_hash": "sha256:cc4a7c726b760da0391ddc4804cd9af24fcb29b88b100a4e5d81a4349ca32367",
+   "status": "violations",
+   "violation_count": 1620,
+   "rules_violated": 9,
+   "rule_counts": {
+    "M1.S.2": 16,
+    "M1.S.3": 32,
+    "M1.S.4": 193,
+    "M1.S.5": 64,
+    "M3.S.2": 15,
+    "M5.W.3": 46,
+    "SDT.ACTIVE.AUX.2": 594,
+    "V4.M4.EN.1": 648,
+    "V4.M5.EN.2": 12
+   },
+   "rule_counts_vs_r5": "byte-identical"
+  },
+  "lane_column": {
+   "input": "layout/lane_column.gds",
+   "input_content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
+   "status": "violations",
+   "violation_count": 25920,
+   "rules_violated": 9,
+   "rule_counts": {
+    "M1.S.2": 256,
+    "M1.S.3": 512,
+    "M1.S.4": 3088,
+    "M1.S.5": 1024,
+    "M3.S.2": 240,
+    "M5.W.3": 736,
+    "SDT.ACTIVE.AUX.2": 9504,
+    "V4.M4.EN.1": 10368,
+    "V4.M5.EN.2": 192
+   },
+   "rule_counts_vs_r5": "byte-identical; exactly 16x the slice in every rule count as at r4/r5"
+  },
+  "measurement_of_record": "this record supersedes r5 as the committed streams' current measurement (byte-identical counts, same deck bytes, re-run at the pin)"
+ },
+ "via_pad_trim_analysis": {
+  "pinned_module": "klayout_tools.place_and_route_via_pad.trim_via_pads at the 0.9.2 pin",
+  "trim_report_committed_stream": {
+   "source": "layout/pnr/slice.pnr.report.json (the committed stream's own P&R report)",
+   "status": "trimmed",
+   "cells_touched": 1,
+   "pads_trimmed": 1,
+   "pads_shrunk": 0,
+   "pads_left": 1
+  },
+  "via_cell_census_on_committed_slice": {
+   "via_cells_total": 8,
+   "with_m1_pads_in_committed_stream": "exactly one: VIA_VIA12, the router's standard V1 (M1-M2) via cell - 1 merged pad 18 x 22 nm (72 x 88 dbu at the stream's 0.25 nm dbu), placed 8,905 times in the top cell",
+   "power_via_array": "VIA_via1_2_21762_18_1_604_36_36 (162 placements, 604 V1 cuts, ~21.73 um bar; measured on the committed slice - the cell's single M2 L20/0 shape spans 86,920 x 72 dbu = 21.730 x 0.018 um and its 604 L21/0 V1 cuts span 86,904 x 72 dbu = 21.726 um; cross-checks: the name's 21762 field read as nm gives 21.76 um and 604 cuts at 36 nm pitch give ~21.7 um) carries no M1 shapes in the committed stream - consistent with the trim report's one dropped pad being this array's merged M1 pad (dropped because the M1 followpin wire covers it fully in all placements, the only cell the pass rewrote); the pre-merge pad shapes are inferred from the committed report plus the committed GDS, since the scratch stream was discarded at generation time",
+   "other_via_cells": "VIA_VIA45/VIA56/23/34 and the M4-M5/M5-M6 arrays have no M1 shapes (upper-metal vias)"
+  },
+  "drop_test_on_surviving_pad": {
+   "method": "batched boolean on the committed slice: all 8,905 placed pad copies as one region minus the M1 wire region (every M1 shape reachable from the top cell excluding VIA_* cells, unmerged - the same boolean the pass computes against its merged region)",
+   "protruding_placements": 8237,
+   "total_placements": 8905,
+   "reading": "the pad protrudes past routed M1 at 92.5% of placements - exactly the wire-endpoint placements where the pad is the connection - so the pass's all-placements coverage condition fails overwhelmingly and the pad is not redundant anywhere near uniformly"
+  },
+  "shrink_test_on_surviving_pad": {
+   "method": "measured pad and V1 cut geometry in the committed VIA_VIA12 cell against the pass's own shrink expression (pad & (cut sized enclosure), enclosure = round(0.005 um / dbu))",
+   "pad_bbox_nm": [18, 22],
+   "v1_cut_bbox_nm": [18, 18],
+   "cut_sized_floor_nm": [28, 28],
+   "result": "pad is a strict subset of the floor; pad & (cut sized 5 nm) == pad, so (single - shrunk).is_empty() holds and the pass's strict-reduction test rejects the shrink by construction",
+   "reading": "the shipped pad already sits at or inside the pass's minimum-enclosure floor - the floor derives from the deck's V1.M1.EN.1 5 nm side bound, a rule the deck itself lists as unmodeled (not checked), so no deck-legal smaller pad exists for the pass to produce; the pad is at the LEF VIARULE minimum"
+  },
+  "m1_s_marker_attribution": {
+   "source": "marker-serializing slice run at the pin (all 1,620 markers serialized; the 305 M1.S.* markers match the summary counts byte-identically)",
+   "m1_s_markers": 305,
+   "per_rule": {
+    "M1.S.2": 16,
+    "M1.S.3": 32,
+    "M1.S.4": 193,
+    "M1.S.5": 64
+   },
+   "touching_surviving_pad": 270,
+   "pad_free": 35,
+   "method": "each marker bbox tested for interaction with the region of all 8,905 placed VIA_VIA12 pad copies; bbox-level, so 'touching' is an upper bound on pad-involvement and the 35 pad-free markers are marker bboxes that touch only routed wire",
+   "bucket_reading": "per the deck's Table 3.12.1 the buckets are tip/topology-dependent: S.4 (tip-to-tip, both edges < 24 nm, 31 nm required) dominates at 193 - the 18 nm pad tip against a routed wire tip; S.5 (mixed tip widths, 31 nm) 64; S.3 (both tips 24..36 nm, 27 nm) 32; S.2 (tip-to-side, 25 nm) 16"
+  },
+  "conclusion": "The family survives by construction, not by misconfiguration. The pass is a redundancy minimizer: drop a pad only when every placement of its cell is fully covered by wire; shrink only to the fixed V1-enclosure floor and only when connectivity is preserved at every placement; no test reads deck spacing; edits are per-cell master shapes, never per-instance. The router's standard V1 pad fails the first test at 92.5% of placements (it is the connection there), cannot pass the second (it is already inside the floor), and its M1.S.* violations are pad-to-neighbor spacing pairs that exist only at specific placements. No request field at this pin changes any of that. The upstream gap for the missing capability is 2AMLogic/klayout-tools#4508 (open, ASAP7: trim protruding VIA_* M1 pad tips to clear M1.S.2-5): its acceptance criteria's shrink-to-minimum-enclosure fallback is present at the 0.9.2 pin and measured above to be a no-op for this pad, so the remaining upstream work is the protruding-tip policy plus live evidence. The r2-r4 records cite #4495 (closed 2026-11-16 as a no-op) for this family; #4508 is its open successor and the family's live disposition from this record on.",
+  "upstream_comment": "The generic measured facts (shrink-floor containment of a VIARULE-minimum pad; all-placements-uniform edits cannot address placement-specific spacing; pin 0.9.2 state of #4508's acceptance criteria) were posted to 2AMLogic/klayout-tools#4508 on 2026-11-17, no design-specific detail."
+ },
+ "acceptance_criteria": {
+  "step_2_of_curators_order": "met: the trim's non-effect on M1.S.* is explained with measurements on the committed stream, and the family stands recorded by name and count (256/512/3,088/1,024 on the column) with an open upstream issue (#4508) as the AC requires",
+  "final_clean_or_recorded": "the full family set remains recorded by name and count per r5/r6 and this pass; step 1 (SDT.ACTIVE.AUX.2, 9,504) is a separate measurement, not taken here",
+  "post_route_sta": "not applicable to this pass: no cell was swapped and no committed file changed",
+  "power_delivery": "unaffected: no committed file changed; the #66 stripe/via counts in the committed report stand"
+ },
+ "what_this_run_could_not_establish": [
+  "the 35 pad-free M1.S.* markers' pair composition (bbox-level attribution only; the marker polygons are not serialized by the deck for these rules at this pin)",
+  "whether #4508's protruding-tip policy would clear the family - that is #4508's own live-evidence acceptance criterion, pending upstream",
+  "the pre-merge VIA_* M1 pad shapes (inferred from the committed P&R report and the committed GDS as recorded above; the generation-time scratch stream was discarded)"
+ ],
+ "caveats": [
+  "layout results against a predictive PDK, not measurements of any fabricated part",
+  "the pinned package was installed into a throwaway venv rather than via uvx (host defect noted in tool.klt); the equivalence chain to the pin is the dist-info version, the klt_git_commit and the byte-identical deck hash"
+ ]
+}

@@ -527,3 +527,71 @@ discarded file, so `klt drc --check` could not re-verify it off the authoring ho
 coverage and marker attribution an envelope would carry are recorded inline in the r6 record. Issue
 #228's step 2 (`M1.S.*`) and step 1 (`SDT.ACTIVE.AUX.2`) are separate measurements, not taken here.
 
+## Issue #228 step 2: `via_pad_trim` cannot touch the `M1.S.*` family (r7, 2026-11-17)
+
+Record: `lane_column.r7.drc.run-record.json`, with the summary envelopes
+`slice_routed.r7.envelope.json` and `lane_column.r7.envelope.json` committed beside it. klt **0.9.2**
+(the pin), `--engine klayout` with the packaged ASAP7 deck (bytes identical to r5/r6's,
+`fa303c03...`), the same **267**-id expectation file as r3–r6 (byte-identical, re-hashed), no
+`--rules`, no `--waivers`, nothing filtered or relaxed. The nine earlier records are unedited. One
+environment note: the pinned package was installed into a throwaway venv on the host python 3.12
+rather than via `uvx` — `uvx` resolution hangs on this worker because the uv-managed cpython 3.11
+it selects is a broken shim (an infinite exec loop left by an earlier step, a host defect). The
+equivalence chain to the pin is exact: same dist-info version (0.9.2), same `klt_git_commit`
+`046ba746...` r6 records, same deck bytes. Both committed envelopes re-verify `klt drc --check`:
+`match`, exit 0 (input and deck hashes).
+
+**Committed streams re-measured, byte-identical to r5.** Slice `cc4a7c72...` → 1,620 violations /
+9 rules; column `66179d88...` → 25,920 / 9, exactly 16× the slice in every rule count as at r4/r5.
+This pass therefore becomes the committed streams' current measurement of record (r5's counts,
+re-run rather than inherited — the marker attribution below is derived from the same pass, so
+summary count and marker count are one measurement).
+
+**Why the family survives: the trim has nothing left it is allowed to do.** Issue #228's step 2 asks
+why the P&R flow's `via_pad_trim` pass (klayout-tools#4495's post-route `VIA_*` M1 pad trim) leaves
+`M1.S.2/.3/.4/.5` (4,880 on the column, 305 on the slice) in place. Measured on the committed slice
+against the pinned module:
+
+- The pass already did its one possible edit on this stream: the committed report carries
+  `via_pad_trim` `status: trimmed`, `cells_touched: 1`, `pads_trimmed: 1`, `pads_shrunk: 0`,
+  `pads_left: 1`. Of the slice's 8 `VIA_*` cells exactly one still carries M1 landing-pad geometry —
+  `VIA_VIA12`, the router's standard V1 via cell, one 18 × 22 nm pad at 8,905 placements. The
+  dropped pad is the power via array's merged M1 pad (fully wire-covered in all placements), the
+  only cell the pass rewrote.
+- **Drop test fails at 92.5% of placements.** The surviving pad protrudes past routed M1 at 8,237
+  of its 8,905 placements — precisely the wire-endpoint placements where the pad *is* the
+  connection. The pass may drop a pad only when every placement is fully wire-covered, so this pad
+  is not redundant.
+- **Shrink test fails by construction.** The pass's shrink floor is the V1 cut (18 × 18 nm) sized by
+  its 5 nm enclosure bound on all four sides = 28 × 28 nm. The pad (18 × 22 nm) is a strict *subset*
+  of that floor: `pad & (cut sized 5 nm) == pad`, so the pass's own strict-reduction test rejects any
+  change. The shipped pad already sits at the LEF VIARULE minimum; no smaller deck-legal pad exists
+  for the pass to produce. (The 5 nm bound is the deck's `V1.M1.EN.1` side value — a rule the deck
+  itself lists as unmodeled, so the floor is the pass's convention, not a checked constraint.)
+- **The violations are placement-specific and invisible to both tests.** A marker-serializing slice
+  run at the pin serialized all 1,620 markers; the 305 `M1.S.*` markers match the summary counts
+  byte-identically (16 / 32 / 193 / 64). 270 of the 305 marker bboxes interact with a surviving pad
+  placement; 35 are pad-free routed-wire tip pairs. The buckets are tip-topology pairs per the
+  deck's Table 3.12.1 (`S.4` tip-to-tip both < 24 nm dominates at 193). Both trim tests are uniform
+  across every placement of a cell and neither reads deck spacing, so a pad that is required at one
+  placement and too close to a neighbor at another cannot be edited at all; edits are per-cell
+  master shapes, never per-instance.
+
+**Upstream disposition.** The standing gap is
+[#4508](https://github.com/2AMLogic/klayout-tools/issues/4508) (open): *trim protruding `VIA_*` M1
+pad tips to clear `M1.S.2`-`M1.S.5`*, the successor to the closed-as-no-op #4495 the r2–r4 records
+cite. Two measured facts from this pass sharpen #4508's acceptance criteria and were posted there
+generically (2026-11-17): (1) the pin's `trim_via_pads` already implements #4508's
+shrink-to-minimum-enclosure fallback, and it is a mathematical no-op for a pad already inside the
+floor — the remaining upstream work is the protruding-tip policy, not the shrink; (2) the family's
+markers are placement-specific, so any per-cell-uniform policy (including protruding-tip trimming of
+the master cell) fixes a placement's violation only where the same edit is connectivity-safe at
+every placement of that cell. From this record on, #4508 is the family's live disposition; the
+#4495 citations in the r2–r4 sections above are historical.
+
+For issue #228 this settles its step 2. Envelope consequence: no committed file changed in this
+pass, so item 2's attestation (`evidence/item2.r9.json`) stays current, `klt signoff` item 3 stays
+**unmet**, and the manifest still cites no record in this directory. Step 1 (`SDT.ACTIVE.AUX.2`,
+9,504) is a separate measurement, not taken here.
+
+
