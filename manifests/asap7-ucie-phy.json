@@ -36,7 +36,7 @@
     },
     "8": {
       "file": "manifests/evidence/item8.json",
-      "content_hash": "sha256:80a176551c2789b09ca03e7708f057ebbdd00d7a9d7f0cb46abc1fce0ab31f7d"
+      "content_hash": "sha256:5cd5a569137b5d53e018c63f44a9bd746f7d1cc5256a0dcf3f0334116cdd42fd"
     },
     "5.digital": [
       {
@@ -78,8 +78,8 @@
     ],
     "4.digital": [
       {
-        "file": "evidence/item4-lvs/slice_routed.r13.report.json",
-        "content_hash": "sha256:4cb450ff3f97c219b37486925cc37251503dc9a536bcb36af2a7ebe9623f492c"
+        "file": "evidence/item4-lvs/slice_routed.r14.report.json",
+        "content_hash": "sha256:a83ffe5a4b268912325e877eb887e86b7dc00211e42f738a02e7587ef07a1221"
       }
     ]
   }
