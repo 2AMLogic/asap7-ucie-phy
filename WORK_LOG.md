@@ -3,6 +3,11 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-18
+
+- **PR #234**: layout: clear SDT.ACTIVE.AUX.2 at the source by excluding the ten deviating masters (r8)
+- **Issue #228** (closed): layout: clear the remaining DRC violations on the assembled lane column (successor to #64, for #19)
+
 ### 2026-11-17
 
 - **PR #231**: docs: record r7 - via_pad_trim cannot touch the lane column M1.S.* family
