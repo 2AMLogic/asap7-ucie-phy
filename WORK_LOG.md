@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #246**: layout: gate the post-route netlist and SDF in regen.py --check
+- **Issue #235** (closed): layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope
 - **PR #243**: manifests: bind resolve-record-base.sh into the T1 item-10 hygiene inventory
 - **Issue #241** (closed): Consider binding verification/resolve-record-base.sh into the T1 item-10 inventory
 - **PR #240**: ci: fail-closed merge_group base for the record gate
