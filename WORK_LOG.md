@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #265**: drc: re-take lane-column DRC on the klayout pin as r10, superseding off-pin r9
+- **Issue #257** (closed): drc: r9 lane-column envelope was taken off the committed klayout pin (0.30.13 vs 0.30.12)
 - **PR #263**: ci: guard WORK_PLAN plan-body region against _Generated: lines
 - **PR #260**: docs: correct the SDF refusal diagnostic count to the recorded 4
 - **Issue #264** (closed): work-plan-region guard will false-positive if Loom resyncs to a stamp-on-write guide.md (#13909)
