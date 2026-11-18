@@ -29,14 +29,14 @@ _None._
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
 - **#202**: spec: the #178 tail section still names attest/item1.r7.json as the item-1 inventory of record
-- **#238**: Merge queue: add the merge_group trigger and adapt the PR-metadata gates
+- **#235**: layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope
+- **#236**: synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
-- **#235**: layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope
-- **#236**: synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost
+_None._
 
 ## PRs Awaiting Review
 
@@ -58,7 +58,6 @@ Issues carrying `loom:curated`.
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)* *(held)*
 - **#235**: layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope *(curated)*
 - **#236**: synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost *(curated)*
-- **#238**: Merge queue: add the merge_group trigger and adapt the PR-metadata gates *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -76,11 +75,11 @@ _None._
 | Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 3 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 2 |
-| In Progress (`loom:building`) | 2 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 3 |
+| In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 5 |
+| Curated | 4 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
