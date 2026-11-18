@@ -108,3 +108,8 @@ the netlist, so the pre-route record was re-taken and the first post-route corne
 
 `layout/pnr/regen.py` persists the routed DEF and post-route SPEF beside the GDS/SDF so this
 record's inputs are committed, hashed files.
+
+> **Update (#236):** `design/synth/variant-sweep.r1.md` records a pre-route variant sweep of the
+> synthesis constraints. Setting `abc_constr.driving_cell` to a non-excluded buffer (BUFx3) instead of
+> the excluded BUFx2 reproduces r5's pre-route Fmax and slack with zero deviating masters. It is a trial
+> netlist only: not adopted, no record here changed.
