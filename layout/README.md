@@ -112,9 +112,12 @@ ASAP7 is predictive and nothing here is fabricated.**
   `M2`-`M7`, seed 1. The `library` block carries what klt has no built-in ASAP7 table for. The M4-M7 track
   offsets (12 nm for M4/M5, 16 nm for M6/M7) put the routed wires on the grid the deck checks
   (2AMLogic/klayout-tools#4493); with offset 0 they sit 12/16 nm off it.
-- `pnr/regen.py` rebuilds `slice_routed.gds` and `pnr/slice.pnr.report.json` from the committed netlist and the
-  pinned lambdapdk archive (`spec/asap7-bringup.md`); `regen.py --check` exits 0 if the stream reproduces
-  byte-for-byte, 3 if it drifted. Run it as `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
+- `pnr/regen.py` rebuilds `slice_routed.gds`, `slice_routed.v`, `slice_routed.sdf` and `pnr/slice.pnr.report.json` from the committed netlist and the
+  pinned lambdapdk archive (`spec/asap7-bringup.md`); `regen.py --check` gates the routed GDS, DEF and SPEF
+  and the post-route netlist and SDF: exit 0 if all five reproduce byte-for-byte, 3 if any drifted. The one
+  exception is the SDF's wall-clock `(DATE ...)` stamp from STA — the only line a two-run measurement showed
+  varying (issue #235) — compared with that line normalized and the rest byte-exact. Run it as
+  `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
   all in the route stage. It stages the pinned `asap7.layermap` so klt's DEF->GDS merge puts routing on the ASAP7
   stream numbers (without it: sequential numbers on top of Gate/Gcut/Active; `verification/drc/README.md`). Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.
 - `pnr/regen.py --check-input` is the cheap staleness check: pure Python, no klt, OpenROAD, KLayout or PDK, a
