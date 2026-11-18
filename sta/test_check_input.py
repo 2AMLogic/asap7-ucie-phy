@@ -64,7 +64,7 @@ expect("missing hash key", rc, 2)
 rc, _ = run(NETLIST, None, report_text=json.dumps({"provenance": {"input": {}}}))
 expect("empty input block", rc, 2)
 
-expect("default record is the current one", regen.CURRENT_RECORD, "slice.sta.r5.report.json")
+expect("default record is the current one", regen.CURRENT_RECORD, "slice.sta.r7.report.json")
 expect("current record exists", (HERE / regen.CURRENT_RECORD).is_file(), True)
 
 for f in fails:

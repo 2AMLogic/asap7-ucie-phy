@@ -43,9 +43,11 @@ REQUEST = HERE / "slice.sta.json"
 REPORT = HERE / "slice.sta.report.json"
 OPCOND = HERE / "operating-conditions.json"
 #: The current adopted record, and the --check-input default (sta/README.md):
-#: r6 carried the RPIPE=1 read-pipeline variant that was not adopted, so the
-#: committed netlist no longer matches r6's recorded input hash.
-CURRENT_RECORD = "slice.sta.r5.report.json"
+#: r6 carried the RPIPE=1 read-pipeline variant that was not adopted, and r7 is
+#: the issue-#228 step-1 resynthesis record (constraints.dont_use removed the
+#: ten SDT.ACTIVE.AUX.2 deviating masters), which replaced r5 as the record of
+#: the committed netlist.
+CURRENT_RECORD = "slice.sta.r7.report.json"
 
 def _load_lambdapdk():
     path = REPO / "design" / "lambdapdk.py"

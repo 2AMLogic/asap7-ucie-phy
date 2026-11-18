@@ -7,12 +7,12 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r10.json",
-      "content_hash": "sha256:16d44dc0caeae72f02befdb58f4d6d9e9163ee6b274d55cafb06fa4c6ecc7002"
+      "file": "evidence/item1.r11.json",
+      "content_hash": "sha256:72d830f2ff4f14eb6216f144378e868de7ae531fe958e764ba2b02a643880e2f"
     },
     "1.digital": {
-      "file": "evidence/item1.r10.json",
-      "content_hash": "sha256:16d44dc0caeae72f02befdb58f4d6d9e9163ee6b274d55cafb06fa4c6ecc7002"
+      "file": "evidence/item1.r11.json",
+      "content_hash": "sha256:72d830f2ff4f14eb6216f144378e868de7ae531fe958e764ba2b02a643880e2f"
     },
     "6.digital": {
       "not_applicable": {
@@ -36,7 +36,7 @@
     },
     "8": {
       "file": "manifests/evidence/item8.json",
-      "content_hash": "sha256:238e7c594728b69dfb5b784430952cf72616ce7fe19a34da06efeda0a35abef1"
+      "content_hash": "sha256:b8d4ca243180aba36317ab4dee082f5a335a5246024ec0229eb8b48c4868eb3c"
     },
     "5.digital": [
       {
@@ -51,12 +51,12 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.r9.json",
-      "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43"
+      "file": "evidence/item2.r10.json",
+      "content_hash": "sha256:c7e36dd1a5e1a7999e196799d6611a040fa95b496042d19d488b37b7aa940338"
     },
     "2.digital": {
-      "file": "evidence/item2.r9.json",
-      "content_hash": "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43"
+      "file": "evidence/item2.r10.json",
+      "content_hash": "sha256:c7e36dd1a5e1a7999e196799d6611a040fa95b496042d19d488b37b7aa940338"
     },
     "4.analog": [
       {
@@ -78,8 +78,8 @@
     ],
     "4.digital": [
       {
-        "file": "evidence/item4-lvs/slice_routed.r15.report.json",
-        "content_hash": "sha256:59bd8ce11d46cc23d52f076341628ff923b7c8637f6e9afe5aba83fef482fb22"
+        "file": "evidence/item4-lvs/slice_routed.r16.report.json",
+        "content_hash": "sha256:b3d75faf4d770052415a8fe548b693959459b1e9d76b6ad69c4cb779724dca63"
       }
     ]
   }

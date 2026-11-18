@@ -8,7 +8,7 @@
     "corner": "tt"
   },
   "library": {
-    "cts_buffer": "BUFx4_ASAP7_75t_R",
+    "cts_buffer": "BUFx3_ASAP7_75t_R",
     "route_layers": {
       "low": "M2",
       "high": "M7"

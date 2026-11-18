@@ -1,0 +1,8 @@
+{
+  "schema": "klt.sta.request/1",
+  "def": "../layout/slice_routed.def",
+  "hdl_toplevel": "slice",
+  "pdk": {"cell_library": "asap7sc7p5t_rvt", "corners": ["tt", "ss", "ff"]},
+  "spef": "../layout/slice_routed.spef",
+  "constraints": {"clock_port": "clk", "clock_period_ns": 0.5}
+}

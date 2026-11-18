@@ -82,3 +82,29 @@ because setup slack is negative; the functional-verification citations are `met`
   and leaves the block unconstrained. `regen.py` carries the union of the table templates.
   `design/synth/regen.py` uses the same merge (`design/lambdapdk.py`); with it the synthesis
   netlist is byte-identical to the earlier first-header-only merge.
+
+## Issue #228 step 1: r7 (pre-route, re-synthesized netlist) and the first post-route sweep (2026-11-18)
+
+The #228 step-1 cell swap (`constraints.dont_use` excluding the ten `SDT.ACTIVE.AUX.2`-deviating
+masters, CTS buffer `BUFx4` → `BUFx3`; see the r8 record under `verification/drc/`) re-synthesized
+the netlist, so the pre-route record was re-taken and the first post-route corner sweep was added.
+
+- **`slice.sta.r7.report.json`** — the append-only pre-route successor to r5 (`--report
+  slice.sta.r7.report.json`, same request, same corners, `netlist_estimate`): tt −0.09705 /
+  ss −0.28538 / ff −0.01117 ns worst setup slack (8 / 158 / 1 setup violations), hold positive
+  everywhere. An honestly **worse** estimate than r5 (+0.030 / −0.097 / +0.085): `dont_use` removed
+  the fast BUFx2/OAI22xp33 mappings ABC had chosen. r7 replaces r5 as the adopted record
+  (`regen.py --check-input` now targets it); r5 stays in the tree as history.
+- **`slice.sta.routed.json` + `slice.sta.routed.report.json`** — the first post-route corner sweep:
+  `klt sta` def-mode over the routed DEF (`layout/slice_routed.def`) with the run's post-route SPEF
+  (`layout/slice_routed.spef`), corners tt/ss/ff at the P&R's 0.5 ns constraint. **Setup and hold
+  0 violations at every corner** (worst setup slack +0.26174 / +0.13136 / +0.31933 ns; hold
+  +0.05185 / +0.07512 / +0.03471 ns; `timing_status: constrained` everywhere). Two honest caveats,
+  recorded in the report: `annotation_complete: false` (2,518 of 2,712 nets named by the SPEF —
+  the known net-name-coverage gap; the in-flow `spef_sta` block shows the same at 2,523 of 2,717),
+  and the sweep runs at the P&R's 0.5 ns constraint, **not** the section-2 0.25 ns clock — the rate
+  row stays as the older sections here record it (not claimed closed; clock uncertainty still not
+  applied, klayout-tools#4240).
+
+`layout/pnr/regen.py` persists the routed DEF and post-route SPEF beside the GDS/SDF so this
+record's inputs are committed, hashed files.

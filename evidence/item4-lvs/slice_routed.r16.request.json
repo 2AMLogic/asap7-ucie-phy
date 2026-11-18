@@ -1,0 +1,24 @@
+{
+ "portable_paths": true,
+ "layout": {
+  "file": "../../layout/slice_routed.gds",
+  "deck": "asap7",
+  "top": "slice"
+ },
+ "reference": {
+  "netlist": "../../layout/slice_routed.v",
+  "top": "slice",
+  "form": "gate-level-verilog",
+  "pdk": "asap7",
+  "pin_order_files": [
+   "$PDK_ROOT/asap7/libs/asap7sc7p5t_rvt/netlist/asap7sc7p5t_28_R.cdl"
+  ]
+ },
+ "options": {
+  "flatten_layout": true,
+  "finfet_bulk": {
+   "nmos": "VSS",
+   "pmos": "VDD"
+  }
+ }
+}

@@ -14,6 +14,7 @@ tapcell, filler and power-pin inputs klt has no built-in ASAP7 table for come
 from the `library` block of slice.pnr.json.
 
     regen.py            overwrite the committed routed GDS, report, post-route netlist and SDF
+                        (plus the routed DEF and post-route SPEF the report's timing pair needs)
     regen.py --check    exit 0 if it reproduces byte-for-byte, 3 if it drifted
     regen.py --check-input
                         pure-Python (no klt, OpenROAD or PDK): exit 0 if the tied
@@ -53,6 +54,12 @@ GDS = REPO / "layout" / "slice_routed.gds"
 REPORT = HERE / "slice.pnr.report.json"
 ROUTED_NETLIST = REPO / "layout" / "slice_routed.v"
 ROUTED_SDF = REPO / "layout" / "slice_routed.sdf"
+#: The routed DEF and the post-route SPEF the request's post_route_spef pass
+#: writes: the geometry/parasitics pair sta/slice.sta.routed.json times, so
+#: the post-route STA record's inputs are committed, hashed files rather than
+#: a discarded scratch directory (issue #228).
+ROUTED_DEF = REPO / "layout" / "slice_routed.def"
+ROUTED_SPEF = REPO / "layout" / "slice_routed.spef"
 
 ASAP7 = L.ROOT
 RVT = ASAP7 + "libs/asap7sc7p5t_rvt/"
@@ -222,24 +229,39 @@ def main():
             sys.exit(f"klt place-and-route exited {cp.returncode}:\n{cp.stdout}{cp.stderr}")
         report = json.loads(cp.stdout)
         fresh = pathlib.Path(report["gds_path"]).read_bytes()
-        # Post-route netlist and SDF (request.post_route_spef / post_route_sdf).
+        # Post-route netlist, SDF, routed DEF and SPEF (request.post_route_spef /
+        # post_route_sdf); the STA pair is <top>_route.spef beside the routed
+        # netlist, the DEF the report's def_path names.
         vpath = pathlib.Path(report["verilog_path"])
         sdf_path = vpath.parent / "slice_route.sdf"  # klt writes it beside the routed netlist
         if not sdf_path.is_file():
             sys.exit(f"no post-route SDF beside {vpath}: {sorted(p.name for p in vpath.parent.iterdir())}")
         fresh_netlist = vpath.read_bytes()
         fresh_sdf = sdf_path.read_bytes()
+        spef_src = report.get("spef_path") or vpath.parent / "slice_route.spef"
+        if not pathlib.Path(spef_src).is_file():
+            sys.exit(f"no post-route SPEF at {spef_src}: {sorted(p.name for p in vpath.parent.iterdir())}")
+        fresh_spef = pathlib.Path(spef_src).read_bytes()
+        def_src = report.get("def_path")
+        if not def_src or not pathlib.Path(def_src).is_file():
+            sys.exit(f"report names no routed DEF (def_path={def_src!r})")
+        fresh_def = pathlib.Path(def_src).read_bytes()
         # Scratch paths are not evidence: keep the verdict fields, redact the rest.
         text = json.dumps(report, indent=2, sort_keys=True).replace(str(scratch), "<scratch>")
         text = text.replace(str(REPO), "<repo>") + "\n"
     if args.check:
-        if not GDS.is_file() or GDS.read_bytes() != fresh:
-            print(f"drifted: {GDS}", file=sys.stderr)
-            return 3
+        for label, committed, fresh_bytes in (
+                ("GDS", GDS, fresh), ("DEF", ROUTED_DEF, fresh_def),
+                ("SPEF", ROUTED_SPEF, fresh_spef)):
+            if not committed.is_file() or committed.read_bytes() != fresh_bytes:
+                print(f"drifted: {committed} ({label})", file=sys.stderr)
+                return 3
         return 0
     GDS.write_bytes(fresh)
     ROUTED_NETLIST.write_bytes(fresh_netlist)
     ROUTED_SDF.write_bytes(fresh_sdf)
+    ROUTED_DEF.write_bytes(fresh_def)
+    ROUTED_SPEF.write_bytes(fresh_spef)
     REPORT.write_text(text)
     return 0
 
