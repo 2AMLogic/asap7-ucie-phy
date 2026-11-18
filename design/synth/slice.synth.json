@@ -5,5 +5,5 @@
   "hdl_toplevel": "slice",
   "parameters": {"N": 16},
   "pdk": {"cell_library": "asap7sc7p5t_rvt", "corner": "tt"},
-  "constraints": {"clock_period_ns": 0.25, "abc_constr": {"driving_cell": "BUFx2_ASAP7_75t_R", "load_ff": 3.898}}
+  "constraints": {"clock_period_ns": 0.25, "abc_constr": {"driving_cell": "BUFx2_ASAP7_75t_R", "load_ff": 3.898}, "dont_use": ["AO33x2_ASAP7_75t_R", "OAI22xp33_ASAP7_75t_R", "BUFx4f_ASAP7_75t_R", "CKINVDCx9p33_ASAP7_75t_R", "BUFx4_ASAP7_75t_R", "BUFx2_ASAP7_75t_R", "ICGx5p33DC_ASAP7_75t_R", "ICGx4DC_ASAP7_75t_R", "ICGx6p67DC_ASAP7_75t_R", "ICGx2p67DC_ASAP7_75t_R"]}
 }

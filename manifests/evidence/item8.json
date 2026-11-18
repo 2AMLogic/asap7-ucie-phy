@@ -17,28 +17,28 @@
         "role": "report",
         "path": "verification/characterization-report.md",
         "passed": true,
-        "content_hash": "sha256:fd7eef19ac9a8275fe798323cebee96286f139c43de6f38c93506049050dce30"
+        "content_hash": "sha256:31c6ecb3e420f77f7a393556c88e4e0d6d58cf906fa7d58552b1e807ba83bb77"
       },
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item1.r10.json",
+        "path": "evidence/item1.r11.json",
         "passed": true,
-        "content_hash": "sha256:395c54dca64ad02288257d91eacedfe0b24794af4f2817d0b9abb412738e4160"
+        "content_hash": "sha256:6bd5ad6d353e1418146fe4bc7fa1c09cc3f1758560afb2b57ae57eea273564ee"
       },
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item2.r9.json",
+        "path": "evidence/item2.r10.json",
         "passed": true,
-        "content_hash": "sha256:89d6cdf2b462c7dbb90ab0c52d05a3e0a0e81e9f6030de2d1ea33c83ef2e45e8"
+        "content_hash": "sha256:53705f5052538dc0bb5ac9267be6ee04bef020d5248ff912980cc036d8e19471"
       },
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item4-lvs/slice_routed.r15.report.json",
+        "path": "evidence/item4-lvs/slice_routed.r16.report.json",
         "passed": true,
-        "content_hash": "sha256:59bd8ce11d46cc23d52f076341628ff923b7c8637f6e9afe5aba83fef482fb22"
+        "content_hash": "sha256:b3d75faf4d770052415a8fe548b693959459b1e9d76b6ad69c4cb779724dca63"
       },
       {
         "check": "present",
@@ -59,22 +59,22 @@
         "role": "evidence",
         "path": "layout/pnr/slice.pnr.report.json",
         "passed": true,
-        "content_hash": "sha256:04891529887c6547ef3c182cc954c2b63391782e1d275fb7cd3cca608529c923"
+        "content_hash": "sha256:aa9f1c23dafef3c179d7d5e516f33035e994a64fef1fce32b5055890b5c609b8"
       },
       {
         "check": "present",
         "role": "evidence",
-        "path": "sta/slice.sta.r5.report.json",
+        "path": "sta/slice.sta.r7.report.json",
         "passed": true,
-        "content_hash": "sha256:8340b6cf070d7a7cf99964e0cff27bfdf59aaa5e71181196f4fbfbee9e8bd6de"
+        "content_hash": "sha256:1fe25379ed88fe7eefb017486fed6c97355b1606b12dcd6a13f5182b2be9909d"
       },
       {
         "check": "citation",
         "role": "spec_row",
         "row": "s1-clock-lanes",
         "envelopes": [
-          "evidence/item1.r10.json",
-          "evidence/item2.r9.json"
+          "evidence/item1.r11.json",
+          "evidence/item2.r10.json"
         ],
         "passed": true
       },
@@ -83,8 +83,8 @@
         "role": "spec_row",
         "row": "s1-data-lanes",
         "envelopes": [
-          "evidence/item1.r10.json",
-          "evidence/item2.r9.json"
+          "evidence/item1.r11.json",
+          "evidence/item2.r10.json"
         ],
         "passed": true
       },
@@ -93,8 +93,8 @@
         "role": "spec_row",
         "row": "s1-spare-lanes",
         "envelopes": [
-          "evidence/item1.r10.json",
-          "evidence/item2.r9.json"
+          "evidence/item1.r11.json",
+          "evidence/item2.r10.json"
         ],
         "passed": true
       },
@@ -103,7 +103,7 @@
         "role": "spec_row",
         "row": "s2-parallel-clock",
         "envelopes": [
-          "sta/slice.sta.r5.report.json"
+          "sta/slice.sta.r7.report.json"
         ],
         "passed": true
       },
@@ -112,7 +112,7 @@
         "role": "spec_row",
         "row": "s2-rate-per-lane",
         "envelopes": [
-          "sta/slice.sta.r5.report.json"
+          "sta/slice.sta.r7.report.json"
         ],
         "passed": true
       },
@@ -121,8 +121,8 @@
         "role": "spec_row",
         "row": "s2-serialization-ratio",
         "envelopes": [
-          "evidence/item1.r10.json",
-          "sta/slice.sta.r5.report.json"
+          "evidence/item1.r11.json",
+          "sta/slice.sta.r7.report.json"
         ],
         "passed": true
       },
@@ -131,7 +131,7 @@
         "role": "spec_row",
         "row": "s3-bump-assignment",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -141,7 +141,7 @@
         "role": "spec_row",
         "row": "s3-bump-pitch",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -151,7 +151,7 @@
         "role": "spec_row",
         "row": "s3-bump-representation",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -161,7 +161,7 @@
         "role": "spec_row",
         "row": "s3-bumps-per-lane",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -171,7 +171,7 @@
         "role": "spec_row",
         "row": "s4-area-budget",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pnr/slice.pnr.report.json"
         ],
         "passed": true
@@ -181,7 +181,7 @@
         "role": "spec_row",
         "row": "s4-cell-height",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -191,7 +191,7 @@
         "role": "spec_row",
         "row": "s4-cell-width",
         "envelopes": [
-          "evidence/item2.r9.json",
+          "evidence/item2.r10.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -201,8 +201,8 @@
         "role": "spec_row",
         "row": "s4-drawn-cells",
         "envelopes": [
-          "evidence/item1.r10.json",
-          "evidence/item2.r9.json",
+          "evidence/item1.r11.json",
+          "evidence/item2.r10.json",
           "evidence/item4-lvs/tx_cell.r2.report.json"
         ],
         "passed": true
@@ -212,10 +212,10 @@
         "role": "spec_row",
         "row": "s4-serializer-boundary",
         "envelopes": [
-          "evidence/item1.r10.json",
-          "evidence/item4-lvs/slice_routed.r15.report.json",
+          "evidence/item1.r11.json",
+          "evidence/item4-lvs/slice_routed.r16.report.json",
           "evidence/item4-lvs/tx_cell.r2.report.json",
-          "sta/slice.sta.r5.report.json"
+          "sta/slice.sta.r7.report.json"
         ],
         "passed": true
       },
@@ -233,7 +233,7 @@
         "role": "spec_row",
         "row": "s7-drc-clean",
         "envelopes": [
-          "evidence/item2.r9.json"
+          "evidence/item2.r10.json"
         ],
         "passed": true
       },
@@ -242,7 +242,7 @@
         "role": "spec_row",
         "row": "s7-lvs",
         "envelopes": [
-          "evidence/item4-lvs/slice_routed.r15.report.json",
+          "evidence/item4-lvs/slice_routed.r16.report.json",
           "evidence/item4-lvs/tx_cell.r2.report.json"
         ],
         "passed": true
@@ -253,14 +253,14 @@
         "row": "s7-sta",
         "envelopes": [
           "layout/pnr/slice.pnr.report.json",
-          "sta/slice.sta.r5.report.json"
+          "sta/slice.sta.r7.report.json"
         ],
         "passed": true
       },
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item1.r10.json",
+        "target": "evidence/item1.r11.json",
         "argv": [
           "klt",
           "signoff",
@@ -269,7 +269,7 @@
           "--inventory",
           "attest/item1.r9.json",
           "--check",
-          "evidence/item1.r10.json"
+          "evidence/item1.r11.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -278,7 +278,7 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item2.r9.json",
+        "target": "evidence/item2.r10.json",
         "argv": [
           "klt",
           "signoff",
@@ -289,9 +289,9 @@
           "--generator",
           "python3 layout/assemble_column.py",
           "--regenerated-hash",
-          "sha256:66179d886da134e9f06365db19f0f73ce57fe1789810b2dcd2dcf994c6443d43",
+          "sha256:c7e36dd1a5e1a7999e196799d6611a040fa95b496042d19d488b37b7aa940338",
           "--check",
-          "evidence/item2.r9.json"
+          "evidence/item2.r10.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -300,12 +300,12 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item4-lvs/slice_routed.r15.report.json",
+        "target": "evidence/item4-lvs/slice_routed.r16.report.json",
         "argv": [
           "klt",
           "lvs",
           "--check",
-          "evidence/item4-lvs/slice_routed.r15.report.json"
+          "evidence/item4-lvs/slice_routed.r16.report.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -355,7 +355,7 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "sta/slice.sta.r5.report.json",
+        "target": "sta/slice.sta.r7.report.json",
         "argv": [
           "python3",
           "-I",
@@ -373,7 +373,7 @@
         "metric": "area",
         "envelope": "layout/pnr/slice.pnr.report.json",
         "field": "core_area_um2",
-        "value": 945.994,
+        "value": 933.12,
         "passed": true
       },
       {
@@ -381,9 +381,9 @@
         "role": "digital",
         "corner": "ff",
         "metric": "fmax",
-        "envelope": "sta/slice.sta.r5.report.json",
+        "envelope": "sta/slice.sta.r7.report.json",
         "field": "corners.2.fmax_mhz",
-        "value": 6049.89,
+        "value": 3828.98,
         "passed": true
       },
       {
@@ -391,9 +391,9 @@
         "role": "digital",
         "corner": "ff",
         "metric": "power",
-        "envelope": "sta/slice.sta.r5.report.json",
+        "envelope": "sta/slice.sta.r7.report.json",
         "field": "corners.2.estimated_power_mw",
-        "value": 1.1144,
+        "value": 1.095,
         "passed": true
       },
       {
@@ -403,7 +403,7 @@
         "metric": "area",
         "envelope": "layout/pnr/slice.pnr.report.json",
         "field": "core_area_um2",
-        "value": 945.994,
+        "value": 933.12,
         "passed": true
       },
       {
@@ -411,9 +411,9 @@
         "role": "digital",
         "corner": "ss",
         "metric": "fmax",
-        "envelope": "sta/slice.sta.r5.report.json",
+        "envelope": "sta/slice.sta.r7.report.json",
         "field": "corners.1.fmax_mhz",
-        "value": 2882.67,
+        "value": 1867.82,
         "passed": true
       },
       {
@@ -421,9 +421,9 @@
         "role": "digital",
         "corner": "ss",
         "metric": "power",
-        "envelope": "sta/slice.sta.r5.report.json",
+        "envelope": "sta/slice.sta.r7.report.json",
         "field": "corners.1.estimated_power_mw",
-        "value": 0.6873,
+        "value": 0.6759,
         "passed": true
       },
       {
@@ -433,7 +433,7 @@
         "metric": "area",
         "envelope": "layout/pnr/slice.pnr.report.json",
         "field": "core_area_um2",
-        "value": 945.994,
+        "value": 933.12,
         "passed": true
       },
       {
@@ -441,9 +441,9 @@
         "role": "digital",
         "corner": "tt",
         "metric": "fmax",
-        "envelope": "sta/slice.sta.r5.report.json",
+        "envelope": "sta/slice.sta.r7.report.json",
         "field": "corners.0.fmax_mhz",
-        "value": 4535.92,
+        "value": 2881.42,
         "passed": true
       },
       {
@@ -451,9 +451,9 @@
         "role": "digital",
         "corner": "tt",
         "metric": "power",
-        "envelope": "sta/slice.sta.r5.report.json",
+        "envelope": "sta/slice.sta.r7.report.json",
         "field": "corners.0.estimated_power_mw",
-        "value": 0.8697,
+        "value": 0.8552,
         "passed": true
       }
     ]
@@ -468,7 +468,7 @@
         "path": "manifests/attest/item8.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:238e7c594728b69dfb5b784430952cf72616ce7fe19a34da06efeda0a35abef1"
+      "content_hash": "sha256:b8d4ca243180aba36317ab4dee082f5a335a5246024ec0229eb8b48c4868eb3c"
     }
   }
 }

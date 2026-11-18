@@ -595,3 +595,79 @@ pass, so item 2's attestation (`evidence/item2.r9.json`) stays current, `klt sig
 9,504) is a separate measurement, not taken here.
 
 
+
+## Issue #228 step 1: the `SDT.ACTIVE.AUX.2` family is cleared at the source (r8, 2026-11-18)
+
+Record: `lane_column.r8.drc.run-record.json`, with the summary envelopes `slice_routed.r8.envelope.json`
+and `lane_column.r8.envelope.json` committed beside it. klt **0.9.2** (the pin, installed into a
+throwaway venv on the host python 3.12 — the same uvx-hangs host defect r7 records), `--engine klayout`
+with the packaged ASAP7 deck (bytes identical to r5–r7's, `fa303c03...`), the same **267**-id
+expectation file as r3–r7 (re-derived from `RULE_IDS` at the pin, byte-identical to r7's), no
+`--rules`, no `--waivers`, nothing filtered or relaxed. The eleven earlier records are unedited. The
+committed **streams changed** this pass — this record is their new measurement of record, replacing
+r7. Still **not clean**; layout results against a predictive PDK, not measurements. Both committed
+envelopes re-verify `klt drc --check`: `match`, exit 0 (this host holds the deck at the recorded
+absolute path, so unlike r7's envelopes both halves re-verify here).
+
+**The measurement first.** Every leaf cell of the shipped `asap7sc7p5t_28_R.gds` (212 cells) was
+placed once on a wide-spaced 40 × 20 µm grid and run through the full deck at the pin;
+`SDT.ACTIVE.AUX.2` markers attributed by grid position flag **exactly ten masters**
+(AO33x2, OAI22xp33, BUFx4f, CKINVDCx9p33, BUFx4, BUFx2, ICGx5p33DC, ICGx4DC, ICGx6p67DC,
+ICGx2p67DC — all `_ASAP7_75t_R`; 23 markers). The rule fires on real shipped-cell geometry (SDT
+horizontal edges that coincide with no ACTIVE horizontal edge, deck Table 3.8.1), so **no deck bug**
+— nothing filed upstream for this family; the r2–r5 citations of the closed #4496 were deck-side.
+
+**The swap.** The ten masters are excluded from synthesis (`constraints.dont_use` in
+`design/synth/slice.synth.json`; ABC re-maps OAI22xp33 → OAI22xp5, BUFx2 → BUFx3/BUFx12f) and the
+CTS buffer moves `BUFx4 → BUFx3` in `layout/pnr/slice.pnr.json` because BUFx4 is one of the ten;
+everything else in the request is unchanged (same straps, floorplan, tracks, seed 1). The netlist
+was re-synthesized, the slice re-routed, the column re-assembled. The routed netlist re-introduces
+no deviator (resizer included). One note: `constraints.abc_constr.driving_cell` stays BUFx2 although
+BUFx2 is dont_use'd — the driving cell is ABC's input-delay model, not a mapping candidate; no BUFx2
+appears in either netlist.
+
+| Rule (slice) | r7 | r8 | | Rule (column) | r7 | r8 |
+|---|---|---|---|---|---|---|
+| `SDT.ACTIVE.AUX.2` | 594 | **0** | | `SDT.ACTIVE.AUX.2` | 9,504 | **0** |
+| `V4.M4.EN.1` | 648 | 644 | | `V4.M4.EN.1` | 10,368 | 10,304 |
+| `V4.M5.EN.2` | 12 | 16 | | `V4.M5.EN.2` | 192 | 256 |
+| `M1.S.2/.3/.4/.5` | 16/32/193/64 | 24/33/187/50 | | `M1.S.2/.3/.4/.5` | 256/512/3,088/1,024 | 384/528/2,992/800 |
+| `M3.S.2` | 15 | 10 | | `M3.S.2` | 240 | 160 |
+| `M5.W.3` | 46 | 19 | | `M5.W.3` | 736 | 304 |
+| `M4.AUX.1/.2` | 0/0 | **4/4** | | `M4.AUX.1/.2` | 0/0 | **64/64** |
+| **Total** | 1,620 | **991** | | **Total** | 25,920 | **15,856** |
+
+The column is again exactly **16 ×** the slice in every rule — the assembly still adds nothing.
+
+**Dispositions.** `SDT.ACTIVE.AUX.2`: cleared. `M1.S.*`: standing #4508 (open). `V4.M4.EN.1` /
+`V4.M5.EN.2`: recipe-inherent per r6 (#4499). `M3.S.2`: recipe-inherent per r6 (#6030 closed
+completed, residual documented by #6180). `M5.W.3`: route-dependent per r6 (#6453). The one new
+family, `M4.AUX.1/2`, is the **off-grid router-M4-line-end mode** r2 attributed to the closed #4501:
+a marker-serializing slice run puts all 8 slice markers at two x-positions, both off the deck's
+48 nm M4 grid (offsets 37 / 25 nm mod 48) — one cluster per slice. Re-filed generically from this
+pass as [#6596](https://github.com/2AMLogic/klayout-tools/issues/6596) (no open issue covered the
+mode; r2's measurement that no request field moves it still stands).
+
+**Post-route STA (AC 2).** With the cell swap the routed artifacts changed, so the timing chain was
+re-taken append-only: `sta/slice.sta.r7.report.json` (pre-route successor to r5 on the re-synthesized
+netlist — honestly worse: setup −0.097 / −0.285 / −0.011 ns at tt/ss/ff, hold positive) and a new
+post-route record `sta/slice.sta.routed.report.json` — `klt sta` def-mode over the routed DEF with
+the run's post-route SPEF at tt/ss/ff: **setup and hold 0 violations at every corner** at the P&R's
+0.5 ns constraint (worst setup slack +0.262 / +0.131 / +0.319 ns). The routed report carries
+`annotation_complete: false` (2,518 of 2,712 nets named by the SPEF) — the known net-name-coverage
+gap, recorded with the numbers. `regen.py` now also persists the routed DEF and post-route SPEF
+beside the GDS/SDF so the record's inputs are committed, hashed files.
+
+**Power delivery (AC 3).** Not regressed: same recipe over a **1.3 % smaller core**
+(945.994 → 933.12 µm²); VDD 1,016 → 1,004 stripe segments and 1,085 → 1,072 vias, VSS 1,021 → 1,016
+and 1,089 → 1,085, followpins 243 → 240 (VSS 243 unchanged), `missing` 0 before and after — every
+delta proportional to the core shrink. `fmax_mhz` 3,731.41 → 4,274.54; setup/hold 0/0 before and
+after.
+
+**Signoff consequence.** Both streams changed, so the chain moved with this pass: item 1 re-attested
+(`evidence/item1.r11.json`), item 2 re-attested (`evidence/item2.r10.json` over the new column,
+companion inventory `attest/item2.r10.json`; `layout/pad_check_record.json` re-ran 34/34
+byte-identical), routed-slice LVS re-taken as r16 on the new stream (`evidence/item4-lvs/
+slice_routed.r16.*` — still `mismatch`, recorded honestly), item 8 re-pointed and re-attested,
+manifest re-pinned, verdict regenerated: `t1_met_count` 11 unchanged. `klt signoff` item 3 stays
+**unmet** and the manifest still cites no record in this directory.
