@@ -1,0 +1,28 @@
+name: work-plan guard
+
+# Fails when WORK_PLAN.md's guide:plan-body region contains a `_Generated:`
+# line (recurring docs-churn defect, #262). Path-filtered to WORK_PLAN.md.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - WORK_PLAN.md
+      - verification/check-work-plan-region.sh
+      - .github/workflows/work-plan-guard.yml
+  pull_request:
+    paths:
+      - WORK_PLAN.md
+      - verification/check-work-plan-region.sh
+      - .github/workflows/work-plan-guard.yml
+
+permissions:
+  contents: read
+
+jobs:
+  work-plan-region:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: verification/check-work-plan-region.sh WORK_PLAN.md
