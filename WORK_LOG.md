@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #243**: manifests: bind resolve-record-base.sh into the T1 item-10 hygiene inventory
+- **Issue #241** (closed): Consider binding verification/resolve-record-base.sh into the T1 item-10 inventory
 - **PR #240**: ci: fail-closed merge_group base for the record gate
 - **Issue #238** (closed): Merge queue: add the merge_group trigger and adapt the PR-metadata gates
 - **PR #234**: layout: clear SDT.ACTIVE.AUX.2 at the source by excluding the ten deviating masters (r8)
