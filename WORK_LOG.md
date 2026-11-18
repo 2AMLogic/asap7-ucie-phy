@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-17
 
+- **PR #231**: docs: record r7 - via_pad_trim cannot touch the lane column M1.S.* family
+- **PR #230**: docs: trace the lane-column grid families to the shipped PDN recipe (r6)
 - **PR #224**: feat: restore a deck-clean-path M5/M6 power grid on the routed slice (recipe straps, power complete)
 - **Issue #66** (closed): Layout: restore a deck-clean M5/M6 power grid on the routed slice (PDN is partial after #64)
 - **PR #225**: chore(loom): resync installed Loom to v0.19.1306
