@@ -15,7 +15,10 @@ from the `library` block of slice.pnr.json.
 
     regen.py            overwrite the committed routed GDS, report, post-route netlist and SDF
                         (plus the routed DEF and post-route SPEF the report's timing pair needs)
-    regen.py --check    exit 0 if it reproduces byte-for-byte, 3 if it drifted
+    regen.py --check    exit 0 if the routed GDS, DEF and SPEF and the post-route
+                        netlist and SDF reproduce byte-for-byte, 3 if any drifted;
+                        the one exception is the SDF's wall-clock DATE line (measured,
+                        issue #235): compared with that line normalized, the rest exact
     regen.py --check-input
                         pure-Python (no klt, OpenROAD or PDK): exit 0 if the tied
                         netlist still hashes to the report's provenance.input.content_hash,
@@ -168,6 +171,16 @@ def unpack(archive, root):
         sys.exit(f"pinned archive is missing {missing}")
 
 
+def sdf_without_date(data):
+    """Mask the SDF's wall-clock DATE stamp, the one line shown to vary across runs.
+
+    OpenROAD's STA writes `(DATE "...")` from the wall clock, so two regen runs of
+    this stream produced SDFs differing only there (measured, issue #235); masking
+    exactly that line for the --check comparison keeps every other byte of the file
+    gated — any changed delay, header field or structure still drifts."""
+    return re.sub(rb'\(DATE "[^"]*"\)', b'(DATE "<regenerated>")', data)
+
+
 def check_input(request=None, report=None, out=sys.stderr):
     """Compare the tied netlist's hash with the one the committed stream was routed from.
 
@@ -250,10 +263,17 @@ def main():
         text = json.dumps(report, indent=2, sort_keys=True).replace(str(scratch), "<scratch>")
         text = text.replace(str(REPO), "<repo>") + "\n"
     if args.check:
-        for label, committed, fresh_bytes in (
-                ("GDS", GDS, fresh), ("DEF", ROUTED_DEF, fresh_def),
-                ("SPEF", ROUTED_SPEF, fresh_spef)):
-            if not committed.is_file() or committed.read_bytes() != fresh_bytes:
+        for label, committed, fresh_bytes, normalize in (
+                ("GDS", GDS, fresh, None), ("DEF", ROUTED_DEF, fresh_def, None),
+                ("SPEF", ROUTED_SPEF, fresh_spef, None),
+                ("netlist", ROUTED_NETLIST, fresh_netlist, None),
+                ("SDF", ROUTED_SDF, fresh_sdf, sdf_without_date)):
+            fresh_cmp = fresh_bytes if normalize is None else normalize(fresh_bytes)
+            have_cmp = None
+            if committed.is_file():
+                have = committed.read_bytes()
+                have_cmp = have if normalize is None else normalize(have)
+            if have_cmp != fresh_cmp:
                 print(f"drifted: {committed} ({label})", file=sys.stderr)
                 return 3
         return 0
