@@ -4,6 +4,7 @@ Roadmap generated from current GitHub label state by the Guide triage role.
 Edit only outside the markers.
 
 <!-- guide:plan-body:start -->
+_Generated: 2026-11-18T18:08:03Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -34,14 +35,13 @@ Human-approved issues (`loom:issue`) ready for implementation — excluding held
 
 Issues currently being built (`loom:building`).
 
-- **#236**: synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost
-- **#250**: layout: pnr selftest expect() dumps the whole 2.5 MB SDF on a committed-file failure
+- **#253**: synth: adopt non-excluded abc_constr.driving_cell and re-take netlist-bound records
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-- **#251**: fix(pnr): bound the SDF selftest's whole-file failure message
+_None._
 
 ## Approved (Awaiting Merge)
 
@@ -55,8 +55,7 @@ Issues carrying `loom:curated`.
 
 - **#3**: Track the gap to T1 (klayout-tools design-evidence-tiers.md) *(curated)*
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)* *(held)*
-- **#236**: synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost *(curated)*
-- **#250**: layout: pnr selftest expect() dumps the whole 2.5 MB SDF on a committed-file failure *(curated)*
+- **#253**: synth: adopt non-excluded abc_constr.driving_cell and re-take netlist-bound records *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -75,10 +74,10 @@ _None._
 | Very important | 1 |
 | Important | 3 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
-| In Progress (`loom:building`) | 2 |
-| PRs awaiting review | 1 |
+| In Progress (`loom:building`) | 1 |
+| PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 4 |
+| Curated | 3 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->

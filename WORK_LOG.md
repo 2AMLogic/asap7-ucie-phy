@@ -5,6 +5,12 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #254**: synth: record dont_use timing-loss variant sweep; driving_cell BUFx3 recovers r5
+- **Issue #236** (closed): synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost
+- **PR #251**: fix(pnr): bound the SDF selftest's whole-file failure message
+- **Issue #250** (closed): layout: pnr selftest expect() dumps the whole 2.5 MB SDF on a committed-file failure
+- **PR #249**: test: pin regen.py's SDF DATE normalization with a stdlib self-test
+- **Issue #247** (closed): layout: regen.py's sdf_without_date normalization has no committed selftest
 - **PR #246**: layout: gate the post-route netlist and SDF in regen.py --check
 - **Issue #235** (closed): layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope
 - **PR #243**: manifests: bind resolve-record-base.sh into the T1 item-10 hygiene inventory
