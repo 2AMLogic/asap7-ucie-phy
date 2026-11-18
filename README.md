@@ -198,7 +198,7 @@ KLT="uvx --from klayout-tools==$(cat .github/klt-version) klt" python3 -I sta/re
 
 # Post-route SDF-annotated cocotb loopback (T1 item 7, digital). Today this is a
 # recorded refusal, not a pass: klt declines a verdict because the back-annotation of
-# layout/slice_routed.sdf "did not fully apply: 8 diagnostic(s)", so the run "would have
+# layout/slice_routed.sdf "did not fully apply: 4 diagnostic(s)", so the run "would have
 # been a zero-delay one reported as if it were annotated"
 # (verification/functional-verification-sdf.report.json carries that error and no verdict).
 # Item 7 stays `unmet` / `no_evidence` on both partitions.
