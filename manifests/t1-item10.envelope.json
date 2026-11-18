@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 27/27 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 28/28 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 27,
-    "passed_count": 27,
+    "check_count": 28,
+    "passed_count": 28,
     "checks": [
       {
         "check": "present",
@@ -225,6 +225,19 @@
       {
         "check": "command",
         "role": "audit",
+        "name": "pnr-sdf-normalize-self-test",
+        "argv": [
+          "python3",
+          "-I",
+          "layout/pnr/test_sdf_normalize.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
         "name": "records-json-valid",
         "argv": [
           "bash",
@@ -259,7 +272,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:3809cd2241b6b7b7eb23fe9d1cca5b1d1038d9885d4f69e1cf00cf9fcf6776f7"
+      "content_hash": "sha256:86a00a039ea6a3d7cb040bd5e65e2b9c1913202f1657d24581707fe90e40d09f"
     }
   }
 }
