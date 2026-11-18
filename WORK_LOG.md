@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #240**: ci: fail-closed merge_group base for the record gate
+- **Issue #238** (closed): Merge queue: add the merge_group trigger and adapt the PR-metadata gates
 - **PR #234**: layout: clear SDT.ACTIVE.AUX.2 at the source by excluding the ten deviating masters (r8)
 - **Issue #228** (closed): layout: clear the remaining DRC violations on the assembled lane column (successor to #64, for #19)
 
