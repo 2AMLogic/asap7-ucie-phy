@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #256**: synth: move abc driving_cell off excluded BUFx2 to BUFx3 and re-take netlist-bound records
+- **Issue #253** (closed): synth: adopt non-excluded abc_constr.driving_cell and re-take netlist-bound records
 - **PR #254**: synth: record dont_use timing-loss variant sweep; driving_cell BUFx3 recovers r5
 - **Issue #236** (closed): synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost
 - **PR #251**: fix(pnr): bound the SDF selftest's whole-file failure message
