@@ -15,6 +15,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  merge_group:
   workflow_dispatch:
 
 permissions:
@@ -29,10 +30,11 @@ jobs:
         with:
           # The forward-only record gate (#172) diffs the changed-record
           # range between this event's base commit and HEAD, so the base
-          # must be fetchable: pull_request.base.sha (pull_request) or
-          # github.event.before (push) is absent from a depth-1 clone, and
-          # the gate would fail -- loudly, but for a reason a checkout
-          # setting prevents.
+          # must be fetchable: pull_request.base.sha (pull_request),
+          # github.event.before (push) or merge_group.base_sha
+          # (merge_group) is absent from a depth-1 clone, and the gate
+          # would fail -- loudly, but for a reason a checkout setting
+          # prevents.
           fetch-depth: 0
 
       - uses: actions/setup-python@v5
@@ -58,26 +60,25 @@ jobs:
       # never re-lints frozen history. It fails rather than passes when the
       # changed-record list cannot be computed (no resolvable base, empty
       # range, broken record-set rule) -- no vacuous pass.
+      - name: Selftest the record-gate base resolver (hermetic temp repos)
+        run: bash verification/test-resolve-record-base.sh
+
+      # The base the forward-only gate diffs against, resolved by the single
+      # copy of that logic (verification/resolve-record-base.sh): the
+      # pull_request base, else the push "before" SHA, else (dispatch or an
+      # event without a base) the last commit -- while a merge_group run
+      # resolves github.event.merge_group.base_sha and fails closed rather
+      # than silently gating one commit of the queue's trial merge.
       - name: Resolve the base commit the forward-only record gate diffs against
         id: record-base
         env:
+          EVENT: ${{ github.event_name }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PUSH_BEFORE: ${{ github.event.before }}
+          MG_BASE: ${{ github.event.merge_group.base_sha }}
         run: |
           set -euo pipefail
-          base="$PR_BASE_SHA"
-          if [ -z "$base" ] || [ "$base" = "null" ]; then
-            base="$PUSH_BEFORE"
-          fi
-          if [ -z "$base" ] || [ "$base" = "null" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
-            # workflow_dispatch (or an event without a base): gate the last
-            # commit. A root commit has no parent and fails below -- rightly.
-            base="$(git rev-parse HEAD^)"
-          fi
-          git rev-parse --verify "${base}^{commit}" >/dev/null \
-            || { echo "::error::no usable base commit ($base) for the forward-only record gate"; exit 1; }
-          git merge-base --is-ancestor "$base" HEAD \
-            || { echo "::error::base $base is not an ancestor of HEAD; the changed-record range cannot be computed"; exit 1; }
+          base="$(bash verification/resolve-record-base.sh)"
           echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: Gate records added or changed by this commit range (forward-only, #172)
