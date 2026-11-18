@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 26/26 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 27/27 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 26,
-    "passed_count": 26,
+    "check_count": 27,
+    "passed_count": 27,
     "checks": [
       {
         "check": "present",
@@ -139,6 +139,13 @@
         "content_hash": "sha256:5db4cbe620d693f3b74f58b0db2711c4782a172d68ec812013ca31cb8a7f188a"
       },
       {
+        "check": "present",
+        "role": "hygiene",
+        "path": "verification/resolve-record-base.sh",
+        "passed": true,
+        "content_hash": "sha256:d7db01b4a7f8a710c34064dba879f02ea10494de5f737b6cdbcd1cdb508223cc"
+      },
+      {
         "check": "command",
         "role": "audit",
         "name": "pad-checker-self-test",
@@ -252,7 +259,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:3286e0d9fdf8d19b46486d01868200c0f2ca0c9f379328cca60e0ed05a346011"
+      "content_hash": "sha256:3809cd2241b6b7b7eb23fe9d1cca5b1d1038d9885d4f69e1cf00cf9fcf6776f7"
     }
   }
 }

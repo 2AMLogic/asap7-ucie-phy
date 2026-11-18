@@ -21,7 +21,8 @@
     "spec/decisions/0010-analog-simulation-flow.md",
     "spec/decisions/0012-record-path-hygiene-gate.md",
     ".github/workflows/signoff.yml",
-    "verification/check-records-json.sh"
+    "verification/check-records-json.sh",
+    "verification/resolve-record-base.sh"
   ],
   "checks": [
     {
