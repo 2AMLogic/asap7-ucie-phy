@@ -29,14 +29,13 @@ _None._
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
 - **#202**: spec: the #178 tail section still names attest/item1.r7.json as the item-1 inventory of record
-- **#235**: layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope
 - **#236**: synth: dont_use excludes rather than substitutes — measure whether a legal cell set clears SDT.ACTIVE.AUX.2 without the pre-route timing cost
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#235**: layout: slice_routed.v and slice_routed.sdf have no drift gate and are not hash-bound by any envelope
 
 ## PRs Awaiting Review
 
@@ -75,8 +74,8 @@ _None._
 | Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 3 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 3 |
-| In Progress (`loom:building`) | 0 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 2 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 4 |
