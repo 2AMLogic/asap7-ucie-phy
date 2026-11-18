@@ -1,0 +1,96 @@
+{
+ "schema_version": 1,
+ "kind": "layout-stream-inventory",
+ "description": "Re-attestation of attest/item2.r10.json (kept as history) after issue #253 changed constraints.abc_constr.driving_cell from BUFx2_ASAP7_75t_R (an excluded master) to BUFx3_ASAP7_75t_R in design/synth/slice.synth.json; the netlist was re-synthesized, the slice re-routed (same request geometry, seed 1) and the column re-assembled. Pinned by sha256 of raw bytes: the assembled column and its inputs. Layout geometry only; DRC and LVS are separate records (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
+ "assembled": {
+  "path": "layout/lane_column.gds",
+  "generator": "python3 layout/assemble_column.py",
+  "check": [
+   "python3",
+   "layout/assemble_column.py",
+   "--check"
+  ],
+  "top": "lane_column",
+  "lane_cells": 17,
+  "data_lanes": 16,
+  "clock_lane_index": 8,
+  "bump_pitch_um": 45,
+  "pads": 34,
+  "note": "Re-assembled with `python3 layout/assemble_column.py` so the column embeds the re-routed slice stream; `--check` exits 0."
+ },
+ "pad_check": {
+  "record": "layout/pad_check_record.json",
+  "argv": [
+   "python3",
+   "layout/check_pads.py",
+   "--gds",
+   "layout/lane_column.gds",
+   "--top",
+   "lane_column",
+   "--map",
+   "layout/bump_map_target.csv",
+   "--out",
+   "layout/pad_check_record.json"
+  ],
+  "status": "pass",
+  "note": "Re-run against the re-assembled column (issue #253)."
+ },
+ "streams": [
+  {
+   "path": "layout/lane_column.gds",
+   "sha256": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45"
+  },
+  {
+   "path": "layout/slice_routed.gds",
+   "sha256": "sha256:b961426ac860f51e1af009e0ee52d5e34a3d2d08654ff4c5394fa82d7252d293"
+  },
+  {
+   "path": "layout/cells/tx_cell.gds",
+   "sha256": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871"
+  },
+  {
+   "path": "layout/cells/rx_cell.gds",
+   "sha256": "sha256:17418099e4fa45f9150638095be44d617e1eac9254df72723aafd15ef22ed81f"
+  },
+  {
+   "path": "layout/cells/tx_clk_cell.gds",
+   "sha256": "sha256:4c36c18edeac86457c78702a3047ef218672a0dedc878bd5f4bc8a2bfdd33b2e"
+  },
+  {
+   "path": "layout/cells/rx_clk_cell.gds",
+   "sha256": "sha256:6c825f2bfc0cbcdbfcd4aa09099cd964e9087332d602db29ca8ef4df26992c6c"
+  }
+ ],
+ "generator": {
+  "path": "layout/pnr/regen.py",
+  "check_input": [
+   "python3",
+   "layout/pnr/regen.py",
+   "--check-input"
+  ],
+  "check": [
+   "python3",
+   "-I",
+   "layout/pnr/regen.py",
+   "--check"
+  ],
+  "report": "layout/pnr/slice.pnr.report.json",
+  "note": "The routed slice is reproducible from the committed netlist and the pinned lambdapdk archive; `--check` reproduces it byte-for-byte with the same seed (1), and `--check-input` confirms the tied netlist hashes to the report's provenance.input.content_hash. The netlist itself changed this pass (constraints.dont_use resynthesis, issue #228 step 1) and the report was regenerated with it; the report also records the routed DEF and post-route SPEF now persisted beside the GDS/SDF (sta/slice.sta.routed.json times them)."
+ },
+ "envelope": {
+  "file": "evidence/item2.r11.json",
+  "command": [
+   "klt",
+   "signoff",
+   "--attest",
+   "2",
+   "--input",
+   "layout/lane_column.gds",
+   "--generator",
+   "python3 layout/assemble_column.py",
+   "--regenerated-hash",
+   "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45"
+  ],
+  "note": "The klt-produced envelope the block manifest cites for item 2; this file is the companion stream inventory."
+ }
+}

@@ -113,3 +113,23 @@ record's inputs are committed, hashed files.
 > synthesis constraints. Setting `abc_constr.driving_cell` to a non-excluded buffer (BUFx3) instead of
 > the excluded BUFx2 reproduces r5's pre-route Fmax and slack with zero deviating masters. It is a trial
 > netlist only: not adopted, no record here changed.
+
+## Issue #253: r8 (pre-route) and routed r2 (2026-11-18)
+
+`design/synth/slice.synth.json` named `BUFx2_ASAP7_75t_R` as `abc_constr.driving_cell` while the same
+file's `dont_use` excludes BUFx2. Issue #236's variant sweep (`design/synth/variant-sweep.r1.md`)
+measured that moving it to a non-excluded buffer recovers the r5 pre-route timing; #253 applies
+`BUFx3_ASAP7_75t_R` and re-synthesizes. The netlist has 0 instances of the ten excluded masters
+(a per-master `grep` over `design/netlist/slice_asap7.v`). The mechanism inside ABC is not established;
+this is a measured dependence.
+
+- **`slice.sta.r8.report.json`**: pre-route successor to r7 (`regen.py --report slice.sta.r8.report.json`,
+  same request, `netlist_estimate`, 0.25 ns clock). Worst setup slack tt +0.02954 / ss −0.0969 /
+  ff +0.08471 ns (0 / 156 / 0 violations, so **ss still fails**); hold +0.05125 / +0.0742 /
+  +0.03431 ns, 0 violations. Fmax 4535.92 / 2882.67 / 6049.89 MHz. Matches #236's prediction and r5 to
+  the reported digits. r8 is now the adopted record (`regen.py --check-input` targets it).
+- **`slice.sta.routed.r2.report.json`**: post-route successor to `slice.sta.routed.report.json`
+  (same request `slice.sta.routed.json`, over the re-routed DEF/SPEF, 0.5 ns constraint). Setup slack
+  +0.22524 / +0.07487 / +0.29353 ns, hold +0.05179 / +0.07505 / +0.03468 ns, 0 / 0 violations at tt / ss / ff.
+  Caveats as before: `annotation_complete: false` (2,520 of 2,714 nets), 0.5 ns is not the section 2
+  clock, clock uncertainty unapplied (klayout-tools#4240).

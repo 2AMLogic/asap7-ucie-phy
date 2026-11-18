@@ -671,3 +671,16 @@ byte-identical), routed-slice LVS re-taken as r16 on the new stream (`evidence/i
 slice_routed.r16.*` — still `mismatch`, recorded honestly), item 8 re-pointed and re-attested,
 manifest re-pinned, verdict regenerated: `t1_met_count` 11 unchanged. `klt signoff` item 3 stays
 **unmet** and the manifest still cites no record in this directory.
+
+## r9: lane column after the #253 `driving_cell` re-synthesis (2026-11-18)
+
+`lane_column.r9.envelope.json`: `klt drc --engine klayout` (klt 0.9.2 pin, packaged `asap7.drc`, the 267-id
+expectation set of the r8 envelope, no waivers, no filtering) on the committed `layout/lane_column.gds`
+(`sha256:4b7c1aaf...`), which embeds the slice re-routed after `abc_constr.driving_cell` moved to
+`BUFx3_ASAP7_75t_R`. Status `violations`, **15,600** violations across 8 rules, coverage assertion
+satisfied. **`SDT.ACTIVE.AUX.2`: 0**, from this fresh run. Counts: M1.S.2 576, M1.S.3 528, M1.S.4 2,544,
+M1.S.5 704, M3.S.2 160, M5.W.3 528, V4.M4.EN.1 10,304, V4.M5.EN.2 256. `M4.AUX.1/2` (64+64 at r8) are
+absent. Versus r8 (15,856): the route-dependent families moved with the re-route. Not clean, and item 3
+stays unmet. The routed slice alone was **not** re-run, and `klt drc --check` was **not** run on the
+envelope. Its deck is recorded by a machine-local path under a throwaway venv (`/tmp/...`), the same
+limitation as the earlier `--engine klayout` records. Layout results against a predictive PDK.

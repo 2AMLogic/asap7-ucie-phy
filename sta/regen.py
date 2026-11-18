@@ -47,7 +47,7 @@ OPCOND = HERE / "operating-conditions.json"
 #: the issue-#228 step-1 resynthesis record (constraints.dont_use removed the
 #: ten SDT.ACTIVE.AUX.2 deviating masters), which replaced r5 as the record of
 #: the committed netlist.
-CURRENT_RECORD = "slice.sta.r7.report.json"
+CURRENT_RECORD = "slice.sta.r8.report.json"
 
 def _load_lambdapdk():
     path = REPO / "design" / "lambdapdk.py"
