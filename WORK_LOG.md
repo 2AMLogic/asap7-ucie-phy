@@ -5,6 +5,11 @@ triage role; entries are newest first.
 
 ### 2026-11-18
 
+- **PR #263**: ci: guard WORK_PLAN plan-body region against _Generated: lines
+- **PR #260**: docs: correct the SDF refusal diagnostic count to the recorded 4
+- **Issue #264** (closed): work-plan-region guard will false-positive if Loom resyncs to a stamp-on-write guide.md (#13909)
+- **Issue #262** (closed): Guide's hand-applied WORK_PLAN refresh keeps re-adding the _Generated: line inside guide:plan-body
+- **Issue #258** (closed): docs: characterization report cites the SDF refusal as 8 diagnostics; the record says 4
 - **PR #256**: synth: move abc driving_cell off excluded BUFx2 to BUFx3 and re-take netlist-bound records
 - **Issue #253** (closed): synth: adopt non-excluded abc_constr.driving_cell and re-take netlist-bound records
 - **PR #254**: synth: record dont_use timing-loss variant sweep; driving_cell BUFx3 recovers r5
