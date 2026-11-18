@@ -116,7 +116,8 @@ ASAP7 is predictive and nothing here is fabricated.**
   pinned lambdapdk archive (`spec/asap7-bringup.md`); `regen.py --check` gates the routed GDS, DEF and SPEF
   and the post-route netlist and SDF: exit 0 if all five reproduce byte-for-byte, 3 if any drifted. The one
   exception is the SDF's wall-clock `(DATE ...)` stamp from STA — the only line a two-run measurement showed
-  varying (issue #235) — compared with that line normalized and the rest byte-exact. Run it as
+  varying (issue #235) — compared with that line normalized and the rest byte-exact
+  (`sdf_without_date`; self-test `python3 -I layout/pnr/test_sdf_normalize.py`). Run it as
   `python3 -I layout/pnr/regen.py`; it takes about 10 minutes, nearly
   all in the route stage. It stages the pinned `asap7.layermap` so klt's DEF->GDS merge puts routing on the ASAP7
   stream numbers (without it: sequential numbers on top of Gate/Gcut/Active; `verification/drc/README.md`). Run from the repo root with `$TMPDIR` under a path the `openroad` wrapper mounts.

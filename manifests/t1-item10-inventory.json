@@ -50,6 +50,10 @@
       "argv": ["python3", "-I", "layout/pnr/test_layermap.py"]
     },
     {
+      "name": "pnr-sdf-normalize-self-test",
+      "argv": ["python3", "-I", "layout/pnr/test_sdf_normalize.py"]
+    },
+    {
       "name": "records-json-valid",
       "argv": ["bash", "verification/check-records-json.sh"]
     },
