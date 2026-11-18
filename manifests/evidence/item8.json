@@ -17,7 +17,7 @@
         "role": "report",
         "path": "verification/characterization-report.md",
         "passed": true,
-        "content_hash": "sha256:ed533f60377195aa5056b02e599d4143379a252065d0ab21e3cb8f7ba5f6357b"
+        "content_hash": "sha256:4f6226de600c51d8de6fb21bfe8e82623f296af64799435f6db26676137cfc1e"
       },
       {
         "check": "present",
