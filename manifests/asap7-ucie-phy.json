@@ -7,12 +7,12 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r11.json",
-      "content_hash": "sha256:72d830f2ff4f14eb6216f144378e868de7ae531fe958e764ba2b02a643880e2f"
+      "file": "evidence/item1.r12.json",
+      "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31"
     },
     "1.digital": {
-      "file": "evidence/item1.r11.json",
-      "content_hash": "sha256:72d830f2ff4f14eb6216f144378e868de7ae531fe958e764ba2b02a643880e2f"
+      "file": "evidence/item1.r12.json",
+      "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31"
     },
     "6.digital": {
       "not_applicable": {
@@ -36,7 +36,7 @@
     },
     "8": {
       "file": "manifests/evidence/item8.json",
-      "content_hash": "sha256:b8d4ca243180aba36317ab4dee082f5a335a5246024ec0229eb8b48c4868eb3c"
+      "content_hash": "sha256:fec34a425aee394024c6cc550e6e5d3d55e81a86b8e92dbb109cdae80691c6cf"
     },
     "5.digital": [
       {
@@ -51,12 +51,12 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.r10.json",
-      "content_hash": "sha256:c7e36dd1a5e1a7999e196799d6611a040fa95b496042d19d488b37b7aa940338"
+      "file": "evidence/item2.r11.json",
+      "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45"
     },
     "2.digital": {
-      "file": "evidence/item2.r10.json",
-      "content_hash": "sha256:c7e36dd1a5e1a7999e196799d6611a040fa95b496042d19d488b37b7aa940338"
+      "file": "evidence/item2.r11.json",
+      "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45"
     },
     "4.analog": [
       {
@@ -78,8 +78,8 @@
     ],
     "4.digital": [
       {
-        "file": "evidence/item4-lvs/slice_routed.r16.report.json",
-        "content_hash": "sha256:b3d75faf4d770052415a8fe548b693959459b1e9d76b6ad69c4cb779724dca63"
+        "file": "evidence/item4-lvs/slice_routed.r17.report.json",
+        "content_hash": "sha256:7e71d29b122715672f0e76262cc51fe24e497af965ab0f935f29909267ddf9ab"
       }
     ]
   }
