@@ -35,7 +35,6 @@ Human-approved issues (`loom:issue`) ready for implementation — excluding held
 Issues currently being built (`loom:building`).
 
 - **#257**: drc: r9 lane-column envelope was taken off the committed klayout pin (0.30.13 vs 0.30.12)
-- **#258**: docs: characterization report cites the SDF refusal as 8 diagnostics; the record says 4
 
 ## PRs Awaiting Review
 
@@ -56,7 +55,6 @@ Issues carrying `loom:curated`.
 - **#3**: Track the gap to T1 (klayout-tools design-evidence-tiers.md) *(curated)*
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)* *(held)*
 - **#257**: drc: r9 lane-column envelope was taken off the committed klayout pin (0.30.13 vs 0.30.12) *(curated)*
-- **#258**: docs: characterization report cites the SDF refusal as 8 diagnostics; the record says 4 *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -75,10 +73,10 @@ _None._
 | Very important | 1 |
 | Important | 3 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
-| In Progress (`loom:building`) | 2 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 4 |
+| Curated | 3 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
