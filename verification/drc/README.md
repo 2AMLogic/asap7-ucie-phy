@@ -684,3 +684,19 @@ absent. Versus r8 (15,856): the route-dependent families moved with the re-route
 stays unmet. The routed slice alone was **not** re-run, and `klt drc --check` was **not** run on the
 envelope. Its deck is recorded by a machine-local path under a throwaway venv (`/tmp/...`), the same
 limitation as the earlier `--engine klayout` records. Layout results against a predictive PDK.
+
+## r10: lane column re-taken on the klayout pin, superseding r9 (2026-11-18, issue #257)
+
+`lane_column.r10.envelope.json`: the same measurement as r9, re-run because **r9 was off-pin**. r9 was taken
+with klayout **0.30.13** against the `.github/klayout-version` pin of **0.30.12** and flagged this itself
+(`klayout_version_mismatch: true`). r10 pins both: `klayout-tools==0.9.2` and `klayout==0.30.12`
+(`uv run --no-project --with ... --with ... klt drc`, the `signoff.yml` invocation), `--engine klayout`,
+packaged `asap7.drc` (`fa303c03...`, unchanged), the same 267-id expectation set as r9 (satisfied), no
+waivers, no filtering, on the unchanged committed `layout/lane_column.gds` (`sha256:4b7c1aaf...`).
+Provenance reads `klayout_version` 0.30.12, `klayout_version_mismatch: false`, `klt_version` 0.9.2.
+Result: **15,600** violations across the same 8 rules with identical per-rule counts to r9, and
+**`SDT.ACTIVE.AUX.2`: 0** (absent from `rule_counts`), so on this deck and layout 0.30.12 and 0.30.13 agree.
+That is one measurement, not a general equivalence claim. r9 is kept unedited (append-only); r10 supersedes
+it as the record of the committed column. The deck is recorded by a machine-local uv-cache path, the same
+limitation as the earlier `--engine klayout` records; `klt drc --check` was not run. The routed slice alone
+was not re-run. Still not clean; layout results against a predictive PDK.
