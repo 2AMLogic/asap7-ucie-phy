@@ -66,6 +66,23 @@ def expect(name, got, want):
         fails.append(f"{name}: got {got!r}, want {want!r}")
 
 
+def expect_bytes_equal(name, got, want, window=48):
+    """`expect` for whole-file bytes: a mismatch reports the first differing
+    offset with a small window from each side, not both full reprs -- the
+    committed SDF is ~2.5 MB, so one failed assertion must not bury the rest
+    of the run under ~5 MB of repr (issue #250)."""
+    if got == want:
+        return
+    n = min(len(got), len(want))
+    i = next((k for k in range(n) if got[k] != want[k]), n)
+    lo = max(0, i - window)
+    hi = i + window
+    fails.append(f"{name}: first difference at offset {i} "
+                 f"(got {len(got)} B, want {len(want)} B)\n"
+                 f"  got [{lo}:{hi}] = {got[lo:hi]!r}\n"
+                 f"  want[{lo}:{hi}] = {want[lo:hi]!r}")
+
+
 def with_date(text, date_line):
     """`text` with its DATE line replaced by `date_line`, computed locally.
 
@@ -111,8 +128,8 @@ expect("buffer with no DATE untouched", regen.sdf_without_date(no_date), no_date
 # line, normalization swaps only that line and leaves every other byte alone.
 data = SDF.read_bytes()
 expect("committed SDF has exactly one DATE line", data.count(b"(DATE \""), 1)
-expect("committed SDF: exactly one substitution",
-       regen.sdf_without_date(data), with_date(data, MASKED))
+expect_bytes_equal("committed SDF: exactly one substitution",
+                   regen.sdf_without_date(data), with_date(data, MASKED))
 
 for f in fails:
     print("FAIL", f, file=sys.stderr)
