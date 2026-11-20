@@ -760,3 +760,16 @@ exactly the case that mints a further revision (the `sources` list changed);
 `.github/workflows/signoff.yml` and the block manifest cite r9, and the
 committed evidence (`evidence/item1.r9.json`, 21/21 checks) is the record.
 Earlier sections are left as written.
+
+## The #178 tail section's r7 clause is likewise superseded (appended 2026-11-20, issue #202)
+
+Documentation-only pointer; no tool run in this section. The correction
+appended 2026-11-15 (issue #178) closes with "`attest/item1.r7.json` is the
+inventory of record"; that clause is superseded by `attest/item1.r9.json`
+(issue #182), exactly as the #145 section's clause was: the item-1 inventory
+of record is `attest/item1.r9.json`, as enforced by
+`.github/workflows/signoff.yml` and the block manifest. The substantive
+finding of #178 — `attest/item1.r2.json` through `attest/item1.r7.json` are
+six byte-identical files — is a statement about the attestation chain, not
+about which revision is of record, and is unaffected. Earlier sections are
+left as written.
