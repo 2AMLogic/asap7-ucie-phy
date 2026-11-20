@@ -22,30 +22,34 @@ clock-cell rows, probes `klt pex` and files the operator follow-up.
 ## Rows
 
 Row IDs are final for the consumers: #278 measures a1-a6, #279 measures a7-a10. Limits are set from
-the ratified section 2 rate rows and the committed bump map, never from a measured value: no
-measurement of any quantity below exists today (decision 0010 measured logic levels only, at
-0.7 V / 25 C flat). Fractions of the budget that the ratified inputs do not determine are stated in
-the assumption ledger.
+the ratified section 2 rate rows and the committed bump map, never from a measured value. Decision
+0010's TT reports do hold level readings (`vpad_ph0` = 0.7 V in `sim/tx_cell.batch.report.json`,
+`vrxa0_hold1` = 0.7 V in `sim/rx_cell.batch.report.json`): functional pass/fail assertions at
+0.7 V / 25 C flat, on the historical benches. They are not measurements of a1-a10 under the
+definitions below (§6 tuples, the conventions B1-B3, the worst-case edge rules), and the limits here
+were set independently of them. No transition time, delay, duty error, trip point or offset has
+been measured. Fractions of the budget that the ratified inputs do not determine are stated in the
+assumption ledger.
 
 ### Data cells (measured by #278)
 
 | ID | Cell | Quantity (unit) | Measurement definition | Stimulus / load | PVT | Proposed limit |
 |---|---|---|---|---|---|---|
-| `a1-tx-pad-levels` | `tx_cell` | pad high and low level (V) | steady-state `v(pad)` after the selected input settles; selected input at 0 and at 1, all four mux selections walked | data/select inputs full-swing 0/VDD; 2 fF on `pad` to VSS (L1) | §6 tuples | high ≥ 0.9·VDD, low ≤ 0.1·VDD |
-| `a2-tx-pad-transition` | `tx_cell` | pad rise/fall time, 20-80% (ps) | last 20%-80% `v(pad)` excursion per mux-selected output step | same as a1 | §6 tuples | ≤ 15.625 ps (target) / 62.5 ps (fallback) |
-| `a3-tx-mux-to-pad-delay` | `tx_cell` | input-to-pad delay (ps) | 50% crossing of each of the four data inputs and the active select to the 50% crossing of `v(pad)`; the limit bounds the maximum path | same as a1 | §6 tuples | ≤ 31.25 ps (target) / 125 ps (fallback) |
-| `a4-rx-sampler-levels` | `rx_cell` | sampler output level (V) | steady-state `rx_a[0]`,`rx_a[1]`,`rx_b[0]`,`rx_b[1]` one settling time after the active `ph` edge, pad input at 0 and at 1 | `pad` driven full-swing 0/VDD, 20 ps transition (L2); `ph` per the forwarded-clock plan | §6 tuples | high ≥ 0.9·VDD, low ≤ 0.1·VDD |
+| `a1-tx-pad-levels` | `tx_cell` | pad high and low level (V) | steady-state `v(pad)` after the selected input settles; selected input at 0 and at 1, all four mux selections walked | data/select inputs full-swing 0/VDD, linear 10 ps ramps (B1); 2 fF on `pad` to VSS (L1); polarity per B2: pad = NOT selected input | §6 tuples | high ≥ 0.9·VDD, low ≤ 0.1·VDD |
+| `a2-tx-pad-transition` | `tx_cell` | pad rise/fall time, 20-80% (ps) | 20%-80% time of `v(pad)` for each rising and each falling `pad` edge produced by a selected-input step (selected input falling → pad rising, rising → pad falling), on each of the four mux selections; the limit bounds the worst of the eight | same as a1 | §6 tuples | ≤ 15.625 ps (target) / 62.5 ps (fallback) |
+| `a3-tx-mux-to-pad-delay` | `tx_cell` | input-to-pad delay (ps) | 50% crossing of the driving input edge to the 50% crossing of the resulting `v(pad)` edge, one measurement per path and edge pair: each data input, selected, steps rising (pad falls) and falling (pad rises); each of `sel1` and `sel2` rising and falling, with the other select held and the newly selected input at the level that makes `pad` rise in one measurement and fall in the other, the old selected input at the opposite level. The limit bounds the worst of all measurements, rising and falling pad edges both | same as a1 | §6 tuples | ≤ 31.25 ps (target) / 125 ps (fallback) |
+| `a4-rx-sampler-levels` | `rx_cell` | sampler output level (V) | `v(rx_a[0])`, `v(rx_a[1])`, `v(rx_b[0])`, `v(rx_b[1])` read at one fixed sample instant t_s (B3) for each phase, with `pad` held at 0 and at 1 through t_s; a level that reaches its window only after t_s fails | `pad` driven full-swing 0/VDD, 20 ps transition (L2); `ph[k]` pulses and t_s per B3; 2 fF on each of the four outputs to VSS (L5) | §6 tuples | high ≥ 0.9·VDD, low ≤ 0.1·VDD |
 | `a5-rx-input-threshold` | `rx_cell` | input-stage trip point (V) | DC sweep of `v(pad)`; trip = `v(pad)` at which the input-stage output (internal net `i2` of `design/netlist/rx_cell.sp`) crosses VDD/2, mismatch-free | `pad` DC source; sampler quiescent | §6 tuples | VDD/2 ± 0.1·VDD |
-| `a6-rx-sampler-offset-sigma` | `rx_cell` | input-referred sampler offset, 3σ (V) | **statistical**. Per draw, `ph[0]` held high (sampler transparent), `pad` swept: offset = `v(pad)` at which `rx_a[0]` crosses VDD/2, minus the a5 trip. The limit bounds 3·std of the offset distribution over draws, not a corner reading | same as a4, per-draw mismatch per M1 | §6 tuples; ≥ 100 draws per tuple, recorded seed, nominal control | 3σ ≤ 0.1·VDD |
+| `a6-rx-sampler-offset-sigma` | `rx_cell` | input-referred sampler offset, 3σ (V) | **statistical**. Per draw, `ph[0]` held high (sampler transparent), `pad` swept: offset = `v(pad)` at which `rx_a[0]` crosses VDD/2, minus the a5 trip. The limit bounds 3·std of the offset distribution over draws, not a corner reading | same as a4 (including L5 and B3), per-draw mismatch per M1 | §6 tuples; ≥ 100 draws per tuple, recorded seed, nominal control | 3σ ≤ 0.1·VDD |
 
 ### Clock cells (measured by #279)
 
 | ID | Cell | Quantity (unit) | Measurement definition | Stimulus / load | PVT | Proposed limit |
 |---|---|---|---|---|---|---|
-| `a7-txclk-duty` | `tx_clk_cell` | pad duty-cycle error (ps) | high time of `v(pad)` minus T/2, averaged over ≥ 10 periods, `fwd_en` high | `clk` at the forwarded-clock rate, 50% duty, 20 ps transition (L3); 2 fF on `pad` (L4) | §6 tuples | within ± 12.5 ps (target) / ± 50 ps (fallback) |
-| `a8-txclk-delay` | `tx_clk_cell` | clk-to-pad delay (ps) | 50% of `v(clk)` to 50% of `v(pad)` | same as a7 | §6 tuples | ≤ 62.5 ps (target) / 250 ps (fallback) |
-| `a9-rxclk-duty` | `rx_clk_cell` | forwarded duty-cycle error (ps) | high time of `v(rx_clk)` minus T/2 minus the source's own duty error, averaged over ≥ 10 periods | `pad` driven as a7 drives `clk` (L3) | §6 tuples | within ± 12.5 ps (target) / ± 50 ps (fallback) |
-| `a10-rxclk-delay` | `rx_clk_cell` | pad-to-rx_clk delay (ps) | 50% of `v(pad)` to 50% of `v(rx_clk)` | same as a9 | §6 tuples | ≤ 62.5 ps (target) / 250 ps (fallback) |
+| `a7-txclk-duty` | `tx_clk_cell` | pad duty-cycle error (ps) | high time of `v(pad)` (50% VDD rising crossing to the next 50% VDD falling crossing) minus T/2, averaged over ≥ 10 periods, `fwd_en` high | `clk` at the forwarded-clock rate, 50% duty, 20 ps transition (L3); 2 fF on `pad` (L4) | §6 tuples | within ± 12.5 ps (target) / ± 50 ps (fallback) |
+| `a8-txclk-delay` | `tx_clk_cell` | clk-to-pad delay (ps) | 50% VDD crossing of `v(clk)` to the 50% VDD crossing of `v(pad)`, measured separately for the rising and for the falling edge; the limit bounds the worse of the two | same as a7 | §6 tuples | ≤ 62.5 ps (target) / 250 ps (fallback) |
+| `a9-rxclk-duty` | `rx_clk_cell` | forwarded duty-cycle error (ps) | high time of `v(rx_clk)` (50% VDD rising crossing to the next 50% VDD falling crossing) minus T/2 minus the high time of `v(pad)` measured the same way minus T/2 (the source's own duty error), averaged over ≥ 10 periods | `pad` driven as a7 drives `clk` (L3); 2 fF on `rx_clk` to VSS (L6) | §6 tuples | within ± 12.5 ps (target) / ± 50 ps (fallback) |
+| `a10-rxclk-delay` | `rx_clk_cell` | pad-to-rx_clk delay (ps) | 50% VDD crossing of `v(pad)` to the 50% VDD crossing of `v(rx_clk)`, measured separately for the rising and for the falling edge; the limit bounds the worse of the two | same as a9 | §6 tuples | ≤ 62.5 ps (target) / 250 ps (fallback) |
 
 **PVT binding.** Every row binds the section 6 corner tuples — TT 0.70 V / 25 °C, SS 0.63 V /
 100 °C, FF 0.77 V / 0 °C (the ratified Liberty headers) — on the decision 0010 model cards
@@ -92,7 +96,21 @@ Section 2 fixes: 16 GT/s → 62.5 ps per transfer (UI), 4 GHz parallel → 250 p
 - **F6/F7 (windows).** A symmetric front end should trip near mid-supply and resolve small inputs;
   10 percent of VDD bounds both the nominal trip window and the 3σ offset. Assumptions.
 
-Loads, voltages and stimulus the ratified inputs do not determine:
+Loads, voltages, stimulus and conventions the ratified inputs do not determine:
+
+- **B1 (TX stimulus ramps).** Every ideal TX data and select source is a piecewise-linear step with
+  a 10 ps 0-100% ramp, the edge time of the historical bench `design/sim/tx_cell.tb.sp`. Edge time
+  is part of the row: a slower ramp changes the measured pad slew and delay, so a bench may not
+  substitute one. The other three data inputs carry the complement of the selected input.
+- **B2 (TX polarity).** `tx_cell` inverts: three inversions follow the 4:1 pass-gate mux, so the
+  expected `pad` level is NOT the selected input (a1: selected 0 → pad ≥ 0.9·VDD, selected 1 →
+  pad ≤ 0.1·VDD), as in the historical bench.
+- **B3 (RX sampling plan).** Each `ph[k]` is a pulse with 10 ps ramps, high (latch transparent) for
+  one UI (62.5 ps target / 250 ps fallback) and closing on its falling edge; the four phases are
+  exercised one at a time. `pad` settles at its level at least 2 UI before the active `ph[k]` falling
+  edge and holds through t_s. The sample instant t_s is the 50% VDD crossing of that falling edge plus
+  one UI. Outputs map to phases as in `design/gen_cells.py` (d0..d3 → `rx_a[0]`, `rx_b[0]`,
+  `rx_a[1]`, `rx_b[1]`), not by port order.
 
 - **L1 (TX data bench load).** 2 fF on `pad` to VSS — decision 0010's TX bench load, kept. One TX
   bump per lane cell (§3; the bump maps `layout/bump_map_{target,fallback}.csv` carry
@@ -102,6 +120,11 @@ Loads, voltages and stimulus the ratified inputs do not determine:
 - **L3 (clock stimulus).** Ideal source at the forwarded-clock rate (C1), 50% duty, 20 ps
   transition, at `clk` (a7-a8) or `pad` (a9-a10).
 - **L4 (TX clock bench load).** 2 fF on `pad`, mirroring L1 for the clock bump.
+- **L5 (RX sampler output load).** 2 fF to VSS on each of `rx_a[0..1]` and `rx_b[0..1]`, the load
+  of the historical bench `design/sim/rx_cell.tb.sp`, kept as an assumption: no ratified input fixes
+  the core-side capacitance a sampler output drives.
+- **L6 (RX clock output load).** 2 fF to VSS on `rx_clk`, the load of
+  `design/sim/rx_clk_cell.tb.sp`, kept on the same basis.
 - **M1 (assumed mismatch model for a6).** ASAP7 ships no mismatch models. Assumed: independent
   per-transistor Gaussian Vt offset, σ_Vth = A_VT/√(W·L) with A_VT = 2 mV·µm, on every device of
   `rx_cell`; all else at the §6 tuple. The label "assumed" is part of the row. Upstream
