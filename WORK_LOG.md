@@ -3,6 +3,11 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-20
+
+- **PR #269**: docs(spec): append r9 supersession of the #178 tail section's r7 clause; re-attest T1 item-10 envelope
+- **Issue #202** (closed): spec: the #178 tail section still names attest/item1.r7.json as the item-1 inventory of record
+
 ### 2026-11-18
 
 - **PR #265**: drc: re-take lane-column DRC on the klayout pin as r10, superseding off-pin r9
