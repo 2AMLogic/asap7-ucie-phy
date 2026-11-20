@@ -2,11 +2,12 @@
   "item": "6.analog",
   "status": "declared_gap",
   "claim": "No Monte Carlo evidence exists for the drawn TX/RX cells, and no analog statistical spec row is ratified. This is a declared gap, not evidence and not a pass.",
-  "reason": "The ratified spec has no statistical row, and the tier doc does not allow a not_applicable outcome for an analog partition. ngspice 42 on the worker cannot load the OSDI v0.4 BSIM-CMG module, so no circuit simulation of the drawn cells exists (spec/decisions/0003-simulation-flow.md). Adding statistical rows would extend the ratified spec and is out of scope (spec/decisions/0008-item6-analog-declared-gap.md).",
+  "reason": "The ratified spec has no statistical row, and the tier doc does not allow a not_applicable outcome for an analog partition, so no target exists for a Monte Carlo campaign. Circuit simulation itself is no longer blocked (spec/decisions/0010-analog-simulation-flow.md, ngspice 47, superseding 0003's ngspice 42 blocker). Proposed decision spec/decisions/0013-analog-spec-rows.md adds a statistical row (a6-rx-sampler-offset-sigma) under an assumed mismatch model, labelled as assumed because ASAP7 ships no mismatch models; operator ratification of that decision is what supersedes the route-B declaration of decision 0008, with Monte Carlo evidence to follow per the operator ruling on 2AMLogic/klayout-tools#4183.",
   "expected_grade": "unmet / no_evidence",
-  "why_not_in_manifest": "Tested on klt 0.8.0: a spec_rows \"6.analog\" declared_gaps row with no citation grades unmet / no_evidence, not partial_coverage, so the declaration changes nothing in the verdict. Same mechanism as item 5, tracked as 2AMLogic/klayout-tools#4190. This file is therefore not cited under evidence and is not content-hash bound.",
+  "why_not_in_manifest": "The repo pin is klt 0.9.2 (.github/klt-version). On a disposable copy of the manifest (decision 0013's scratch probe), a spec_rows \"6.analog\" declared-gap entry with no citation grades unmet / partial_coverage with the gap listed under detail.declared_gaps; the klt 0.8.0 behavior this file used to describe (2AMLogic/klayout-tools#4190, closed) is gone at this pin. The declaration is still not added to the manifest of record: the statistical row exists only in proposed decision 0013 (a spec_rows row carrying ratified: false keeps evidence provisional at this pin), and inserting the key would change the recorded reason of the verdict of record without adding evidence. This file is therefore not cited under evidence and is not content-hash bound.",
   "owners": {
-    "statistical_spec_rows": "a future operator-ratified decision, if analog performance rows are added",
-    "circuit_simulation": "worker-spec change (ngspice 44 or later), per decision 0003"
+    "statistical_spec_rows": "operator ratification of decision 0013 (status proposed), per the operator ruling on 2AMLogic/klayout-tools#4183",
+    "monte_carlo_campaign": "#278 (klt yield probe at the pin); the ratified-row campaign is assigned by the operator follow-up #279 files",
+    "circuit_simulation": "resolved by decision 0010 (ngspice 47 via the batch fleet); no longer the blocker"
   }
 }
