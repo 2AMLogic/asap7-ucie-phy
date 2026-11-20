@@ -179,6 +179,14 @@ uvx --from "klayout-tools==$(cat .github/klt-version)" klt signoff --manifest ma
 uv run --no-project --with "klayout-tools==$(cat .github/klt-version)" --with "klayout==$(cat .github/klayout-version)" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json
 ```
 
+### Item 11: supply ERC (ERC half, measured)
+
+[`verification/erc/`](verification/erc/README.md) holds a `klt erc` supply spec and reports for the four drawn
+cells and the lane column (klt 0.9.2, each replays `match`). Each cell resolves VDD and VSS to one island with one
+`erc.missing_tie` (no drawn well tap) and `erc.floating_gate` findings that klt documents as not meaningful on ASAP7.
+The column resolves 50 islands each for VDD and VSS (the placed cells are not routed to the slice) and 34
+`erc.missing_tie`. Item 11 stays `unmet` on both partitions; the reports are not cited in the manifest.
+
 ## Reproduce
 
 Each command below is a recorded tool run; none is a silicon or measured result.
