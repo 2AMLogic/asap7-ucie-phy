@@ -34,26 +34,28 @@ It needs the pinned lambdapdk archive for the ASAP7 cell models. Under klt 0.9.2
 `COND` arcs that caused the 0.9.1 refusal (klayout-tools#5296, COND half) are dropped
 by klt before annotation and so carry no timing; the surviving arcs annotate normally.
 The run still refuses, now only on the four INTERCONNECT entries of
-the one-modpath-per-bit-selected-net cap (klayout-tools#5705, measured 2026-11-15 on an
+the one-modpath-per-bit-selected-net cap (klayout-tools#5705, re-measured 2026-11-20 on an
 internal bit-selected net, all four entries rejected). The refusal is recorded in
 `functional-verification-sdf.report.json`; it is not a pass or a test failure, and no
 manifest entry cites it.
 
-Fidelity of that 0.9.2 annotation, measured 2026-11-15 under the pinned klt 0.9.2
-(`.github/klt-version`): the `COND` drop discards 10193 of the 16365 `IOPATH` entries
-(`iopath_cond_expression` normalization; 6172 survive to be annotated), so most cell
-arcs in this SDF are left with no back-annotated timing. Of the 6816 `INTERCONNECT`
-entries, klt drops 576 at the `bus_port_source` step; a further 128 bus-port entries
-are not dropped but split into a second SDF (`klt_sdf_deferred_bus_ports.sdf`) that
-the run annotates via a second `$sdf_annotate` call (measured: all 128 carry zero
-delay, and no diagnostic names that file), so the attempted `INTERCONNECT` count is
-6816 − 576 = 6240 — 6112 via `klt_sdf_safe.sdf` plus 128 via the deferred file. klt
+Fidelity of that 0.9.2 annotation, re-measured 2026-11-20 under the pinned klt 0.9.2
+(`.github/klt-version`, on the currently committed `layout/slice_routed.v` and
+`layout/slice_routed.sdf`): the `COND` drop discards 10193 of the 16362 `IOPATH`
+entries (`iopath_cond_expression` normalization; 6169 survive to be annotated), so
+most cell arcs in this SDF are left with no back-annotated timing. Of the 6813
+`INTERCONNECT` entries, klt drops 576 at the `bus_port_source` step; a further 128
+bus-port entries are not dropped but split into a second SDF
+(`klt_sdf_deferred_bus_ports.sdf`) that the run annotates via a second
+`$sdf_annotate` call (measured: all 128 carry zero delay, and no diagnostic names
+that file), so the attempted `INTERCONNECT` count is 6813 − 576 = 6237 — 6109 via
+`klt_sdf_safe.sdf` plus 128 via the deferred file. klt
 itself exits 1 (the refusal above). The intermediates are discarded on a refusal, so
 re-measure by keeping the run and counting entries along the normalization chain:
 
     KEEP_RUN=/tmp/sdf-run ./verification/functional_verification_sdf.sh   # klt exit=1 expected
     grep -c "(IOPATH" layout/slice_routed.sdf /tmp/sdf-run/klt_sdf_cond_expression_dropped.sdf \
-      /tmp/sdf-run/klt_sdf_safe.sdf                  # 16365 / 6172 / 6172
+      /tmp/sdf-run/klt_sdf_safe.sdf                  # 16362 / 6169 / 6169
     grep -c "(INTERCONNECT" layout/slice_routed.sdf /tmp/sdf-run/klt_sdf_bus_port_source_dropped.sdf \
       /tmp/sdf-run/klt_sdf_safe.sdf /tmp/sdf-run/klt_sdf_deferred_bus_ports.sdf
-                                                   # 6816 / 6240 / 6112 / 128
+                                                   # 6813 / 6237 / 6109 / 128

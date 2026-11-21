@@ -46,7 +46,8 @@ What the unmet rows rest on today:
 - **Post-layout (item 7).** `layout/slice_routed.v` and `layout/slice_routed.sdf` are committed with a
   harness (PR #123); the SDF-annotated run refuses under klt 0.9.2 on exactly the four
   `Could not find intermodpath!` diagnostics (safe-SDF lines 1679–1682) — the COND half of the old
-  refusal is gone (`verification/functional-verification-sdf.report.json` records it, 2026-11-15).
+  refusal is gone (`verification/functional-verification-sdf.report.json` records it; re-taken
+  2026-11-20 on the currently committed netlist and SDF, byte-identical refusal).
 - **Power (item 11).** The M5/M6 straps were dropped to clear DRC families, so the slice's rows are tied
   only by M1/M2 followpin rails (`verification/drc/README.md`, issue #66); LVS `power_connectivity` is
   `unchecked`.
@@ -83,11 +84,13 @@ Unblocked by a named item above or by a tool release.
 - **Re-run routed-datapath LVS (#20)** once Now 2 identifies the pin cause. Done when a `klt lvs` report
   with `status: match` and `power_connectivity.status` not `mismatch` is cited by the manifest, or the
   failing report and its blocker are recorded.
-- **SDF-annotated functional re-run (#23).** The 0.9.2 bump has landed and cleared the COND half of
-  klayout-tools#5296; the run now refuses only on the four `intermodpath` diagnostics of the
-  one-modpath-per-bit-selected-net cap (klayout-tools#5705). Done when
+- **SDF-annotated functional re-run (#274).** The 0.9.2 bump has landed and cleared the COND half of
+  klayout-tools#5296; the run still refuses only on the four `intermodpath` diagnostics of the
+  one-modpath-per-bit-selected-net cap (klayout-tools#5705, re-measured 2026-11-20 on the
+  currently committed netlist and SDF). Done when
   `verification/functional_verification_sdf.sh` writes a passing annotated report and the manifest
-  cites it under `7.digital`, which waits on an upstream fix for the residual shape.
+  cites it under `7.digital`; the upstream fix for the residual shape (klayout-tools#6075) is
+  merged but unreleased, so this waits on a klt release carrying it (klayout-tools#6897).
 - **Deck-clean power grid on the slice (#66).** Its recorded blocker (#64's baseline) now exists on
   `main`; re-scope it against the Now 1 record. Done when `layout/pnr/slice.pnr.report.json` reports
   power delivery other than `partial` and the column DRC shows no new strap-related families.

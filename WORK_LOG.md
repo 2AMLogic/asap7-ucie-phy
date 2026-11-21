@@ -5,6 +5,7 @@ triage role; entries are newest first.
 
 ### 2026-11-20
 
+- **PR #280**: docs: re-measure the klt 0.9.2 SDF-annotated refusal on the current routed slice
 - **PR #269**: docs(spec): append r9 supersession of the #178 tail section's r7 clause; re-attest T1 item-10 envelope
 - **Issue #202** (closed): spec: the #178 tail section still names attest/item1.r7.json as the item-1 inventory of record
 
