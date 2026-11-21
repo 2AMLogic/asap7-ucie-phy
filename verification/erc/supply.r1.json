@@ -1,0 +1,115 @@
+{
+  "stackup": [
+    {
+      "name": "Gate",
+      "layer": "7/0",
+      "role": "gate"
+    },
+    {
+      "name": "LISD",
+      "layer": "17/0"
+    },
+    {
+      "name": "M1",
+      "layer": "19/0",
+      "label_layer": "19/251"
+    },
+    {
+      "name": "M2",
+      "layer": "20/0",
+      "label_layer": "20/251"
+    },
+    {
+      "name": "M3",
+      "layer": "30/0",
+      "label_layer": "30/251"
+    },
+    {
+      "name": "M4",
+      "layer": "40/0",
+      "label_layer": "40/251"
+    },
+    {
+      "name": "M5",
+      "layer": "50/0",
+      "label_layer": "50/251"
+    },
+    {
+      "name": "M6",
+      "layer": "60/0",
+      "label_layer": "60/251"
+    }
+  ],
+  "vias": [
+    {
+      "name": "V0",
+      "layer": "18/0",
+      "between": [
+        "LISD",
+        "M1"
+      ]
+    },
+    {
+      "name": "V1",
+      "layer": "21/0",
+      "between": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "name": "V2",
+      "layer": "25/0",
+      "between": [
+        "M2",
+        "M3"
+      ]
+    },
+    {
+      "name": "V3",
+      "layer": "35/0",
+      "between": [
+        "M3",
+        "M4"
+      ]
+    },
+    {
+      "name": "V4",
+      "layer": "45/0",
+      "between": [
+        "M4",
+        "M5"
+      ]
+    },
+    {
+      "name": "V5",
+      "layer": "55/0",
+      "between": [
+        "M5",
+        "M6"
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "VDD",
+      "kind": "supply"
+    },
+    {
+      "name": "VSS",
+      "kind": "supply"
+    }
+  ],
+  "ties": [
+    {
+      "name": "nwell_tie",
+      "well_layer": "1/0",
+      "tap_layer": "11/0",
+      "tap_requires": [
+        "12/0"
+      ],
+      "connect_to": "LISD",
+      "net": "VDD"
+    }
+  ]
+}
