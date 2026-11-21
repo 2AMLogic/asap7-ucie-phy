@@ -94,6 +94,9 @@ flow/build/
 /.loom-local/
 # <<< loom-managed <<<
 
+# loom daemon runtime state, not yet in the managed block upstream (issue #283)
+.loom/account-ranking.codex
+
 # Repo Skills machine-local install metadata (absolute source path + timestamp)
 .claude/skills/repo/.install-local.json
 
