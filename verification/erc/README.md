@@ -30,7 +30,16 @@ The reports are committed as they came out, findings included; each replays `mat
 | `layout/lane_column.gds` | 50 (expected 1) | 50 (expected 1) | 34 | 2 (VDD, VSS) | 8836 |
 
 `erc_status` is `violations` on every stream; the tie check was evaluated (`missing_tie_checked` true) and
-nothing was skipped. No `erc.supply_short` appears on any stream.
+`erc_coverage.skipped` is empty. No `erc.supply_short` finding appears on any stream, but on every stream
+`erc_coverage.inapplicable` carries `erc.supply_short` as `substrate_isolation_undecidable` (missing: a
+`--deck` naming the PDK family, or asserted `ties[].isolation_boxes`) — the substrate-isolation half of the
+short check was not evaluated, matching the two-tap fixture in 2AMLogic/klayout-tools#6948.
+
+`erc_coverage.layers_in_stream_without_declaration` (the layers this stream draws that the spec declares
+nowhere): `2/0`, `13/0`, `16/0`, `88/0` on each cell; the column adds `1/251`, `3/251`, `10/0`, `96/0`,
+`100/0`, `235/5`. All are implant/marker/label/pad/text levels — none is a routing level the supply could
+move onto — and `96/0` (PAD) is the same uncovered layer the DRC record already notes. `provenance.deck` is
+`null`: the run used no curated deck.
 
 ## Findings and owners
 
@@ -42,8 +51,10 @@ nothing was skipped. No `erc.supply_short` appears on any stream.
 - **`erc.floating_gate`**: klt documents this rule as not meaningful on ASAP7 (`docs/cli/erc.md`, "ASAP7:
   `erc.floating_gate` and `erc.unconnected_net` are not meaningful yet"): the spec model cannot express LIG landing
   directly on the gate. Not a layout verdict; not declared away with `floating_gate_allowed`. Owner: #27.
-- **Substrate tie**: no substrate tie class is declared here. A minimal two-tap fixture shows the ASAP7 deck still
-  reporting substrate isolation undecidable for absent tap geometry: 2AMLogic/klayout-tools#6948.
+- **Substrate tie**: no substrate tie class is declared here, and the substrate-isolation half of
+  `erc.supply_short` is inapplicable-undecidable in these committed reports themselves (see above), not
+  only in the minimal two-tap fixture: 2AMLogic/klayout-tools#6948. Owner: #27 (item 11) for the tap
+  geometry, klayout-tools#6948 for the undecidable isolation measurement.
 - 2AMLogic/klayout-tools#5745 (`ties[]` fabricating `erc.supply_short`): no `supply_short` appeared at the 0.9.2 pin,
   so the fix being absent from the tag did not matter for these runs.
 
