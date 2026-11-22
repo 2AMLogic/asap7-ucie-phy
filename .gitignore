@@ -94,6 +94,9 @@ flow/build/
 /.loom-local/
 # <<< loom-managed <<<
 
+# loom daemon runtime state, absent from this repo's committed loom-managed block (daemon 0.20.8 ships it inside the block; drop this line on that resync) - issue #283
+.loom/account-ranking.codex
+
 # Repo Skills machine-local install metadata (absolute source path + timestamp)
 .claude/skills/repo/.install-local.json
 
