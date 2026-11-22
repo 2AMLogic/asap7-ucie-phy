@@ -700,3 +700,124 @@ That is one measurement, not a general equivalence claim. r9 is kept unedited (a
 it as the record of the committed column. The deck is recorded by a machine-local uv-cache path, the same
 limitation as the earlier `--engine klayout` records; `klt drc --check` was not run. The routed slice alone
 was not re-run. Still not clean; layout results against a predictive PDK.
+
+## r11: the in-flow levers measured and the two route-dependent families attributed (2026-11-22, issue #272)
+
+Record: `lane_column.r11.drc.run-record.json`, with `lane_column.r11.envelope.json` (the committed column, summary-only) and
+`slice_routed.r11.envelope.json` (the committed routed slice, every marker serialized). klt **0.9.2** (the pin, installed into a
+throwaway venv inside the issue worktree), `--engine klayout`, packaged `asap7.drc` (`fa303c03...`, unchanged), the same **267**-id
+expectation set as r3–r10 (re-derived at the pin and compared name for name with r10's), no `--rules`, no `--waivers`, nothing filtered
+or relaxed. OpenROAD is klt's pinned docker image (`26Q3-1510-g6cb3f2b704`, the engine the committed report records). Both new
+envelopes record their deck through a path relative to the checkout and re-verify `klt drc --check` on this host: `match`, exit 0
+(the deck leg resolves wherever klt 0.9.2 is installed at that same relative path; elsewhere only the input leg re-verifies). The earlier records are
+unedited. **No committed stream changed in this pass.** Still **not clean**; layout results against a predictive PDK, not measurements.
+
+**Control.** `layout/pnr/slice.pnr.json` unmodified, through the same scratch harness `regen.py` uses, reproduces the committed stream
+byte for byte: GDS `b961426a...`, DEF, netlist and SPEF identical, SDF different only at its wall-clock DATE line, with the committed
+report's fmax, setup/hold 0/0 and every PDN segment and via count. The sweep is measured against that baseline.
+
+**Committed streams re-measured.** Slice `b961426a...` → **975** violations / 8 rules, the routed slice alone under the full deck for
+the first time since r8 and exactly one sixteenth of the column in every rule. Column `4b7c1aaf...` → **15,600** / 8 with per-rule
+counts identical to r9/r10. `klt drc --check` on r10's own envelope re-hashes the input but reports the deck leg `actual: None`, because
+r10 records its deck at a machine-local uv-cache path; the r11 envelopes carry the same deck hash through a path that re-verifies here.
+
+**Sweep (step 1): no in-flow setting clears a family.** Ten place-and-route runs, serially: the control and nine points, each on a
+scratch copy of the request that changes only the named fields, routed to scratch and measured at the pin with all markers serialized.
+The ninth point, `m1.10off`, keeps a margin-1.10 route whose M5 strap offset was left at the committed value and is off-grid at that core
+origin; it is kept because it re-measures the r6 trade exactly. Slice counts; the column has
+been exactly 16 × the slice in every rule at every measurement since r2, so slice counts are read as column ÷ 16. The sweep points run
+without the post-route extraction pass, which executes after the route stage and rewrites nothing; their timing is the in-flow
+post-route estimate (the control ran the full flow and matches the committed `spef_sta` block).
+
+| Point | Request delta | Core origin (nm) | `M1.S.2/.3/.4/.5` | `M3.S.2` | `M5.W.3` | `V4.M4.EN.1` / `V4.M5.EN.2` | New families | Total (Δ) | Setup / hold, power |
+|---|---|---|---|---|---|---|---|---|---|
+| committed | — | 1026, 1080 | 36/33/159/44 | 10 | 33 | 644 / 16 | — | **975** | 0 / 0, complete |
+| `seed2` | `seed` 2 | 1026, 1080 | 26/36/165/34 | 16 | 20 | 644 / 16 | `M4.AUX.1` 4, `M4.AUX.2` 4 | 965 (-10) | 0 / 0, complete |
+| `seed3` | `seed` 3 | 1026, 1080 | 30/39/144/56 | 9 | 14 | 644 / 16 | `M4.AUX.1` 4, `M4.AUX.2` 8, `M4.W.3` 2 | 966 (-9) | 0 / 0, complete |
+| `seed4` | `seed` 4 | 1026, 1080 | 18/39/159/46 | 15 | 41 | 644 / 16 | — | 978 (+3) | 0 / 0, complete |
+| `u35` | `utilization_pct` 35 | 1026, 1080 | 20/44/168/51 | 21 | 46 | 860 / 15 | `M4.AUX.1` 4, `M4.AUX.2` 4 | 1233 (+258) | 0 / 0, not captured |
+| `u45` | `utilization_pct` 45 | 1026, 1080 | 18/27/162/52 | 12 | 29 | 608 / 16 | — | 924 (-51) | 0 / 0, complete |
+| `m0.95` | `core_margin_um` 0.95 + M5 strap `offset_um` 0.312 | 972, 1080 | 22/29/164/53 | 17 | 16 | 644 / 16 | — | 961 (-14) | 0 / 0, complete |
+| `m1.05` | `core_margin_um` 1.05 + M5 strap `offset_um` 0.300 | 1080, 1080 | 27/33/173/52 | 10 | 40 | 648 / 12 | — | 995 (+20) | 0 / 0, complete |
+| `m1.10off` | `core_margin_um` 1.10 + M6 `offset_um` 0.330, M5 offset left at 0.306 (off-grid there) | 1134, 1350 | 68/0/102/82 | 6 | 0 | 644 / 16 | `M5.AUX.1` 32 | 950 (-25) | 0 / 0, complete |
+| `m1.10` | `core_margin_um` 1.10 + M5 `offset_um` 0.318 + M6 `offset_um` 0.330 | 1134, 1350 | 67/0/98/81 | 6 | 57 | 644 / 16 | — | 969 (-6) | 0 / 0, complete |
+
+Per lever:
+
+- **`seed`** moves only the route-dependent families. Seeds 2 and 3 lower the total but re-introduce the closed-#6596 off-grid
+  router-M4 mode (`M4.AUX.1/2`, and `M4.W.3` at seed 3): rejected by the adoption gate. Seed 4 keeps the eight families and raises the
+  total by 3: rejected.
+- **`utilization_pct` 35** grows the core and with it the recipe-inherent `V4.M4.EN.1` (644 → 860) and adds the M4 mode: rejected. **45** shrinks the core (`V4.M4.EN.1` → 608) and is the lowest total of the sweep
+  (924, −51) with the same eight rules, in-flow setup/hold 0/0 and power delivery `complete`: it meets the adoption gate and clears nothing.
+- **`core_margin_um`** moves the core origin onto other site phases; each margin is paired with the M5 strap offset (and at 1.10 the M6
+  offset) that puts every strap edge back on the deck grid, checked on each routed DEF (`M5` edges ≡ 0 mod 24 nm, `M6` edges ≡ 0 mod
+  32 nm; no `M5.AUX.1`/`M6.AUX.1` on any of them). 0.95 (961, −14) and 1.10 (969, −6, with `M1.S.3` absent) are gate-eligible; 1.05 raises the total. `m1.10off` is the r6 trade measured again: `M5.AUX.1` 32 against `M5.W.3` 0, which is also the deck-side reading of `M5.W.3` below (off-grid strap edges cannot pair with an on-grid signal shape).
+- **`M5.W.3` is not cleared anywhere**: 20 (`seed2`), 14 (`seed3`), 41 (`seed4`), 46 (`u35`), 29 (`u45`), 16 (`m0.95`), 40 (`m1.05`), 57 (`m1.10`) on the on-grid points, and 0 on the one off-grid point. The r6 observation stands: the
+  only offset that ever drove it to zero is the one that puts the strap edges off the grid and buys `M5.AUX.1` instead.
+
+No setting is adopted. The three gate-eligible points lower the total by 5.2 %, 1.4 % and 0.6 % without changing any family's disposition or item 3; adopting one changes the committed streams and pulls the
+whole r8 chain (re-route, column re-assembly, LVS re-take, item 2 and 8 re-attest, manifest re-pin, verdict regenerate, post-route STA
+re-take), which is not worth landing inside a measurement pass. Recorded as #290 for a decision.
+
+**`M1.S.*` (step 2): every marker is the router's `VIA_VIA12` landing pad, including the 40 "pad-free" boxes.** The r7 split re-taken on
+the committed slice reproduces klayout-tools#6992's baseline on the same stream: 40 of 272 marker boxes have no interaction, boundary
+contact included, with the M1 of any placed `VIA_*` cell (`M1.S.2` 5, `M1.S.3` 33, `M1.S.4` 0, `M1.S.5` 2). Attribution goes further:
+
+- *Pad removal.* Deleting the single M1 shape of the `VIA_VIA12` cell in a scratch copy of the stream and re-running the full deck gives
+  **0** `M1.S.2`–`M1.S.5` markers (from 36 / 33 / 159 / 44) with `M3.S.2`, `M5.W.3`, `V4.M4.EN.1` and `V4.M5.EN.2` unchanged
+  (`V1.AUX.1` appears only because V1 is no longer enclosed). The whole family is that pad.
+- *No router wire is involved.* The request routes signals on M2–M7 (`set_routing_layers -signal M2-M7`); the routed DEF carries no M1
+  signal segment, and the only top-level M1 is the followpin rail. r7's "pad-free routed-wire tip pairs" was an inference from the box
+  predicate, not a trace.
+- *How a box becomes "pad-free".* In all 33 `M1.S.3` cases (one tie-high master) the pad overlaps the cell's own M1 pin shape 31 nm
+  (edge to edge) from the marker. The merged polygon's 77 nm edge, a "side", is split into two tip-length edges (32 and 27 nm), and one
+  of them now pairs 25 nm away with a tip edge of the same cell under the 27 nm tip-to-tip limit. In the isolated master that edge stays
+  77 nm long, the same pair is a 25 nm side-to-tip pair exactly at the `M1.S.2` limit, and nothing fires: every one of the 212 masters
+  of the pinned library placed once on a wide-spaced grid gives **0** `M1.S.*` markers under the full deck (40 violations, the r8
+  per-cell result: 23 `SDT.ACTIVE.AUX.2` and 17 isolation-only FEOL findings). The marker box is the 1 nm projection overlap of the two
+  edges and lands where neither edge belongs to the pad. The 5 `M1.S.2` boxes (one NOR master, pad 16–27 nm away) and the 2 `M1.S.5`
+  boxes (one clocked-inverter master, pad 7 nm away) follow the same pattern.
+- *No request field can move them.* The 0.9.2 request has no pin-access or detailed-route field (its routing-adjacent keys are `seed`,
+  also passed as `detailed_route -or_seed`, `route_critical_nets_percentage`, `route_congestion_iterations`,
+  `route_allow_congestion`, `max_antenna_repair_iterations`, `placement_density`, `io.layer_h`/`layer_v` and `library.route_layers`);
+  the generated route stage calls `detailed_route` with `-output_drc`, `-output_maze` and `-or_seed` only and never calls `pin_access`.
+  The generic finding is posted on klayout-tools#6992 (its pad-free population is empty on this design once attribution is by geometry).
+
+Upstream state moved while this was measured: #4508 closed completed 2026-11-22 after a before/after on an inverter-chain fixture that
+did not reduce the count; its residual #7122 closed completed the same day through PR #7142 (*repair opposing ASAP7 M1 landing pads
+without reducing cut coverage*), which is on main but in no published release (latest v0.9.2, 2026-11-15). Whether PR #7142 clears this
+block's 272 is **not measured**: this record measures at the pin. From this pass on the family's live dispositions are
+klayout-tools#6930 (open: cut the release that carries the unreleased pad fixes) and klayout-tools#6992.
+
+**`M5.W.3`: a deck-side cross-polygon edge pair, not a landing-patch width.** Every `M5.W.3` marker of the committed slice and of all
+nine sweep points was attributed against the merged M5 geometry, and in every case the marker box spans two different polygons
+(committed 33/33, seed2 20/20, seed3 14/14, seed4 41/41, u35 46/46, u45 29/29, m0.95 16/16, m1.05 40/40, m1.10 57/57); `m1.10off` has no `M5.W.3` marker at all. One
+vertical edge belongs to a PDN strap and the facing edge to a separate 24 nm signal landing shape in the gap between two straps,
+exactly 336, 384, 432 or 480 nm apart (14, 16, 18 or 20 × 24 nm: strap 216 + router clearance 96/144/192/240 + signal 24). No M5 polygon of that
+width exists and no marker box lies inside a single polygon. The cause is the deck: `W.3` is
+`track_edges(m, dir).width((w + 0.25).nm, projection)` over the merged layer's edge set, which has no polygon context, so a strap's
+outer edge and a signal shape's far edge pair across the empty gap between them. Reproduced on a three-shape layout with the deck's own
+expression (KLayout 0.30.12): a 216 nm shape and a separate 24 nm shape 96 nm away next to a real 336 nm shape give two edge pairs, the
+real width and the cross-polygon pair; the polygon-aware `m.width(...)` on the same merged region gives the real width only. The count
+is route-dependent only through which on-track signal shapes land an even number of tracks from a strap edge, which is also why r6's
+off-grid strap offset drove it to zero without touching any signal geometry. Filed as klayout-tools#7226; klayout-tools#6453 (open,
+docs-only) keeps the route-dependent count but its landing-patch attribution is superseded.
+
+**Each remaining family, with its open disposition (issue #272 acceptance criterion 2):**
+
+| Family | Column (r11) | Cause | Open issue |
+|---|---|---|---|
+| `V4.M4.EN.1` / `V4.M5.EN.2` | 10,304 / 256 | PDN wide-V4 stack, recipe-inherent (r6); count = the M2↔M5 stack crossings, so it moves only with core size | 2AMLogic/klayout-tools#6909 |
+| `M3.S.2` | 160 | pdngen M2↔M5 stack stubs (r6); same stack | 2AMLogic/klayout-tools#6909 |
+| `M1.S.2`–`M1.S.5` | 4,352 | the router's `VIA_VIA12` M1 landing pad merged with cell pin metal (this pass) | 2AMLogic/klayout-tools#6930 (release carrying PR #7142) and #6992 |
+| `M5.W.3` | 528 | deck `W.3` cross-polygon edge pair (this pass) | 2AMLogic/klayout-tools#7226 |
+
+Closed or docs-only issues that are history, not dispositions: klayout-tools#4508 and #7122 (closed completed 2026-11-22), #6030
+(closed), #6596 (closed; the `M4.AUX.*` mode is absent from the committed column) and #6453 (open, docs-only).
+
+**Signoff consequence.** No file that an attestation or the manifest binds changed (`layout/`, `manifests/`, `sta/` and the item-10
+inventory members are untouched), so the item 1, 2 and 8 attestations, the manifest pins, the verdict and the item-10 envelope stay
+current. Two envelopes are added here and cited from no manifest entry. `klt signoff` item 3 stays **unmet**, the manifest still cites no
+record in this directory, and #19 (the clean-run deliverable) is parked on the four open upstream issues above. A pin bump to a release
+that carries the pad repair and the `W.3` fix is the next in-repo step: bump `.github/klt-version`, re-route, re-take the column, update
+the table.
