@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 28/28 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 29/29 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 28,
-    "passed_count": 28,
+    "check_count": 29,
+    "passed_count": 29,
     "checks": [
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "hygiene",
         "path": "spec/asap7-bringup.md",
         "passed": true,
-        "content_hash": "sha256:11df13bbe53a3efe20c21550c0f4ae1f3a98c28f69b93e3c93851e3b456e6d8b"
+        "content_hash": "sha256:6721d1b2c55987953e83dbe32862990756b04d5f1a33e64c061702e694a5905d"
       },
       {
         "check": "present",
@@ -259,6 +259,19 @@
         "cwd": ".",
         "exit_status": 0,
         "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "netdiff-r18-census-self-test",
+        "argv": [
+          "python3",
+          "-I",
+          "evidence/item4-lvs/slice_routed.r18.netdiff.selftest.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
       }
     ]
   },
@@ -272,7 +285,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:86a00a039ea6a3d7cb040bd5e65e2b9c1913202f1657d24581707fe90e40d09f"
+      "content_hash": "sha256:5b02be73704b518a5d226d0c94b526a6dfa2e93d993285d76c80aadfb454b8a9"
     }
   }
 }
