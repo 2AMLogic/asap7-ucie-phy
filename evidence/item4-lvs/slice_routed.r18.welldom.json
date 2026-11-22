@@ -1,0 +1,36 @@
+{
+ "consumes": [
+  "layout/slice_routed.gds"
+ ],
+ "labels": {
+  "VDD": {
+   "layer": "60/251",
+   "x_um": 11.88,
+   "y_um": 1.808
+  },
+  "VSS": {
+   "layer": "60/251",
+   "x_um": 11.88,
+   "y_um": 1.424
+  }
+ },
+ "method": "via-aware M1..M6 connected components (V1..V5 bridge consecutive metals on cut overlap; the well layer never joins a metal -- the deck's own rule, and the point of the measurement); well layer censused as flat merged components",
+ "rails": {
+  "in_vdd_component": 80,
+  "in_vss_component": 81,
+  "orphan": 0,
+  "statement": "every followpin rail of both nets reaches the labelled strap component through the drawn via stack: the metal power delivery grid is connected",
+  "top_level_m1_rails": 161
+ },
+ "script": "slice_routed.r18.welldom.py",
+ "self_checks_passed": 9,
+ "well": {
+  "components": 80,
+  "heights_um": [
+   0.27
+  ],
+  "statement": "the wells form 80 disjoint full-width strips, one per DEF row pair; the only path from a strip to the VDD rail is the drawn tap geometry (TAPCELL p+ in well, SDT/LISD/V0, M1), which the deck's extraction does not model -- see the tap probe record beside this file",
+  "total_area_um2": 468.9,
+  "width_um": 21.708
+ }
+}

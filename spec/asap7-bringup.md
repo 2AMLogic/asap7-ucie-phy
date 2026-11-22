@@ -773,3 +773,84 @@ finding of #178 — `attest/item1.r2.json` through `attest/item1.r7.json` are
 six byte-identical files — is a statement about the attestation chain, not
 about which revision is of record, and is unaffected. Earlier sections are
 left as written.
+
+## The r17 residue attributed after the grid restore: r18 on-pin, the fragment census, and the failing r19 of record (appended 2026-11-22, issue #273)
+
+Predictive-model tool results only. Earlier sections are left as written; nothing was waived, no
+netlist, deck or option was edited to force a match (decision 0005), and the routed stream is
+byte-unchanged (`layout/pnr/regen.py --check-input` still exits 0), so the r8 re-attest chain (items
+1, 2, 8, the column DRC re-take) is not triggered by this section.
+
+- **r18, the on-pin re-take** (`evidence/item4-lvs/slice_routed.r18.{request,report}.json`, plus its
+  `klt extract` output `slice_routed.r18.extract.v` — byte-reproduced from the committed stream the
+  day this section was written): klt 0.9.2 via the pinned spec, klayout **0.30.12** on the pin, so
+  `provenance.klayout_version_mismatch: false`; every other option identical to r17's
+  (`flatten_layout`, `finfet_bulk` nmos `VSS` / pmos `VDD`). Result: **7,581 mismatches, the same
+  counts as r17 in every category** — the off-pin klayout was record hygiene here, as the r16
+  comparison already suggested. r17 stays as history.
+- **The census** (`evidence/item4-lvs/slice_routed.r18.netdiff.py` + its committed output, pure
+  `python3 -I`, parsers imported from the r13 script; and `slice_routed.r18.welldom.py` + output, the
+  klayout geometry half; the netdiff self-test is wired into the item-10 inventory as
+  `netdiff-r18-census-self-test`, and both scripts hard-fail on 34 resp. 9 committed figures). The
+  routed signal circuits still correspond exactly: 2,591 of 2,591 instances pair by anchored
+  propagation and all 2,710 pairing-domain nets match 1:1 — zero splits, merges or partials. The
+  supply/well domain, re-measured: the extract's named `VDD` net holds **every** PMOS source/drain
+  supply terminal (998 leaf `vdd` ports + 1,593 leaf `vdd$1` ports of 2,591 instances), `VSS` holds
+  all 2,591 `vss` terminals and `vsubs` all 2,591 nmos bulk terminals, while **80 anonymous `$I`
+  nets hold every PMOS-body (well) terminal** — per instance, the leaf port carrying the PMOS bulk is
+  on an anonymous island and the port carrying PMOS supply source/drain terminals is on the named
+  `VDD`, 2,591 of 2,591, no exception. (The leaf-internal census shows the bulk port is *named*
+  `VDD` in 53 leaf variants and `VDD$1` in 26 — two in-leaf naming orders of the same physical
+  split, so the census classifies by M-card role, not port name.) The DEF join places every island's
+  instances in exactly one row pair — an N row and the FS row above it share one n-well strip — and
+  the 80 islands map to 80 distinct pairs; `welldom.py`'s via-aware geometry census agrees: **161
+  top-level M1 followpin rails, all 80 VDD-pitch rails in the component carrying the VDD label on
+  M6.pin and all 81 VSS-pitch rails in the VSS one (zero orphans — the restored M5/M6 grid delivers),
+  and the wells form exactly 80 disjoint full-width strips** (21.708 um wide, 0.27 um tall, 468.9
+  um² total).
+- **The attribution.** The metal power delivery of the routed slice is connected; the fragmentation
+  is the well domain, and the only path from a well strip to its rail is the drawn tap geometry
+  (TAPCELL p+ in well, SDT/LISD/V0, M1 — 320 taps are placed), which the pinned deck does not model:
+  `FinFETExtractionDeck` declares no tap layer or implant pair, its own docstring says the well and
+  the metal supply "are not joined … that is a connectivity *assumption* a comparison may choose to
+  make", and `options.finfet_bulk` makes it per circuit only — enough for the single-cell r9 probe
+  (`and2x2_probe.r9.report.json`: `match`), not for a multi-row block. **Filed generically as
+  2AMLogic/klayout-tools#7182** (open, 2026-11-22), with a minimal reproducer and a verified
+  fix experiment (`connect(nsd, well)` in the deck's FEOL wiring makes the bulk resolve to the rail);
+  this repo's committed reproducer is `evidence/item4-lvs/tap_probe.r19.build.py` +
+  `tap_probe.r19.extract.v`: three library cells in one row (logic, TAPCELL, logic) with labelled
+  rails — both logic cells' PMOS-body ports land on one anonymous island while their supply ports
+  land on the named `VDD`. The stream-side levers this issue's step 3 named are measured dead: labels
+  name nets, they do not join them (the deck docstring, and #7182's "not a fix: draw more labels or
+  more taps — the reproducer has both"), the taps already exist and the metal is already connected,
+  so no `layout/pnr/` change can close this; the stream was not touched.
+- **The device/net surplus, decomposed exactly.** The flat layout device count is 29,196 (the leaf
+  census weighted by instances; equals the report's `counts.devices.layout`) against the reference's
+  28,824 (equals the CDL expansion the report records; the per-cell CDL device counts are pinned
+  inside the census script against the CDL's recorded sha256): a surplus of **exactly 372 = 2 × 186,
+  and the 186 is AOI21x1_ASAP7_75t_R{,$VAR1}** — 87 + 99 instances drawing the A1/A2 nmos series
+  stack twice at half width (two nfin=3 stacks where the CDL folds one nfin=6 stack; total fins
+  16 = 16). The report's 186 `device.unmerged_fingers` entries are exactly those instances (every
+  entry `nmos_rvt`, W=0.162 = 2 × 0.081). Not tap or filler: the TAPCELL/FILLER variants extract
+  with zero devices and none is a netlist instance. The flat net surplus (+122) decomposes to the 80
+  well islands plus the deck-synthesized `vsubs` global (81); the remaining 41 is flat-comparer
+  bookkeeping the committed artifacts cannot decompose — stated, not smoothed over, r13's precedent.
+  **Filed as #287** (this repo): even with #7182 closed, these 186 topology disagreements keep the
+  routed-slice compare at `mismatch`, and resolving them (a klt-side series-stack fold, or an
+  accepted recorded deviation) is a decision this issue does not own.
+- **r19, the failing report of record** (`evidence/item4-lvs/slice_routed.r19.{request,report}.json`:
+  the r18 request re-run on-pin, klayout 0.30.12, `klayout_version_mismatch: false`, same stream
+  sha): still `mismatch`, 7,581 entries, now with every error category attributed to a named open
+  issue — `device.unmatched` 4,528, `net.split` 1,328, `net.merged` 1,206, `hints.rejected` 64,
+  `topology` 27, `net.supply_fragmented` 79 and `device.finfet_bulk_tied` 158 all cascade from the
+  unmodelled well-tap path (**klayout-tools#7182**); `device.unmerged_fingers` 186 is the AOI21x1
+  fold (**#287**); `reference.gate_level_pin_case_folded` 2 and the anchor/flattened notes are the
+  benign bookkeeping the r13 section already explained. `klt signoff --manifest
+  manifests/asap7-ucie-phy.json` grades item 4 digital **`unmet` / `check_failed`** citing r19 —
+  the honest state until #7182 (and then #287) close.
+- **Re-cites and hygiene.** Every record citing r17 now cites r19: the block manifest's `4.digital`,
+  the item-8 attest inventory and its regenerated evidence envelope (43/43 checks pass, including
+  the fresh `klt lvs --check` of r19), `verification/characterization-report.md`. The item-10
+  inventory gained the census self-test, so item 10's `content_hash` is re-pinned and the envelope
+  and verdict are regenerated in the same commit (t1_met_count 11 unchanged; `--check` reproduces).
+  #20's park was re-pointed at this issue by the guide on 2026-11-21 and stands.

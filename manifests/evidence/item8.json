@@ -17,7 +17,7 @@
         "role": "report",
         "path": "verification/characterization-report.md",
         "passed": true,
-        "content_hash": "sha256:ad80d6db5a3f848021e36c70b0a374c1aa6f4b9fe3d47874fc7c1390fd74567b"
+        "content_hash": "sha256:5d3cbe2565226e0c57731fc30a50c9eb665fcedb8768fc7b7ebe2329cfa11047"
       },
       {
         "check": "present",
@@ -36,9 +36,9 @@
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item4-lvs/slice_routed.r17.report.json",
+        "path": "evidence/item4-lvs/slice_routed.r19.report.json",
         "passed": true,
-        "content_hash": "sha256:7e71d29b122715672f0e76262cc51fe24e497af965ab0f935f29909267ddf9ab"
+        "content_hash": "sha256:565908b1bb4bc081c8549a5561e86052a236b2f79d2638e24e199d2c5a2e3a81"
       },
       {
         "check": "present",
@@ -213,7 +213,7 @@
         "row": "s4-serializer-boundary",
         "envelopes": [
           "evidence/item1.r12.json",
-          "evidence/item4-lvs/slice_routed.r17.report.json",
+          "evidence/item4-lvs/slice_routed.r19.report.json",
           "evidence/item4-lvs/tx_cell.r2.report.json",
           "sta/slice.sta.r8.report.json"
         ],
@@ -242,7 +242,7 @@
         "role": "spec_row",
         "row": "s7-lvs",
         "envelopes": [
-          "evidence/item4-lvs/slice_routed.r17.report.json",
+          "evidence/item4-lvs/slice_routed.r19.report.json",
           "evidence/item4-lvs/tx_cell.r2.report.json"
         ],
         "passed": true
@@ -300,12 +300,12 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item4-lvs/slice_routed.r17.report.json",
+        "target": "evidence/item4-lvs/slice_routed.r19.report.json",
         "argv": [
           "klt",
           "lvs",
           "--check",
-          "evidence/item4-lvs/slice_routed.r17.report.json"
+          "evidence/item4-lvs/slice_routed.r19.report.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -468,7 +468,7 @@
         "path": "manifests/attest/item8.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:fec34a425aee394024c6cc550e6e5d3d55e81a86b8e92dbb109cdae80691c6cf"
+      "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94"
     }
   }
 }
