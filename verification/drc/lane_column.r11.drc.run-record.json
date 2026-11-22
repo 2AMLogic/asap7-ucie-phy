@@ -1,0 +1,1005 @@
+{
+  "schema_version": 1,
+  "kind": "drc-run-record",
+  "issue": 272,
+  "run_date": "2026-11-22",
+  "claim": "Issue #272 steps 1-3 are measured and recorded. Step 1: a bounded place-and-route sweep on a scratch copy of layout/pnr/slice.pnr.json (seed 2/3/4, utilization 35/45, core margin 0.95/1.05/1.10 each paired with the strap offsets that keep M5 edges on the 24 nm grid and M6 edges on the 32 nm grid, plus one margin-1.10 route with the committed M5 offset left in place), every point routed to scratch and measured at the pin against a byte-identical control, shows no in-flow setting clears a rule family: M5.W.3 stays at 14-57 per slice on every on-grid point, V4.M4.EN.1/V4.M5.EN.2 and M3.S.2 move only with the core size, and 3 of the 9 points (seed 2, seed 3, utilization 35) re-introduce the closed-#6596 off-grid router-M4 mode. The points that lower the total with no new rule family (utilization 45: 975 -> 924; margin 0.95: 975 -> 961; margin 1.10: 975 -> 969, where M1.S.3 is absent) clear no family and are recorded, not adopted (in-repo issue #290). Step 2: the M1.S.* pad-free split re-taken on the committed slice reproduces klayout-tools#6992's baseline (40 of 272 marker boxes pad-free by the box predicate), and attribution shows the whole family is the router's VIA_VIA12 M1 landing pad: deleting that one shape from a scratch copy removes all 272 markers, the 40 box-pad-free markers are a pad that merges into the cell's own pin metal and splits a long edge into tip-length edges, no isolated library master carries an M1.S.* marker, and the 0.9.2 request has no pin-access or detailed-route field that could move any of it. Step 3: M5.W.3 is attributed to the deck: every marker on the committed slice and on every sweep point that has one is a cross-polygon edge pair between a PDN strap edge and a separate minimum-width signal shape exactly 14, 16, 18 or 20 x 24 nm away, reproduced on a three-shape layout with the deck's own expression (filed as klayout-tools#7226); the one off-grid point reports 0 M5.W.3 with 32 M5.AUX.1, the r6 trade re-measured. The committed streams did not change; lane_column.r11.envelope.json (15,600 / 8) and slice_routed.r11.envelope.json (975 / 8, every marker serialized) re-take them at the pin with checkout-relative provenance that re-verifies klt drc --check on this host. Every remaining family is recorded by name and count with its open upstream disposition; nothing is waived, filtered or re-scoped. Layout results against a predictive PDK, not measurements. Not T1 item 3 evidence: the manifest still cites no DRC record and item 3 stays unmet.",
+  "scope": {
+    "committed_streams_changed": false,
+    "measured_here": "the committed request re-run at the pin as a control (byte-identical streams); the committed routed slice alone under the full deck with every marker serialized; the committed column re-taken; a bounded nine-point place-and-route sweep on a scratch copy of layout/pnr/slice.pnr.json (seed, utilization, core margin paired with an on-grid strap offset), each point routed to scratch and measured at the pin; the M1.S.* marker attribution by pad interaction, by pad removal and by an isolated-master grid run; the M5.W.3 marker attribution against the merged M5 geometry plus a synthetic three-shape reproduction with the deck's own expression",
+    "why": "issue #272 steps 1-3: measure the in-flow levers before asking upstream for router controls, re-take the M1.S.* pad-free split on the current slice, and record append-only as r11"
+  },
+  "tool": {
+    "klt": "0.9.2 (pinned, .github/klt-version; klayout-tools==0.9.2 and klayout==0.30.12 installed into a throwaway venv on the host python 3.12 inside the issue worktree; same dist-info version, same klt_git_commit and same deck bytes as the pin)",
+    "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+    "engine": "klayout",
+    "klayout": {
+      "engine_binary": "/usr/bin/klayout",
+      "engine_version": "0.30.12",
+      "envelope_reports": "0.30.12",
+      "klayout_version_mismatch": false
+    },
+    "openroad": "the klt-pinned docker image (openroad/orfs@sha256:bb7f3169...), engine 26Q3-1510-g6cb3f2b704, the same engine the committed report records",
+    "deck": {
+      "name": "asap7.drc",
+      "content_hash": "sha256:fa303c032c18f91c5185bcdb08a8f76067aa234558f60442e0e0e4ea7c7dc61d",
+      "selected_with": "--deck-file (explicit; same packaged-deck selection as r5-r10)"
+    },
+    "expectation": "the same 267-id category set as r3-r10: re-derived with --list-rule-categories at the pin and compared equal, name for name, with lane_column.r10.envelope.json coverage_assertion.expected_names",
+    "invocation": "klt drc <gds> --engine klayout --deck-file <asap7.drc> --expect-rule-categories-file <267 ids> --min-klayout-version 0.30.12 -o <envelope> --format json; no --rules, no --waivers, nothing filtered"
+  },
+  "control_run": {
+    "request": "layout/pnr/slice.pnr.json unmodified, run through the same scratch harness regen.py uses (tied netlist, patched LEF, staged layermap, merged Liberty)",
+    "result": "klt place-and-route reproduced the committed stream byte for byte: slice_routed.gds, slice_routed.def, slice_routed.v and slice_routed.spef identical; slice_routed.sdf differs only in its wall-clock DATE line (the known #235 exception); fmax, setup/hold 0/0, spef_sta block and every PDN segment/via count equal the committed report",
+    "gds_sha256": "sha256:b961426ac860f51e1af009e0ee52d5e34a3d2d08654ff4c5394fa82d7252d293",
+    "wall_s": 640.5,
+    "harness_equivalence_for_sweep_points": "the sweep points disable post_route_spef/post_route_sdf (a second OpenROAD session and a klt extract pass that run after the route stage and rewrite nothing); the floorplan, place, cts and route Tcl is the same generated script, so the routed GDS of a sweep point does not depend on those two flags. The in-flow post-route timing (estimate_parasitics -global_routing) is recorded for every point instead of the spef_sta block"
+  },
+  "committed_streams": {
+    "slice_routed": {
+      "input": "layout/slice_routed.gds",
+      "input_content_hash": "sha256:b961426ac860f51e1af009e0ee52d5e34a3d2d08654ff4c5394fa82d7252d293",
+      "status": "violations",
+      "violation_count": 975,
+      "rules_violated": 8,
+      "rule_counts": {
+        "M1.S.2": 36,
+        "M1.S.3": 33,
+        "M1.S.4": 159,
+        "M1.S.5": 44,
+        "M3.S.2": 10,
+        "M5.W.3": 33,
+        "V4.M4.EN.1": 644,
+        "V4.M5.EN.2": 16
+      },
+      "markers_in_envelope": 975,
+      "note": "the routed slice alone under the full deck, first time since r8: exactly one sixteenth of the r10 column in every rule (576/36, 528/33, 2544/159, 704/44, 160/10, 528/33, 10304/644, 256/16), so the assembly still adds nothing"
+    },
+    "lane_column": {
+      "input": "layout/lane_column.gds",
+      "input_content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+      "status": "violations",
+      "violation_count": 15600,
+      "rules_violated": 8,
+      "rule_counts": {
+        "M1.S.2": 576,
+        "M1.S.3": 528,
+        "M1.S.4": 2544,
+        "M1.S.5": 704,
+        "M3.S.2": 160,
+        "M5.W.3": 528,
+        "V4.M4.EN.1": 10304,
+        "V4.M5.EN.2": 256
+      },
+      "coverage_assertion_satisfied": true,
+      "wall_s": 593.6,
+      "envelope": "summary-only re-take (klt --max-violations 0); lane_column.r10.envelope.json stays the committed full-marker envelope of this stream (same input hash)",
+      "r10_check": {
+        "exit": 3,
+        "status": "drifted",
+        "input_hash_leg": "ok",
+        "deck_hash_leg": "drifted",
+        "reading": "cheap mode (--check without --rerun): the committed column re-hashes to the recorded input hash; the deck leg reports actual None because r10 records its deck at a machine-local uv-cache path that does not exist on this host, the limitation the r9/r10 sections record. The deck bytes are unchanged: lane_column.r11.envelope.json and slice_routed.r11.envelope.json record the same deck content hash through a path relative to the checkout and re-verify match on this host"
+      }
+    }
+  },
+  "sweep": {
+    "method": "one point at a time, serially, on this host; each point changes only the fields in request_delta; DRC at the pin with every marker serialized",
+    "adoption_gate": "adopt only if the total falls, no rule family is new, post-route setup/hold stay 0/0 and power delivery stays complete",
+    "points": [
+      {
+        "name": "seed2",
+        "lever": "seed",
+        "value": 2,
+        "note": "seed only",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:f406e20b2b8b2bd4a04cbe4ecb3f52f5bbadeb58207f4d601e6e62c7c4d53797",
+        "request_delta": {
+          "seed": 2
+        },
+        "core_origin_nm": [
+          1026,
+          1080
+        ],
+        "utilization_pct": 40.2146,
+        "core_area_um2": 937.786,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.26891,
+          "fmax_mhz": 4327.22
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 965,
+          "rules_violated": 10,
+          "rule_counts": {
+            "M1.S.2": 26,
+            "M1.S.3": 36,
+            "M1.S.4": 165,
+            "M1.S.5": 34,
+            "M3.S.2": 16,
+            "M4.AUX.1": 4,
+            "M4.AUX.2": 4,
+            "M5.W.3": 20,
+            "V4.M4.EN.1": 644,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 20,
+          "classification": {
+            "cross_polygon": 20,
+            "strap_side|L|R": 20
+          },
+          "pair_width_nm": {
+            "336.0": 9,
+            "384.0": 4,
+            "432.0": 7
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": -10,
+        "new_rule_families": [
+          "M4.AUX.1",
+          "M4.AUX.2"
+        ],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": 348.5,
+          "drc": 38.2
+        }
+      },
+      {
+        "name": "seed3",
+        "lever": "seed",
+        "value": 3,
+        "note": "seed only",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:d6a57c82ebdf26e3d8be998bb8dcd9644190d0e194024a54d3c0221896901924",
+        "request_delta": {
+          "seed": 3
+        },
+        "core_origin_nm": [
+          1026,
+          1080
+        ],
+        "utilization_pct": 40.1119,
+        "core_area_um2": 937.786,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.232,
+          "fmax_mhz": 3731.41
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 966,
+          "rules_violated": 11,
+          "rule_counts": {
+            "M1.S.2": 30,
+            "M1.S.3": 39,
+            "M1.S.4": 144,
+            "M1.S.5": 56,
+            "M3.S.2": 9,
+            "M4.AUX.1": 4,
+            "M4.AUX.2": 8,
+            "M4.W.3": 2,
+            "M5.W.3": 14,
+            "V4.M4.EN.1": 644,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 14,
+          "classification": {
+            "cross_polygon": 14,
+            "strap_side|L|R": 14
+          },
+          "pair_width_nm": {
+            "336.0": 7,
+            "384.0": 2,
+            "432.0": 4,
+            "480.0": 1
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": -9,
+        "new_rule_families": [
+          "M4.AUX.1",
+          "M4.AUX.2",
+          "M4.W.3"
+        ],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": 379.1,
+          "drc": 34.8
+        }
+      },
+      {
+        "name": "seed4",
+        "lever": "seed",
+        "value": 4,
+        "note": "seed only",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:0aadc2aca001f7139190d4900aa1929319c310252984087872541d093662923c",
+        "request_delta": {
+          "seed": 4
+        },
+        "core_origin_nm": [
+          1026,
+          1080
+        ],
+        "utilization_pct": 40.1306,
+        "core_area_um2": 937.786,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.26891,
+          "fmax_mhz": 4327.22
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 978,
+          "rules_violated": 8,
+          "rule_counts": {
+            "M1.S.2": 18,
+            "M1.S.3": 39,
+            "M1.S.4": 159,
+            "M1.S.5": 46,
+            "M3.S.2": 15,
+            "M5.W.3": 41,
+            "V4.M4.EN.1": 644,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 41,
+          "classification": {
+            "cross_polygon": 41,
+            "strap_side|L|R": 41
+          },
+          "pair_width_nm": {
+            "336.0": 20,
+            "384.0": 7,
+            "432.0": 13,
+            "480.0": 1
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": 3,
+        "new_rule_families": [],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": 356.0,
+          "drc": 34.7
+        }
+      },
+      {
+        "name": "u35",
+        "lever": "utilization_pct",
+        "value": 35,
+        "note": "floorplan only; core origin and strap offsets unchanged (on-grid)",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:ae9c9998d5a27d5b64b42ebd6ed2183548eb67526411d909fcd0f02f9b90dba9",
+        "request_delta": {
+          "floorplan.utilization_pct": 35
+        },
+        "core_origin_nm": [
+          1026,
+          1080
+        ],
+        "utilization_pct": 35.1503,
+        "core_area_um2": 1072.07,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.232005,
+          "fmax_mhz": 3731.41
+        },
+        "power_delivery_status": null,
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 1233,
+          "rules_violated": 10,
+          "rule_counts": {
+            "M1.S.2": 20,
+            "M1.S.3": 44,
+            "M1.S.4": 168,
+            "M1.S.5": 51,
+            "M3.S.2": 21,
+            "M4.AUX.1": 4,
+            "M4.AUX.2": 4,
+            "M5.W.3": 46,
+            "V4.M4.EN.1": 860,
+            "V4.M5.EN.2": 15
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 46,
+          "classification": {
+            "cross_polygon": 46,
+            "strap_side|L|R": 46
+          },
+          "pair_width_nm": {
+            "336.0": 24,
+            "384.0": 9,
+            "432.0": 13
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": 258,
+        "new_rule_families": [
+          "M4.AUX.1",
+          "M4.AUX.2"
+        ],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": null,
+          "drc": 42.0
+        },
+        "caveat": "klt JSON report not captured (sweep driver defect, fixed before the next point); fields above are from slice_route_metrics.json and slice.def; power audit, via_pad_trim and routing-completeness blocks are not available for this point"
+      },
+      {
+        "name": "u45",
+        "lever": "utilization_pct",
+        "value": 45,
+        "note": "floorplan only; core origin and strap offsets unchanged (on-grid)",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:aef91a0dc4adc05a81f4fba52f898dbbc795e4c289707b3c9f049d61e0d228b8",
+        "request_delta": {
+          "floorplan.utilization_pct": 45
+        },
+        "core_origin_nm": [
+          1026,
+          1080
+        ],
+        "utilization_pct": 45.1275,
+        "core_area_um2": 834.399,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.22095,
+          "fmax_mhz": 3583.6
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 924,
+          "rules_violated": 8,
+          "rule_counts": {
+            "M1.S.2": 18,
+            "M1.S.3": 27,
+            "M1.S.4": 162,
+            "M1.S.5": 52,
+            "M3.S.2": 12,
+            "M5.W.3": 29,
+            "V4.M4.EN.1": 608,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 29,
+          "classification": {
+            "cross_polygon": 29,
+            "strap_side|L|R": 29
+          },
+          "pair_width_nm": {
+            "336.0": 13,
+            "384.0": 2,
+            "432.0": 11,
+            "480.0": 3
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": -51,
+        "new_rule_families": [],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": 394.0,
+          "drc": 32.1
+        }
+      },
+      {
+        "name": "m0.95",
+        "lever": "core_margin_um",
+        "value": 0.95,
+        "note": "core margin 0.95 -> core origin x 972 nm; M5 strap offset 0.312 keeps the M5 edges on the 24 nm grid there (center 1284 = 53.5 x 24; edges 1176/1392); M6 offset unchanged",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:70c7ce9130de74654cdb64aac6040b339625b9b72cc8792ecea7651aee943cff",
+        "request_delta": {
+          "floorplan.core_margin_um": 0.95,
+          "power.straps[2].offset_um": 0.312
+        },
+        "core_origin_nm": [
+          972,
+          1080
+        ],
+        "utilization_pct": 40.1664,
+        "core_area_um2": 937.786,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.232,
+          "fmax_mhz": 3731.41
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 961,
+          "rules_violated": 8,
+          "rule_counts": {
+            "M1.S.2": 22,
+            "M1.S.3": 29,
+            "M1.S.4": 164,
+            "M1.S.5": 53,
+            "M3.S.2": 17,
+            "M5.W.3": 16,
+            "V4.M4.EN.1": 644,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 16,
+          "classification": {
+            "cross_polygon": 16,
+            "strap_side|L|R": 16
+          },
+          "pair_width_nm": {
+            "336.0": 7,
+            "384.0": 1,
+            "432.0": 8
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": -14,
+        "new_rule_families": [],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": 405.7,
+          "drc": 35.8
+        }
+      },
+      {
+        "name": "m1.05",
+        "lever": "core_margin_um",
+        "value": 1.05,
+        "note": "core margin 1.05 -> core origin x 1080 nm; M5 strap offset 0.300 keeps the M5 edges on the 24 nm grid there (center 1380 = 57.5 x 24; edges 1272/1488); M6 offset unchanged",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:974889aad2fe88528e3e609727671d72c8d494be23d35582296a7429dbdc12cd",
+        "request_delta": {
+          "floorplan.core_margin_um": 1.05,
+          "power.straps[2].offset_um": 0.3
+        },
+        "core_origin_nm": [
+          1080,
+          1080
+        ],
+        "utilization_pct": 39.8891,
+        "core_area_um2": 943.647,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.23755,
+          "fmax_mhz": 3810.27
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 995,
+          "rules_violated": 8,
+          "rule_counts": {
+            "M1.S.2": 27,
+            "M1.S.3": 33,
+            "M1.S.4": 173,
+            "M1.S.5": 52,
+            "M3.S.2": 10,
+            "M5.W.3": 40,
+            "V4.M4.EN.1": 648,
+            "V4.M5.EN.2": 12
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 40,
+          "classification": {
+            "cross_polygon": 40,
+            "strap_side|L|R": 40
+          },
+          "pair_width_nm": {
+            "336.0": 16,
+            "384.0": 12,
+            "432.0": 12
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": 20,
+        "new_rule_families": [],
+        "cleared_rule_families": [],
+        "wall_s": {
+          "pnr": 381.8,
+          "drc": 42.4
+        }
+      },
+      {
+        "name": "m1.10off",
+        "lever": "core_margin_um",
+        "value": 1.1,
+        "note": "core margin 1.10 with the committed M5 offset 0.306 left in place and only the M6 offset moved to 0.330: at core origin x 1134 the M5 edges land 12 nm off the 24 nm grid (center 1440; edges 1332/1548). Kept as the ninth point because it re-measures the r6 trade exactly: M5.AUX.1 32 and M5.W.3 0",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:99265477ea4491f571de181224ad0ae1fcc4ae1d755c039a240d4899adec01f1",
+        "request_delta": {
+          "floorplan.core_margin_um": 1.1,
+          "power.straps[2].offset_um": 0.306,
+          "power.straps[3].offset_um": 0.33
+        },
+        "core_origin_nm": [
+          1134,
+          1350
+        ],
+        "utilization_pct": 40.2534,
+        "core_area_um2": 937.786,
+        "m5_strap_edges_mod_24": [
+          12
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.2343,
+          "fmax_mhz": 3763.6
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 950,
+          "rules_violated": 7,
+          "rule_counts": {
+            "M1.S.2": 68,
+            "M1.S.4": 102,
+            "M1.S.5": 82,
+            "M3.S.2": 6,
+            "M5.AUX.1": 32,
+            "V4.M4.EN.1": 644,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 0,
+          "classification": {},
+          "pair_width_nm": {},
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": -25,
+        "new_rule_families": [
+          "M5.AUX.1"
+        ],
+        "cleared_rule_families": [
+          "M1.S.3",
+          "M5.W.3"
+        ],
+        "wall_s": {
+          "pnr": 348.6,
+          "drc": 35.4
+        }
+      },
+      {
+        "name": "m1.10",
+        "lever": "core_margin_um",
+        "value": 1.1,
+        "note": "core margin 1.10 -> core origin (1134, 1350) nm; M5 strap offset 0.318 keeps the M5 edges on the 24 nm grid there (center 1452 = 60.5 x 24; edges 1344/1560) and M6 strap offset 0.330 keeps the M6 edges on the 32 nm grid there (center 1680 = 52.5 x 32; edges 1536/1824)",
+        "input": "scratch routed slice GDS",
+        "input_content_hash": "sha256:2154211f9b62e2bf1cfda80078901b7c8e8bb705982681b2db3cc5f67cccf3de",
+        "request_delta": {
+          "floorplan.core_margin_um": 1.1,
+          "power.straps[2].offset_um": 0.318,
+          "power.straps[3].offset_um": 0.33
+        },
+        "core_origin_nm": [
+          1134,
+          1350
+        ],
+        "utilization_pct": 40.2534,
+        "core_area_um2": 937.786,
+        "m5_strap_edges_mod_24": [
+          0
+        ],
+        "m6_strap_edges_mod_32": [
+          0
+        ],
+        "timing": {
+          "in_flow_post_route_setup_violations": 0,
+          "in_flow_post_route_hold_violations": 0,
+          "worst_setup_slack_ns": 0.2343,
+          "fmax_mhz": 3763.6
+        },
+        "power_delivery_status": "complete",
+        "unrouted_nets": 0,
+        "drc": {
+          "status": "violations",
+          "violation_count": 969,
+          "rules_violated": 7,
+          "rule_counts": {
+            "M1.S.2": 67,
+            "M1.S.4": 98,
+            "M1.S.5": 81,
+            "M3.S.2": 6,
+            "M5.W.3": 57,
+            "V4.M4.EN.1": 644,
+            "V4.M5.EN.2": 16
+          },
+          "coverage_assertion_satisfied": true
+        },
+        "m5_w3_attribution": {
+          "markers": 57,
+          "classification": {
+            "cross_polygon": 57,
+            "strap_side|L|R": 57
+          },
+          "pair_width_nm": {
+            "336.0": 30,
+            "384.0": 4,
+            "432.0": 21,
+            "480.0": 2
+          },
+          "all_widths_even_multiple_of_24": true
+        },
+        "delta_vs_committed_slice": -6,
+        "new_rule_families": [],
+        "cleared_rule_families": [
+          "M1.S.3"
+        ],
+        "wall_s": {
+          "pnr": 366.3,
+          "drc": 32.7
+        }
+      }
+    ]
+  },
+  "m1_attribution": {
+    "pad_free_split": {
+      "M1.S.2": {
+        "all": 36,
+        "pad_free": 5
+      },
+      "M1.S.3": {
+        "all": 33,
+        "pad_free": 33
+      },
+      "M1.S.4": {
+        "all": 159,
+        "pad_free": 0
+      },
+      "M1.S.5": {
+        "all": 44,
+        "pad_free": 2
+      }
+    },
+    "pad_free_total": {
+      "all": 272,
+      "pad_free": 40
+    },
+    "predicate": "a marker box is pad-free when it has no interaction, boundary contact included, with the M1 of any placed VIA_* cell (the klayout-tools#6992 predicate); reproduces that issue's baseline on the same stream (5/33/0/2)",
+    "pad_removal_experiment": {
+      "input": "scratch copy of layout/slice_routed.gds with the single M1 shape of the VIA_VIA12 cell deleted; nothing else edited",
+      "input_content_hash": "sha256:52634bb825652d19dc7e4ef3482b6dbf947742d45d286846725ca3dedbec3e7c",
+      "status": "violations",
+      "violation_count": 8983,
+      "rule_counts": {
+        "M3.S.2": 10,
+        "M5.W.3": 33,
+        "V4.M4.EN.1": 644,
+        "V4.M5.EN.2": 16,
+        "V1.AUX.1": 8280
+      },
+      "reading": "M1.S.2-.5 go 36/33/159/44 -> 0/0/0/0; M3.S.2, M5.W.3, V4.M4.EN.1 and V4.M5.EN.2 are unchanged; V1.AUX.1 appears only because V1 is no longer enclosed by M1"
+    },
+    "isolated_master_grid": {
+      "input": "all 212 masters of the pinned shipped library placed once, flat, on a 40 x 20 um grid (one top cell)",
+      "input_content_hash": "sha256:28a567bf09631e01f272bd81555f83366a5268511fc78327e006736ba1fa3f96",
+      "status": "violations",
+      "violation_count": 40,
+      "rule_counts": {
+        "FIN.W.2": 10,
+        "GATE.S.3": 2,
+        "NSELECT.W.1": 2,
+        "PSELECT.W.1": 2,
+        "SDT.ACTIVE.AUX.2": 23,
+        "WELL.W.1": 1
+      },
+      "reading": "0 markers under M1.S.2-.5 in any isolated master (the 40 violations are the r8 per-cell result: 23 SDT.ACTIVE.AUX.2 and 17 isolation-only FEOL findings); the same counts r8 recorded"
+    },
+    "mechanism": "every marker of the family is caused by the router's VIA_VIA12 M1 landing pad. In the 40 box-pad-free cases the pad overlaps the cell's own M1 pin shape 7-31 nm (edge to edge) away from the marker: the merged polygon's long edge (a 'side') is split into two tip-length edges, and one of them now pairs with a tip edge of the same cell under the tip-to-tip limit. In the isolated master that edge is long, the same pair is a 25 nm side-to-tip pair exactly at the M1.S.2 limit, and nothing fires. The marker box is the 1 nm projection overlap of the two edges and lands where neither edge belongs to the pad, so the box predicate calls it pad-free",
+    "masters": {
+      "M1.S.3": "a tie-high master, 33 boxes (18 on its variant copy)",
+      "M1.S.2": "a 2-input NOR master, 5 boxes",
+      "M1.S.5": "a clocked inverter master, 2 boxes"
+    },
+    "representative_markers_dbu": {
+      "M1.S.3": {
+        "box": [
+          10204,
+          118980,
+          10208,
+          119080
+        ],
+        "cell_instance_origin": [
+          9936,
+          118800
+        ],
+        "nearest_pad": [
+          10332,
+          119044,
+          10404,
+          119132
+        ]
+      },
+      "M1.S.2": {
+        "box": [
+          25196,
+          106668,
+          25200,
+          106740
+        ],
+        "cell_instance_origin": [
+          24624,
+          105840
+        ],
+        "nearest_pad": [
+          25308,
+          106660,
+          25380,
+          106748
+        ]
+      },
+      "M1.S.5": {
+        "box": [
+          66544,
+          44784,
+          66656,
+          44856
+        ],
+        "cell_instance_origin": [
+          63288,
+          45360
+        ],
+        "nearest_pad": [
+          66492,
+          44884,
+          66564,
+          44972
+        ]
+      }
+    },
+    "router_wire_involvement": "none: the request routes signals on M2-M7 (set_routing_layers -signal M2-M7), the routed DEF carries no M1 signal segment, and the only top-level M1 is the followpin rail; r7's 'pad-free routed-wire tip pairs' wording was an inference from the box predicate, not a trace",
+    "request_fields_at_the_pin": "the 0.9.2 request has no pin-access or detailed-route field: its routing-adjacent keys are seed (also passed as detailed_route -or_seed), route_critical_nets_percentage, route_congestion_iterations, route_allow_congestion, max_antenna_repair_iterations, placement_density, io.layer_h/layer_v and library.route_layers; the generated route stage calls detailed_route with -output_drc/-output_maze/-or_seed only and never calls pin_access. Nothing in the request can move a marker that is intrinsic to a pad/cell-pin merge"
+  },
+  "m5w3_attribution": {
+    "finding": "every M5.W.3 marker is a cross-polygon edge pair: one vertical edge of a PDN strap and the facing edge of a separate 24 nm signal landing shape in the gap between two straps, exactly 336, 384 or 432 nm apart (strap 216 + router clearance 96/144/192 + signal 24), i.e. even multiples of 24 nm. No merged M5 polygon of that width exists and no marker box lies inside one polygon",
+    "per_run": {
+      "seed2": {
+        "markers": 20,
+        "classification": {
+          "cross_polygon": 20,
+          "strap_side|L|R": 20
+        },
+        "pair_width_nm": {
+          "336.0": 9,
+          "384.0": 4,
+          "432.0": 7
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "seed3": {
+        "markers": 14,
+        "classification": {
+          "cross_polygon": 14,
+          "strap_side|L|R": 14
+        },
+        "pair_width_nm": {
+          "336.0": 7,
+          "384.0": 2,
+          "432.0": 4,
+          "480.0": 1
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "seed4": {
+        "markers": 41,
+        "classification": {
+          "cross_polygon": 41,
+          "strap_side|L|R": 41
+        },
+        "pair_width_nm": {
+          "336.0": 20,
+          "384.0": 7,
+          "432.0": 13,
+          "480.0": 1
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "u35": {
+        "markers": 46,
+        "classification": {
+          "cross_polygon": 46,
+          "strap_side|L|R": 46
+        },
+        "pair_width_nm": {
+          "336.0": 24,
+          "384.0": 9,
+          "432.0": 13
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "u45": {
+        "markers": 29,
+        "classification": {
+          "cross_polygon": 29,
+          "strap_side|L|R": 29
+        },
+        "pair_width_nm": {
+          "336.0": 13,
+          "384.0": 2,
+          "432.0": 11,
+          "480.0": 3
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "m0.95": {
+        "markers": 16,
+        "classification": {
+          "cross_polygon": 16,
+          "strap_side|L|R": 16
+        },
+        "pair_width_nm": {
+          "336.0": 7,
+          "384.0": 1,
+          "432.0": 8
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "m1.05": {
+        "markers": 40,
+        "classification": {
+          "cross_polygon": 40,
+          "strap_side|L|R": 40
+        },
+        "pair_width_nm": {
+          "336.0": 16,
+          "384.0": 12,
+          "432.0": 12
+        },
+        "all_widths_even_multiple_of_24": true
+      },
+      "m1.10off": {
+        "markers": 0,
+        "classification": {},
+        "pair_width_nm": {},
+        "all_widths_even_multiple_of_24": true
+      },
+      "m1.10": {
+        "markers": 57,
+        "classification": {
+          "cross_polygon": 57,
+          "strap_side|L|R": 57
+        },
+        "pair_width_nm": {
+          "336.0": 30,
+          "384.0": 4,
+          "432.0": 21,
+          "480.0": 2
+        },
+        "all_widths_even_multiple_of_24": true
+      }
+    },
+    "committed_slice": {
+      "markers": 33,
+      "classification": {
+        "cross_polygon": 33,
+        "strap_side|L|R": 33
+      },
+      "pair_width_nm": {
+        "336.0": 17,
+        "384.0": 6,
+        "432.0": 10
+      },
+      "all_widths_even_multiple_of_24": true
+    },
+    "synthetic_reproduction": {
+      "layout": "three boxes on one layer (um): (0,0; 0.216,1.0) wide shape, (0.312,0.4; 0.336,0.446) separate min-width shape, (0.6,0; 0.936,0.3) a real 336 nm-wide shape",
+      "deck_expression": "vert(m).width((w + 0.25).nm, projection).with_distance(w.nm, (w + 0.25).nm) over w in 48..480 step 48",
+      "result": "two edge pairs: the real 336 nm width and the cross-polygon pair (0.336,0.446;0.336,0.4)/(0,0.4;0,0.446); the polygon-aware m.width(...) on the same merged region reports the real width only",
+      "engine": "KLayout 0.30.12 standalone, -b -r"
+    },
+    "consequence": "the family is a deck-side cross-polygon pair, not a router landing-patch width; its count is route-dependent only through which on-track signal shapes land an even number of tracks from a strap edge, which is also why the off-grid strap offset of r6 drove it to zero without touching any signal geometry"
+  },
+  "remaining_families": {
+    "V4.M4.EN.1_V4.M5.EN.2": "recipe-inherent per the r6 trace; on the committed slice the counts equal the placed power-via cells one for one (644 wide V4 M4-M5 stack vias, 16 M5-M6 stack vias) and they scale only with the core (608-860 per slice across the sweep); 2AMLogic/klayout-tools#6909 is open and carries them (PR #7084 open upstream)",
+    "M3.S.2": "recipe-inherent per the r6 trace (the same M2-M5 stack); 6-21 per slice across the sweep; 2AMLogic/klayout-tools#6909 is open and carries it",
+    "M1.S.2_3_4_5": "every marker is the router's VIA_VIA12 M1 landing pad (this pass); 246-285 per slice across the sweep, placement-dependent in count only. Open dispositions: 2AMLogic/klayout-tools#6930 (cut the release that carries the merged pad repair PR #7142, which is on main but in no published release) and 2AMLogic/klayout-tools#6992 (open; the generic finding posted there shows its pad-free population is empty on this design). klayout-tools#4508 and #7122 are closed completed (2026-11-22) and are history, not the disposition",
+    "M5.W.3": "a deck-side cross-polygon edge pair between a PDN strap edge and a separate minimum-width signal landing shape exactly 2g x 24 nm away (this pass); 14-57 per slice on the on-grid points, 0 on the off-grid one; filed from this pass as 2AMLogic/klayout-tools#7226 (open). 2AMLogic/klayout-tools#6453 is open but docs-only and its landing-patch attribution is superseded, so it is not the disposition",
+    "M4.AUX_1_2_M4.W.3_M5.AUX.1": "absent from the committed column. The closed-#6596 off-grid router-M4 line-end mode re-appears on the 3 points seed2, u35, seed3 and M5.AUX.1 (off-grid M5 strap edges, the r6 trade) on m1.10off; that is part of why those points fail the adoption gate. No open issue carries the M4 mode and none is needed while it is absent from the committed stream"
+  },
+  "acceptance_criteria": {
+    "append_only_r11_record": "met: this record, lane_column.r11.envelope.json and slice_routed.r11.envelope.json carry the sweep's per-rule counts, the input hashes of every measured stream and the coverage block; r1-r10 are unedited; no waiver, no rule filter, no spec or target change",
+    "families_map_to_open_issues": "met: V4.M4.EN.1 / V4.M5.EN.2 and M3.S.2 -> 2AMLogic/klayout-tools#6909; M1.S.* -> 2AMLogic/klayout-tools#6930 and #6992; M5.W.3 -> 2AMLogic/klayout-tools#7226; each is open at the time of writing, and the closed or docs-only issues (#4508, #7122, #6030, #6596, #6453) are named as history in the README table",
+    "adopted_flow_change_keeps_timing_and_power": "no flow change is adopted, so there is nothing to hold. The three gate-eligible scratch points (utilization 45, core margin 0.95, core margin 1.10) recorded in-flow post-route setup/hold 0/0 and power delivery complete; whether to adopt one is in-repo issue #290",
+    "close_condition": "the committed column is not clean (15,600 across 8 rules). The alternative close path applies: every remaining family waits on a named open upstream issue, the sweep shows no in-repo setting clears a family, and #19's park record names those open issues as its blockers"
+  },
+  "signoff_consequence": "No file that an attestation or the manifest binds changed (layout/, manifests/, sta/ and every item-10 inventory member are untouched), so the item 1, 2 and 8 attestations, the manifest pins, the verdict and the item-10 envelope stay current. Two envelopes are added under verification/drc/ and are cited from no manifest entry. klt signoff item 3 stays unmet and the manifest still cites no record in this directory. The next in-repo step is a pin bump to a published klt release that carries the pad repair and the W.3 fix: bump .github/klt-version, re-route, re-take the column and update the table.",
+  "what_this_run_could_not_establish": [
+    "whether the merged upstream pad repair (klayout-tools PR #7142) clears this block's M1.S.* family: it is in no published release and this record measures at the 0.9.2 pin",
+    "whether a fixed W.3 in the deck leaves any real M5/M4 width finding on this block: the attribution shows every current M5.W.3 marker is cross-polygon, but the corrected rule was not run on the stream",
+    "the post-route timing of a sweep point under the extracted-parasitics pass (the spef_sta block): the sweep ran without that pass; only the control ran the full flow",
+    "the power-audit block of the utilization-35 point (a driver defect, see caveats)",
+    "anything about the PAD layer (96/0), still unchecked by the deck, and the deck's unmodeled rules"
+  ],
+  "caveats": [
+    "layout results against a predictive PDK, not measurements of any fabricated part",
+    "the sweep streams are scratch: no envelope is committed for them (their input hashes name deliberately discarded files), so every per-point count is recorded inline here",
+    "sweep timing is the in-flow post-route estimate (estimate_parasitics -global_routing), not the spef_sta block; the only run with the post-route extraction pass is the control",
+    "the u35 point lost its klt JSON report to a driver defect fixed before the next point: its utilization, fmax, slack and PDN stripe positions are read from the stage metrics file and the routed DEF, and its power-audit block was not captured"
+  ]
+}
