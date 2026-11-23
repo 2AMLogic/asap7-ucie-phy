@@ -3,6 +3,11 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-21
+
+- **PR #284**: chore: ignore .loom/account-ranking.codex daemon runtime state
+- **Issue #283** (closed): gitignore: .loom/account-ranking.codex is untracked daemon runtime state (loom-managed block, fix is upstream)
+
 ### 2026-11-20
 
 - **PR #280**: docs: re-measure the klt 0.9.2 SDF-annotated refusal on the current routed slice
