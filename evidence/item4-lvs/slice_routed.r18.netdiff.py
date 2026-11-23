@@ -283,6 +283,107 @@ def leaf_bulk_ports(subs: dict, top: str) -> dict:
     return out
 
 
+def check_bulk_rail_law(ext_insts, styles, top, fold,
+                        max_samples=MAX_SAMPLES):
+    """Per-instance bulk/rail law over the extract's top-level instances.
+
+    For every instance of a leaf with a PMOS style: the leaf port carrying
+    the PMOS bulk (the well piece) is on an anonymous $I island net and the
+    leaf ports carrying PMOS source/drain supply terminals are on the named
+    top-level net VDD (the metal rail grid). Returns (law, violations): a
+    Counter keyed (bulk_ok, rail_ok) plus up to max_samples violation
+    records. fold is the port-name normalizer (r13.fold).
+    """
+    law = collections.Counter()
+    law_violations = []
+    for i in ext_insts:
+        st = styles.get(i["cell"])
+        if not st:
+            continue
+        bulk_node = i["conn"][fold(st["pmos_bulk"])]
+        sd_nodes = {i["conn"][fold(p)] for p in st["pmos_sd"]}
+        bulk_ok = bulk_node[1].startswith("\\$I")
+        rail_ok = sd_nodes == {(top, "VDD")}
+        law[(bulk_ok, rail_ok)] += 1
+        if not (bulk_ok and rail_ok) and len(law_violations) < max_samples:
+            law_violations.append({"idx": i["idx"], "cell": i["cell"],
+                                   "bulk_node": bulk_node[1],
+                                   "sd_nodes": sorted(n[1] for n in sd_nodes)})
+    return law, law_violations
+
+
+def join_islands_to_rows(islands, full_ext_members, rev_inst_map, ext_insts,
+                         def_data):
+    """Join island membership to DEF placement rows.
+
+    Each island's member instances are resolved through the instance
+    pairing to reference names, looked up in the DEF components, and mapped
+    to the row pair (an N row plus the FS row above it, which share one
+    n-well strip) their placement origin falls in -- so an island spanning
+    two bands shows two row pairs instead of being clamped to one. Returns
+    (island_rows, island_members, island_cells, unresolved_def): island
+    net name -> row-pair set, -> member reference names, -> per-cell
+    instance Counter, and the count of member names the DEF could not
+    resolve.
+    """
+    island_rows: dict[str, set[int]] = {}
+    island_members: dict[str, list[str]] = collections.defaultdict(list)
+    island_cells: dict[str, collections.Counter] = {}
+    unresolved_def = 0
+    for node in islands:
+        name = node[1]
+        island_cells[name] = collections.Counter()
+        for idx, _p in full_ext_members[node]:
+            ref_name = rev_inst_map.get(idx)
+            cell = ext_insts[idx]["cell"]
+            island_cells[name][cell] += 1
+            if ref_name is None:
+                continue
+            comp = def_data["components"].get(ref_name)
+            if comp is None:
+                unresolved_def += 1
+                continue
+            rp = row_pair_of(comp["y"], def_data["rows"])
+            if rp is not None:
+                island_rows.setdefault(name, set()).add(rp)
+            island_members[name].append(ref_name)
+    return island_rows, island_members, island_cells, unresolved_def
+
+
+def reconcile_device_surplus(subs, target_counts, cdl_counts):
+    """Reconcile the flat layout device count against the CDL expansion.
+
+    Layout devices are the extract's leaf M-cards weighted by top-level
+    instance counts; reference devices are the pinned CDL's per-cell
+    (nmos, pmos) counts weighted the same way. A leaf whose extract M-card
+    counts differ from the CDL's is a fold cell. Returns (flat_leaf_devices,
+    flat_cdl_devices, fold_cells, fold_instances, fold_delta); hard-fails
+    if an instantiated leaf is missing from the CDL table.
+    """
+    flat_leaf_devices = sum(len(subs[n]["mcards"]) * target_counts[n]
+                            for n in target_counts)
+    flat_cdl_devices = sum((cn + cp) * target_counts[n]
+                           for n, (cn, cp) in
+                           ((n, cdl_counts[n]) for n in target_counts
+                            if n in cdl_counts))
+    fold_cells = []
+    for n in sorted(target_counts):
+        if n not in cdl_counts:
+            sys.exit(f"FATAL: leaf {n} missing from CDL_DEVICE_COUNTS")
+        en = sum(1 for m in subs[n]["mcards"] if not m[5].startswith("pmos"))
+        ep = sum(1 for m in subs[n]["mcards"] if m[5].startswith("pmos"))
+        cn, cp = cdl_counts[n]
+        if (en, ep) != (cn, cp):
+            fold_cells.append({"cell": n, "layout_nmos": en, "cdl_nmos": cn,
+                               "layout_pmos": ep, "cdl_pmos": cp,
+                               "instances": target_counts[n],
+                               "device_delta": (en + ep) - (cn + cp)})
+    fold_instances = sum(f["instances"] for f in fold_cells)
+    fold_delta = sum(f["device_delta"] * f["instances"] for f in fold_cells)
+    return (flat_leaf_devices, flat_cdl_devices, fold_cells, fold_instances,
+            fold_delta)
+
+
 # ---------------------------------------------------------------- main
 
 
@@ -439,44 +540,13 @@ def main() -> int:
 
     # --- per-instance bulk/rail law ------------------------------------------------
     styles = leaf_bulk_ports(subs, top)
-    law = collections.Counter()
-    law_violations = []
-    for i in ext_insts:
-        st = styles.get(i["cell"])
-        if not st:
-            continue
-        bulk_node = i["conn"][r13.fold(st["pmos_bulk"])]
-        sd_nodes = {i["conn"][r13.fold(p)] for p in st["pmos_sd"]}
-        bulk_ok = bulk_node[1].startswith("\\$I")
-        rail_ok = sd_nodes == {(top, "VDD")}
-        law[(bulk_ok, rail_ok)] += 1
-        if not (bulk_ok and rail_ok) and len(law_violations) < MAX_SAMPLES:
-            law_violations.append({"idx": i["idx"], "cell": i["cell"],
-                                   "bulk_node": bulk_node[1],
-                                   "sd_nodes": sorted(n[1] for n in sd_nodes)})
+    law, law_violations = check_bulk_rail_law(ext_insts, styles, top,
+                                              r13.fold)
 
     # --- island census with DEF row join ---------------------------------------------
-    island_rows: dict[str, set[int]] = {}
-    island_members: dict[str, list[str]] = collections.defaultdict(list)
-    island_cells: dict[str, collections.Counter] = {}
-    unresolved_def = 0
-    for node, ports in islands.items():
-        name = node[1]
-        island_cells[name] = collections.Counter()
-        for idx, _p in full_ext_members[node]:
-            ref_name = rev_inst_map.get(idx)
-            cell = ext_insts[idx]["cell"]
-            island_cells[name][cell] += 1
-            if ref_name is None:
-                continue
-            comp = d["components"].get(ref_name)
-            if comp is None:
-                unresolved_def += 1
-                continue
-            rp = row_pair_of(comp["y"], d["rows"])
-            if rp is not None:
-                island_rows.setdefault(name, set()).add(rp)
-            island_members[name].append(ref_name)
+    island_rows, island_members, island_cells, unresolved_def = \
+        join_islands_to_rows(islands, full_ext_members, rev_inst_map,
+                             ext_insts, d)
 
     # --- leaf bulk census (port-name flip) --------------------------------------------
     leaf_census = []
@@ -490,26 +560,9 @@ def main() -> int:
             census_totals[styles[name]["pmos_bulk"]] += inst
 
     # --- flat device census and CDL comparison ------------------------------------------
-    flat_leaf_devices = sum(len(subs[n]["mcards"]) * target_counts[n]
-                            for n in target_counts)
-    flat_cdl_devices = sum((cn + cp) * target_counts[n]
-                           for n, (cn, cp) in
-                           ((n, CDL_DEVICE_COUNTS[n]) for n in target_counts
-                            if n in CDL_DEVICE_COUNTS))
-    fold_cells = []
-    for n in sorted(target_counts):
-        if n not in CDL_DEVICE_COUNTS:
-            sys.exit(f"FATAL: leaf {n} missing from CDL_DEVICE_COUNTS")
-        en = sum(1 for m in subs[n]["mcards"] if not m[5].startswith("pmos"))
-        ep = sum(1 for m in subs[n]["mcards"] if m[5].startswith("pmos"))
-        cn, cp = CDL_DEVICE_COUNTS[n]
-        if (en, ep) != (cn, cp):
-            fold_cells.append({"cell": n, "layout_nmos": en, "cdl_nmos": cn,
-                               "layout_pmos": ep, "cdl_pmos": cp,
-                               "instances": target_counts[n],
-                               "device_delta": (en + ep) - (cn + cp)})
-    fold_instances = sum(f["instances"] for f in fold_cells)
-    fold_delta = sum(f["device_delta"] * f["instances"] for f in fold_cells)
+    flat_leaf_devices, flat_cdl_devices, fold_cells, fold_instances, \
+        fold_delta = reconcile_device_surplus(subs, target_counts,
+                                              CDL_DEVICE_COUNTS)
 
     # --- report-side identity and category attribution -------------------------------------
     mm = report["mismatches"]
