@@ -26,7 +26,8 @@
     "spec/decisions/0015-routed-lvs-report-storage.md",
     ".github/workflows/signoff.yml",
     "verification/check-records-json.sh",
-    "verification/resolve-record-base.sh"
+    "verification/resolve-record-base.sh",
+    "verification/check-decisions-inventoried.sh"
   ],
   "checks": [
     {
