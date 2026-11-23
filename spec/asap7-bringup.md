@@ -854,3 +854,25 @@ byte-unchanged (`layout/pnr/regen.py --check-input` still exits 0), so the r8 re
   inventory gained the census self-test, so item 10's `content_hash` is re-pinned and the envelope
   and verdict are regenerated in the same commit (t1_met_count 11 unchanged; `--check` reproduces).
   #20's park was re-pointed at this issue by the guide on 2026-11-21 and stands.
+
+## Storing the next failing routed-slice LVS report (appended 2026-11-23, issue #136)
+
+Operator ruling 2026-11-23 (#136, decision
+[`0014-routed-lvs-report-storage.md`](decisions/0014-routed-lvs-report-storage.md)):
+every LVS report and attempt record already committed keeps its path and bytes
+(decision 0005); from now on a new failing flattened routed-slice compare is
+committed as a **derived summary** unless it is the report a block-manifest
+entry cites. When recording a run, generate the full comparison into scratch
+space and commit the summary form, with distinct input and output paths:
+
+```
+jq '.mismatches = [] | .mismatches_omitted = true' "$full" > "$summary"
+```
+
+The summary keeps the tool's own `status`, `mismatch_count` / `error_count`,
+`category_counts`, `category_error_counts`, `counts`, `options`, `environment`
+and `provenance` — an empty `mismatches` list still reads as a failure, and the
+`mismatches_omitted` marker discloses the omission — and the attempt record
+names the file as a derived summary, not a `klt lvs` output. Commit the full
+native output only when the block manifest will pin it by content hash; decide
+that at recording time. r19 is that report of record today and stays full.
