@@ -6,21 +6,12 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PIN="$HERE/tool-versions.txt"
 VENV="$HERE/.venv"
 NEG=0
 [ "${1:-}" = "--negative-control" ] && NEG=1
 
-pin() { sed -n "s/^$1=//p" "$PIN"; }
-die() { echo "run.sh: $*" >&2; exit 2; }
-
-check() { # name installed
-  local want; want="$(pin "$1")"
-  [ "$2" = "$want" ] || die "$1 is '$2' but $PIN pins '$want'. Not changing host tools; fix the pin by a reviewed change or use the pinned tool."
-}
-check yosys "$(yosys -V 2>/dev/null | awk '{print $2}' | sed 's/+.*//')"
-check verilator "$(verilator --version 2>/dev/null | awk '{print $2}')"
-check iverilog "$(iverilog -V 2>/dev/null | head -1 | sed -n 's/.*version \([0-9.]*\).*/\1/p')"
+. "$HERE/tool-pins.sh"
+check_host_tools
 
 if [ ! -x "$VENV/bin/python" ] || [ "$("$VENV/bin/python" -c 'import cocotb;print(cocotb.__version__)' 2>/dev/null)" != "$(pin cocotb)" ]; then
   uv venv --quiet "$VENV"
