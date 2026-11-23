@@ -47,13 +47,13 @@
     "s4-serializer-boundary": [
       "evidence/item1.r12.json",
       "evidence/item4-lvs/tx_cell.r2.report.json",
-      "evidence/item4-lvs/slice_routed.r17.report.json",
+      "evidence/item4-lvs/slice_routed.r19.report.json",
       "sta/slice.sta.r8.report.json"
     ],
     "s7-drc-clean": ["evidence/item2.r11.json"],
     "s7-lvs": [
       "evidence/item4-lvs/tx_cell.r2.report.json",
-      "evidence/item4-lvs/slice_routed.r17.report.json"
+      "evidence/item4-lvs/slice_routed.r19.report.json"
     ],
     "s7-sta": ["sta/slice.sta.r8.report.json", "layout/pnr/slice.pnr.report.json"],
     "s7-bump-map": ["layout/pad_check_record.json"]
@@ -89,8 +89,8 @@
       "argv": ["klt", "lvs", "--check", "evidence/item4-lvs/tx_cell.r2.report.json"],
       "cwd": "."
     },
-    "evidence/item4-lvs/slice_routed.r17.report.json": {
-      "argv": ["klt", "lvs", "--check", "evidence/item4-lvs/slice_routed.r17.report.json"],
+    "evidence/item4-lvs/slice_routed.r19.report.json": {
+      "argv": ["klt", "lvs", "--check", "evidence/item4-lvs/slice_routed.r19.report.json"],
       "cwd": "."
     }
   },

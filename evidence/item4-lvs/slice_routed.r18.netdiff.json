@@ -1,0 +1,1343 @@
+{
+ "consumes": [
+  "evidence/item4-lvs/slice_routed.r18.extract.v",
+  "layout/slice_routed.v",
+  "evidence/item4-lvs/slice_routed.r18.report.json",
+  "layout/slice_routed.def",
+  "evidence/item4-lvs/slice_routed.r13.netdiff.py"
+ ],
+ "domain": {
+  "extract_top": "slice",
+  "extract_top_xcards": 2591,
+  "identity": "pin membership; instances paired by anchored propagation (parsers and anchor_pair imported from the committed r13 script)",
+  "propagation_rounds": 9,
+  "reference_connected_instances": 2591,
+  "reference_connectionless_instances": 0,
+  "reference_module": "slice"
+ },
+ "instance_pairing": {
+  "instance_coverage": 1.0,
+  "instances_paired": 2591
+ },
+ "net_correspondence_structural": {
+  "extract_nets_total_pairing_domain": 2710,
+  "extract_nets_without_reference_counterpart": 0,
+  "matched_1_to_1": 2710,
+  "merges": 0,
+  "note": "the routed signal circuits still correspond exactly after the grid restore, the cell swap and the re-synthesis; every pairing-domain net matches 1:1",
+  "partials": 0,
+  "reference_nets_total_pairing_domain": 2710,
+  "reference_nets_without_extract_counterpart": 0,
+  "splits": 0
+ },
+ "power_well": {
+  "def_row_join": {
+   "def_rows": 160,
+   "islands_on_distinct_row_pairs": 80,
+   "note": "an N row and the FS row above it share one n-well strip; each island's members sit in exactly one such row pair, and the 80 islands map to 80 distinct pairs. The geometry half (80 full-width well strips; both metal supply grids connected via-aware) is slice_routed.r18.welldom.py's output."
+  },
+  "island_count": 80,
+  "island_totals": {
+   "by_port": {
+    "vdd": 1593,
+    "vdd$1": 998
+   },
+   "instances": 2591,
+   "terminals": 2591
+  },
+  "islands": [
+   {
+    "distinct_cells": 27,
+    "instances": 52,
+    "member_sample": [
+     "clkbuf_4_13_0_clk",
+     "g_lane[10].u_tx/_19_",
+     "g_lane[10].u_tx/_25_",
+     "g_lane[13].u_tx/_25_",
+     "g_lane[7].u_tx/_21_"
+    ],
+    "net": "\\$I108871",
+    "port_profile": {
+     "vdd": 40,
+     "vdd$1": 12
+    },
+    "row_pair": [
+     50
+    ],
+    "terminals": 52
+   },
+   {
+    "distinct_cells": 31,
+    "instances": 50,
+    "member_sample": [
+     "clkbuf_4_14_0_clk",
+     "g_lane[12].u_tx/_20_",
+     "g_lane[14].u_tx/_22_",
+     "g_lane[2].u_tx/_15_",
+     "g_lane[3].u_tx/_24_"
+    ],
+    "net": "\\$I109072",
+    "port_profile": {
+     "vdd": 37,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     64
+    ],
+    "terminals": 50
+   },
+   {
+    "distinct_cells": 23,
+    "instances": 50,
+    "member_sample": [
+     "g_lane[0].u_tx/_17_",
+     "g_lane[11].u_tx/_15_",
+     "g_lane[14].u_tx/_21_",
+     "g_lane[2].u_tx/_22_",
+     "g_lane[3].u_tx/_16_"
+    ],
+    "net": "\\$I109034",
+    "port_profile": {
+     "vdd": 37,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     63
+    ],
+    "terminals": 50
+   },
+   {
+    "distinct_cells": 27,
+    "instances": 50,
+    "member_sample": [
+     "g_lane[10].u_tx/_16_",
+     "g_lane[13].u_tx/_19_",
+     "g_lane[5].u_tx/_13_",
+     "g_lane[8].u_tx/_12_",
+     "g_lane[8].u_tx/_19_"
+    ],
+    "net": "\\$I108976",
+    "port_profile": {
+     "vdd": 38,
+     "vdd$1": 12
+    },
+    "row_pair": [
+     51
+    ],
+    "terminals": 50
+   },
+   {
+    "distinct_cells": 23,
+    "instances": 49,
+    "member_sample": [
+     "clkload7",
+     "g_lane[11].u_tx/_12_",
+     "g_lane[12].u_tx/_10_",
+     "g_lane[13].u_tx/_18_",
+     "g_lane[13].u_tx/_23_"
+    ],
+    "net": "\\$I109053",
+    "port_profile": {
+     "vdd": 38,
+     "vdd$1": 11
+    },
+    "row_pair": [
+     56
+    ],
+    "terminals": 49
+   },
+   {
+    "distinct_cells": 27,
+    "instances": 48,
+    "member_sample": [
+     "clkload10",
+     "g_lane[12].u_tx/_14_",
+     "g_lane[12].u_tx/_19_",
+     "g_lane[14].u_tx/_12_",
+     "g_lane[5].u_tx/_15_"
+    ],
+    "net": "\\$I109033",
+    "port_profile": {
+     "vdd": 35,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     53
+    ],
+    "terminals": 48
+   },
+   {
+    "distinct_cells": 22,
+    "instances": 48,
+    "member_sample": [
+     "clkload9",
+     "g_lane[0].u_tx/_18_",
+     "g_lane[11].u_tx/_21_",
+     "g_lane[13].u_tx/_16_",
+     "g_lane[1].u_tx/_11_"
+    ],
+    "net": "\\$I108817",
+    "port_profile": {
+     "vdd": 35,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     60
+    ],
+    "terminals": 48
+   },
+   {
+    "distinct_cells": 25,
+    "instances": 46,
+    "member_sample": [
+     "g_lane[10].u_tx/_10_",
+     "g_lane[11].u_tx/_10_",
+     "g_lane[11].u_tx/_18_",
+     "g_lane[13].u_tx/_12_",
+     "g_lane[5].u_tx/_20_"
+    ],
+    "net": "\\$I108918",
+    "port_profile": {
+     "vdd": 26,
+     "vdd$1": 20
+    },
+    "row_pair": [
+     49
+    ],
+    "terminals": 46
+   },
+   {
+    "distinct_cells": 23,
+    "instances": 45,
+    "member_sample": [
+     "_05_",
+     "g_lane[0].u_tx/_11_",
+     "g_lane[0].u_tx/_21_",
+     "g_lane[3].u_tx/_12_",
+     "g_lane[7].u_tx/_14_"
+    ],
+    "net": "\\$I108820",
+    "port_profile": {
+     "vdd": 31,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     44
+    ],
+    "terminals": 45
+   },
+   {
+    "distinct_cells": 20,
+    "instances": 45,
+    "member_sample": [
+     "g_lane[0].u_tx/_10_",
+     "g_lane[10].u_tx/_11_",
+     "g_lane[11].u_tx/_13_",
+     "g_lane[11].u_tx/_16_",
+     "g_lane[11].u_tx/_22_"
+    ],
+    "net": "\\$I108529",
+    "port_profile": {
+     "vdd": 31,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     59
+    ],
+    "terminals": 45
+   },
+   {
+    "distinct_cells": 22,
+    "instances": 45,
+    "member_sample": [
+     "g_lane[13].u_tx/_24_",
+     "g_lane[15].u_tx/_18_",
+     "g_lane[1].u_tx/_14_",
+     "g_lane[3].u_tx/_18_",
+     "g_lane[4].u_tx/_13_"
+    ],
+    "net": "\\$I108514",
+    "port_profile": {
+     "vdd": 33,
+     "vdd$1": 12
+    },
+    "row_pair": [
+     40
+    ],
+    "terminals": 45
+   },
+   {
+    "distinct_cells": 24,
+    "instances": 45,
+    "member_sample": [
+     "g_lane[10].u_tx/_21_",
+     "g_lane[11].u_tx/_24_",
+     "g_lane[13].u_tx/_22_",
+     "g_lane[5].u_tx/_16_",
+     "g_lane[6].u_tx/_12_"
+    ],
+    "net": "\\$I108504",
+    "port_profile": {
+     "vdd": 31,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     37
+    ],
+    "terminals": 45
+   },
+   {
+    "distinct_cells": 22,
+    "instances": 44,
+    "member_sample": [
+     "clkbuf_4_6_0_clk",
+     "clkbuf_4_7_0_clk",
+     "g_lane[11].u_tx/_19_",
+     "g_lane[13].u_tx/_10_",
+     "g_lane[14].u_tx/_18_"
+    ],
+    "net": "\\$I108875",
+    "port_profile": {
+     "vdd": 28,
+     "vdd$1": 16
+    },
+    "row_pair": [
+     57
+    ],
+    "terminals": 44
+   },
+   {
+    "distinct_cells": 23,
+    "instances": 43,
+    "member_sample": [
+     "clkbuf_4_12_0_clk",
+     "clkload11",
+     "g_lane[12].u_tx/_12_",
+     "g_lane[12].u_tx/_23_",
+     "g_lane[12].u_tx/_25_"
+    ],
+    "net": "\\$I108869",
+    "port_profile": {
+     "vdd": 27,
+     "vdd$1": 16
+    },
+    "row_pair": [
+     54
+    ],
+    "terminals": 43
+   },
+   {
+    "distinct_cells": 24,
+    "instances": 42,
+    "member_sample": [
+     "g_lane[4].u_tx/_15_",
+     "g_lane[4].u_tx/_17_",
+     "u_cdc/_2345_",
+     "u_cdc/_2391_",
+     "u_cdc/_2393_"
+    ],
+    "net": "\\$I109060",
+    "port_profile": {
+     "vdd": 34,
+     "vdd$1": 8
+    },
+    "row_pair": [
+     69
+    ],
+    "terminals": 42
+   },
+   {
+    "distinct_cells": 24,
+    "instances": 42,
+    "member_sample": [
+     "clkbuf_4_10_0_clk",
+     "clkbuf_4_15_0_clk",
+     "clkload13",
+     "clkload14",
+     "g_lane[10].u_tx/_24_"
+    ],
+    "net": "\\$I109054",
+    "port_profile": {
+     "vdd": 28,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     62
+    ],
+    "terminals": 42
+   },
+   {
+    "distinct_cells": 26,
+    "instances": 42,
+    "member_sample": [
+     "clkbuf_4_11_0_clk",
+     "clkload12",
+     "g_lane[5].u_tx/_14_",
+     "g_lane[5].u_tx/_18_",
+     "g_lane[5].u_tx/_21_"
+    ],
+    "net": "\\$I109015",
+    "port_profile": {
+     "vdd": 24,
+     "vdd$1": 18
+    },
+    "row_pair": [
+     52
+    ],
+    "terminals": 42
+   },
+   {
+    "distinct_cells": 23,
+    "instances": 41,
+    "member_sample": [
+     "g_lane[10].u_tx/_12_",
+     "g_lane[10].u_tx/_23_",
+     "g_lane[11].u_tx/_14_",
+     "g_lane[5].u_tx/_24_",
+     "u_cdc/_2326_"
+    ],
+    "net": "\\$I108874",
+    "port_profile": {
+     "vdd": 27,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     48
+    ],
+    "terminals": 41
+   },
+   {
+    "distinct_cells": 16,
+    "instances": 41,
+    "member_sample": [
+     "g_lane[0].u_tx/_14_",
+     "g_lane[0].u_tx/_23_",
+     "g_lane[10].u_tx/_20_",
+     "g_lane[14].u_tx/_13_",
+     "g_lane[15].u_tx/_10_"
+    ],
+    "net": "\\$I108528",
+    "port_profile": {
+     "vdd": 24,
+     "vdd$1": 17
+    },
+    "row_pair": [
+     61
+    ],
+    "terminals": 41
+   },
+   {
+    "distinct_cells": 19,
+    "instances": 40,
+    "member_sample": [
+     "g_lane[0].u_tx/_15_",
+     "g_lane[10].u_tx/_17_",
+     "g_lane[12].u_tx/_24_",
+     "g_lane[14].u_tx/_15_",
+     "g_lane[15].u_tx/_20_"
+    ],
+    "net": "\\$I109000",
+    "port_profile": {
+     "vdd": 25,
+     "vdd$1": 15
+    },
+    "row_pair": [
+     65
+    ],
+    "terminals": 40
+   },
+   {
+    "distinct_cells": 23,
+    "instances": 40,
+    "member_sample": [
+     "clkbuf_4_5_0_clk",
+     "clkbuf_4_9_0_clk",
+     "clkload8",
+     "g_lane[0].u_tx/_13_",
+     "g_lane[15].u_tx/_23_"
+    ],
+    "net": "\\$I108516",
+    "port_profile": {
+     "vdd": 25,
+     "vdd$1": 15
+    },
+    "row_pair": [
+     41
+    ],
+    "terminals": 40
+   },
+   {
+    "distinct_cells": 19,
+    "instances": 40,
+    "member_sample": [
+     "clkload5",
+     "g_lane[13].u_tx/_11_",
+     "g_lane[13].u_tx/_20_",
+     "g_lane[15].u_tx/_14_",
+     "g_lane[2].u_tx/_25_"
+    ],
+    "net": "\\$I108513",
+    "port_profile": {
+     "vdd": 25,
+     "vdd$1": 15
+    },
+    "row_pair": [
+     39
+    ],
+    "terminals": 40
+   },
+   {
+    "distinct_cells": 22,
+    "instances": 39,
+    "member_sample": [
+     "g_lane[10].u_tx/_15_",
+     "g_lane[11].u_tx/_17_",
+     "g_lane[12].u_tx/_15_",
+     "g_lane[12].u_tx/_17_",
+     "g_lane[15].u_tx/_21_"
+    ],
+    "net": "\\$I108977",
+    "port_profile": {
+     "vdd": 24,
+     "vdd$1": 15
+    },
+    "row_pair": [
+     66
+    ],
+    "terminals": 39
+   },
+   {
+    "distinct_cells": 19,
+    "instances": 39,
+    "member_sample": [
+     "g_lane[0].u_tx/_24_",
+     "g_lane[10].u_tx/_14_",
+     "g_lane[10].u_tx/_18_",
+     "g_lane[3].u_tx/_19_",
+     "g_lane[7].u_tx/_20_"
+    ],
+    "net": "\\$I108868",
+    "port_profile": {
+     "vdd": 26,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     46
+    ],
+    "terminals": 39
+   },
+   {
+    "distinct_cells": 20,
+    "instances": 38,
+    "member_sample": [
+     "g_lane[13].u_tx/_15_",
+     "g_lane[13].u_tx/_17_",
+     "g_lane[14].u_tx/_17_",
+     "g_lane[15].u_tx/_15_",
+     "g_lane[15].u_tx/_17_"
+    ],
+    "net": "\\$I108925",
+    "port_profile": {
+     "vdd": 26,
+     "vdd$1": 12
+    },
+    "row_pair": [
+     67
+    ],
+    "terminals": 38
+   },
+   {
+    "distinct_cells": 18,
+    "instances": 38,
+    "member_sample": [
+     "g_lane[0].u_tx/_16_",
+     "g_lane[10].u_tx/_22_",
+     "g_lane[11].u_tx/_11_",
+     "g_lane[12].u_tx/_21_",
+     "g_lane[12].u_tx/_22_"
+    ],
+    "net": "\\$I108509",
+    "port_profile": {
+     "vdd": 25,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     36
+    ],
+    "terminals": 38
+   },
+   {
+    "distinct_cells": 20,
+    "instances": 37,
+    "member_sample": [
+     "g_lane[11].u_tx/_25_",
+     "g_lane[14].u_tx/_10_",
+     "g_lane[6].u_tx/_13_",
+     "g_lane[7].u_tx/_19_",
+     "g_lane[9].u_tx/_19_"
+    ],
+    "net": "\\$I108978",
+    "port_profile": {
+     "vdd": 24,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     58
+    ],
+    "terminals": 37
+   },
+   {
+    "distinct_cells": 17,
+    "instances": 37,
+    "member_sample": [
+     "u_cdc/_2491_",
+     "u_cdc/_2505_",
+     "u_cdc/_2512_",
+     "u_cdc/_2513_",
+     "u_cdc/_2516_"
+    ],
+    "net": "\\$I106811",
+    "port_profile": {
+     "vdd": 31,
+     "vdd$1": 6
+    },
+    "row_pair": [
+     9
+    ],
+    "terminals": 37
+   },
+   {
+    "distinct_cells": 20,
+    "instances": 35,
+    "member_sample": [
+     "g_lane[1].u_tx/_15_",
+     "g_lane[1].u_tx/_22_",
+     "g_lane[2].u_tx/_17_",
+     "g_lane[2].u_tx/_20_",
+     "g_lane[3].u_tx/_17_"
+    ],
+    "net": "\\$I109046",
+    "port_profile": {
+     "vdd": 21,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     68
+    ],
+    "terminals": 35
+   },
+   {
+    "distinct_cells": 20,
+    "instances": 35,
+    "member_sample": [
+     "_06_",
+     "clkbuf_4_4_0_clk",
+     "clkbuf_4_8_0_clk",
+     "g_lane[4].u_tx/_14_",
+     "g_lane[4].u_tx/_22_"
+    ],
+    "net": "\\$I108525",
+    "port_profile": {
+     "vdd": 24,
+     "vdd$1": 11
+    },
+    "row_pair": [
+     42
+    ],
+    "terminals": 35
+   },
+   {
+    "distinct_cells": 18,
+    "instances": 34,
+    "member_sample": [
+     "clkload6",
+     "g_lane[12].u_tx/_16_",
+     "g_lane[12].u_tx/_18_",
+     "g_lane[13].u_tx/_14_",
+     "g_lane[14].u_tx/_16_"
+    ],
+    "net": "\\$I109043",
+    "port_profile": {
+     "vdd": 15,
+     "vdd$1": 19
+    },
+    "row_pair": [
+     55
+    ],
+    "terminals": 34
+   },
+   {
+    "distinct_cells": 16,
+    "instances": 34,
+    "member_sample": [
+     "_07_",
+     "_10_",
+     "g_lane[3].u_tx/_25_",
+     "g_lane[4].u_tx/_23_",
+     "g_lane[7].u_tx/_11_"
+    ],
+    "net": "\\$I108876",
+    "port_profile": {
+     "vdd": 20,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     45
+    ],
+    "terminals": 34
+   },
+   {
+    "distinct_cells": 20,
+    "instances": 34,
+    "member_sample": [
+     "g_lane[0].u_tx/_20_",
+     "g_lane[11].u_tx/_23_",
+     "g_lane[4].u_tx/_18_",
+     "g_lane[5].u_tx/_11_",
+     "g_lane[7].u_tx/_10_"
+    ],
+    "net": "\\$I108825",
+    "port_profile": {
+     "vdd": 24,
+     "vdd$1": 10
+    },
+    "row_pair": [
+     47
+    ],
+    "terminals": 34
+   },
+   {
+    "distinct_cells": 18,
+    "instances": 34,
+    "member_sample": [
+     "clkbuf_0_clk",
+     "g_lane[11].u_tx/_20_",
+     "g_lane[13].u_tx/_21_",
+     "g_lane[2].u_tx/_19_",
+     "g_lane[4].u_tx/_11_"
+    ],
+    "net": "\\$I108402",
+    "port_profile": {
+     "vdd": 18,
+     "vdd$1": 16
+    },
+    "row_pair": [
+     38
+    ],
+    "terminals": 34
+   },
+   {
+    "distinct_cells": 18,
+    "instances": 34,
+    "member_sample": [
+     "u_cdc/_2488_",
+     "u_cdc/_2490_",
+     "u_cdc/_2493_",
+     "u_cdc/_2495_",
+     "u_cdc/_2506_"
+    ],
+    "net": "\\$I106098",
+    "port_profile": {
+     "vdd": 20,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     8
+    ],
+    "terminals": 34
+   },
+   {
+    "distinct_cells": 9,
+    "instances": 34,
+    "member_sample": [
+     "u_cdc/_3171_",
+     "u_cdc/_3173_",
+     "u_cdc/_3179_",
+     "u_cdc/_3181_",
+     "u_cdc/_3182_"
+    ],
+    "net": "\\$I98131",
+    "port_profile": {
+     "vdd": 22,
+     "vdd$1": 12
+    },
+    "row_pair": [
+     2
+    ],
+    "terminals": 34
+   },
+   {
+    "distinct_cells": 16,
+    "instances": 33,
+    "member_sample": [
+     "_04_",
+     "_08_",
+     "_09_",
+     "g_lane[0].u_tx/_12_",
+     "g_lane[12].u_tx/_13_"
+    ],
+    "net": "\\$I108373",
+    "port_profile": {
+     "vdd": 20,
+     "vdd$1": 13
+    },
+    "row_pair": [
+     34
+    ],
+    "terminals": 33
+   },
+   {
+    "distinct_cells": 17,
+    "instances": 32,
+    "member_sample": [
+     "clkload4",
+     "g_lane[0].u_tx/_22_",
+     "g_lane[1].u_tx/_12_",
+     "g_lane[1].u_tx/_19_",
+     "g_lane[1].u_tx/_25_"
+    ],
+    "net": "\\$I108532",
+    "port_profile": {
+     "vdd": 12,
+     "vdd$1": 20
+    },
+    "row_pair": [
+     43
+    ],
+    "terminals": 32
+   },
+   {
+    "distinct_cells": 13,
+    "instances": 32,
+    "member_sample": [
+     "clkbuf_4_3_0_clk",
+     "u_cdc/_2473_",
+     "u_cdc/_2475_",
+     "u_cdc/_2478_",
+     "u_cdc/_2585_"
+    ],
+    "net": "\\$I108225",
+    "port_profile": {
+     "vdd": 25,
+     "vdd$1": 7
+    },
+    "row_pair": [
+     29
+    ],
+    "terminals": 32
+   },
+   {
+    "distinct_cells": 17,
+    "instances": 32,
+    "member_sample": [
+     "clkbuf_4_2_0_clk",
+     "u_cdc/_2474_",
+     "u_cdc/_2575_",
+     "u_cdc/_2582_",
+     "u_cdc/_2583_"
+    ],
+    "net": "\\$I108151",
+    "port_profile": {
+     "vdd": 18,
+     "vdd$1": 14
+    },
+    "row_pair": [
+     30
+    ],
+    "terminals": 32
+   }
+  ],
+  "leaf_bulk_port_census": {
+   "by_port_name_totals": {
+    "VDD": 1593,
+    "VDD$1": 998
+   },
+   "leaves": [
+    {
+     "cell": "AND2x2_ASAP7_75t_R",
+     "instances": 35,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AND2x2_ASAP7_75t_R$VAR1",
+     "instances": 31,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AND5x1_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AO21x1_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AOI21x1_ASAP7_75t_R",
+     "instances": 87,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "AOI21x1_ASAP7_75t_R$VAR1",
+     "instances": 99,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "AOI21xp33_ASAP7_75t_R",
+     "instances": 3,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AOI21xp33_ASAP7_75t_R$VAR1",
+     "instances": 2,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AOI21xp5_ASAP7_75t_R",
+     "instances": 139,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AOI21xp5_ASAP7_75t_R$VAR1",
+     "instances": 126,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AOI311xp33_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "AOI31xp33_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "BUFx3_ASAP7_75t_R",
+     "instances": 19,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "BUFx3_ASAP7_75t_R$VAR1",
+     "instances": 29,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "BUFx5_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "BUFx5_ASAP7_75t_R$VAR1",
+     "instances": 2,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx10_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx10_ASAP7_75t_R$VAR1",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx11_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx6p67_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx6p67_ASAP7_75t_R$VAR1",
+     "instances": 2,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx8_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "CKINVDCx8_ASAP7_75t_R$VAR1",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "DFFASRHQNx1_ASAP7_75t_R",
+     "instances": 92,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "DFFASRHQNx1_ASAP7_75t_R$VAR1",
+     "instances": 87,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "DFFHQNx1_ASAP7_75t_R",
+     "instances": 249,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "DFFHQNx1_ASAP7_75t_R$VAR1",
+     "instances": 263,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "INVx11_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "INVx1_ASAP7_75t_R",
+     "instances": 11,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "INVx1_ASAP7_75t_R$VAR1",
+     "instances": 11,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "INVx5_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "INVx8_ASAP7_75t_R",
+     "instances": 3,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "INVxp33_ASAP7_75t_R",
+     "instances": 3,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "INVxp33_ASAP7_75t_R$VAR1",
+     "instances": 4,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "INVxp67_ASAP7_75t_R",
+     "instances": 60,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "INVxp67_ASAP7_75t_R$VAR1",
+     "instances": 79,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NAND2xp33_ASAP7_75t_R",
+     "instances": 43,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NAND2xp33_ASAP7_75t_R$VAR1",
+     "instances": 36,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NAND2xp5_ASAP7_75t_R",
+     "instances": 7,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NAND2xp5_ASAP7_75t_R$VAR1",
+     "instances": 4,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NAND3xp33_ASAP7_75t_R",
+     "instances": 4,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NAND5xp2_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NOR2xp33_ASAP7_75t_R",
+     "instances": 8,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NOR2xp33_ASAP7_75t_R$VAR1",
+     "instances": 7,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NOR3xp33_ASAP7_75t_R",
+     "instances": 235,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NOR3xp33_ASAP7_75t_R$VAR1",
+     "instances": 217,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "NOR4xp25_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "O2A1O1Ixp33_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "O2A1O1Ixp33_ASAP7_75t_R$VAR1",
+     "instances": 2,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OA211x2_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "OA21x2_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OA21x2_ASAP7_75t_R$VAR1",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OA222x2_ASAP7_75t_R",
+     "instances": 3,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "OA222x2_ASAP7_75t_R$VAR1",
+     "instances": 1,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "OAI211xp5_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI211xp5_ASAP7_75t_R$VAR1",
+     "instances": 3,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI21xp33_ASAP7_75t_R",
+     "instances": 3,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI21xp33_ASAP7_75t_R$VAR1",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI21xp5_ASAP7_75t_R",
+     "instances": 48,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI21xp5_ASAP7_75t_R$VAR1",
+     "instances": 39,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI222xp33_ASAP7_75t_R",
+     "instances": 51,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "OAI222xp33_ASAP7_75t_R$VAR1",
+     "instances": 39,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "OAI22xp5_ASAP7_75t_R",
+     "instances": 54,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI22xp5_ASAP7_75t_R$VAR1",
+     "instances": 60,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI311xp33_ASAP7_75t_R",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI311xp33_ASAP7_75t_R$VAR1",
+     "instances": 1,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OAI31xp33_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OR2x2_ASAP7_75t_R",
+     "instances": 3,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OR2x2_ASAP7_75t_R$VAR1",
+     "instances": 6,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OR3x1_ASAP7_75t_R",
+     "instances": 20,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OR3x1_ASAP7_75t_R$VAR1",
+     "instances": 27,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OR4x1_ASAP7_75t_R",
+     "instances": 9,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "OR4x1_ASAP7_75t_R$VAR1",
+     "instances": 8,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "TIEHIx1_ASAP7_75t_R",
+     "instances": 79,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "TIEHIx1_ASAP7_75t_R$VAR1",
+     "instances": 100,
+     "pmos_bulk_port": "VDD"
+    },
+    {
+     "cell": "XNOR2xp5_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "XNOR2xp5_ASAP7_75t_R$VAR1",
+     "instances": 3,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "XOR2xp5_ASAP7_75t_R",
+     "instances": 2,
+     "pmos_bulk_port": "VDD$1"
+    },
+    {
+     "cell": "XOR2xp5_ASAP7_75t_R$VAR1",
+     "instances": 3,
+     "pmos_bulk_port": "VDD$1"
+    }
+   ],
+   "note": "the port NAME flips between leaf variants (53 variants name the bulk port 'VDD', 26 name it 'VDD$1'); both are the same physical split, so the census classifies by M-card role, not port name"
+  },
+  "named_nets": {
+   "VDD": {
+    "vdd": 998,
+    "vdd$1": 1593
+   },
+   "VSS": {
+    "vss": 2591
+   },
+   "vsubs": {
+    "vsubs": 2591
+   }
+  },
+  "per_instance_bulk_rail_law": {
+   "instances_obeying": 2591,
+   "statement": "for every instance, the leaf port carrying the PMOS bulk (the well piece) is on an anonymous $I island net and the leaf port carrying PMOS source/drain supply terminals is on the named top-level net VDD (the metal rail grid)",
+   "violations": []
+  }
+ },
+ "report_identity": {
+  "finfet_bulk_tied_circuits": 158,
+  "net_correspondence_report": {
+   "entries": 13826,
+   "entries_with_anonymous_layout_name": 13624
+  },
+  "net_merged": {
+   "distinct_reference_names": 1206,
+   "entries": 1206
+  },
+  "net_split": {
+   "distinct_layout_display_names": 1,
+   "entries": 1328,
+   "entries_under_display_name_backslash_dollar_zero": 1328,
+   "entries_with_layout_name": 1328
+  },
+  "supply_fragmented_circuits": 79
+ },
+ "script": "slice_routed.r18.netdiff.py",
+ "self_checks_passed": 34,
+ "surplus_attribution": {
+  "devices": {
+   "flat_layout_from_extract": 29196,
+   "flat_reference_from_cdl_table": 28824,
+   "fold_cells": [
+    {
+     "cdl_nmos": 3,
+     "cdl_pmos": 3,
+     "cell": "AOI21x1_ASAP7_75t_R",
+     "device_delta": 2,
+     "instances": 87,
+     "layout_nmos": 5,
+     "layout_pmos": 3
+    },
+    {
+     "cdl_nmos": 3,
+     "cdl_pmos": 3,
+     "cell": "AOI21x1_ASAP7_75t_R$VAR1",
+     "device_delta": 2,
+     "instances": 99,
+     "layout_nmos": 5,
+     "layout_pmos": 3
+    }
+   ],
+   "fold_instances": 186,
+   "statement": "the whole 372-device layout surplus is AOI21x1_ASAP7_75t_R{,$VAR1}: 87 + 99 instances drawing the A1/A2 nmos series stack twice at half width (two nfin=3 stacks where the CDL folds one nfin=6 stack; total fins 16 = 16), i.e. the pinned library's own CDL-vs-GDS series-stack fold the deck docstring records; not tap or filler cells (TAPCELL/FILLER variants extract with no devices and none is instantiated as a netlist instance)",
+   "surplus": 372
+  },
+  "nets": {
+   "decomposable_from_committed_artifacts": {
+    "vsubs_global": 1,
+    "well_islands": 80
+   },
+   "note": "the remainder is flat-comparer bookkeeping the committed report cannot decompose (the unmerged-finger groups' net handling); stated, not smoothed over -- r13's precedent for report bookkeeping it could not decompose",
+   "remainder": 41,
+   "report_flat_surplus": 122
+  },
+  "unmatched_by_side_class": {
+   "layout/nmos_rvt": 949,
+   "layout/pmos_rvt": 1407,
+   "reference/nmos_rvt": 764,
+   "reference/pmos_rvt": 1408
+  },
+  "unmerged_fingers": {
+   "attributed_to": "the same 186 AOI21x1 instances (87 N + 99 FS); one group per instance, 2 x 0.081 = 0.162",
+   "entries": 186,
+   "shapes": {
+    "nmos_rvt/W=0.162": 186
+   }
+  }
+ }
+}

@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 # The committed-record gate. This is the single copy of that gate: both
 # .github/workflows/signoff.yml and the attested records-json-valid check in
-# manifests/t1-item10-inventory.json run this script (default mode), and
-# check.sh takes its file list from `--list`. The record set is a rule, not a
-# directory list, so a JSON record added anywhere is covered on arrival with
-# no edit here.
+# manifests/t1-item10-inventory.json run this script (default mode). The
+# record set is a rule, not a directory list, so a JSON record added anywhere
+# is covered on arrival with no edit here.
 #
 # Three modes:
 #
@@ -59,7 +58,7 @@
 # absolute path and never be seen. The --changed mode closes that by
 # splitting each multi-document record into per-document temp files (exact
 # byte slices, so content is unchanged) and remapping klt's diagnostics back
-# to the real record path and line before the deck-exception filters judge
+# to the real record path and line before the deck-exception filter judges
 # them. Default mode stays findings-tolerant (validity-only) and hands klt
 # the single-document partition only -- a stream record gets the per-document
 # validity verdict there, and its absolute paths are covered forward-only by
@@ -76,9 +75,9 @@
 # is matched against the value the envelope itself declares). Nothing else is
 # admitted: NOT --allow-prefix /home/..., which the tool's help rules out
 # because a lint whose verdict depends on the linting machine cannot be
-# trusted in CI. Both post-filters reconcile what they classified against the
+# trusted in CI. The post-filter reconciles what it classified against the
 # report's own schema_version and total (finding_count / leak_count) and
-# refuse to pass on any mismatch, so a report-schema change under pin drift
+# refuses to pass on any mismatch, so a report-schema change under pin drift
 # fails loudly instead of silently voiding the exception walk. The exception
 # is self-limiting -- once klt stops writing the absolute path, the finding
 # it admits no longer exists. REMOVE it when #5709 is closed and
@@ -94,12 +93,12 @@
 # than silently; the whole-set validity gate still covered parsing.
 #
 # SCOPE -- read this before quoting an exit 0.
-# `--list` prints the record set and uses only git and the shell -- never
-# klt -- so check.sh (which must stay toolchain-free) can consume it. This
-# script itself needs klt (default and --changed modes) and python3 (the
-# per-document validity walk, the stream splitter and the decision-0012
-# deck-exception filters); it fails loudly when either is missing rather than
-# reporting a vacuous pass.
+# --validate is the mode check.sh consumes: git and python3 only, never klt,
+# so check.sh stays off the signoff toolchain. This script itself needs
+# python3 in every mode (the per-document validity walk; the stream splitter
+# and the decision-0012 deck-exception filter too in --changed) and klt in
+# default and --changed modes; it fails loudly when either is missing rather
+# than reporting a vacuous pass.
 
 set -uo pipefail
 
@@ -164,11 +163,13 @@ sys.exit(3 if bad else 0)
 }
 
 # The stream splitter (--changed mode only): reads multi-document record
-# paths from stdin, writes each document as an exact byte slice into
+# paths from $1/multi.txt (stdin carries the Python program below), writes
+# each document as an exact byte slice into
 # $1/<flattened>.doc<N>.json, and writes $1/mapping.json mapping each part
 # path to {"path": <real record>, "offset": <1-based line where the document
-# starts in the original>}. Prints one part path per line. The filters remap
-# klt's diagnostics (file, line) back to the real record before judging them.
+# starts in the original>}. Prints one part path per line. The deck-exception
+# filter remaps klt's diagnostics (file, line) back to the real record before
+# judging them.
 split_stream() {
     python3 - "$1" <<'PY'
 import json, os, sys
@@ -207,13 +208,102 @@ for p in parts:
 PY
 }
 
-LIST_ONLY=0
+# The decision-0012 deck-exception post-filter -- one copy for both klt legs
+# of --changed mode. kind ($1) selects the leg: "lint-envelope" judges
+# findings (field-matched), "scan" judges leaks (line-matched); $2 is that
+# leg's klt JSON report, $3 the stream-split mapping ({} when none was
+# split). Shared contract: refuse on a report schema_version other than 1 or
+# on a finding_count/leak_count reconciliation mismatch; remap split-part
+# file/line back to the real record; except exactly the top-level `deck`
+# field of a changed *.envelope.json (the value the envelope itself
+# declares); exit 3 on any residual, exit 0 when only the exception applied.
+filter_deck_exception() {
+    python3 - "$1" "$2" "$3" <<'PY'
+import json, sys
+
+kind = sys.argv[1]
+report = json.load(open(sys.argv[2], encoding="utf-8"))
+mapping = json.load(open(sys.argv[3], encoding="utf-8"))
+scan = kind == "scan"
+items, total_key = ("leaks", "leak_count") if scan else ("findings", "finding_count")
+noun, unit = ("leak", "deck line") if scan else ("finding", "deck field")
+
+def refuse(msg):
+    print(f"{kind}: {msg} -- the report schema is not what this filter "
+          f"expects; refusing to pass", file=sys.stderr)
+    sys.exit(3)
+
+def remap(name, line):
+    m = mapping.get(name)
+    if m is None or not isinstance(line, int):
+        return name, line
+    return (m["path"], m["offset"] + line - 1) if scan else (m["path"], line)
+
+def deck_declared(name):
+    # The top-level `deck` of a changed *.envelope.json as the envelope
+    # itself declares it, plus (scan only) the 1-based line carrying the
+    # field. raw_decode, not json.load: a record may be a document stream
+    # (decision 0011-json-document-stream); the deck lives in doc 1.
+    if not name.endswith(".envelope.json"):
+        return None, None
+    try:
+        with open(name, encoding="utf-8") as fh:
+            text = fh.read()
+        deck = json.JSONDecoder().raw_decode(text)[0].get("deck")
+        if scan and isinstance(deck, str):
+            for i, line in enumerate(text.split("\n"), 1):
+                if line.strip().startswith('"deck"'):
+                    return deck, i
+        return deck, None
+    except Exception:
+        return None, None
+
+if report.get("schema_version") != 1:
+    refuse(f"report schema_version {report.get('schema_version')!r} is not 1")
+residual = []
+excepted = 0
+for f in report.get("files", []):
+    name, _ = remap(f.get("file", ""), 0)
+    deck, deck_line = deck_declared(name)
+    for x in f.get(items, []):
+        if scan:
+            match = x.get("match", "")
+            _, real_line = remap(f.get("file", ""), x.get("line"))
+            is_deck = (isinstance(deck, str) and deck_line is not None
+                       and real_line == deck_line
+                       and match.startswith(deck) and match.rstrip('",') == deck)
+            entry = (name, x.get("kind"), real_line, match)
+        else:
+            is_deck = (isinstance(deck, str) and x.get("field") == "deck"
+                       and x.get("match") == deck)
+            entry = (name, x.get("field"), x.get("match"))
+        if is_deck:
+            excepted += 1
+        else:
+            residual.append(entry)
+total = report.get(total_key)
+if total != excepted + len(residual):
+    refuse(f"report accounting mismatch: klt reported {total!r} {noun}(s), "
+           f"the filter classified {excepted + len(residual)}")
+if residual:
+    for e in residual:
+        if scan:
+            print(f"  {e[0]}:{e[2]} :: {e[1]} = {e[3]}", file=sys.stderr)
+        else:
+            print(f"  {e[0]} :: {e[1]} = {e[2]}", file=sys.stderr)
+    print(f"{kind}: {len(residual)} {noun}(s) remain after the decision-0012 "
+          f"deck exception ({excepted} excepted {unit}(s))", file=sys.stderr)
+    sys.exit(3)
+print(f"{kind}: only the decision-0012 deck exception applied "
+      f"({excepted} excepted {unit}(s)); nothing else")
+PY
+}
+
 VALIDATE_ONLY=0
 CHANGED=0
 BASE_SHA=""
 case "${1:-}" in
     "") ;;
-    --list) LIST_ONLY=1 ;;
     --validate) VALIDATE_ONLY=1 ;;
     --changed)
         CHANGED=1
@@ -221,7 +311,7 @@ case "${1:-}" in
         BASE_SHA="${3-}"
         [ -n "$BASE_SHA" ] || { echo "usage: $0 --changed --base <commit> (--base needs a commit)" >&2; exit 2; }
         ;;
-    *) echo "usage: $0 [--list | --validate | --changed --base <commit>]" >&2; exit 2 ;;
+    *) echo "usage: $0 [--validate | --changed --base <commit>]" >&2; exit 2 ;;
 esac
 
 mapfile -t records < <(record_set)
@@ -229,14 +319,9 @@ if [ "${#records[@]}" -eq 0 ]; then
     fail "the tracked JSON record set is empty -- the gate cannot run and must not look like it passed"
 fi
 
-if [ "$LIST_ONLY" -eq 1 ]; then
-    printf '%s\n' "${records[@]}"
-    exit 0
-fi
+command -v python3 >/dev/null 2>&1 || fail "python3 not found on PATH -- cannot run the per-document validity walk, the stream splitter or the decision-0012 deck-exception filter; a gate that cannot run must not look like one that passed"
 
-command -v python3 >/dev/null 2>&1 || fail "python3 not found on PATH -- cannot run the per-document validity walk, the stream splitter or the decision-0012 deck-exception filters; a gate that cannot run must not look like one that passed"
-
-# --- the per-document walk (every mode past --list) ---
+# --- the per-document walk (every mode) ---
 
 walk_rc=0
 counts="$(printf '%s\n' "${records[@]}" | validate_stream)" || walk_rc=$?
@@ -285,7 +370,7 @@ if [ "$CHANGED" -eq 1 ]; then
     # Partition the changed records by document count (the walk above already
     # counted every tracked record). Multi-document streams are split into
     # per-document temp files so klt sees every document (see STREAM
-    # COVERAGE); the filters remap diagnostics back to the real path/line.
+    # COVERAGE); the filter remaps diagnostics back to the real path/line.
     single_doc=()
     multi_doc=()
     for r in "${changed_records[@]}"; do
@@ -331,58 +416,7 @@ if [ "$CHANGED" -eq 1 ]; then
             # A finding survives unless it is exactly the top-level `deck`
             # field of a changed *.envelope.json whose value is the deck path
             # that envelope itself declares.
-            if ! python3 - "$lint_report" "$mapping" <<'PY'
-import json, sys
-
-report = json.load(open(sys.argv[1], encoding="utf-8"))
-mapping = json.load(open(sys.argv[2], encoding="utf-8"))
-def remap(name, line):
-    m = mapping.get(name)
-    if m is None:
-        return name, line
-    return m["path"], line
-if report.get("schema_version") != 1:
-    print(f"lint-envelope: report schema_version {report.get('schema_version')!r} "
-          f"is not 1 -- the report schema is not what this filter expects; "
-          f"refusing to pass", file=sys.stderr)
-    sys.exit(3)
-residual = []
-excepted = 0
-for f in report.get("files", []):
-    name, _ = remap(f.get("file", ""), 0)
-    deck = None
-    if name.endswith(".envelope.json"):
-        try:
-            with open(name, encoding="utf-8") as fh:
-                text = fh.read()
-            # raw_decode, not json.load: a record may be a document stream
-            # (decision 0011-json-document-stream); the deck lives in doc 1.
-            deck = json.JSONDecoder().raw_decode(text)[0].get("deck")
-        except Exception:
-            deck = None
-    for x in f.get("findings", []):
-        if (name.endswith(".envelope.json") and isinstance(deck, str)
-                and x.get("field") == "deck" and x.get("match") == deck):
-            excepted += 1
-            continue
-        residual.append((name, x.get("field"), x.get("match")))
-total = report.get("finding_count")
-if total != excepted + len(residual):
-    print(f"lint-envelope: report accounting mismatch: klt reported {total!r} "
-          f"finding(s), the filter classified {excepted + len(residual)} -- the "
-          f"report schema is not what this filter expects; refusing to pass",
-          file=sys.stderr)
-    sys.exit(3)
-if residual:
-    for name, field, match in residual:
-        print(f"  {name} :: {field} = {match}", file=sys.stderr)
-    print(f"lint-envelope: {len(residual)} finding(s) remain after the "
-          f"decision-0012 deck exception ({excepted} excepted)", file=sys.stderr)
-    sys.exit(3)
-print(f"lint-envelope: only the decision-0012 deck exception applied "
-      f"({excepted} excepted deck field(s)); nothing else")
-PY
-            then
+            if ! filter_deck_exception lint-envelope "$lint_report" "$mapping"; then
                 fail "a record added or changed by this range carries an absolute host path (findings above). The frozen history of decision 0012 (spec/decisions/0012-record-path-hygiene-gate.md) is not reopened by this gate: write repo-relative references or a content hash, and cite a deck by provenance.deck.content_hash, never by path"
             fi
             ;;
@@ -401,69 +435,9 @@ PY
     case "$scan_rc" in
         0) echo "records-json: scan: ${#changed_records[@]} changed record(s) name no home directory" ;;
         3)
-            if ! python3 - "$scan_report" "$mapping" <<'PY'
-import json, sys
-
-report = json.load(open(sys.argv[1], encoding="utf-8"))
-mapping = json.load(open(sys.argv[2], encoding="utf-8"))
-def remap(name, line):
-    m = mapping.get(name)
-    if m is None or not isinstance(line, int):
-        return name, line
-    return m["path"], m["offset"] + line - 1
-if report.get("schema_version") != 1:
-    print(f"scan: report schema_version {report.get('schema_version')!r} "
-          f"is not 1 -- the report schema is not what this filter expects; "
-          f"refusing to pass", file=sys.stderr)
-    sys.exit(3)
-residual = []
-excepted = 0
-for f in report.get("files", []):
-    name, _ = remap(f.get("file", ""), 0)
-    deck = None
-    deck_line = None
-    if name.endswith(".envelope.json"):
-        try:
-            with open(name, encoding="utf-8") as fh:
-                text = fh.read()
-            # raw_decode, not json.load: a record may be a document stream
-            # (decision 0011-json-document-stream); the deck lives in doc 1.
-            deck = json.JSONDecoder().raw_decode(text)[0].get("deck")
-            if isinstance(deck, str):
-                for i, line in enumerate(text.split("\n"), 1):
-                    if line.strip().startswith('"deck"'):
-                        deck_line = i
-                        break
-        except Exception:
-            deck = None
-            deck_line = None
-    for x in f.get("leaks", []):
-        match = x.get("match", "")
-        _, real_line = remap(f.get("file", ""), x.get("line"))
-        if (name.endswith(".envelope.json") and isinstance(deck, str)
-                and deck_line is not None
-                and real_line == deck_line
-                and match.startswith(deck) and match.rstrip('",') == deck):
-            excepted += 1
-            continue
-        residual.append((name, x.get("kind"), real_line, match))
-total = report.get("leak_count")
-if total != excepted + len(residual):
-    print(f"scan: report accounting mismatch: klt reported {total!r} "
-          f"leak(s), the filter classified {excepted + len(residual)} -- the "
-          f"report schema is not what this filter expects; refusing to pass",
-          file=sys.stderr)
-    sys.exit(3)
-if residual:
-    for name, kind, line, match in residual:
-        print(f"  {name}:{line} :: {kind} = {match}", file=sys.stderr)
-    print(f"scan: {len(residual)} leak(s) remain after the decision-0012 "
-          f"deck exception ({excepted} excepted deck line(s))", file=sys.stderr)
-    sys.exit(3)
-print(f"scan: only the decision-0012 deck exception applied "
-      f"({excepted} excepted deck line(s)); nothing else")
-PY
-            then
+            # Post-filter the decision-0012 deck exception for the scan leg
+            # (line-matched -- see above), then judge the residual.
+            if ! filter_deck_exception scan "$scan_report" "$mapping"; then
                 fail "a record added or changed by this range carries a home-directory path (leaks above). Decision 0012 (spec/decisions/0012-record-path-hygiene-gate.md) gates new records on scan: a run record cites a deck by provenance.deck.content_hash, never by path"
             fi
             ;;

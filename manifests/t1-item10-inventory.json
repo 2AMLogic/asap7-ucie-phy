@@ -60,6 +60,10 @@
     {
       "name": "netdiff-pairing-self-test",
       "argv": ["python3", "-I", "evidence/item4-lvs/slice_routed.r13.netdiff.selftest.py"]
+    },
+    {
+      "name": "netdiff-r18-census-self-test",
+      "argv": ["python3", "-I", "evidence/item4-lvs/slice_routed.r18.netdiff.selftest.py"]
     }
   ]
 }
