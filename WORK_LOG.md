@@ -3,6 +3,40 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-23
+
+- **PR #310**: synth: exclude klt's 17 KNOWN_UNSUPPORTED_ASAP7_CELLS masters and clear the AOI21x1 LVS fold at the source
+- **PR #303**: docs(erc): disclose declared label layers with no text per stream
+- **PR #302**: docs(sim): describe envelope report paths as repo-relative members
+- **PR #299**: refactor: source the tool-pin guard from one shared verification helper
+- **PR #298**: feat(sim): measure proposed data-cell rows a1-a5 at the 0013 PVT tuples; record a6 as refused at the pin
+- **PR #296**: verification: exercise the r18 census production helpers in the selftest
+- **PR #285**: verification: add klt erc supply spec and reports for the drawn cells and lane column
+- **PR #281**: docs(spec): propose cell-level analog spec rows for the drawn cells (decision 0013)
+- **Issue #301** (closed): ERC record: disclose the declared label layers that carry no text in each stream
+- **Issue #300** (closed): sim/README.md still describes the rows batch-set envelope report paths as client-local scratch
+- **Issue #295** (closed): Unify the tool-pin check helpers duplicated across three verification scripts
+- **Issue #294** (closed): Replace self-testing law_of() and constant-sum theater in slice_routed.r18.netdiff.selftest.py with real production-helper tests
+- **Issue #290** (closed): layout: decide on the r11 gate-eligible place-and-route settings (utilization 45, core margin 0.95): adopt through the r8 chain or decline
+- **Issue #287** (closed): LVS (digital) residual: the pinned library's AOI21x1 series-stack fold carries all 186 unmerged-finger errors and the +372-device surplus
+- **Issue #278** (closed): Measure the proposed TX and RX data-cell rows and probe statistical yield at the pin
+- **Issue #277** (closed): Draft the four-cell analog row definitions and verify the effect on digital item 6
+- **Issue #275** (closed): T1 item 11: commit the klt erc supply spec and report for the drawn cells and the lane column now (the ERC half of #27 does not wait on LVS)
+
+### 2026-11-22
+
+- **PR #293**: verification: unify the duplicated deck-exception post-filters, drop the dead --list mode
+- **PR #291**: drc: record r11 - in-flow P&R lever sweep and the M1.S.* / M5.W.3 attributions (via landing pad, deck W.3 edge pairing)
+- **PR #288**: Attribute the routed-slice LVS residue: r18 census, tap-gap attribution (klayout-tools#7182), failing r19 of record
+- **Issue #292** (closed): Simplify verification/check-records-json.sh: unify duplicated deck-exception filters and drop dead --list mode
+- **Issue #273** (closed): LVS (digital): attribute the r17 routed-slice residue after the grid restore and tie the supply/well domain stream-side (child of #20)
+- **Issue #272** (closed): layout: clear the four remaining DRC families on the lane column (successor to #228, for #19): r10 is 15,600 violations / 8 rules
+
+### 2026-11-21
+
+- **PR #284**: chore: ignore .loom/account-ranking.codex daemon runtime state
+- **Issue #283** (closed): gitignore: .loom/account-ranking.codex is untracked daemon runtime state (loom-managed block, fix is upstream)
+
 ### 2026-11-20
 
 - **PR #280**: docs: re-measure the klt 0.9.2 SDF-annotated refusal on the current routed slice
