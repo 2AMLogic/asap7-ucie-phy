@@ -868,7 +868,7 @@ Predictive-model tool results only. Earlier sections are left as written. Decisi
 ## Storing the next failing routed-slice LVS report (appended 2026-11-23, issue #136)
 
 Operator ruling 2026-11-23 (#136, decision
-[`0014-routed-lvs-report-storage.md`](decisions/0014-routed-lvs-report-storage.md)):
+[`0015-routed-lvs-report-storage.md`](decisions/0015-routed-lvs-report-storage.md)):
 every LVS report and attempt record already committed keeps its path and bytes
 (decision 0005); from now on a new failing flattened routed-slice compare is
 committed as a **derived summary** unless it is the report a block-manifest
@@ -885,4 +885,4 @@ and `provenance` — an empty `mismatches` list still reads as a failure, and th
 `mismatches_omitted` marker discloses the omission — and the attempt record
 names the file as a derived summary, not a `klt lvs` output. Commit the full
 native output only when the block manifest will pin it by content hash; decide
-that at recording time. r19 is that report of record today and stays full.
+that at recording time. r20 is that report of record today and stays full.

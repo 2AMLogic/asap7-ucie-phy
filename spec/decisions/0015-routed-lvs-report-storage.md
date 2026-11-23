@@ -1,4 +1,4 @@
-# 0014: how a future failing routed-slice LVS report is stored
+# 0015: how a future failing routed-slice LVS report is stored
 
 Status: accepted. Date: 2026-11-23. Issue: #136. Directed by: operator ruling
 2026-11-23 (@rjwalters, attended `/fleet:decide` round 20261121-r19, q213,
