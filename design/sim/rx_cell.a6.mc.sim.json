@@ -1,0 +1,105 @@
+{
+  "netlist": "rx_cell.rows.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "tt"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.7
+      ]
+    },
+    "temperature_c": [
+      25
+    ]
+  },
+  "stimulus": {
+    "signals": [
+      {
+        "source": "Vpad",
+        "node": "pad",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 2e-11,
+        "fall_s": 2e-11,
+        "events": []
+      },
+      {
+        "source": "Vph0",
+        "node": "ph0",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 1
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": []
+      },
+      {
+        "source": "Vph1",
+        "node": "ph1",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": []
+      },
+      {
+        "source": "Vph2",
+        "node": "ph2",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": []
+      },
+      {
+        "source": "Vph3",
+        "node": "ph3",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": []
+      }
+    ]
+  },
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Vpad 0 0.7 0.001"
+  },
+  "measurements": [
+    {
+      "name": "a6_cross",
+      "spice": ".meas dc a6_cross when v(rxa0)=0.35 rise=1",
+      "unit": "V",
+      "limits": null,
+      "spec_row": "a6-rx-sampler-offset-sigma"
+    }
+  ],
+  "monte_carlo": {
+    "n": 100,
+    "seed": 20261123,
+    "vary": "mismatch",
+    "mismatch_scale": 1.0
+  }
+}

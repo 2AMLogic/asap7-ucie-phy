@@ -1,0 +1,118 @@
+{
+  "samples": "sim/rx_cell.a6.yield-probe.samples.json",
+  "limits": null,
+  "source": {
+    "kind": "sample-set",
+    "netlist": null,
+    "monte_carlo": null,
+    "provenance": null,
+    "sample_count": 20,
+    "native": {
+      "module": "klt_yield_native",
+      "version": "0.1.0"
+    }
+  },
+  "schema_version": 1,
+  "confidence": 0.95,
+  "target_ci_halfwidth": 0.01,
+  "min_samples": 2,
+  "status": "reported",
+  "measurement_count": 1,
+  "measurements": [
+    {
+      "name": "a6-rx-sampler-offset-sigma",
+      "unit": null,
+      "n": 20,
+      "errored": 0,
+      "failed_unmeasurable": 0,
+      "censored": 0,
+      "inconclusive": 0,
+      "limits": {
+        "min": -0.07,
+        "max": 0.07
+      },
+      "source_corners": [],
+      "distribution": {
+        "model": "normal",
+        "mean": 0.0035000000000000005,
+        "stddev": 0.04141255848169731,
+        "min": -0.063,
+        "max": 0.07,
+        "median": 0.0035,
+        "skewness": -2.885138906680652e-16,
+        "excess_kurtosis": -1.2060150375939842,
+        "normality": {
+          "test": "anderson-darling",
+          "statistic": 0.23025716107773717,
+          "critical_value": 0.787,
+          "significance": 0.05,
+          "verdict": "consistent"
+        }
+      },
+      "yield": {
+        "empirical": {
+          "method": "clopper-pearson",
+          "estimate": 1.0,
+          "confidence": 0.95,
+          "confidence_interval": {
+            "low": 0.8315665290169147,
+            "high": 1.0
+          },
+          "n": 20
+        },
+        "normal": {
+          "method": "normal-delta",
+          "estimate": 0.9078768281437192,
+          "confidence": 0.95,
+          "confidence_interval": {
+            "low": 0.8070539436912703,
+            "high": 1.0
+          },
+          "n": 20
+        },
+        "variance_reduced": null
+      },
+      "capability": {
+        "cp": 0.5634361698190111,
+        "cpk": 0.5352643613280605,
+        "cpk_confidence_interval": {
+          "low": 0.31097700571022346,
+          "high": 0.7595517169458976
+        },
+        "sigma_to_spec": 1.6057930839841816,
+        "sigma_to_spec_confidence_interval": {
+          "low": 0.9329310171306704,
+          "high": 2.278655150837693
+        },
+        "limiting_side": "upper"
+      },
+      "sample_size": {
+        "n": 20,
+        "observed_ci_halfwidth": 0.08421673549154263,
+        "target_ci_halfwidth": 0.01,
+        "required_n": 183,
+        "required_n_for_target": null,
+        "verdict": "insufficient",
+        "method": "clopper-pearson-zero-failures",
+        "variance_reduced": null
+      },
+      "negative_control": null,
+      "analytic_cross_check": null,
+      "sampling": {
+        "strategy": "plain_random",
+        "replicates": null,
+        "effective_sample_size": null
+      },
+      "status": "reported",
+      "warnings": [
+        "measurement 'a6-rx-sampler-offset-sigma': no sample fell outside the limits, so the empirical yield is bounded only from below -- \"at least 83.1567% at 95% confidence, N = 20\" is the honest statement, not \"100% yield\"",
+        "measurement 'a6-rx-sampler-offset-sigma': N = 20 resolves the yield only to +/-0.0842 at 95% confidence; 183 samples are needed for the requested +/-0.01"
+      ],
+      "spec_row": null
+    }
+  ],
+  "warnings": [
+    "no measurement declared a target_yield, so no yield claim was checked -- the estimates below are reported, never failed",
+    "no measurement declared a negative_control -- this campaign has no seeded, known-bad variant demonstrating that the statistics above can actually detect a degraded design; see docs/cli/yield.md#negative-control"
+  ]
+}
