@@ -7,12 +7,12 @@
   },
   "evidence": {
     "1.analog": {
-      "file": "evidence/item1.r12.json",
-      "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31"
+      "file": "evidence/item1.r13.json",
+      "content_hash": "sha256:2f2a7fa94388aafba8a285d23e71fe7998975039a6325852569fb73e40783bc4"
     },
     "1.digital": {
-      "file": "evidence/item1.r12.json",
-      "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31"
+      "file": "evidence/item1.r13.json",
+      "content_hash": "sha256:2f2a7fa94388aafba8a285d23e71fe7998975039a6325852569fb73e40783bc4"
     },
     "6.digital": {
       "not_applicable": {
@@ -36,7 +36,7 @@
     },
     "8": {
       "file": "manifests/evidence/item8.json",
-      "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94"
+      "content_hash": "sha256:50bed25af3beab31592e65b1c53b1ac719853d464125349879931712d1edf270"
     },
     "5.digital": [
       {
@@ -51,17 +51,17 @@
       }
     ],
     "2.analog": {
-      "file": "evidence/item2.r11.json",
-      "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45"
+      "file": "evidence/item2.r12.json",
+      "content_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019"
     },
     "2.digital": {
-      "file": "evidence/item2.r11.json",
-      "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45"
+      "file": "evidence/item2.r12.json",
+      "content_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019"
     },
     "4.analog": [
       {
-        "file": "evidence/item4-lvs/tx_cell.r2.report.json",
-        "content_hash": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871"
+        "file": "evidence/item4-lvs/tx_cell.r3.report.json",
+        "content_hash": "sha256:ef4da489c7d9593fa31899b825553c95c5dda6fc8ab09adf61e9c98afdb7459d"
       },
       {
         "file": "evidence/item4-lvs/rx_cell.r2.report.json",

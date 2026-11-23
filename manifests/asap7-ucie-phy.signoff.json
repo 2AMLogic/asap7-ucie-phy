@@ -35,17 +35,17 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.r12.json",
+        "file": "evidence/item1.r13.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+        "content_hash": "sha256:2f2a7fa94388aafba8a285d23e71fe7998975039a6325852569fb73e40783bc4",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": null,
-          "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+          "content_hash": "sha256:2f2a7fa94388aafba8a285d23e71fe7998975039a6325852569fb73e40783bc4",
           "input_verified": true,
           "members": [
             {
@@ -61,7 +61,7 @@
                 "path": "design/gen_cells.py",
                 "scope": "repo"
               },
-              "content_hash": "sha256:18d1c0b64a1c28e088d5beaef90e1643f070f7efe6ef869d33dbc04531f083ce",
+              "content_hash": "sha256:6951ee93a41a024348f0d994f62757d0dfb3ebd159fccf033a892729b311dcda",
               "status": "verified"
             },
             {
@@ -101,7 +101,7 @@
                 "path": "design/netlist/tx_cell.sp",
                 "scope": "repo"
               },
-              "content_hash": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792",
+              "content_hash": "sha256:5f2c92dfe2e2a3bf82281505b05d60f235130f592c621c73d37b09ade35e40eb",
               "status": "verified"
             },
             {
@@ -125,7 +125,7 @@
                 "path": "design/sim/tx_cell.osdi.sp",
                 "scope": "repo"
               },
-              "content_hash": "sha256:0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e",
+              "content_hash": "sha256:eb1961d5751ccec5061b9a2fb41dbfc91a33b8409e8dfeb74ec5966ed957e2a1",
               "status": "verified"
             },
             {
@@ -200,17 +200,17 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.r12.json",
+        "file": "evidence/item1.r13.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+        "content_hash": "sha256:2f2a7fa94388aafba8a285d23e71fe7998975039a6325852569fb73e40783bc4",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": null,
-          "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+          "content_hash": "sha256:2f2a7fa94388aafba8a285d23e71fe7998975039a6325852569fb73e40783bc4",
           "input_verified": true,
           "members": [
             {
@@ -226,7 +226,7 @@
                 "path": "design/gen_cells.py",
                 "scope": "repo"
               },
-              "content_hash": "sha256:18d1c0b64a1c28e088d5beaef90e1643f070f7efe6ef869d33dbc04531f083ce",
+              "content_hash": "sha256:6951ee93a41a024348f0d994f62757d0dfb3ebd159fccf033a892729b311dcda",
               "status": "verified"
             },
             {
@@ -266,7 +266,7 @@
                 "path": "design/netlist/tx_cell.sp",
                 "scope": "repo"
               },
-              "content_hash": "sha256:00496619f09cd7c6b28ac0353196f22c7e8545ea1f55927eeed79cdac6157792",
+              "content_hash": "sha256:5f2c92dfe2e2a3bf82281505b05d60f235130f592c621c73d37b09ade35e40eb",
               "status": "verified"
             },
             {
@@ -290,7 +290,7 @@
                 "path": "design/sim/tx_cell.osdi.sp",
                 "scope": "repo"
               },
-              "content_hash": "sha256:0b50e9b8c314a651d616921d07cd4d3d8ec06db4df7e461859c916933e70d24e",
+              "content_hash": "sha256:eb1961d5751ccec5061b9a2fb41dbfc91a33b8409e8dfeb74ec5966ed957e2a1",
               "status": "verified"
             },
             {
@@ -365,11 +365,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r11.json",
+        "file": "evidence/item2.r12.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+        "content_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -378,7 +378,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+          "content_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -390,7 +390,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+            "regenerated_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
             "executed_by_klt": false
           }
         }
@@ -408,11 +408,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r11.json",
+        "file": "evidence/item2.r12.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+        "content_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -421,7 +421,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+          "content_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -433,7 +433,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+            "regenerated_hash": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
             "executed_by_klt": false
           }
         }
@@ -477,17 +477,17 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item4-lvs/tx_cell.r2.report.json",
+        "file": "evidence/item4-lvs/tx_cell.r3.report.json",
         "command": null,
         "kind": "lvs",
         "check_status": "match",
-        "content_hash": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871",
+        "content_hash": "sha256:ef4da489c7d9593fa31899b825553c95c5dda6fc8ab09adf61e9c98afdb7459d",
         "input_verified": true,
         "exit_status": 0
       },
       "citations_graded": [
         {
-          "citation": "evidence/item4-lvs/tx_cell.r2.report.json",
+          "citation": "evidence/item4-lvs/tx_cell.r3.report.json",
           "status": "met",
           "reason": null
         },
@@ -509,11 +509,11 @@
       ],
       "citations": [
         {
-          "file": "evidence/item4-lvs/tx_cell.r2.report.json",
+          "file": "evidence/item4-lvs/tx_cell.r3.report.json",
           "command": null,
           "kind": "lvs",
           "check_status": "match",
-          "content_hash": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871",
+          "content_hash": "sha256:ef4da489c7d9593fa31899b825553c95c5dda6fc8ab09adf61e9c98afdb7459d",
           "input_verified": true,
           "exit_status": 0
         },
@@ -849,7 +849,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94",
+        "content_hash": "sha256:50bed25af3beab31592e65b1c53b1ac719853d464125349879931712d1edf270",
         "input_verified": true,
         "exit_status": 0,
         "attestation": {
@@ -876,7 +876,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94",
+        "content_hash": "sha256:50bed25af3beab31592e65b1c53b1ac719853d464125349879931712d1edf270",
         "input_verified": true,
         "exit_status": 0,
         "attestation": {

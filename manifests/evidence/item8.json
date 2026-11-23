@@ -22,16 +22,16 @@
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item1.r12.json",
+        "path": "evidence/item1.r13.json",
         "passed": true,
-        "content_hash": "sha256:472e62d885c42d5f71151c392bae30e252ec18ad433bf53012392c123ee86bec"
+        "content_hash": "sha256:afb207a823604794589c379fd0302ebecf8b35cdc962e6bbac9fe18735855ab4"
       },
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item2.r11.json",
+        "path": "evidence/item2.r12.json",
         "passed": true,
-        "content_hash": "sha256:9d28c5e5aa4b73f20ec8fb1d9edcd02e5e62110eac248ac23a723205be97aeab"
+        "content_hash": "sha256:d6739d33e9a93baa04949f78b40f1296276bcc2f0657f8a87353811472cb88a2"
       },
       {
         "check": "present",
@@ -43,9 +43,9 @@
       {
         "check": "present",
         "role": "evidence",
-        "path": "evidence/item4-lvs/tx_cell.r2.report.json",
+        "path": "evidence/item4-lvs/tx_cell.r3.report.json",
         "passed": true,
-        "content_hash": "sha256:b84d4c20f0c23761a449d7af4b56156e5d00c12d93539a738432765779ad706e"
+        "content_hash": "sha256:ec7a60632a552542f39c89c5e776224931781a1c62d16835be86c4c5aef24530"
       },
       {
         "check": "present",
@@ -73,8 +73,8 @@
         "role": "spec_row",
         "row": "s1-clock-lanes",
         "envelopes": [
-          "evidence/item1.r12.json",
-          "evidence/item2.r11.json"
+          "evidence/item1.r13.json",
+          "evidence/item2.r12.json"
         ],
         "passed": true
       },
@@ -83,8 +83,8 @@
         "role": "spec_row",
         "row": "s1-data-lanes",
         "envelopes": [
-          "evidence/item1.r12.json",
-          "evidence/item2.r11.json"
+          "evidence/item1.r13.json",
+          "evidence/item2.r12.json"
         ],
         "passed": true
       },
@@ -93,8 +93,8 @@
         "role": "spec_row",
         "row": "s1-spare-lanes",
         "envelopes": [
-          "evidence/item1.r12.json",
-          "evidence/item2.r11.json"
+          "evidence/item1.r13.json",
+          "evidence/item2.r12.json"
         ],
         "passed": true
       },
@@ -121,7 +121,7 @@
         "role": "spec_row",
         "row": "s2-serialization-ratio",
         "envelopes": [
-          "evidence/item1.r12.json",
+          "evidence/item1.r13.json",
           "sta/slice.sta.r8.report.json"
         ],
         "passed": true
@@ -131,7 +131,7 @@
         "role": "spec_row",
         "row": "s3-bump-assignment",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -141,7 +141,7 @@
         "role": "spec_row",
         "row": "s3-bump-pitch",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -151,7 +151,7 @@
         "role": "spec_row",
         "row": "s3-bump-representation",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -161,7 +161,7 @@
         "role": "spec_row",
         "row": "s3-bumps-per-lane",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -171,7 +171,7 @@
         "role": "spec_row",
         "row": "s4-area-budget",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pnr/slice.pnr.report.json"
         ],
         "passed": true
@@ -181,7 +181,7 @@
         "role": "spec_row",
         "row": "s4-cell-height",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -191,7 +191,7 @@
         "role": "spec_row",
         "row": "s4-cell-width",
         "envelopes": [
-          "evidence/item2.r11.json",
+          "evidence/item2.r12.json",
           "layout/pad_check_record.json"
         ],
         "passed": true
@@ -201,9 +201,9 @@
         "role": "spec_row",
         "row": "s4-drawn-cells",
         "envelopes": [
-          "evidence/item1.r12.json",
-          "evidence/item2.r11.json",
-          "evidence/item4-lvs/tx_cell.r2.report.json"
+          "evidence/item1.r13.json",
+          "evidence/item2.r12.json",
+          "evidence/item4-lvs/tx_cell.r3.report.json"
         ],
         "passed": true
       },
@@ -212,9 +212,9 @@
         "role": "spec_row",
         "row": "s4-serializer-boundary",
         "envelopes": [
-          "evidence/item1.r12.json",
+          "evidence/item1.r13.json",
           "evidence/item4-lvs/slice_routed.r19.report.json",
-          "evidence/item4-lvs/tx_cell.r2.report.json",
+          "evidence/item4-lvs/tx_cell.r3.report.json",
           "sta/slice.sta.r8.report.json"
         ],
         "passed": true
@@ -233,7 +233,7 @@
         "role": "spec_row",
         "row": "s7-drc-clean",
         "envelopes": [
-          "evidence/item2.r11.json"
+          "evidence/item2.r12.json"
         ],
         "passed": true
       },
@@ -243,7 +243,7 @@
         "row": "s7-lvs",
         "envelopes": [
           "evidence/item4-lvs/slice_routed.r19.report.json",
-          "evidence/item4-lvs/tx_cell.r2.report.json"
+          "evidence/item4-lvs/tx_cell.r3.report.json"
         ],
         "passed": true
       },
@@ -260,7 +260,7 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item1.r12.json",
+        "target": "evidence/item1.r13.json",
         "argv": [
           "klt",
           "signoff",
@@ -269,7 +269,7 @@
           "--inventory",
           "attest/item1.r9.json",
           "--check",
-          "evidence/item1.r12.json"
+          "evidence/item1.r13.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -278,7 +278,7 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item2.r11.json",
+        "target": "evidence/item2.r12.json",
         "argv": [
           "klt",
           "signoff",
@@ -289,9 +289,9 @@
           "--generator",
           "python3 layout/assemble_column.py",
           "--regenerated-hash",
-          "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+          "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019",
           "--check",
-          "evidence/item2.r11.json"
+          "evidence/item2.r12.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -314,12 +314,12 @@
       {
         "check": "command",
         "role": "freshness",
-        "target": "evidence/item4-lvs/tx_cell.r2.report.json",
+        "target": "evidence/item4-lvs/tx_cell.r3.report.json",
         "argv": [
           "klt",
           "lvs",
           "--check",
-          "evidence/item4-lvs/tx_cell.r2.report.json"
+          "evidence/item4-lvs/tx_cell.r3.report.json"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -468,7 +468,7 @@
         "path": "manifests/attest/item8.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94"
+      "content_hash": "sha256:50bed25af3beab31592e65b1c53b1ac719853d464125349879931712d1edf270"
     }
   }
 }

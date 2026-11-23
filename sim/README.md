@@ -48,6 +48,21 @@ per-request `report` field is the repo-relative path of that committed member re
 submitting client's scratch directory (2AMLogic/klayout-tools#7381), so the committed envelopes
 carry repo-relative paths rather than the value klt writes as-run.
 
+**tx_cell rows a1-a3, record of record now r2 (issue #297).** The stage-1 select path of
+`tx_cell` was upsized (sel1b inverter nfin 3 -> 12, stage-1 mux transmission gates nfin 3 -> 5 in
+`design/gen_cells.py`) to close the a3 miss at SS, so the three tx_cell member reports and the
+envelope were re-taken append-only as `tx_cell.rows.r2.<tuple>.batch.report.json` and
+`tx_cell.rows.r2.batch.report.json` (the originals above stay as the pre-change baseline, unedited);
+the rx_cell reports are unchanged. A single-corner probe at SS attributed the miss before the
+change: of the 34.69 ps worst path, sel1 -> sel1b was 6.8 ps, the sa settle past sel1b 3.0 ps and
+the driver chain 22.0 ps — and upsizing the driver was measured to gain nothing net (its input
+load cancels its strength), so the select front end is where the fix landed. After the change every
+one of the 48 a3 measurements improves; the two former misses land at 30.41 / 30.84 ps against the
+31.25 ps target. The environment lines below hold for the r2 reports too, with one addition the
+originals do not carry: `client_ngspice_binary` (the submitting worker's ngspice, `/usr/bin/ngspice`
+on the r2 submit host; the engine that produced the measurements is the fleet runner's ngspice 47
+either way).
+
 Environment (identical across all six member reports): engine ngspice 47, client klt 0.9.2
 (`.github/klt-version` pin), runner klt 0.9.0 (batch fleet), model library
 `design/sim/asap7_bsimcmg.lib` sha256 `c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280`
@@ -64,15 +79,15 @@ budget, "fallback" the 4 GT/s budget (0013 § budget trace).
 
 | Row | Tuple | Worst value | Proposed bound | Target | Fallback | Report / job |
 |---|---|---|---|---|---|---|
-| `a1-tx-pad-levels` | TT | hi 0.700 V / lo 0.11 µV | hi ≥ 0.63, lo ≤ 0.07 | pass | pass | `tx_cell.rows.tt.batch.report.json` / `klt-sim-5c8fb30de0ff` |
-| | SS | hi 0.630 V / lo 3.7 µV | hi ≥ 0.567, lo ≤ 0.063 | pass | pass | `tx_cell.rows.ss.batch.report.json` / `klt-sim-2a9d6fbe11f7` |
-| | FF | hi 0.770 V / lo 26 nV | hi ≥ 0.693, lo ≤ 0.077 | pass | pass | `tx_cell.rows.ff.batch.report.json` / `klt-sim-4ccacb054145` |
+| `a1-tx-pad-levels` | TT | hi 0.700 V / lo 0.11 µV | hi ≥ 0.63, lo ≤ 0.07 | pass | pass | `tx_cell.rows.r2.tt.batch.report.json` / `klt-sim-1f03ddcae754` |
+| | SS | hi 0.630 V / lo 3.7 µV | hi ≥ 0.567, lo ≤ 0.063 | pass | pass | `tx_cell.rows.r2.ss.batch.report.json` / `klt-sim-8ae6f5ad9760` |
+| | FF | hi 0.770 V / lo 0.03 µV | hi ≥ 0.693, lo ≤ 0.077 | pass | pass | `tx_cell.rows.r2.ff.batch.report.json` / `klt-sim-b32537c3449e` |
 | `a2-tx-pad-transition` | TT | 4.14 ps (s1 rise) | ≤ 15.625 ps / 62.5 ps | pass | pass | as a1, per tuple |
-| | SS | 6.56 ps (s2 rise) | ≤ 15.625 ps / 62.5 ps | pass | pass | |
-| | FF | 2.93 ps (s1 rise) | ≤ 15.625 ps / 62.5 ps | pass | pass | |
-| `a3-tx-mux-to-pad-delay` | TT | 24.65 ps (`a3_s1f_pr`) | ≤ 31.25 ps / 125 ps | pass | pass | as a1, per tuple |
-| | SS | **34.69 ps (`a3_s1f_pr`)** | ≤ 31.25 ps / 125 ps | **fail** | pass | design iteration: #297 |
-| | FF | 19.12 ps (`a3_s1f_pr`) | ≤ 31.25 ps / 125 ps | pass | pass | |
+| | SS | 6.56 ps (s0 rise) | ≤ 15.625 ps / 62.5 ps | pass | pass | |
+| | FF | 2.94 ps (s3 rise) | ≤ 15.625 ps / 62.5 ps | pass | pass | |
+| `a3-tx-mux-to-pad-delay` | TT | 21.99 ps (`a3_s1f_pr`) | ≤ 31.25 ps / 125 ps | pass | pass | as a1, per tuple |
+| | SS | 30.84 ps (`a3_s1f_pr`) | ≤ 31.25 ps / 125 ps | pass | pass | select-path sizing: #297 |
+| | FF | 17.01 ps (`a3_s1f_pr`) | ≤ 31.25 ps / 125 ps | pass | pass | |
 | `a4-rx-sampler-levels` | TT | hi 0.69999 V / lo 0.21 µV | hi ≥ 0.63, lo ≤ 0.07 | pass | pass | `rx_cell.rows.tt.batch.report.json` / `klt-sim-4ebeb2c1b436` |
 | | SS | hi 0.62871 V / lo 31 µV | hi ≥ 0.567, lo ≤ 0.063 | pass | pass | `rx_cell.rows.ss.batch.report.json` / `klt-sim-4d9e4239612d` |
 | | FF | hi 0.77000 V / lo 35 nV | hi ≥ 0.693, lo ≤ 0.077 | pass | pass | `rx_cell.rows.ff.batch.report.json` / `klt-sim-dab12e22e18b` |
@@ -81,10 +96,12 @@ budget, "fallback" the 4 GT/s budget (0013 § budget trace).
 | | FF | 0.3760 V | 0.308-0.462 | pass | pass | |
 | `a6-rx-sampler-offset-sigma` | all | **not measurable at the pin** | 3σ ≤ 0.1·VDD | — | — | refusal recorded below |
 
-The single miss: **a3 at SS** — the two `sel1` select-step paths (`a3_s1r_pf` 34.08 ps,
-`a3_s1f_pr` 34.69 ps) exceed the 31.25 ps target and clear the 125 ps fallback; every data-input
-path at SS clears the target (worst 28.6 ps). Committed as measured; bounded design-iteration
-issue: #297. The bounds are unchanged from 0013.
+The former single miss, **a3 at SS**, is closed by #297: the two `sel1` select-step paths that
+exceeded the 31.25 ps target (`a3_s1r_pf` 34.08 ps, `a3_s1f_pr` 34.69 ps on the baseline reports)
+now measure 30.41 / 30.84 ps after the select-path sizing, and every other a3 measurement improved
+with them (the tightest passing baseline, `a3_s2r_pf` 31.06 ps, is 29.45 ps; the SS data-input
+worst is 26.9 ps). The pre-change baseline reports stay committed unedited as
+`tx_cell.rows.<tuple>.batch.report.json`. The bounds are unchanged from 0013.
 
 a5 is measured in the same request as a4 via `analysis_steps`: a transient step (the a4 sampler
 trials) then a `reset` DC-sweep step of `pad` (0 → VDD, 1 mV steps) reading the internal
