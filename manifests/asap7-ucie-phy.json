@@ -32,7 +32,7 @@
     },
     "9": {
       "file": "manifests/evidence/item9.r2.json",
-      "content_hash": "sha256:1c116d7b097a7583adf15e80c1d4ea9b089461c7547e919db0dd3b305e6cf6fb"
+      "content_hash": "sha256:ec00f89c0007c9a7dcf630beaf626a97146f459a737a1b0e7bf0a0095005e884"
     },
     "8": {
       "file": "manifests/evidence/item8.json",

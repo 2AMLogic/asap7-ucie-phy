@@ -5,6 +5,7 @@
   "description": "Testbenches shipped: the cocotb slice bench, the SDF-annotated post-route bench, and the pad-checker self-test, run from a cold start.",
   "testbenches": [
     "verification/run.sh",
+    "verification/tool-pins.sh",
     "verification/runner.py",
     "verification/test_slice.py",
     "verification/functional_verification_sdf.sh",
