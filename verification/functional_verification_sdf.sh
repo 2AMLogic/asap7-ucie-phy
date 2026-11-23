@@ -12,14 +12,11 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$HERE/.."
-PIN="$HERE/tool-versions.txt"
 KLT_PIN="$(cat "$ROOT/.github/klt-version")"
-pin() { sed -n "s/^$1=//p" "$PIN"; }
-die() { echo "functional_verification_sdf.sh: $*" >&2; exit 2; }
 ARCHIVE=""; [ "${1:-}" = "--pdk-archive" ] && ARCHIVE="${2:?--pdk-archive needs a path}"
 
-check() { [ "$2" = "$(pin "$1")" ] || die "$1 is '$2' but $PIN pins '$(pin "$1")'; not changing host tools."; }
-check iverilog "$(iverilog -V 2>/dev/null | head -1 | sed -n 's/.*version \([0-9.]*\).*/\1/p')"
+. "$HERE/tool-pins.sh"
+check_iverilog
 
 SCRATCH="$(mktemp -d)"; trap 'rm -rf "$SCRATCH"' EXIT
 python3 -I - "$ROOT" "$HERE/.sdf-models" "$ARCHIVE" "$SCRATCH" <<'PY'
