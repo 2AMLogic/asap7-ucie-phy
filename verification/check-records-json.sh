@@ -121,20 +121,45 @@ fail() {
     exit 1
 }
 
-# The per-document validity walk: reads the record set from stdin (one path
-# per line) and prints "path<TAB>document-count" per file. Fails -- exit 3,
-# this caller's own "invalid record" code -- on any file whose bytes are not
-# a clean document stream: zero bytes, whitespace only, or a parse error
-# before end of input are all invalid, and every failure names its file.
-# One copy of the rule, used by every mode.
-validate_stream() {
+# The per-document JSON stream walker: reads record paths from stdin (one
+# path per line) and decodes each file's original UTF-8 bytes without newline
+# translation. Fails -- exit 3, this caller's own "invalid record" code -- on
+# any file whose bytes are not a clean document stream: zero bytes, whitespace
+# only, invalid UTF-8, or a parse error before end of input are all invalid,
+# and every failure names its file.
+#
+# Two modes share the same whitespace scan and raw_decode boundaries:
+#   default        prints "path<TAB>document-count" per file (every gate mode).
+#   --split DIR    writes each document as an exact byte slice into
+#                  DIR/<flattened>.doc<N>.json, writes DIR/mapping.json
+#                  mapping each part path to {"path": <real record>,
+#                  "offset": <1-based line where the document starts in the
+#                  original>}, and prints one part path per line (--changed
+#                  mode; the deck-exception filter remaps klt diagnostics back
+#                  to the real record before judging them).
+# One copy of the walk, used by validate_stream and split_stream.
+walk_stream() {
     python3 -c '
-import json, sys
+import json, os, sys
+
+args = sys.argv[1:]
+split_dir = None
+if args:
+    if len(args) == 2 and args[0] == "--split" and args[1]:
+        split_dir = args[1]
+    else:
+        print("walk_stream: usage: walk_stream [--split DIR]", file=sys.stderr)
+        sys.exit(2)
+
 bad = 0
 dec = json.JSONDecoder()
 ws = " \t\n\r"
+split_work = []
+
 for path in (line.rstrip("\n") for line in sys.stdin if line.strip()):
-    count = 0
+    docs = []
+    text = None
+    ok = False
     try:
         with open(path, "rb") as fh:
             data = fh.read()
@@ -149,63 +174,51 @@ for path in (line.rstrip("\n") for line in sys.stdin if line.strip()):
                     idx += 1
                 if idx >= len(text):
                     break
+                start = idx
                 _, idx = dec.raw_decode(text, idx)
-                count += 1
-            if count == 0:
+                docs.append((start, idx))
+            if not docs:
                 print("not a valid JSON document stream (no document, whitespace only): %s" % path, file=sys.stderr)
                 bad += 1
+            else:
+                ok = True
     except (ValueError, UnicodeDecodeError) as exc:
         print("not a valid JSON document stream: %s: %s" % (path, exc), file=sys.stderr)
         bad += 1
-    print("%s\t%d" % (path, count))
-sys.exit(3 if bad else 0)
-'
-}
 
-# The stream splitter (--changed mode only): reads multi-document record
-# paths from $1/multi.txt (stdin carries the Python program below), writes
-# each document as an exact byte slice into
-# $1/<flattened>.doc<N>.json, and writes $1/mapping.json mapping each part
-# path to {"path": <real record>, "offset": <1-based line where the document
-# starts in the original>}. Prints one part path per line. The deck-exception
-# filter remaps klt's diagnostics (file, line) back to the real record before
-# judging them.
-split_stream() {
-    python3 - "$1" <<'PY'
-import json, os, sys
-tmp = sys.argv[1]
-dec = json.JSONDecoder()
-ws = " \t\n\r"
-mapping = {}
-parts = []
-with open(os.path.join(tmp, "multi.txt"), encoding="utf-8") as list_fh:
-    for line in list_fh:
-        path = line.rstrip("\n")
-        if not path.strip():
-            continue
-        with open(path, encoding="utf-8") as fh:
-            text = fh.read()
-        i = 0
-        doc = 0
-        while True:
-            while i < len(text) and text[i] in ws:
-                i += 1
-            if i >= len(text):
-                break
-            start = i
-            _, i = dec.raw_decode(text, i)
-            doc += 1
-            part = os.path.join(tmp, "%s.doc%d.json" % (path.replace("/", "__"), doc))
-            with open(part, "w", encoding="utf-8") as fh:
-                fh.write(text[start:i])
+    if split_dir is None:
+        print("%s\t%d" % (path, len(docs)))
+    elif ok:
+        split_work.append((path, text, docs))
+
+if split_dir is not None and not bad:
+    mapping = {}
+    parts = []
+    for path, text, docs in split_work:
+        for doc_num, (start, end) in enumerate(docs, 1):
+            part = os.path.join(split_dir, "%s.doc%d.json" % (path.replace("/", "__"), doc_num))
+            with open(part, "wb") as fh:
+                fh.write(text[start:end].encode("utf-8"))
             offset = text.count("\n", 0, start) + 1
             mapping[part] = {"path": path, "offset": offset}
             parts.append(part)
-with open(os.path.join(tmp, "mapping.json"), "w", encoding="utf-8") as fh:
-    json.dump(mapping, fh)
-for p in parts:
-    print(p)
-PY
+    with open(os.path.join(split_dir, "mapping.json"), "w", encoding="utf-8") as fh:
+        json.dump(mapping, fh)
+    for p in parts:
+        print(p)
+
+sys.exit(3 if bad else 0)
+' "$@"
+}
+
+validate_stream() {
+    walk_stream
+}
+
+# The stream splitter (--changed mode only): feeds $1/multi.txt to the shared
+# walker in --split mode so both counting and splitting use one decoder loop.
+split_stream() {
+    walk_stream --split "$1" < "$1/multi.txt"
 }
 
 # The decision-0012 deck-exception post-filter -- one copy for both klt legs
@@ -392,7 +405,15 @@ if [ "$CHANGED" -eq 1 ]; then
     klt_inputs=("${single_doc[@]}")
     if [ "${#multi_doc[@]}" -gt 0 ]; then
         printf '%s\n' "${multi_doc[@]}" > "$workdir/multi.txt"
-        mapfile -t parts < <(split_stream "$workdir")
+        split_rc=0
+        split_out="$(split_stream "$workdir")" || split_rc=$?
+        if [ "$split_rc" -ne 0 ]; then
+            fail "the stream splitter failed for ${multi_doc[*]} (exit $split_rc)"
+        fi
+        parts=()
+        if [ -n "$split_out" ]; then
+            mapfile -t parts <<<"$split_out"
+        fi
         if [ "${#parts[@]}" -eq 0 ] || [ ! -s "$mapping" ]; then
             fail "the stream splitter produced no parts for ${multi_doc[*]} -- the klt leg would silently skip those documents, so refusing rather than guessing"
         fi
