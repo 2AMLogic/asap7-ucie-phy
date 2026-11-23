@@ -1,0 +1,68 @@
+{
+ "schema_version": 1,
+ "status": "pass",
+ "request_count": 3,
+ "max_in_flight": 3,
+ "submitted": 3,
+ "refused": 0,
+ "refused_codes": [],
+ "requests": [
+  {
+   "index": 0,
+   "request": "tx_cell.rows.tt.sim.json",
+   "status": "pass",
+   "exit_code": 0,
+   "job_id": "klt-sim-1f03ddcae754",
+   "job_ids": [
+    "klt-sim-1f03ddcae754"
+   ],
+   "report": "sim/tx_cell.rows.r2.tt.batch.report.json",
+   "error": null,
+   "shards": [
+    {
+     "job_id": "klt-sim-1f03ddcae754",
+     "last_state": "done",
+     "interrupted_observations": 0
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "request": "tx_cell.rows.ss.sim.json",
+   "status": "pass",
+   "exit_code": 0,
+   "job_id": "klt-sim-8ae6f5ad9760",
+   "job_ids": [
+    "klt-sim-8ae6f5ad9760"
+   ],
+   "report": "sim/tx_cell.rows.r2.ss.batch.report.json",
+   "error": null,
+   "shards": [
+    {
+     "job_id": "klt-sim-8ae6f5ad9760",
+     "last_state": "done",
+     "interrupted_observations": 0
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "request": "tx_cell.rows.ff.sim.json",
+   "status": "pass",
+   "exit_code": 0,
+   "job_id": "klt-sim-b32537c3449e",
+   "job_ids": [
+    "klt-sim-b32537c3449e"
+   ],
+   "report": "sim/tx_cell.rows.r2.ff.batch.report.json",
+   "error": null,
+   "shards": [
+    {
+     "job_id": "klt-sim-b32537c3449e",
+     "last_state": "done",
+     "interrupted_observations": 0
+    }
+   ]
+  }
+ ]
+}

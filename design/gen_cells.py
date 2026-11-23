@@ -103,11 +103,17 @@ def tx_cell():
     c = Cell("tx_cell",
              ["tx_a[0]", "tx_a[1]", "tx_b[0]", "tx_b[1]", "sel1", "sel2", "pad"],
              "last 2:1 stages and output driver of one TX lane")
-    c.inv("sel1", "sel1b")
+    # Stage-1 select path, upsized to close the a3 select-step delay at SS
+    # (issue #297): the sel1b inverter ends the tgate fight window on sa/sb
+    # and the tgates then settle the node, so both are strengthened. Probed
+    # at SS: sel1->sel1b 6.8 ps + settle 3.0 ps of the 34.7 ps miss; the
+    # driver chain (22 ps, common to every a3 path) was measured to gain
+    # nothing net when upsized, so it is left alone.
+    c.inv("sel1", "sel1b", 12)
     c.inv("sel2", "sel2b")
     # stage 1: each stream's two bits to one serial bit (a: d0 then d2; b: d1 then d3)
-    c.mux2("tx_a[0]", "tx_a[1]", "sel1", "sel1b", "sa")
-    c.mux2("tx_b[0]", "tx_b[1]", "sel1", "sel1b", "sb")
+    c.mux2("tx_a[0]", "tx_a[1]", "sel1", "sel1b", "sa", 5)
+    c.mux2("tx_b[0]", "tx_b[1]", "sel1", "sel1b", "sb", 5)
     # stage 2: interleave the two streams
     c.mux2("sa", "sb", "sel2", "sel2b", "m")
     # driver: three-stage inverter chain, tapered
