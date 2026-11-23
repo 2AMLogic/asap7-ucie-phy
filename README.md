@@ -182,10 +182,12 @@ uv run --no-project --with "klayout-tools==$(cat .github/klt-version)" --with "k
 ### Item 11: supply ERC (ERC half, measured)
 
 [`verification/erc/`](verification/erc/README.md) holds a `klt erc` supply spec and reports for the four drawn
-cells and the lane column (klt 0.9.2, each replays `match`). Each cell resolves VDD and VSS to one island with one
-`erc.missing_tie` (no drawn well tap) and `erc.floating_gate` findings that klt documents as not meaningful on ASAP7.
-The column resolves 50 islands each for VDD and VSS (the placed cells are not routed to the slice) and 34
-`erc.missing_tie`. Item 11 stays `unmet` on both partitions; the reports are not cited in the manifest.
+cells and the lane column (klt 0.9.2 and KLayout 0.30.12, each replays `match`; `supply.r2.json` declares both the
+VDD well tie and the VSS substrate tie, `r1` is kept). Each cell resolves VDD and VSS to one island with three
+`erc.missing_tie` (one VDD well tap, two VSS substrate taps, none drawn) and `erc.floating_gate` findings that klt
+documents as not meaningful on ASAP7. The column resolves 50 islands each for VDD and VSS (the placed cells are not
+routed to the slice) and reports 2 `erc.unconnected_net`, 8,836 `erc.floating_gate` and 34 `erc.missing_tie` (all
+`nwell_tie`; none for `substrate_tie`). Item 11 stays `unmet` on both partitions; the reports are not cited in the manifest.
 
 ## Reproduce
 
