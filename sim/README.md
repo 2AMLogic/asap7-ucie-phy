@@ -41,9 +41,12 @@ swept supply; `corners.units` (explicit non-crossed point list) exists at the pi
 and the limits side of that is filed generically upstream as 2AMLogic/klayout-tools#7370.
 
 Reports of record: the aggregate envelope `tx_cell.rows.batch.report.json` /
-`rx_cell.rows.batch.report.json` (one `klt sim --batch-set` per cell; the envelope's per-request
-`report` paths are the submitting client's local working directories) plus the member reports the
-envelopes reference, committed as `<cell>.rows.<tuple>.batch.report.json`.
+`rx_cell.rows.batch.report.json` (one `klt sim --batch-set` per cell) plus the member reports the
+envelopes reference, committed as `<cell>.rows.<tuple>.batch.report.json`. Each envelope's
+per-request `report` field is the repo-relative path of that committed member report
+(`sim/<cell>.rows.<tuple>.batch.report.json`). klt emits that field as an absolute path into the
+submitting client's scratch directory (2AMLogic/klayout-tools#7381), so the committed envelopes
+carry repo-relative paths rather than the value klt writes as-run.
 
 Environment (identical across all six member reports): engine ngspice 47, client klt 0.9.2
 (`.github/klt-version` pin), runner klt 0.9.0 (batch fleet), model library
