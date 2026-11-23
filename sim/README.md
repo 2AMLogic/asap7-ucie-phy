@@ -153,7 +153,7 @@ held high, `pad` driven for a9-a10; loads L4/L6: 2 fF on the measured output to 
 `.meas` 50 % thresholds are VDD/2 per tuple (0.35 / 0.315 / 0.385 V). Each tuple runs as its own
 batch-set member request (`<cell>.rows.<tuple>.sim.json`) for the same parse-time-literal reason
 as a1-a6 (2AMLogic/klayout-tools#7370). Measured periods: clock cycles 4-13 (zero-based 3-12),
-satisfing 0013's "averaged over ≥ 10 periods" after three settle cycles; tran 1p 3500p.
+satisfying 0013's "averaged over ≥ 10 periods" after three settle cycles; tran 1p 3500p.
 
 Reports of record: the aggregate envelopes `tx_clk_cell.rows.batch.report.json` /
 `rx_clk_cell.rows.batch.report.json` (one `klt sim --batch-set` per cell) plus the member reports
@@ -170,8 +170,12 @@ Environment (identical across all six member reports): engine ngspice 47, client
 bit-identical to it** (0010 records `4e755d14…`): the pinned-tag compiler binary fetched today
 produces a different, itself-deterministic, module. It loads and preflights clean on ngspice 47,
 and the `klt pex` probe below re-ran the committed `tx_cell` TT request with this module and
-reproduced #278's committed a1-a3 TT values exactly at report precision — the recorded
-cross-check that the two builds agree on the measured quantities.
+reproduced #278's committed a1-a3 TT values at report precision for 28 of the 32 delta rows
+(joined `delta[].schematic_value` of `tx_cell.pex-probe.report.json` against the committed TT
+`tx_cell.rows.tt.batch.report.json` measurements); the four exceptions are the `a1_s0_lo` …
+`a1_s3_lo` low-level readings, differing by 1, 3, 6 and 10 pV (largest: 1.05766e−7 V committed
+versus 1.05776e−7 V rebuilt) — the recorded cross-check that the two builds agree on the
+measured quantities to within that difference. All four still clear the proposed 0.07 V TT limit.
 
 ### Row-to-report table
 
@@ -181,25 +185,30 @@ the reported values against the proposed bound per the 0013 definitions — the 
 the **average** high-time deviation, the delay rows the **worse** edge — while the member
 reports carry tool-side per-measurement limits as target-bound guards (high time within
 T/2 ± 12.5 ps per period; delay ≤ 62.5 ps). "Target" is the 16 GT/s budget, "fallback" the
-4 GT/s budget (0013 § budget trace).
+4 GT/s budget (0013 § budget trace). **Fallback is unmeasured:** 0013 gives fallback its own
+1000 ps forwarded-clock period (1 GHz), and every request here drives the 250 ps target-rate
+source, so no run exercises a 500 ps half-period. Fallback-budget bounds (± 50 ps, 250 ps) applied
+to these 4 GHz values would be a comparison, not a fallback measurement, and none is claimed.
 
 | Row | Tuple | Worst value | Proposed bound | Target | Fallback | Report / job |
 |---|---|---|---|---|---|---|
-| `a7-txclk-duty` | TT | −1.887 ps (avg high 123.113 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `tx_clk_cell.rows.tt.batch.report.json` / `klt-sim-2205955c08e3` |
-| | SS | −2.811 ps (avg high 122.189 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `tx_clk_cell.rows.ss.batch.report.json` / `klt-sim-9cc2d7af0488` |
-| | FF | −1.513 ps (avg high 123.487 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `tx_clk_cell.rows.ff.batch.report.json` / `klt-sim-3f9aeb5c04d4` |
-| `a8-txclk-delay` | TT | 21.885 ps (rising) | ≤ 62.5 ps / 250 ps | pass | pass | as a7, per tuple |
-| | SS | 30.132 ps (rising) | ≤ 62.5 ps / 250 ps | pass | pass | |
-| | FF | 17.058 ps (rising) | ≤ 62.5 ps / 250 ps | pass | pass | |
-| `a9-rxclk-duty` | TT | +0.855 ps (rx 125.855, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `rx_clk_cell.rows.tt.batch.report.json` / `klt-sim-b9d50476113a` |
-| | SS | +1.288 ps (rx 126.288, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `rx_clk_cell.rows.ss.batch.report.json` / `klt-sim-c496d86ceeb2` |
-| | FF | +0.670 ps (rx 125.670, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `rx_clk_cell.rows.ff.batch.report.json` / `klt-sim-51491f26b46a` |
-| `a10-rxclk-delay` | TT | 20.176 ps (falling) | ≤ 62.5 ps / 250 ps | pass | pass | as a9, per tuple |
-| | SS | 27.467 ps (falling) | ≤ 62.5 ps / 250 ps | pass | pass | |
-| | FF | 15.815 ps (falling) | ≤ 62.5 ps / 250 ps | pass | pass | |
+| `a7-txclk-duty` | TT | −1.887 ps (avg high 123.113 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | unmeasured | `tx_clk_cell.rows.tt.batch.report.json` / `klt-sim-2205955c08e3` |
+| | SS | −2.811 ps (avg high 122.189 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | unmeasured | `tx_clk_cell.rows.ss.batch.report.json` / `klt-sim-9cc2d7af0488` |
+| | FF | −1.513 ps (avg high 123.487 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | unmeasured | `tx_clk_cell.rows.ff.batch.report.json` / `klt-sim-3f9aeb5c04d4` |
+| `a8-txclk-delay` | TT | 21.885 ps (rising) | ≤ 62.5 ps / 250 ps | pass | unmeasured | as a7, per tuple |
+| | SS | 30.132 ps (rising) | ≤ 62.5 ps / 250 ps | pass | unmeasured | |
+| | FF | 17.058 ps (rising) | ≤ 62.5 ps / 250 ps | pass | unmeasured | |
+| `a9-rxclk-duty` | TT | +0.855 ps (rx 125.855, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | unmeasured | `rx_clk_cell.rows.tt.batch.report.json` / `klt-sim-b9d50476113a` |
+| | SS | +1.288 ps (rx 126.288, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | unmeasured | `rx_clk_cell.rows.ss.batch.report.json` / `klt-sim-c496d86ceeb2` |
+| | FF | +0.670 ps (rx 125.670, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | unmeasured | `rx_clk_cell.rows.ff.batch.report.json` / `klt-sim-51491f26b46a` |
+| `a10-rxclk-delay` | TT | 20.176 ps (falling) | ≤ 62.5 ps / 250 ps | pass | unmeasured | as a9, per tuple |
+| | SS | 27.467 ps (falling) | ≤ 62.5 ps / 250 ps | pass | unmeasured | |
+| | FF | 15.815 ps (falling) | ≤ 62.5 ps / 250 ps | pass | unmeasured | |
 
-All twelve row × tuple verdicts pass at both budgets: no miss, so unlike a3 at SS (#278) no
-design-iteration issue is owed. a9's pad-side duty error — the source's own error the definition
+All twelve row × tuple verdicts pass at the target budget: no miss, so unlike a3 at SS (#278) no
+design-iteration issue is owed. Fallback-rate (1 GHz) a7-a10 runs for TT/SS/FF, TX and RX, with
+≥ 10 measured periods, remain to be recorded; the operator handoff (#306) carries them as
+unmeasured. a9's pad-side duty error — the source's own error the definition
 subtracts — measured 0.000 ps at every tuple (ideal L3 source), so the transfer equals the
 `rx_clk` duty error; both halves are measured and recorded per the definition.
 
