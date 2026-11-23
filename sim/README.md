@@ -59,10 +59,27 @@ change: of the 34.69 ps worst path, sel1 -> sel1b was 6.8 ps, the sa settle past
 the driver chain 22.0 ps — and upsizing the driver was measured to gain nothing net (its input
 load cancels its strength), so the select front end is where the fix landed. After the change every
 one of the 48 a3 measurements improves; the two former misses land at 30.41 / 30.84 ps against the
-31.25 ps target. The environment lines below hold for the r2 reports too, with one addition the
-originals do not carry: `client_ngspice_binary` (the submitting worker's ngspice, `/usr/bin/ngspice`
-on the r2 submit host; the engine that produced the measurements is the fleet runner's ngspice 47
-either way).
+31.25 ps target. The environment lines below hold for the r2 reports too, with the following
+differences the originals do not carry, disclosed here because the r2 reports are append-only and
+cannot be edited:
+
+- `client_ngspice_binary` is present: the submitting host's ngspice, `/usr/bin/ngspice`.
+- `environment.engine_build` reads `ngspice-42` (`binary_sha256` `820658317b…`) instead of the
+  ngspice 47 banner of the originals, and
+  `remote.worker_environment.engine_build_comparison.status` is `mismatch` (the originals read
+  `match`). This is a client-versus-worker difference only. On a batch report `engine_build` is a
+  probe of the submitting host's local ngspice, not of the engine that produced the numbers. It is
+  a known klt gap, filed as `2AMLogic/klayout-tools#5566` and fixed upstream (the worker build is
+  published under `engine_build` and the client probe moves to `client_engine_build`); the
+  `0.9.2` pin in `.github/klt-version` predates that fix, so no `client_engine_build` appears.
+- The engine of record is `remote.worker_environment.simulator` in each r2 report:
+  `selected_path` `/usr/local/bin/ngspice`, `version_banner` `** ngspice-47 …`, `version_probe`
+  `ok`. The worker engine is unchanged from the baselines, so the baseline-versus-r2 comparison is
+  like for like and `environment.engine_version` stays `47`.
+
+The a3 row at SS now closes with +0.41 ps (1.3%) of margin (30.84 ps against 31.25 ps), which is
+thin: a later `tx_cell` or lane-column change could reopen it, so re-check a3 at SS after any such
+change.
 
 Environment (identical across all six member reports): engine ngspice 47, client klt 0.9.2
 (`.github/klt-version` pin), runner klt 0.9.0 (batch fleet), model library
