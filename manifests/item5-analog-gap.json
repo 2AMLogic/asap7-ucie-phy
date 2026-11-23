@@ -2,12 +2,14 @@
   "item": "5.analog",
   "status": "declared_gap",
   "claim": "No analog corner-matrix evidence exists for the drawn TX/RX cells. This is a declared gap, not evidence and not a pass.",
-  "reason": "ngspice 42 on the worker cannot load the OSDI v0.4 BSIM-CMG module, so no circuit simulation of the drawn cells exists (spec/decisions/0003-simulation-flow.md). The decision does not show the flow would work on a newer ngspice.",
+  "reason": "The ratified spec has no analog performance row for the drawn cells (spec/decisions/0006-no-statistical-spec-rows.md, spec/decisions/0008-item6-analog-declared-gap.md), so no target exists for a corner matrix. Circuit simulation itself is no longer blocked: all four cells have logic-level TT/SS/FF runs on ngspice 47 (spec/decisions/0010-analog-simulation-flow.md, superseding 0003's ngspice 42 blocker; sim/README.md). The blocker is the spec, and proposed decision spec/decisions/0013-analog-spec-rows.md supplies draft rows only; they bind nothing until the operator ratifies them.",
   "expected_grade": "unmet / no_evidence",
-  "why_not_in_manifest": "klt 0.8.0 spec_rows can declare a gap row for item 5 (key \"5.analog\") only when a citation is also present; with no citation the item stays no_evidence. Tracked as 2AMLogic/klayout-tools#4190. This file is therefore not cited under evidence and is not content-hash bound.",
+  "why_not_in_manifest": "The repo pin is klt 0.9.2 (.github/klt-version). On a disposable copy of the manifest (decision 0013's scratch probe), a top-level spec_rows \"5.analog\" declared-gap entry with no citation grades unmet / partial_coverage with the gap listed under detail.declared_gaps; the klt 0.8.0 behavior this file used to describe (declaration ignored without a citation, 2AMLogic/klayout-tools#4190, closed) is gone at this pin. The declaration is still not added to the manifest of record: the rows exist only in proposed decision 0013, and inserting the key would change the recorded reason of the verdict of record without adding evidence. This file is therefore not cited under evidence and is not content-hash bound.",
   "owners": {
     "digital_timing_closure": "#39",
     "post_route_sta_rerun": "#18",
-    "circuit_simulation": "worker-spec change (ngspice 44 or later), per decision 0003"
+    "circuit_simulation": "resolved by decision 0010 (ngspice 47 via the batch fleet); no longer the blocker",
+    "analog_spec_rows": "operator ratification of decision 0013 (status proposed)",
+    "analog_corner_matrix": "#278 (data cells) and #279 (clock cells), provisional pre-ratification measurements"
   }
 }
