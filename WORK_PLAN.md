@@ -33,18 +33,12 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#136**: Document how to store future failing routed-slice LVS reports
-- **#279**: Measure forwarded-clock rows, probe TX extraction and assemble the ratification handoff
-- **#297**: TX mux-to-pad delay misses the 16 GT/s target at SS: a3 select-path delay 34.7 ps vs 31.25 ps (fallback clears)
 - **#308**: Share the JSON stream parser so split records preserve CRLF bytes
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-- **#304**: analog: upsize the tx_cell stage-1 select path to close row a3 at SS
-- **#305**: docs(spec): record the future-only storage rule for failing routed-slice LVS reports
-- **#307**: feat(sim): measure proposed clock rows a7-a10 at the 0013 PVT tuples; record the tx_cell PEX probe and file the ratification handoff
 - **#309**: fix(verification): unify JSON stream walker and preserve split bytes
 
 ## Approved (Awaiting Merge)
@@ -59,10 +53,9 @@ Issues carrying `loom:curated`.
 
 - **#3**: Track the gap to T1 (klayout-tools design-evidence-tiers.md) *(curated)*
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)* *(held)*
-- **#136**: Document how to store future failing routed-slice LVS reports *(curated)*
 - **#274**: T1 item 7 (digital): re-take the SDF-annotated run on the current routed slice, then bump the klt pin to the first release carrying klayout-tools#6075 *(curated)* *(held)*
-- **#279**: Measure forwarded-clock rows, probe TX extraction and assemble the ratification handoff *(curated)*
-- **#297**: TX mux-to-pad delay misses the 16 GT/s target at SS: a3 select-path delay 34.7 ps vs 31.25 ps (fallback clears) *(curated)*
+- **#318**: spec/README.md decision index stops at 0005; records 0006-0015 are missing *(curated)*
+- **#319**: Nothing fails when a new spec/decisions/ record is left out of the item-10 hygiene inventory *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -81,10 +74,10 @@ _None._
 | Very important | 1 |
 | Important | 2 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
-| In Progress (`loom:building`) | 4 |
-| PRs awaiting review | 4 |
+| In Progress (`loom:building`) | 1 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 6 |
+| Curated | 5 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
