@@ -5,15 +5,23 @@ triage role; entries are newest first.
 
 ### 2026-11-23
 
+- **PR #304**: analog: upsize the tx_cell stage-1 select path to close row a3 at SS
+- **PR #305**: docs(spec): record the future-only storage rule for failing routed-slice LVS reports
 - **PR #313**: fix: register decision records 0011 and 0013 in the T1 item-10 hygiene inventory
 - **PR #310**: synth: exclude klt's 17 KNOWN_UNSUPPORTED_ASAP7_CELLS masters and clear the AOI21x1 LVS fold at the source
 - **PR #303**: docs(erc): disclose declared label layers with no text per stream
 - **PR #302**: docs(sim): describe envelope report paths as repo-relative members
 - **PR #299**: refactor: source the tool-pin guard from one shared verification helper
 - **PR #298**: feat(sim): measure proposed data-cell rows a1-a5 at the 0013 PVT tuples; record a6 as refused at the pin
+- **PR #307**: feat(sim): measure proposed clock rows a7-a10 at the 0013 PVT tuples; record the tx_cell PEX probe and file the ratification handoff
 - **PR #296**: verification: exercise the r18 census production helpers in the selftest
 - **PR #285**: verification: add klt erc supply spec and reports for the drawn cells and lane column
 - **PR #281**: docs(spec): propose cell-level analog spec rows for the drawn cells (decision 0013)
+- **Issue #316** (closed): Stale prose in design/gen_cells.py docstring and sim/README.md pex-sanitisation parenthetical after the #297 TX resize
+- **Issue #297** (closed): TX mux-to-pad delay misses the 16 GT/s target at SS: a3 select-path delay 34.7 ps vs 31.25 ps (fallback clears)
+- **Issue #279** (closed): Measure forwarded-clock rows, probe TX extraction and assemble the ratification handoff
+- **Issue #276** (closed): spec: propose analog spec rows for the drawn TX/RX cells (decision record, status proposed) with provisional TT/SS/FF measurements (T1 items 5, 6, 7 analog)
+- **Issue #136** (closed): Document how to store future failing routed-slice LVS reports
 - **Issue #311** (closed): T1 item-10 hygiene inventory omits decision records 0011 and 0013
 - **Issue #301** (closed): ERC record: disclose the declared label layers that carry no text in each stream
 - **Issue #300** (closed): sim/README.md still describes the rows batch-set envelope report paths as client-local scratch
