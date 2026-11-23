@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Self-test for regen.py --check-input (stdlib only; run as `python3 -I layout/pnr/test_check_input.py`).
 
-Covers match (0), drift (3), missing or unparseable input (2), and pins
-tie_constants output against a fixture hash so a change to it cannot go unnoticed."""
+Covers match (0), drift (3), missing or unparseable input (2), pins
+tie_constants output against a fixture hash so a change to it cannot go unnoticed,
+and checks the scratch-Liberty dont_use staging helper mark_dont_use (issue #287)."""
 import hashlib
 import importlib.util
 import io
@@ -62,6 +63,42 @@ rc, _ = run(FIXTURE, None, report_text="{not json")
 expect("unparseable report", rc, 2)
 rc, _ = run(FIXTURE, None, report_text="{}")
 expect("missing hash key", rc, 2)
+
+# mark_dont_use: the scratch-Liberty dont_use staging (issue #287). A named
+# master gains `dont_use : true;` directly after its cell opening brace; an
+# unnamed cell is untouched; a named-but-absent master is an error, not a
+# silently unprotected cell.
+LIB = """library (test) {
+  cell (KEEP_ASAP7_75t_R) {
+    area : 1.0;
+  }
+  cell (DROP_ASAP7_75t_R) {
+    area : 2.0;
+  }
+  cell (DROP2_ASAP7_75t_R) {
+    area : 2.0;
+  }
+}
+"""
+marked = regen.mark_dont_use(LIB, ["DROP_ASAP7_75t_R", "DROP2_ASAP7_75t_R"])
+expect("mark inserts dont_use on named cells", marked.count("dont_use : true;"), 2)
+expect("mark keeps un-named cell clean", "dont_use" in marked.split("cell (KEEP_ASAP7_75t_R) {")[1].split("cell (")[0], False)
+expect("mark inserts directly after the opening brace",
+       "cell (DROP_ASAP7_75t_R) {\n            dont_use : true;\n" in marked, True)
+expect("mark is idempotent",
+       regen.mark_dont_use(marked, ["DROP_ASAP7_75t_R", "DROP2_ASAP7_75t_R"]).count("dont_use : true;"), 2)
+try:
+    regen.mark_dont_use(LIB, ["ABSENT_ASAP7_75t_R"])
+    fails.append("mark absent master: no error raised")
+except SystemExit as e:
+    expect("mark absent master names it", "ABSENT_ASAP7_75t_R" in str(e), True)
+
+# dont_use_masters reads the committed synthesis request, so the P&R staging
+# and the synthesis exclusion cannot drift apart.
+masters = regen.dont_use_masters()
+expect("dont_use masters load", len(masters) >= 27, True)
+expect("dont_use includes the AOI21x1 fold cell", "AOI21x1_ASAP7_75t_R" in masters, True)
+expect("dont_use keeps the #228 deviators", "BUFx2_ASAP7_75t_R" in masters, True)
 
 for f in fails:
     print("FAIL", f, file=sys.stderr)

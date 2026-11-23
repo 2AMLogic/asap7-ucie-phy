@@ -1,0 +1,96 @@
+{
+ "schema_version": 1,
+ "kind": "layout-stream-inventory",
+ "description": "Layout-stream inventory for issue #297. The column combines the resized tx_cell stage-1 select path with the routed slice recorded in attest/item2.r12.json for issue #287. The stream hashes cover the assembled column and each input GDS.",
+ "assembled": {
+  "path": "layout/lane_column.gds",
+  "generator": "python3 layout/assemble_column.py",
+  "check": [
+   "python3",
+   "layout/assemble_column.py",
+   "--check"
+  ],
+  "top": "lane_column",
+  "lane_cells": 17,
+  "data_lanes": 16,
+  "clock_lane_index": 8,
+  "bump_pitch_um": 45,
+  "pads": 34,
+  "note": "The assembler embeds the updated tx_cell and the #287 routed slice. Its --check reproduces the column byte for byte."
+ },
+ "pad_check": {
+  "record": "layout/pad_check_record.json",
+  "argv": [
+   "python3",
+   "layout/check_pads.py",
+   "--gds",
+   "layout/lane_column.gds",
+   "--top",
+   "lane_column",
+   "--map",
+   "layout/bump_map_target.csv",
+   "--out",
+   "layout/pad_check_record.json"
+  ],
+  "status": "pass",
+  "note": "The pad check on the assembled column matched all 34 pads and reproduced the committed record byte for byte."
+ },
+ "streams": [
+  {
+   "path": "layout/lane_column.gds",
+   "sha256": "sha256:1f6a5b8344c97e20f81da2e808cc02470fb7d16de59b04b46de4540874b97d55"
+  },
+  {
+   "path": "layout/slice_routed.gds",
+   "sha256": "sha256:c848a4591c4ba85f5c9f98be91a3cd86fe4e62626935ebc850239b487203948d"
+  },
+  {
+   "path": "layout/cells/tx_cell.gds",
+   "sha256": "sha256:ef4da489c7d9593fa31899b825553c95c5dda6fc8ab09adf61e9c98afdb7459d"
+  },
+  {
+   "path": "layout/cells/rx_cell.gds",
+   "sha256": "sha256:17418099e4fa45f9150638095be44d617e1eac9254df72723aafd15ef22ed81f"
+  },
+  {
+   "path": "layout/cells/tx_clk_cell.gds",
+   "sha256": "sha256:4c36c18edeac86457c78702a3047ef218672a0dedc878bd5f4bc8a2bfdd33b2e"
+  },
+  {
+   "path": "layout/cells/rx_clk_cell.gds",
+   "sha256": "sha256:6c825f2bfc0cbcdbfcd4aa09099cd964e9087332d602db29ca8ef4df26992c6c"
+  }
+ ],
+ "generator": {
+  "path": "layout/pnr/regen.py",
+  "check_input": [
+   "python3",
+   "layout/pnr/regen.py",
+   "--check-input"
+  ],
+  "check": [
+   "python3",
+   "-I",
+   "layout/pnr/regen.py",
+   "--check"
+  ],
+  "report": "layout/pnr/slice.pnr.report.json",
+  "note": "The routed slice and its P&R report are the ones recorded in attest/item2.r12.json. The input check verifies the netlist against the report."
+ },
+ "envelope": {
+  "file": "evidence/item2.r13.json",
+  "command": [
+   "klt",
+   "signoff",
+   "--attest",
+   "2",
+   "--input",
+   "layout/lane_column.gds",
+   "--generator",
+   "python3 layout/assemble_column.py",
+   "--regenerated-hash",
+   "sha256:1f6a5b8344c97e20f81da2e808cc02470fb7d16de59b04b46de4540874b97d55"
+  ],
+  "note": "The klt-produced envelope the block manifest cites for item 2; this file is the companion stream inventory."
+ }
+}

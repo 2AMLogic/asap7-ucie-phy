@@ -3,21 +3,21 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 29/29 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 32/32 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 29,
-    "passed_count": 29,
+    "check_count": 32,
+    "passed_count": 32,
     "checks": [
       {
         "check": "present",
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:ec8caf8de1890fa55350b7d2d60e2104038b3c68c06f34956aa4dc30b0b0c326"
+        "content_hash": "sha256:904759bb5d4f887a6b47e8ff4f84fe6564d8ecd7bd8e23dbdb4f09b1ab98984d"
       },
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "hygiene",
         "path": "spec/asap7-bringup.md",
         "passed": true,
-        "content_hash": "sha256:6721d1b2c55987953e83dbe32862990756b04d5f1a33e64c061702e694a5905d"
+        "content_hash": "sha256:59c057b9e493489fa49a49b84276be37f513cb48b99e9490bd5504fa0681c8dd"
       },
       {
         "check": "present",
@@ -120,9 +120,30 @@
       {
         "check": "present",
         "role": "hygiene",
+        "path": "spec/decisions/0011-json-document-stream.md",
+        "passed": true,
+        "content_hash": "sha256:27da2553ae66364f2aa705202a2fb168a03f0afbdb077b9d422e2e12f81c32a0"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
         "path": "spec/decisions/0012-record-path-hygiene-gate.md",
         "passed": true,
         "content_hash": "sha256:aac7571122f702054c9e531f67c515d6a507d8b71c99a5764f2885f39a67836a"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0013-analog-spec-rows.md",
+        "passed": true,
+        "content_hash": "sha256:895fe81fd4c5641a7052164b4edf87bdeba3bc1f7a3ca1ba7094d0088542c073"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0014-asap7-lvs-unsupported-cells-dont-use.md",
+        "passed": true,
+        "content_hash": "sha256:fb6ec1fab7f1a41f13082c3bbaf2acdcb59d01679348bd40eeeabfe356ec4576"
       },
       {
         "check": "present",
@@ -285,7 +306,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:5b02be73704b518a5d226d0c94b526a6dfa2e93d993285d76c80aadfb454b8a9"
+      "content_hash": "sha256:1919abe3076467ff4bda38af4aa5641052b7b0f4227f753af828b5926054dc86"
     }
   }
 }

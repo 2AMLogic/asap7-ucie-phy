@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "layout-stream-inventory",
- "description": "Re-attestation of attest/item2.r11.json (kept as history) after issue #297 upsized the tx_cell select path (sel1b inverter nfin 3 -> 12, stage-1 mux transmission gates nfin 3 -> 5 in design/gen_cells.py) to close the a3 select-step delay at SS. layout/cells/tx_cell.gds was regenerated from the re-rendered netlist and the column re-assembled; the other three cells and the routed slice are byte-unchanged. Pinned by sha256 of raw bytes: the assembled column and its inputs. Layout geometry only; DRC and LVS are separate records (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
+ "description": "Re-attestation of attest/item2.r11.json (kept as history) after issue #287 extended constraints.dont_use in design/synth/slice.synth.json with the 17 klt 0.9.2 KNOWN_UNSUPPORTED_ASAP7_CELLS masters whose drawn transistor topology differs from the library CDL (11 folded-stack: AND2x4, AND2x6, AOI21x1, AOI22x1, NAND3x2, NOR3x2, OAI21x1, OAI22x1, OR2x6, XNOR2x1, XOR2x1; 6 series-order: A2O1A1O1Ixp25, AOI211xp5, OAI221xp5, SDFLx1, SDFLx2, SDFLx3; all _ASAP7_75t_R), and layout/pnr/regen.py now stages dont_use : true; for the same list in the scratch Liberty so OpenROAD's resizer cannot swap an excluded master back in; the netlist was re-synthesized, the slice re-routed (same request geometry, seed 1) and the column re-assembled. Zero instances of all 27 excluded masters appear in design/netlist/slice_asap7.v and layout/slice_routed.v; the routed-slice LVS r20 record (evidence/item4-lvs/slice_routed.r20.report.json) clears the AOI21x1 fold: device.unmerged_fingers 0 and equal layout/reference device counts, leaving only the klayout-tools#7182 well-tap domain residue. Pinned by sha256 of raw bytes: the assembled column and its inputs. Layout geometry only; DRC and LVS are separate records (spec section 3). ASAP7 is predictive and nothing here is fabricated.",
  "assembled": {
   "path": "layout/lane_column.gds",
   "generator": "python3 layout/assemble_column.py",
@@ -16,7 +16,7 @@
   "clock_lane_index": 8,
   "bump_pitch_um": 45,
   "pads": 34,
-  "note": "Re-assembled with `python3 layout/assemble_column.py` so the column embeds the regenerated tx_cell stream; `--check` exits 0."
+  "note": "Re-assembled with `python3 layout/assemble_column.py` so the column embeds the re-routed slice stream; `--check` exits 0."
  },
  "pad_check": {
   "record": "layout/pad_check_record.json",
@@ -33,20 +33,20 @@
    "layout/pad_check_record.json"
   ],
   "status": "pass",
-  "note": "Re-run against the re-assembled column (issue #297): 34/34 pads matched, the record is byte-identical (the sizing change does not move pads)."
+  "note": "Re-run against the re-assembled column (issue #287)."
  },
  "streams": [
   {
    "path": "layout/lane_column.gds",
-   "sha256": "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019"
+   "sha256": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f"
   },
   {
    "path": "layout/slice_routed.gds",
-   "sha256": "sha256:b961426ac860f51e1af009e0ee52d5e34a3d2d08654ff4c5394fa82d7252d293"
+   "sha256": "sha256:c848a4591c4ba85f5c9f98be91a3cd86fe4e62626935ebc850239b487203948d"
   },
   {
    "path": "layout/cells/tx_cell.gds",
-   "sha256": "sha256:ef4da489c7d9593fa31899b825553c95c5dda6fc8ab09adf61e9c98afdb7459d"
+   "sha256": "sha256:9051f5cd3ac57248d7bc68f4fa8271f053f2af37b05a4e1465a488d61a8b5871"
   },
   {
    "path": "layout/cells/rx_cell.gds",
@@ -75,7 +75,7 @@
    "--check"
   ],
   "report": "layout/pnr/slice.pnr.report.json",
-  "note": "The routed slice is reproducible from the committed netlist and the pinned lambdapdk archive; `--check` reproduces it byte-for-byte with the same seed (1), and `--check-input` confirms the tied netlist hashes to the report's provenance.input.content_hash. The digital netlist and the routed slice are byte-unchanged this pass (issue #297 touched only the drawn tx_cell)."
+  "note": "The routed slice is reproducible from the committed netlist and the pinned lambdapdk archive; `--check` reproduces it byte-for-byte with the same seed (1), and `--check-input` confirms the tied netlist hashes to the report's provenance.input.content_hash. The netlist itself changed this pass (constraints.dont_use resynthesis, issue #287) and the report was regenerated with it; the report also records the routed DEF and post-route SPEF now persisted beside the GDS/SDF (sta/slice.sta.routed.json times them)."
  },
  "envelope": {
   "file": "evidence/item2.r12.json",
@@ -89,7 +89,7 @@
    "--generator",
    "python3 layout/assemble_column.py",
    "--regenerated-hash",
-   "sha256:5c63d4c403d131b74f89aa7f7d9dac572a5733639a7edc751b38c9f2150f5019"
+   "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f"
   ],
   "note": "The klt-produced envelope the block manifest cites for item 2; this file is the companion stream inventory."
  }

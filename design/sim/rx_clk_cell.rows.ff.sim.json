@@ -1,0 +1,571 @@
+{
+  "netlist": "rx_clk_cell.rows.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "ff"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.77
+      ]
+    },
+    "temperature_c": [
+      0
+    ]
+  },
+  "stimulus": {
+    "signals": [
+      {
+        "source": "Vpad",
+        "node": "pad",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 2e-11,
+        "fall_s": 2e-11,
+        "events": [
+          {
+            "t_s": 1.25e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2.5e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3.7500000000000005e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 5e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 6.25e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 7.500000000000001e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 8.750000000000001e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 1.1250000000000001e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.25e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 1.3750000000000001e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.5e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 1.6250000000000003e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.7500000000000002e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 1.8750000000000002e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 2.125e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2.2500000000000003e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 2.375e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2.5000000000000005e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 2.625e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2.7500000000000002e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 2.875e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3.0000000000000004e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3.1250000000000003e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3.2500000000000006e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 3500p"
+  },
+  "measurements": [
+    {
+      "name": "a9_k03_rx",
+      "spice": ".meas tran a9_k03_rx trig v(rx_clk) val=0.385 rise=1 td=825p targ v(rx_clk) val=0.385 fall=1 td=825p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k03_pad",
+      "spice": ".meas tran a9_k03_pad trig v(pad) val=0.385 rise=1 td=825p targ v(pad) val=0.385 fall=1 td=825p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k03_r",
+      "spice": ".meas tran a10_k03_r trig v(pad) val=0.385 rise=1 td=825p targ v(rx_clk) val=0.385 rise=1 td=825p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k03_f",
+      "spice": ".meas tran a10_k03_f trig v(pad) val=0.385 fall=1 td=950p targ v(rx_clk) val=0.385 fall=1 td=950p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k04_rx",
+      "spice": ".meas tran a9_k04_rx trig v(rx_clk) val=0.385 rise=1 td=1075p targ v(rx_clk) val=0.385 fall=1 td=1075p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k04_pad",
+      "spice": ".meas tran a9_k04_pad trig v(pad) val=0.385 rise=1 td=1075p targ v(pad) val=0.385 fall=1 td=1075p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k04_r",
+      "spice": ".meas tran a10_k04_r trig v(pad) val=0.385 rise=1 td=1075p targ v(rx_clk) val=0.385 rise=1 td=1075p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k04_f",
+      "spice": ".meas tran a10_k04_f trig v(pad) val=0.385 fall=1 td=1200p targ v(rx_clk) val=0.385 fall=1 td=1200p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k05_rx",
+      "spice": ".meas tran a9_k05_rx trig v(rx_clk) val=0.385 rise=1 td=1325p targ v(rx_clk) val=0.385 fall=1 td=1325p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k05_pad",
+      "spice": ".meas tran a9_k05_pad trig v(pad) val=0.385 rise=1 td=1325p targ v(pad) val=0.385 fall=1 td=1325p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k05_r",
+      "spice": ".meas tran a10_k05_r trig v(pad) val=0.385 rise=1 td=1325p targ v(rx_clk) val=0.385 rise=1 td=1325p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k05_f",
+      "spice": ".meas tran a10_k05_f trig v(pad) val=0.385 fall=1 td=1450p targ v(rx_clk) val=0.385 fall=1 td=1450p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k06_rx",
+      "spice": ".meas tran a9_k06_rx trig v(rx_clk) val=0.385 rise=1 td=1575p targ v(rx_clk) val=0.385 fall=1 td=1575p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k06_pad",
+      "spice": ".meas tran a9_k06_pad trig v(pad) val=0.385 rise=1 td=1575p targ v(pad) val=0.385 fall=1 td=1575p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k06_r",
+      "spice": ".meas tran a10_k06_r trig v(pad) val=0.385 rise=1 td=1575p targ v(rx_clk) val=0.385 rise=1 td=1575p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k06_f",
+      "spice": ".meas tran a10_k06_f trig v(pad) val=0.385 fall=1 td=1700p targ v(rx_clk) val=0.385 fall=1 td=1700p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k07_rx",
+      "spice": ".meas tran a9_k07_rx trig v(rx_clk) val=0.385 rise=1 td=1825p targ v(rx_clk) val=0.385 fall=1 td=1825p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k07_pad",
+      "spice": ".meas tran a9_k07_pad trig v(pad) val=0.385 rise=1 td=1825p targ v(pad) val=0.385 fall=1 td=1825p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k07_r",
+      "spice": ".meas tran a10_k07_r trig v(pad) val=0.385 rise=1 td=1825p targ v(rx_clk) val=0.385 rise=1 td=1825p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k07_f",
+      "spice": ".meas tran a10_k07_f trig v(pad) val=0.385 fall=1 td=1950p targ v(rx_clk) val=0.385 fall=1 td=1950p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k08_rx",
+      "spice": ".meas tran a9_k08_rx trig v(rx_clk) val=0.385 rise=1 td=2075p targ v(rx_clk) val=0.385 fall=1 td=2075p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k08_pad",
+      "spice": ".meas tran a9_k08_pad trig v(pad) val=0.385 rise=1 td=2075p targ v(pad) val=0.385 fall=1 td=2075p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k08_r",
+      "spice": ".meas tran a10_k08_r trig v(pad) val=0.385 rise=1 td=2075p targ v(rx_clk) val=0.385 rise=1 td=2075p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k08_f",
+      "spice": ".meas tran a10_k08_f trig v(pad) val=0.385 fall=1 td=2200p targ v(rx_clk) val=0.385 fall=1 td=2200p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k09_rx",
+      "spice": ".meas tran a9_k09_rx trig v(rx_clk) val=0.385 rise=1 td=2325p targ v(rx_clk) val=0.385 fall=1 td=2325p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k09_pad",
+      "spice": ".meas tran a9_k09_pad trig v(pad) val=0.385 rise=1 td=2325p targ v(pad) val=0.385 fall=1 td=2325p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k09_r",
+      "spice": ".meas tran a10_k09_r trig v(pad) val=0.385 rise=1 td=2325p targ v(rx_clk) val=0.385 rise=1 td=2325p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k09_f",
+      "spice": ".meas tran a10_k09_f trig v(pad) val=0.385 fall=1 td=2450p targ v(rx_clk) val=0.385 fall=1 td=2450p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k10_rx",
+      "spice": ".meas tran a9_k10_rx trig v(rx_clk) val=0.385 rise=1 td=2575p targ v(rx_clk) val=0.385 fall=1 td=2575p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k10_pad",
+      "spice": ".meas tran a9_k10_pad trig v(pad) val=0.385 rise=1 td=2575p targ v(pad) val=0.385 fall=1 td=2575p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k10_r",
+      "spice": ".meas tran a10_k10_r trig v(pad) val=0.385 rise=1 td=2575p targ v(rx_clk) val=0.385 rise=1 td=2575p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k10_f",
+      "spice": ".meas tran a10_k10_f trig v(pad) val=0.385 fall=1 td=2700p targ v(rx_clk) val=0.385 fall=1 td=2700p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k11_rx",
+      "spice": ".meas tran a9_k11_rx trig v(rx_clk) val=0.385 rise=1 td=2825p targ v(rx_clk) val=0.385 fall=1 td=2825p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k11_pad",
+      "spice": ".meas tran a9_k11_pad trig v(pad) val=0.385 rise=1 td=2825p targ v(pad) val=0.385 fall=1 td=2825p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k11_r",
+      "spice": ".meas tran a10_k11_r trig v(pad) val=0.385 rise=1 td=2825p targ v(rx_clk) val=0.385 rise=1 td=2825p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k11_f",
+      "spice": ".meas tran a10_k11_f trig v(pad) val=0.385 fall=1 td=2950p targ v(rx_clk) val=0.385 fall=1 td=2950p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a9_k12_rx",
+      "spice": ".meas tran a9_k12_rx trig v(rx_clk) val=0.385 rise=1 td=3075p targ v(rx_clk) val=0.385 fall=1 td=3075p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a9_k12_pad",
+      "spice": ".meas tran a9_k12_pad trig v(pad) val=0.385 rise=1 td=3075p targ v(pad) val=0.385 fall=1 td=3075p",
+      "unit": "s",
+      "limits": {
+        "min": 1.125e-10,
+        "max": 1.375e-10
+      }
+    },
+    {
+      "name": "a10_k12_r",
+      "spice": ".meas tran a10_k12_r trig v(pad) val=0.385 rise=1 td=3075p targ v(rx_clk) val=0.385 rise=1 td=3075p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    },
+    {
+      "name": "a10_k12_f",
+      "spice": ".meas tran a10_k12_f trig v(pad) val=0.385 fall=1 td=3200p targ v(rx_clk) val=0.385 fall=1 td=3200p",
+      "unit": "s",
+      "limits": {
+        "max": 6.25e-11
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  }
+}

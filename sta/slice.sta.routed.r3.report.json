@@ -1,0 +1,1269 @@
+{
+  "clock_mode": "ideal",
+  "clock_targets": {
+    "clock_groups": [],
+    "clocks": [
+      {
+        "period_ns": 0.5,
+        "port": "clk"
+      }
+    ]
+  },
+  "clock_uncertainty": {
+    "applied": false
+  },
+  "corners": [
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0.00953,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_4065_/CLK",
+            "u_cdc/_4069_/CLK",
+            "u_cdc/_4070_/CLK",
+            "u_cdc/_4071_/CLK",
+            "u_cdc/_4072_/CLK",
+            "u_cdc/_4073_/CLK",
+            "u_cdc/_4074_/CLK",
+            "u_cdc/_4075_/CLK",
+            "u_cdc/_4076_/CLK",
+            "u_cdc/_4077_/CLK",
+            "u_cdc/_4078_/CLK",
+            "u_cdc/_4079_/CLK",
+            "u_cdc/_4080_/CLK",
+            "u_cdc/_4081_/CLK",
+            "u_cdc/_4082_/CLK",
+            "u_cdc/_4083_/CLK",
+            "u_cdc/_4084_/CLK",
+            "u_cdc/_4085_/CLK",
+            "u_cdc/_4086_/CLK",
+            "u_cdc/_4087_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "tt",
+      "deck": {
+        "content_hash": "sha256:910057db3b7a926cb2b22d8f54664a2130a28bce2f01d22c6c034226830a3b5c",
+        "name": "asap7sc7p5t_rvt__tt",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": {
+        "max_capacitance": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "net_count": 0,
+          "unit": "pF",
+          "violation_count": 0,
+          "worst_excess": null,
+          "worst_pin": null
+        },
+        "max_transition": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "net_count": 0,
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_excess": null,
+          "worst_pin": null
+        },
+        "min_period": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_pin": null,
+          "worst_slack_ns": null
+        },
+        "min_pulse_width": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_pin": null,
+          "worst_slack_ns": null
+        },
+        "parasitics_source": "spef"
+      },
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/ae4d65a59db74beea374c001083ac528",
+          "scope": "repo"
+        },
+        "invocation_id": "ae4d65a59db74beea374c001083ac528",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/ae4d65a59db74beea374c001083ac528/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_routed__tt_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_routed__tt.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_routed__tt.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "ca9c91e216bfb1fe42cd82805ca4635a211c9939faab4d521577c34636f6b62b",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/ae4d65a59db74beea374c001083ac528/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/ae4d65a59db74beea374c001083ac528/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.6638,
+      "fmax_mhz": 3846.39,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "spef_annotated"
+      },
+      "sdf": null,
+      "setup_violation_count": 0,
+      "spef_annotation": {
+        "annotation_complete": false,
+        "annotation_warning": "only 2519 of 2713 nets in the linked design are named by this SPEF (if this SPEF came from `klt extract`, re-run it with `--def-net-names` and `--def-pins <routed.def>` so net names match the linked design); read_spef discarded annotation for 158 SPEF record(s) it could not resolve against the linked design (OpenSTA STA-1650/STA-1648 'not found' warnings); report_parasitic_annotation found 208 driver(s) with no parasitics attached after read_spef (first: g_lane\\[0\\].u_tx/_11_/Y, net_with_other_pins) -- the worst_slack_ns/etc. fields above are NOT a real-parasitics measurement to the extent annotation is missing.",
+        "delay_changed": true,
+        "design_nets_annotated": 2519,
+        "design_nets_missing_sample": [
+          "g_lane[0].u_tx/_00_[0]",
+          "g_lane[0].u_tx/_00_[1]",
+          "g_lane[0].u_tx/_01_[0]",
+          "g_lane[0].u_tx/_01_[1]",
+          "g_lane[0].u_tx/_02_",
+          "g_lane[0].u_tx/_03_",
+          "g_lane[0].u_tx/_04_",
+          "g_lane[0].u_tx/_05_",
+          "g_lane[0].u_tx/_06_",
+          "g_lane[0].u_tx/_07_",
+          "g_lane[0].u_tx/_08_",
+          "g_lane[0].u_tx/_09_",
+          "g_lane[10].u_tx/_00_[0]",
+          "g_lane[10].u_tx/_00_[1]",
+          "g_lane[10].u_tx/_01_[0]",
+          "g_lane[10].u_tx/_01_[1]",
+          "g_lane[10].u_tx/_02_",
+          "g_lane[10].u_tx/_03_",
+          "g_lane[10].u_tx/_04_",
+          "g_lane[10].u_tx/_05_"
+        ],
+        "design_nets_total": 2713,
+        "floating_driver_count": 15,
+        "floating_driver_sample": [
+          "clkload0/Y",
+          "clkload1/Y",
+          "clkload10/Y",
+          "clkload11/Y",
+          "clkload12/Y",
+          "clkload13/Y",
+          "clkload14/Y",
+          "clkload2/Y",
+          "clkload3/Y",
+          "clkload4/Y",
+          "clkload5/Y",
+          "clkload6/Y",
+          "clkload7/Y",
+          "clkload8/Y",
+          "clkload9/Y"
+        ],
+        "nets_annotated": 2519,
+        "nets_total": 2519,
+        "partially_unannotated_driver_count": 64,
+        "partially_unannotated_driver_sample": [
+          "rx_a[0]",
+          "u_cdc/_2952_/A",
+          "u_cdc/_3103_/A",
+          "u_cdc/_3263_/A",
+          "u_cdc/_3430_/A",
+          "u_cdc/_3576_/A",
+          "u_cdc/_3721_/A",
+          "u_cdc/_3872_/A",
+          "u_cdc/_4023_/A",
+          "rx_a[10]",
+          "u_cdc/_2907_/A",
+          "u_cdc/_3058_/A",
+          "u_cdc/_3219_/A",
+          "u_cdc/_3385_/A",
+          "u_cdc/_3532_/A",
+          "u_cdc/_3677_/A",
+          "u_cdc/_3830_/A",
+          "u_cdc/_3980_/A",
+          "rx_a[11]",
+          "u_cdc/_2903_/A"
+        ],
+        "reader_warning_count": 158,
+        "reader_warning_sample": [
+          "[WARNING STA-1650] layout/slice_routed.spef line 2266, net u_cdc/rsel\\[0\\]\\[3\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2267, net u_cdc/rsel\\[0\\]\\[5\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2268, net u_cdc/rsel\\[0\\]\\[6\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2269, net u_cdc/rsel\\[1\\]\\[0\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2270, net u_cdc/rsel\\[1\\]\\[1\\] not found."
+        ],
+        "unannotated_driver_count": 223,
+        "unannotated_driver_detail": [
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_11_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_12_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_13_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_14_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_18_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_19_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_20_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_21_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_22_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_23_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_24_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_25_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_11_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_12_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_13_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_14_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_18_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_19_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_20_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_21_/QN"
+          }
+        ],
+        "unannotated_driver_sample": [
+          "g_lane\\[0\\].u_tx/_11_/Y",
+          "g_lane\\[0\\].u_tx/_12_/Y",
+          "g_lane\\[0\\].u_tx/_13_/Y",
+          "g_lane\\[0\\].u_tx/_14_/Y",
+          "g_lane\\[0\\].u_tx/_18_/QN",
+          "g_lane\\[0\\].u_tx/_19_/QN",
+          "g_lane\\[0\\].u_tx/_20_/QN",
+          "g_lane\\[0\\].u_tx/_21_/QN",
+          "g_lane\\[0\\].u_tx/_22_/H",
+          "g_lane\\[0\\].u_tx/_23_/H",
+          "g_lane\\[0\\].u_tx/_24_/H",
+          "g_lane\\[0\\].u_tx/_25_/H",
+          "g_lane\\[10\\].u_tx/_11_/Y",
+          "g_lane\\[10\\].u_tx/_12_/Y",
+          "g_lane\\[10\\].u_tx/_13_/Y",
+          "g_lane\\[10\\].u_tx/_14_/Y",
+          "g_lane\\[10\\].u_tx/_18_/QN",
+          "g_lane\\[10\\].u_tx/_19_/QN",
+          "g_lane\\[10\\].u_tx/_20_/QN",
+          "g_lane\\[10\\].u_tx/_21_/QN"
+        ]
+      },
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": 0,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4483_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.05157,
+        "startpoint": "u_cdc/_4483_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.05157,
+      "worst_paths_by_group": {
+        "hold": [
+          {
+            "check_type": "hold",
+            "endpoint": "u_cdc/_4483_/D",
+            "engine_check_role": "hold",
+            "slack_ns": 0.05157,
+            "startpoint": "u_cdc/_4483_/QN"
+          }
+        ],
+        "reason": null,
+        "setup": [
+          {
+            "check_type": "setup",
+            "endpoint": "u_cdc/_4681_/D",
+            "engine_check_role": "setup",
+            "slack_ns": 0.24002,
+            "startpoint": "u_cdc/_4681_/QN"
+          }
+        ],
+        "status": "ok"
+      },
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4681_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": 0.24002,
+        "startpoint": "u_cdc/_4681_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": 0.24002
+    },
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0.01525,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_4065_/CLK",
+            "u_cdc/_4069_/CLK",
+            "u_cdc/_4070_/CLK",
+            "u_cdc/_4071_/CLK",
+            "u_cdc/_4072_/CLK",
+            "u_cdc/_4073_/CLK",
+            "u_cdc/_4074_/CLK",
+            "u_cdc/_4075_/CLK",
+            "u_cdc/_4076_/CLK",
+            "u_cdc/_4077_/CLK",
+            "u_cdc/_4078_/CLK",
+            "u_cdc/_4079_/CLK",
+            "u_cdc/_4080_/CLK",
+            "u_cdc/_4081_/CLK",
+            "u_cdc/_4082_/CLK",
+            "u_cdc/_4083_/CLK",
+            "u_cdc/_4084_/CLK",
+            "u_cdc/_4085_/CLK",
+            "u_cdc/_4086_/CLK",
+            "u_cdc/_4087_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "ss",
+      "deck": {
+        "content_hash": "sha256:f7f40a8783c61fbea352e0b77206cda1c65a1770f1e987685a46d4e50f682e23",
+        "name": "asap7sc7p5t_rvt__ss",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": {
+        "max_capacitance": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "net_count": 0,
+          "unit": "pF",
+          "violation_count": 0,
+          "worst_excess": null,
+          "worst_pin": null
+        },
+        "max_transition": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "net_count": 0,
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_excess": null,
+          "worst_pin": null
+        },
+        "min_period": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_pin": null,
+          "worst_slack_ns": null
+        },
+        "min_pulse_width": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_pin": null,
+          "worst_slack_ns": null
+        },
+        "parasitics_source": "spef"
+      },
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/6636bf54f1ca4d0e888a1310b4b3b33b",
+          "scope": "repo"
+        },
+        "invocation_id": "6636bf54f1ca4d0e888a1310b4b3b33b",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/6636bf54f1ca4d0e888a1310b4b3b33b/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_routed__ss_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_routed__ss.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_routed__ss.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "5a32529d941b50771cc4eab337f2c0349c48ea354eeeb6e1bedb58f99efbbb4c",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/6636bf54f1ca4d0e888a1310b4b3b33b/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/6636bf54f1ca4d0e888a1310b4b3b33b/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.5222,
+      "fmax_mhz": 2465.09,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "spef_annotated"
+      },
+      "sdf": null,
+      "setup_violation_count": 0,
+      "spef_annotation": {
+        "annotation_complete": false,
+        "annotation_warning": "only 2519 of 2713 nets in the linked design are named by this SPEF (if this SPEF came from `klt extract`, re-run it with `--def-net-names` and `--def-pins <routed.def>` so net names match the linked design); read_spef discarded annotation for 158 SPEF record(s) it could not resolve against the linked design (OpenSTA STA-1650/STA-1648 'not found' warnings); report_parasitic_annotation found 208 driver(s) with no parasitics attached after read_spef (first: g_lane\\[0\\].u_tx/_11_/Y, net_with_other_pins) -- the worst_slack_ns/etc. fields above are NOT a real-parasitics measurement to the extent annotation is missing.",
+        "delay_changed": true,
+        "design_nets_annotated": 2519,
+        "design_nets_missing_sample": [
+          "g_lane[0].u_tx/_00_[0]",
+          "g_lane[0].u_tx/_00_[1]",
+          "g_lane[0].u_tx/_01_[0]",
+          "g_lane[0].u_tx/_01_[1]",
+          "g_lane[0].u_tx/_02_",
+          "g_lane[0].u_tx/_03_",
+          "g_lane[0].u_tx/_04_",
+          "g_lane[0].u_tx/_05_",
+          "g_lane[0].u_tx/_06_",
+          "g_lane[0].u_tx/_07_",
+          "g_lane[0].u_tx/_08_",
+          "g_lane[0].u_tx/_09_",
+          "g_lane[10].u_tx/_00_[0]",
+          "g_lane[10].u_tx/_00_[1]",
+          "g_lane[10].u_tx/_01_[0]",
+          "g_lane[10].u_tx/_01_[1]",
+          "g_lane[10].u_tx/_02_",
+          "g_lane[10].u_tx/_03_",
+          "g_lane[10].u_tx/_04_",
+          "g_lane[10].u_tx/_05_"
+        ],
+        "design_nets_total": 2713,
+        "floating_driver_count": 15,
+        "floating_driver_sample": [
+          "clkload0/Y",
+          "clkload1/Y",
+          "clkload10/Y",
+          "clkload11/Y",
+          "clkload12/Y",
+          "clkload13/Y",
+          "clkload14/Y",
+          "clkload2/Y",
+          "clkload3/Y",
+          "clkload4/Y",
+          "clkload5/Y",
+          "clkload6/Y",
+          "clkload7/Y",
+          "clkload8/Y",
+          "clkload9/Y"
+        ],
+        "nets_annotated": 2519,
+        "nets_total": 2519,
+        "partially_unannotated_driver_count": 64,
+        "partially_unannotated_driver_sample": [
+          "rx_a[0]",
+          "u_cdc/_2952_/A",
+          "u_cdc/_3103_/A",
+          "u_cdc/_3263_/A",
+          "u_cdc/_3430_/A",
+          "u_cdc/_3576_/A",
+          "u_cdc/_3721_/A",
+          "u_cdc/_3872_/A",
+          "u_cdc/_4023_/A",
+          "rx_a[10]",
+          "u_cdc/_2907_/A",
+          "u_cdc/_3058_/A",
+          "u_cdc/_3219_/A",
+          "u_cdc/_3385_/A",
+          "u_cdc/_3532_/A",
+          "u_cdc/_3677_/A",
+          "u_cdc/_3830_/A",
+          "u_cdc/_3980_/A",
+          "rx_a[11]",
+          "u_cdc/_2903_/A"
+        ],
+        "reader_warning_count": 158,
+        "reader_warning_sample": [
+          "[WARNING STA-1650] layout/slice_routed.spef line 2266, net u_cdc/rsel\\[0\\]\\[3\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2267, net u_cdc/rsel\\[0\\]\\[5\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2268, net u_cdc/rsel\\[0\\]\\[6\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2269, net u_cdc/rsel\\[1\\]\\[0\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2270, net u_cdc/rsel\\[1\\]\\[1\\] not found."
+        ],
+        "unannotated_driver_count": 223,
+        "unannotated_driver_detail": [
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_11_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_12_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_13_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_14_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_18_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_19_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_20_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_21_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_22_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_23_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_24_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_25_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_11_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_12_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_13_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_14_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_18_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_19_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_20_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_21_/QN"
+          }
+        ],
+        "unannotated_driver_sample": [
+          "g_lane\\[0\\].u_tx/_11_/Y",
+          "g_lane\\[0\\].u_tx/_12_/Y",
+          "g_lane\\[0\\].u_tx/_13_/Y",
+          "g_lane\\[0\\].u_tx/_14_/Y",
+          "g_lane\\[0\\].u_tx/_18_/QN",
+          "g_lane\\[0\\].u_tx/_19_/QN",
+          "g_lane\\[0\\].u_tx/_20_/QN",
+          "g_lane\\[0\\].u_tx/_21_/QN",
+          "g_lane\\[0\\].u_tx/_22_/H",
+          "g_lane\\[0\\].u_tx/_23_/H",
+          "g_lane\\[0\\].u_tx/_24_/H",
+          "g_lane\\[0\\].u_tx/_25_/H",
+          "g_lane\\[10\\].u_tx/_11_/Y",
+          "g_lane\\[10\\].u_tx/_12_/Y",
+          "g_lane\\[10\\].u_tx/_13_/Y",
+          "g_lane\\[10\\].u_tx/_14_/Y",
+          "g_lane\\[10\\].u_tx/_18_/QN",
+          "g_lane\\[10\\].u_tx/_19_/QN",
+          "g_lane\\[10\\].u_tx/_20_/QN",
+          "g_lane\\[10\\].u_tx/_21_/QN"
+        ]
+      },
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": 0,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4483_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.07469,
+        "startpoint": "u_cdc/_4483_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.07469,
+      "worst_paths_by_group": {
+        "hold": [
+          {
+            "check_type": "hold",
+            "endpoint": "u_cdc/_4483_/D",
+            "engine_check_role": "hold",
+            "slack_ns": 0.07469,
+            "startpoint": "u_cdc/_4483_/QN"
+          }
+        ],
+        "reason": null,
+        "setup": [
+          {
+            "check_type": "setup",
+            "endpoint": "u_cdc/_4681_/D",
+            "engine_check_role": "setup",
+            "slack_ns": 0.09434,
+            "startpoint": "u_cdc/_4681_/QN"
+          }
+        ],
+        "status": "ok"
+      },
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4681_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": 0.09434,
+        "startpoint": "u_cdc/_4681_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": 0.09434
+    },
+    {
+      "clock_propagation": null,
+      "clock_skew_ns": 0.00582,
+      "constraint_completeness": {
+        "sample_limit": 20,
+        "status": "incomplete",
+        "unclocked_registers": {
+          "count": 528,
+          "reason": null,
+          "sample": [
+            "u_cdc/_4065_/CLK",
+            "u_cdc/_4069_/CLK",
+            "u_cdc/_4070_/CLK",
+            "u_cdc/_4071_/CLK",
+            "u_cdc/_4072_/CLK",
+            "u_cdc/_4073_/CLK",
+            "u_cdc/_4074_/CLK",
+            "u_cdc/_4075_/CLK",
+            "u_cdc/_4076_/CLK",
+            "u_cdc/_4077_/CLK",
+            "u_cdc/_4078_/CLK",
+            "u_cdc/_4079_/CLK",
+            "u_cdc/_4080_/CLK",
+            "u_cdc/_4081_/CLK",
+            "u_cdc/_4082_/CLK",
+            "u_cdc/_4083_/CLK",
+            "u_cdc/_4084_/CLK",
+            "u_cdc/_4085_/CLK",
+            "u_cdc/_4086_/CLK",
+            "u_cdc/_4087_/CLK"
+          ],
+          "status": "ok",
+          "truncated": true
+        },
+        "unconstrained_endpoints": {
+          "count": 665,
+          "reason": null,
+          "sample": [
+            "rx_data[0]",
+            "rx_data[10]",
+            "rx_data[11]",
+            "rx_data[12]",
+            "rx_data[13]",
+            "rx_data[14]",
+            "rx_data[15]",
+            "rx_data[16]",
+            "rx_data[17]",
+            "rx_data[18]",
+            "rx_data[19]",
+            "rx_data[1]",
+            "rx_data[20]",
+            "rx_data[21]",
+            "rx_data[22]",
+            "rx_data[23]",
+            "rx_data[24]",
+            "rx_data[25]",
+            "rx_data[26]",
+            "rx_data[27]"
+          ],
+          "status": "ok",
+          "truncated": true
+        }
+      },
+      "corner": "ff",
+      "deck": {
+        "content_hash": "sha256:9939d79e8a5b889d5c632f1d39764886388b5654d8b08ba85c29966009bfa0c0",
+        "name": "asap7sc7p5t_rvt__ff",
+        "path": {
+          "path": null,
+          "scope": "external"
+        },
+        "released": false
+      },
+      "electrical_checks": {
+        "max_capacitance": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "net_count": 0,
+          "unit": "pF",
+          "violation_count": 0,
+          "worst_excess": null,
+          "worst_pin": null
+        },
+        "max_transition": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "net_count": 0,
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_excess": null,
+          "worst_pin": null
+        },
+        "min_period": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_pin": null,
+          "worst_slack_ns": null
+        },
+        "min_pulse_width": {
+          "coverage": "checked",
+          "limit_source": "liberty",
+          "unit": "ns",
+          "violation_count": 0,
+          "worst_pin": null,
+          "worst_slack_ns": null
+        },
+        "parasitics_source": "spef"
+      },
+      "engine_log": {
+        "directory": {
+          "path": "sta/.klt/sta/openroad-logs/296f3a1fdc184007b770d6a631b6e1e9",
+          "scope": "repo"
+        },
+        "invocation_id": "296f3a1fdc184007b770d6a631b6e1e9",
+        "metadata_path": {
+          "path": "sta/.klt/sta/openroad-logs/296f3a1fdc184007b770d6a631b6e1e9/invocation.json",
+          "scope": "repo"
+        },
+        "metrics_path": {
+          "path": "sta/.klt/sta/slice_routed__ff_metrics.json",
+          "scope": "repo"
+        },
+        "outcome": "exited",
+        "retention_errors": [],
+        "returncode": 0,
+        "script_name": "sta_slice_routed__ff.tcl",
+        "script_path": {
+          "path": "sta/.klt/sta/sta_slice_routed__ff.tcl",
+          "scope": "repo"
+        },
+        "script_sha256": "9e8578d51ee40ac814c115b06474532e1ac2d91ca59a65ca55025b0864074232",
+        "stderr_path": {
+          "path": "sta/.klt/sta/openroad-logs/296f3a1fdc184007b770d6a631b6e1e9/stderr.log",
+          "scope": "repo"
+        },
+        "stdout_path": {
+          "path": "sta/.klt/sta/openroad-logs/296f3a1fdc184007b770d6a631b6e1e9/stdout.log",
+          "scope": "repo"
+        }
+      },
+      "estimated_power_mw": 0.856,
+      "fmax_mhz": 5111.67,
+      "hold_violation_count": 0,
+      "power_basis": {
+        "activity": null,
+        "activity_source": "engine_default",
+        "duty": null,
+        "parasitics": "spef_annotated"
+      },
+      "sdf": null,
+      "setup_violation_count": 0,
+      "spef_annotation": {
+        "annotation_complete": false,
+        "annotation_warning": "only 2519 of 2713 nets in the linked design are named by this SPEF (if this SPEF came from `klt extract`, re-run it with `--def-net-names` and `--def-pins <routed.def>` so net names match the linked design); read_spef discarded annotation for 158 SPEF record(s) it could not resolve against the linked design (OpenSTA STA-1650/STA-1648 'not found' warnings); report_parasitic_annotation found 208 driver(s) with no parasitics attached after read_spef (first: g_lane\\[0\\].u_tx/_11_/Y, net_with_other_pins) -- the worst_slack_ns/etc. fields above are NOT a real-parasitics measurement to the extent annotation is missing.",
+        "delay_changed": true,
+        "design_nets_annotated": 2519,
+        "design_nets_missing_sample": [
+          "g_lane[0].u_tx/_00_[0]",
+          "g_lane[0].u_tx/_00_[1]",
+          "g_lane[0].u_tx/_01_[0]",
+          "g_lane[0].u_tx/_01_[1]",
+          "g_lane[0].u_tx/_02_",
+          "g_lane[0].u_tx/_03_",
+          "g_lane[0].u_tx/_04_",
+          "g_lane[0].u_tx/_05_",
+          "g_lane[0].u_tx/_06_",
+          "g_lane[0].u_tx/_07_",
+          "g_lane[0].u_tx/_08_",
+          "g_lane[0].u_tx/_09_",
+          "g_lane[10].u_tx/_00_[0]",
+          "g_lane[10].u_tx/_00_[1]",
+          "g_lane[10].u_tx/_01_[0]",
+          "g_lane[10].u_tx/_01_[1]",
+          "g_lane[10].u_tx/_02_",
+          "g_lane[10].u_tx/_03_",
+          "g_lane[10].u_tx/_04_",
+          "g_lane[10].u_tx/_05_"
+        ],
+        "design_nets_total": 2713,
+        "floating_driver_count": 15,
+        "floating_driver_sample": [
+          "clkload0/Y",
+          "clkload1/Y",
+          "clkload10/Y",
+          "clkload11/Y",
+          "clkload12/Y",
+          "clkload13/Y",
+          "clkload14/Y",
+          "clkload2/Y",
+          "clkload3/Y",
+          "clkload4/Y",
+          "clkload5/Y",
+          "clkload6/Y",
+          "clkload7/Y",
+          "clkload8/Y",
+          "clkload9/Y"
+        ],
+        "nets_annotated": 2519,
+        "nets_total": 2519,
+        "partially_unannotated_driver_count": 64,
+        "partially_unannotated_driver_sample": [
+          "rx_a[0]",
+          "u_cdc/_2952_/A",
+          "u_cdc/_3103_/A",
+          "u_cdc/_3263_/A",
+          "u_cdc/_3430_/A",
+          "u_cdc/_3576_/A",
+          "u_cdc/_3721_/A",
+          "u_cdc/_3872_/A",
+          "u_cdc/_4023_/A",
+          "rx_a[10]",
+          "u_cdc/_2907_/A",
+          "u_cdc/_3058_/A",
+          "u_cdc/_3219_/A",
+          "u_cdc/_3385_/A",
+          "u_cdc/_3532_/A",
+          "u_cdc/_3677_/A",
+          "u_cdc/_3830_/A",
+          "u_cdc/_3980_/A",
+          "rx_a[11]",
+          "u_cdc/_2903_/A"
+        ],
+        "reader_warning_count": 158,
+        "reader_warning_sample": [
+          "[WARNING STA-1650] layout/slice_routed.spef line 2266, net u_cdc/rsel\\[0\\]\\[3\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2267, net u_cdc/rsel\\[0\\]\\[5\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2268, net u_cdc/rsel\\[0\\]\\[6\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2269, net u_cdc/rsel\\[1\\]\\[0\\] not found.",
+          "[WARNING STA-1650] layout/slice_routed.spef line 2270, net u_cdc/rsel\\[1\\]\\[1\\] not found."
+        ],
+        "unannotated_driver_count": 223,
+        "unannotated_driver_detail": [
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_11_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_12_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_13_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_14_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_18_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_19_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_20_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_21_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_22_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_23_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_24_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[0\\].u_tx/_25_/H"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_11_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_12_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_13_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_14_/Y"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_18_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_19_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_20_/QN"
+          },
+          {
+            "net": null,
+            "net_status": "net_with_other_pins",
+            "pin": "g_lane\\[10\\].u_tx/_21_/QN"
+          }
+        ],
+        "unannotated_driver_sample": [
+          "g_lane\\[0\\].u_tx/_11_/Y",
+          "g_lane\\[0\\].u_tx/_12_/Y",
+          "g_lane\\[0\\].u_tx/_13_/Y",
+          "g_lane\\[0\\].u_tx/_14_/Y",
+          "g_lane\\[0\\].u_tx/_18_/QN",
+          "g_lane\\[0\\].u_tx/_19_/QN",
+          "g_lane\\[0\\].u_tx/_20_/QN",
+          "g_lane\\[0\\].u_tx/_21_/QN",
+          "g_lane\\[0\\].u_tx/_22_/H",
+          "g_lane\\[0\\].u_tx/_23_/H",
+          "g_lane\\[0\\].u_tx/_24_/H",
+          "g_lane\\[0\\].u_tx/_25_/H",
+          "g_lane\\[10\\].u_tx/_11_/Y",
+          "g_lane\\[10\\].u_tx/_12_/Y",
+          "g_lane\\[10\\].u_tx/_13_/Y",
+          "g_lane\\[10\\].u_tx/_14_/Y",
+          "g_lane\\[10\\].u_tx/_18_/QN",
+          "g_lane\\[10\\].u_tx/_19_/QN",
+          "g_lane\\[10\\].u_tx/_20_/QN",
+          "g_lane\\[10\\].u_tx/_21_/QN"
+        ]
+      },
+      "timing_status": "constrained",
+      "total_negative_hold_slack_ns": 0,
+      "total_negative_slack_ns": 0,
+      "worst_hold_path": {
+        "check_type": "hold",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4483_/D",
+        "engine_check_role": "hold",
+        "reason": null,
+        "slack_ns": 0.03454,
+        "startpoint": "u_cdc/_4483_/QN",
+        "status": "ok"
+      },
+      "worst_hold_slack_ns": 0.03454,
+      "worst_paths_by_group": {
+        "hold": [
+          {
+            "check_type": "hold",
+            "endpoint": "u_cdc/_4483_/D",
+            "engine_check_role": "hold",
+            "slack_ns": 0.03454,
+            "startpoint": "u_cdc/_4483_/QN"
+          }
+        ],
+        "reason": null,
+        "setup": [
+          {
+            "check_type": "setup",
+            "endpoint": "u_cdc/_4681_/D",
+            "engine_check_role": "setup",
+            "slack_ns": 0.30437,
+            "startpoint": "u_cdc/_4681_/QN"
+          }
+        ],
+        "status": "ok"
+      },
+      "worst_setup_path": {
+        "check_type": "setup",
+        "consistent_with_aggregate": true,
+        "endpoint": "u_cdc/_4681_/D",
+        "engine_check_role": "setup",
+        "reason": null,
+        "slack_ns": 0.30437,
+        "startpoint": "u_cdc/_4681_/QN",
+        "status": "ok"
+      },
+      "worst_slack_ns": 0.30437
+    }
+  ],
+  "def_path": {
+    "path": "layout/slice_routed.def",
+    "scope": "repo"
+  },
+  "engine": "openroad",
+  "engine_version": "26Q3-1510-g6cb3f2b704",
+  "geometry_source": "routed",
+  "hdl_toplevel": "slice",
+  "macros": [],
+  "provenance": {
+    "deck": null,
+    "input": {
+      "content_hash": "sha256:86e61cc4d67d8ab225458625d3c678dfbe8196892873e8c2e47d859527a21b64",
+      "role": "layout"
+    },
+    "klayout_version": "0.30.12",
+    "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+    "klt_reinstall_spec": "klayout-tools==0.9.2",
+    "klt_version": "0.9.2",
+    "pdk": {
+      "name": "asap7",
+      "source": "--pdk-root flag",
+      "version": null
+    }
+  },
+  "schema_version": 2,
+  "spef_path": {
+    "path": "layout/slice_routed.spef",
+    "scope": "repo"
+  },
+  "status": "ok",
+  "verilog_path": null,
+  "wire_load_mode": null,
+  "wire_load_model": null
+}
