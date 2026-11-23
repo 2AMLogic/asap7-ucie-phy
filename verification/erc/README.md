@@ -55,6 +55,19 @@ moves onto. The gate contact is the one undeclared level that can carry a net, a
 `235/5` marker/text, `96/0` PAD) are not routing levels; `96/0` is the same uncovered layer the DRC record already
 notes. `provenance.deck` is `null`: the run used no curated deck.
 
+The inverse direction — stackup entries whose declared `label_layer` carries no text anywhere in the analysed
+stream — cannot be read from the committed JSON (the report has no `warnings` field), so it is disclosed here from
+the stderr of the replay command above (`$K erc --check verification/erc/<stream>.r2.report.json --rerun
+2>stderr`, distinct warnings counted at klt 0.9.2 + KLayout 0.30.12, all five streams replaying `match`):
+M2, M3, M4, M5 and M6 on every per-cell stream — `tx_cell`, `rx_cell`, `tx_clk_cell`, `rx_clk_cell` (5 warnings
+each; only M1's `19/251` carries the rail text, `layout/gen_cells_gds.py`) — and M3 and M5 on
+`layout/lane_column.gds` (2; the column's other declared label layers M1, M2, M4 and M6 do carry text there).
+The warning is interpretation-relevant: a net matched *through* a textless layer would resolve zero islands
+(`erc.unconnected_net`) and read `gates[].net: null`. No committed number is affected — VDD and VSS match through
+the label layers that do carry text and resolve the island counts in the table above (1 of 1 per cell, 50 on the
+column) — and the stderr capture is the evidence of record: the warnings are reproducible only by re-running the
+command, not from the report JSON.
+
 ## Findings and owners
 
 - **`erc.missing_tie`** (3 per cell: 1 `nwell_tie` on VDD, 2 `substrate_tie` on VSS; 34 `nwell_tie` and no
