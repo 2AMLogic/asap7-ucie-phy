@@ -6,28 +6,29 @@
     "route_congestion_iterations": null,
     "signal_layers": "M2-M7"
   },
-  "clock_skew_ns": 0.00968,
+  "clock_skew_ns": 0.00933,
   "congestion": {
     "completeness": {
       "partially_routed_net_count": null,
-      "signal_net_count": 2692,
+      "signal_net_count": 2691,
       "unrouted_net_count": 0
     },
     "detailed_route": {
       "converged": true,
       "drc_violations_per_iteration": [
-        1342,
-        193,
-        178,
+        1255,
+        145,
+        114,
+        1,
         0
       ],
-      "first_iteration_drc_violation_count": 1342,
-      "iteration_count": 4
+      "first_iteration_drc_violation_count": 1255,
+      "iteration_count": 5
     },
     "global_route": {
       "max_gcell_usage_pct": null,
       "max_horizontal_overflow": 0,
-      "max_layer_usage_pct": 23.44,
+      "max_layer_usage_pct": 23.78,
       "max_vertical_overflow": 0,
       "overflow_per_layer": {
         "M1": {
@@ -39,42 +40,42 @@
           "usage_pct": 0.0
         },
         "M2": {
-          "demand": 7268,
+          "demand": 7608,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 47688,
+          "resource": 47259,
           "total_overflow": 0,
-          "usage_pct": 15.24
+          "usage_pct": 16.1
         },
         "M3": {
-          "demand": 12668,
+          "demand": 12562,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 54053,
+          "resource": 52828,
           "total_overflow": 0,
-          "usage_pct": 23.44
+          "usage_pct": 23.78
         },
         "M4": {
-          "demand": 3105,
+          "demand": 2903,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 39252,
+          "resource": 38794,
           "total_overflow": 0,
-          "usage_pct": 7.91
+          "usage_pct": 7.48
         },
         "M5": {
-          "demand": 63,
+          "demand": 214,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 37865,
+          "resource": 36918,
           "total_overflow": 0,
-          "usage_pct": 0.17
+          "usage_pct": 0.58
         },
         "M6": {
           "demand": 0,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 26582,
+          "resource": 26326,
           "total_overflow": 0,
           "usage_pct": 0.0
         },
@@ -82,15 +83,15 @@
           "demand": 0,
           "max_horizontal_overflow": 0,
           "max_vertical_overflow": 0,
-          "resource": 30793,
+          "resource": 30094,
           "total_overflow": 0,
           "usage_pct": 0.0
         }
       },
       "overflow_regions": null,
-      "routed_net_count": 2710,
+      "routed_net_count": 2709,
       "total_overflow": 0,
-      "usage_pct": 9.78
+      "usage_pct": 10.03
     },
     "null_reasons": {
       "completeness.partially_routed_net_count": "OpenROAD exposes no per-net connectivity check; only nets with no routed wire at all are counted",
@@ -98,12 +99,12 @@
       "global_route.overflow_regions": "no `global_route -congestion_report_file` report was produced or it held no congestion violations"
     },
     "placement": {
-      "final_weighted_congestion": 0.3609,
+      "final_weighted_congestion": 0.36,
       "overflowed_tile_count": 0,
       "total_routing_overflow": 0.0
     }
   },
-  "core_area_um2": 937.786,
+  "core_area_um2": 914.545,
   "corners": [],
   "coverage": {
     "density_compliance": {
@@ -122,7 +123,7 @@
     "unresolved_single_pin_nets": []
   },
   "def_path": "<scratch>/run/.klt/place-and-route/slice.def",
-  "die_area_um2": 1080.9,
+  "die_area_um2": 1056.3,
   "engine": "openroad",
   "engine_logs": [
     {
@@ -130,7 +131,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "bab8cb58e8a244bbb403eeb835bff0ea",
+      "invocation_id": "0cbc9b70602d438dba46070b6ed85b04",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -147,7 +148,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "fa7c23f5301b987abd71f9247a13111dc65f83c3350c9fb183ccc8dcdae59ad7",
+      "script_sha256": "e08f72627a22c331bf74539b6c9c5213c91f35b7bb4577a4cc6ed5ffb9ae2270",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -162,7 +163,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "7d199f83c2884020bd1149ed7fcea1a2",
+      "invocation_id": "cef19413d04341e787a0fc313ac7fe66",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -179,7 +180,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "8182eb2f942991ae000fd34201d49b9fd189cde5f1069b752bf9af7bbec3d11a",
+      "script_sha256": "abd6e627132104cd86b83132c6770746f48324c72965f594b7259c8ed32b9354",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -194,7 +195,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "f0a4945d76eb429684f873065416d57b",
+      "invocation_id": "b53107fefe9a490bb0bc29761306900e",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -211,7 +212,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "e373ae031ffa66246f036de7856fd98b26267d2859fdd362b0b609127e2dd4d3",
+      "script_sha256": "0d4461414530045593e50dc8ee8e7ef4821eb4fc80c16cad0b3d1a195748bdd4",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -226,7 +227,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "78fe69dd9e26426cb29429080ab8c0c3",
+      "invocation_id": "994dc3f91f81488181d18c5dd00ae31d",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -243,7 +244,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "03966c62d27dadf64572e4dc2f94f9cc29a7654d9e8f9ad7a9b678dac27617c8",
+      "script_sha256": "2796bec8531523966120b03ad76a084922b05a0cbbca87b8411438faeeb47443",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -258,7 +259,7 @@
         "path": null,
         "scope": "external"
       },
-      "invocation_id": "9a3b51cd56734cf8928f3aac7d2f43e7",
+      "invocation_id": "943bcfb80d264df785cfe3f27d66e371",
       "metadata_path": {
         "path": null,
         "scope": "external"
@@ -275,7 +276,7 @@
         "path": null,
         "scope": "external"
       },
-      "script_sha256": "5e560fdedc1a415b719bec746cfff94d382fa3d2bdb8ae1de575417e65ed12ed",
+      "script_sha256": "2d86b38d5fc6dfba76230e0bd1d5daff828d2a0b06a79e695dcc4b47452466fc",
       "stderr_path": {
         "path": null,
         "scope": "external"
@@ -287,8 +288,8 @@
     }
   ],
   "engine_version": "26Q3-1510-g6cb3f2b704",
-  "estimated_power_mw": 0.6739,
-  "fmax_mhz": 3731.41,
+  "estimated_power_mw": 0.6567,
+  "fmax_mhz": 3923.93,
   "gds_dbu_um": 0.00025,
   "gds_path": "<scratch>/run/.klt/place-and-route/slice.gds",
   "hdl_toplevel": "slice",
@@ -324,1414 +325,1414 @@
       "edge": "north",
       "layer": "M6",
       "name": "VDD",
-      "x_um": 11.88,
+      "x_um": 11.745,
       "y_um": 39.44
     },
     {
       "edge": "north",
       "layer": "M6",
       "name": "VSS",
-      "x_um": 11.88,
+      "x_um": 11.745,
       "y_um": 39.056
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "clk",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 19.98
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "link_ready",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.22
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rst_n",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.316
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[0]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.076
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[10]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.228
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[11]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.42
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[12]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.612
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[13]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.804
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[14]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.996
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[15]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.284
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[16]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.476
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[17]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.668
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[18]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.86
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[19]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.052
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[1]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.188
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[20]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.34
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[21]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.532
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[22]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.724
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[23]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.916
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[24]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.108
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[25]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.396
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[26]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.588
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[27]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.78
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[28]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.972
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[29]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.164
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[2]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.3
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[30]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.452
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[31]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.644
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[3]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.836
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[4]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.028
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[5]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.172
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[6]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.364
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[7]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.556
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[8]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.748
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_a[9]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.94
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[0]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.132
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[10]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.324
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[11]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.516
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[12]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.708
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[13]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.9
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[14]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.092
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[15]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.38
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[16]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.572
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[17]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.764
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[18]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 22.956
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[19]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.148
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[1]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.244
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[20]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.436
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[21]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.628
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[22]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 23.82
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[23]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.012
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[24]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.204
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[25]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.492
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[26]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.684
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[27]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 24.876
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[28]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.068
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[29]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.26
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[2]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.356
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[30]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.548
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[31]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.74
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[3]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 25.932
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[4]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.124
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[5]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.268
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[6]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.46
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[7]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.652
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[8]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 20.844
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_b[9]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 21.036
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_clk",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.412
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[0]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.508
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[10]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.604
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[11]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.7
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[12]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.796
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[13]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.892
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[14]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 26.988
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[15]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.084
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[16]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.18
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[17]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.276
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[18]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.372
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[19]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.468
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[1]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.564
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[20]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.66
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[21]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.756
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[22]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.852
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[23]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 27.948
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[24]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.044
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[25]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.14
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[26]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.236
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[27]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.332
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[28]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.428
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[29]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.524
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[2]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.62
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[30]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.716
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[31]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.812
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[32]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 28.908
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[33]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.004
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[34]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.1
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[35]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.196
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[36]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.292
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[37]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.388
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[38]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.484
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[39]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.58
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[3]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.676
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[40]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.772
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[41]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.868
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[42]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 29.964
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[43]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.06
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[44]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.156
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[45]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.252
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[46]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.348
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[47]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.444
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[48]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.54
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[49]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.636
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[4]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.732
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[50]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.828
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[51]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 30.924
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[52]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.02
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[53]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.116
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[54]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.212
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[55]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.308
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[56]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.404
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[57]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.5
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[58]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.596
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[59]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.692
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[5]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.788
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[60]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.884
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[61]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 31.98
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[62]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.076
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[63]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.172
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[6]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.268
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[7]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.364
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[8]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.46
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_data[9]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.556
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_overflow",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.652
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_rst_n",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.748
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "rx_valid",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.844
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[0]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 32.94
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[10]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.036
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[11]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.132
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[12]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.228
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[13]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.324
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[14]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.42
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[15]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.516
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[16]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.612
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[17]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.708
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[18]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.804
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[19]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.9
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[1]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 33.996
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[20]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.092
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[21]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.188
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[22]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.284
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[23]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.38
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[24]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.476
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[25]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.572
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[26]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.668
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[27]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.764
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[28]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.86
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[29]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 34.956
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[2]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.052
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[30]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.148
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[31]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.244
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[3]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.34
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[4]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.436
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[5]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.532
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[6]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.628
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[7]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.724
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[8]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.82
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_a[9]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 35.916
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[0]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.012
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[10]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.108
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[11]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.204
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[12]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.3
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[13]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.396
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[14]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.492
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[15]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.588
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[16]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.684
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[17]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.78
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[18]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.876
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[19]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 36.972
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[1]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.068
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[20]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.164
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[21]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.26
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[22]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.356
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[23]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.452
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[24]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.548
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[25]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.644
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[26]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.74
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[27]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.836
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[28]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 37.932
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[29]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.028
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[2]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.124
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[30]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.22
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[31]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.316
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[3]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.412
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[4]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.508
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[5]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.604
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[6]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.7
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[7]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.796
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[8]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.892
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_b[9]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 38.988
     },
     {
       "edge": "east",
       "layer": "M4",
       "name": "tx_data[0]",
-      "x_um": 23.711,
+      "x_um": 23.445,
       "y_um": 39.084
     },
     {
@@ -1739,21 +1740,21 @@
       "layer": "M4",
       "name": "tx_data[10]",
       "x_um": 0.042,
-      "y_um": 19.212
+      "y_um": 18.732
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[11]",
       "x_um": 0.042,
-      "y_um": 22.764
+      "y_um": 20.844
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[12]",
       "x_um": 0.042,
-      "y_um": 21.132
+      "y_um": 22.572
     },
     {
       "edge": "west",
@@ -1767,434 +1768,434 @@
       "layer": "M4",
       "name": "tx_data[14]",
       "x_um": 0.042,
-      "y_um": 20.268
+      "y_um": 20.556
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[15]",
       "x_um": 0.042,
-      "y_um": 23.052
+      "y_um": 22.38
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[16]",
       "x_um": 0.042,
-      "y_um": 23.148
+      "y_um": 22.86
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[17]",
       "x_um": 0.042,
-      "y_um": 21.036
+      "y_um": 22.956
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[18]",
       "x_um": 0.042,
-      "y_um": 23.244
+      "y_um": 23.052
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[19]",
       "x_um": 0.042,
-      "y_um": 22.092
+      "y_um": 20.748
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[1]",
       "x_um": 0.042,
-      "y_um": 23.436
+      "y_um": 23.148
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[20]",
       "x_um": 0.042,
-      "y_um": 22.476
+      "y_um": 21.42
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[21]",
       "x_um": 0.042,
-      "y_um": 20.94
+      "y_um": 19.98
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[22]",
       "x_um": 0.042,
-      "y_um": 19.788
+      "y_um": 22.188
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[23]",
       "x_um": 0.042,
-      "y_um": 23.628
+      "y_um": 19.308
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[24]",
       "x_um": 0.042,
-      "y_um": 20.172
+      "y_um": 23.532
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[25]",
       "x_um": 0.042,
-      "y_um": 23.34
+      "y_um": 23.628
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[26]",
       "x_um": 0.042,
-      "y_um": 20.844
+      "y_um": 19.884
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[27]",
       "x_um": 0.042,
-      "y_um": 24.012
+      "y_um": 23.724
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[28]",
       "x_um": 0.042,
-      "y_um": 22.284
+      "y_um": 19.212
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[29]",
       "x_um": 0.042,
-      "y_um": 22.38
+      "y_um": 23.916
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[2]",
       "x_um": 0.042,
-      "y_um": 19.692
+      "y_um": 18.924
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[30]",
       "x_um": 0.042,
-      "y_um": 20.748
+      "y_um": 24.012
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[31]",
       "x_um": 0.042,
-      "y_um": 22.188
+      "y_um": 24.108
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[32]",
       "x_um": 0.042,
-      "y_um": 24.396
+      "y_um": 20.46
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[33]",
       "x_um": 0.042,
-      "y_um": 24.492
+      "y_um": 19.788
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[34]",
       "x_um": 0.042,
-      "y_um": 21.516
+      "y_um": 24.3
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[35]",
       "x_um": 0.042,
-      "y_um": 20.652
+      "y_um": 22.284
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[36]",
       "x_um": 0.042,
-      "y_um": 19.404
+      "y_um": 23.34
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[37]",
       "x_um": 0.042,
-      "y_um": 24.78
+      "y_um": 21.804
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[38]",
       "x_um": 0.042,
-      "y_um": 20.076
+      "y_um": 24.492
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[39]",
       "x_um": 0.042,
-      "y_um": 21.996
+      "y_um": 19.692
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[3]",
       "x_um": 0.042,
-      "y_um": 22.956
+      "y_um": 20.364
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[40]",
       "x_um": 0.042,
-      "y_um": 24.972
+      "y_um": 21.708
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[41]",
       "x_um": 0.042,
-      "y_um": 24.3
+      "y_um": 19.116
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[42]",
       "x_um": 0.042,
-      "y_um": 21.9
+      "y_um": 24.684
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[43]",
       "x_um": 0.042,
-      "y_um": 19.596
+      "y_um": 23.82
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[44]",
       "x_um": 0.042,
-      "y_um": 23.916
+      "y_um": 21.612
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[45]",
       "x_um": 0.042,
-      "y_um": 20.556
+      "y_um": 19.596
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[46]",
       "x_um": 0.042,
-      "y_um": 21.804
+      "y_um": 23.436
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[47]",
       "x_um": 0.042,
-      "y_um": 23.532
+      "y_um": 21.996
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[48]",
       "x_um": 0.042,
-      "y_um": 24.684
+      "y_um": 21.516
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[49]",
       "x_um": 0.042,
-      "y_um": 24.876
+      "y_um": 20.268
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[4]",
       "x_um": 0.042,
-      "y_um": 21.708
+      "y_um": 21.036
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[50]",
       "x_um": 0.042,
-      "y_um": 22.86
+      "y_um": 24.204
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[51]",
       "x_um": 0.042,
-      "y_um": 19.308
+      "y_um": 19.02
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[52]",
       "x_um": 0.042,
-      "y_um": 21.228
+      "y_um": 22.476
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[53]",
       "x_um": 0.042,
-      "y_um": 21.612
+      "y_um": 19.5
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[54]",
       "x_um": 0.042,
-      "y_um": 25.26
+      "y_um": 24.876
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[55]",
       "x_um": 0.042,
-      "y_um": 20.46
+      "y_um": 21.324
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[56]",
       "x_um": 0.042,
-      "y_um": 19.98
+      "y_um": 22.764
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[57]",
       "x_um": 0.042,
-      "y_um": 19.5
+      "y_um": 22.092
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[58]",
       "x_um": 0.042,
-      "y_um": 22.572
+      "y_um": 18.828
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[59]",
       "x_um": 0.042,
-      "y_um": 25.452
+      "y_um": 21.228
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[5]",
       "x_um": 0.042,
-      "y_um": 24.108
+      "y_um": 20.172
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[60]",
       "x_um": 0.042,
-      "y_um": 21.42
+      "y_um": 24.78
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[61]",
       "x_um": 0.042,
-      "y_um": 25.356
+      "y_um": 20.94
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[62]",
       "x_um": 0.042,
-      "y_um": 20.364
+      "y_um": 21.132
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[63]",
       "x_um": 0.042,
-      "y_um": 24.204
+      "y_um": 24.972
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[6]",
       "x_um": 0.042,
-      "y_um": 21.324
+      "y_um": 24.588
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[7]",
       "x_um": 0.042,
-      "y_um": 25.164
+      "y_um": 23.244
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[8]",
       "x_um": 0.042,
-      "y_um": 25.068
+      "y_um": 19.404
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_data[9]",
       "x_um": 0.042,
-      "y_um": 23.82
+      "y_um": 21.9
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_fwd_en",
       "x_um": 0.042,
-      "y_um": 19.884
+      "y_um": 24.396
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_ready",
       "x_um": 0.042,
-      "y_um": 24.588
+      "y_um": 20.652
     },
     {
       "edge": "west",
       "layer": "M4",
       "name": "tx_valid",
       "x_um": 0.042,
-      "y_um": 23.724
+      "y_um": 20.076
     }
   ],
   "power": {
@@ -2240,17 +2241,32 @@
     "ground_net": "VSS",
     "pdn": true,
     "placed": {
-      "components": 22722,
+      "components": 22192,
       "def_path": "<scratch>/run/.klt/place-and-route/slice.def",
-      "endcaps": 320,
+      "endcaps": 316,
       "evidence": "def",
-      "fillers": 19811,
+      "fillers": 19286,
       "missing": [],
       "special_nets": [
         {
-          "followpin_segments": 240,
+          "followpin_segments": 237,
           "name": "VDD",
-          "other_segments": 320,
+          "other_segments": 316,
+          "stripe_layers": [
+            "M6",
+            "M5",
+            "M4",
+            "M3",
+            "M2"
+          ],
+          "stripe_segments": 992,
+          "use": "POWER",
+          "vias": 1059
+        },
+        {
+          "followpin_segments": 240,
+          "name": "VSS",
+          "other_segments": 240,
           "stripe_layers": [
             "M6",
             "M5",
@@ -2259,27 +2275,12 @@
             "M2"
           ],
           "stripe_segments": 1004,
-          "use": "POWER",
-          "vias": 1072
-        },
-        {
-          "followpin_segments": 243,
-          "name": "VSS",
-          "other_segments": 244,
-          "stripe_layers": [
-            "M6",
-            "M5",
-            "M4",
-            "M3",
-            "M2"
-          ],
-          "stripe_segments": 1016,
           "use": "GROUND",
-          "vias": 1085
+          "vias": 1072
         }
       ],
       "status": "complete",
-      "tapcells": 320,
+      "tapcells": 316,
       "unavailable_reason": null
     },
     "power_net": "VDD",
@@ -2321,7 +2322,7 @@
   },
   "provenance": {
     "deck": {
-      "content_hash": "sha256:910057db3b7a926cb2b22d8f54664a2130a28bce2f01d22c6c034226830a3b5c",
+      "content_hash": "sha256:3721639ec4c94cf84d3a6a8b14d45a2a42966f8338a5cb904a34c34d59675742",
       "name": "asap7sc7p5t_rvt__tt",
       "path": {
         "path": null,
@@ -2330,10 +2331,10 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:47d79654b43373589a5f3f8a667e28ac9bd3ab6fc218d844af12c7d873ebb90d",
+      "content_hash": "sha256:64208d822f245cf5fa1a755a272e8ab46b0e113ae56923acb510cf7dc29d96b5",
       "role": "netlist"
     },
-    "klayout_version": "0.30.13",
+    "klayout_version": "0.30.12",
     "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
     "klt_reinstall_spec": "klayout-tools==0.9.2",
     "klt_version": "0.9.2",
@@ -2349,85 +2350,86 @@
   "setup_violation_count": 0,
   "spef_sta": {
     "annotation_complete": false,
-    "annotation_warning": "only 2520 of 2714 nets in the linked design are named by this SPEF -- the slack/violation values in this block are NOT a real-parasitics measurement to the extent annotation is missing, and should not be compared against the top-level estimate_parasitics-derived fields as if they were. See docs/cli/place-and-route.md's 'Net-name correlation' subsection.",
-    "design_nets_annotated": 2520,
-    "design_nets_total": 2714,
+    "annotation_warning": "only 2519 of 2713 nets in the linked design are named by this SPEF -- the slack/violation values in this block are NOT a real-parasitics measurement to the extent annotation is missing, and should not be compared against the top-level estimate_parasitics-derived fields as if they were. See docs/cli/place-and-route.md's 'Net-name correlation' subsection.",
+    "design_nets_annotated": 2519,
+    "design_nets_total": 2713,
     "hold_violation_count": 0,
-    "nets_annotated": 2520,
-    "nets_total": 2712,
+    "nets_annotated": 2519,
+    "nets_total": 2711,
     "sdf_path": "<scratch>/run/.klt/place-and-route/slice_route.sdf",
     "setup_violation_count": 0,
     "spef_path": "<scratch>/run/.klt/place-and-route/slice_route.spef",
     "timing_status": "constrained",
     "total_negative_slack_ns": 0,
-    "worst_slack_ns": 0.22524
+    "worst_slack_ns": 0.24002
   },
   "stage_reached": "route",
   "stages": [
     {
-      "core_area_um2": 937.786,
-      "die_area_um2": 1080.9,
+      "core_area_um2": 914.545,
+      "die_area_um2": 1056.3,
       "name": "floorplan",
       "timing_status": "constrained",
       "total_negative_slack_ns": 0,
-      "utilization_pct": 41.3619,
+      "utilization_pct": 41.3959,
       "worst_slack_ns": 0.27954
     },
     {
-      "core_area_um2": 937.786,
-      "die_area_um2": 1080.9,
-      "estimated_power_mw": 0.443,
-      "fmax_mhz": 3184.59,
+      "core_area_um2": 914.545,
+      "die_area_um2": 1056.3,
+      "estimated_power_mw": 0.438,
+      "fmax_mhz": 3395.71,
       "hold_violation_count": 0,
       "name": "place",
-      "nominal_hold_slack_ns": 0.05423,
+      "nominal_hold_slack_ns": 0.05375,
       "setup_violation_count": 0,
       "timing_status": "constrained",
       "total_negative_slack_ns": 0,
-      "utilization_pct": 39.6362,
-      "wirelength_um": 9058.64,
-      "worst_slack_ns": 0.18599
+      "utilization_pct": 39.7762,
+      "wirelength_um": 8997.36,
+      "worst_slack_ns": 0.20551
     },
     {
-      "clock_skew_ns": 0.00862,
-      "core_area_um2": 937.786,
-      "die_area_um2": 1080.9,
-      "estimated_power_mw": 0.7288,
-      "fmax_mhz": 3109.21,
+      "clock_skew_ns": 0.00854,
+      "core_area_um2": 914.545,
+      "die_area_um2": 1056.3,
+      "estimated_power_mw": 0.7156,
+      "fmax_mhz": 3241.41,
       "hold_violation_count": 0,
       "name": "cts",
-      "nominal_hold_slack_ns": 0.05349,
+      "nominal_hold_slack_ns": 0.05217,
       "setup_violation_count": 0,
       "timing_status": "constrained",
       "total_negative_slack_ns": 0,
-      "utilization_pct": 40.2161,
-      "wirelength_um": 9240.92,
-      "worst_slack_ns": 0.17838
+      "utilization_pct": 40.2799,
+      "wirelength_um": 9197.59,
+      "worst_slack_ns": 0.19149
     },
     {
       "antenna_violation_count": 0,
-      "clock_skew_ns": 0.00968,
+      "clock_skew_ns": 0.00933,
       "congestion": {
         "completeness": {
           "partially_routed_net_count": null,
-          "signal_net_count": 2692,
+          "signal_net_count": 2691,
           "unrouted_net_count": 0
         },
         "detailed_route": {
           "converged": true,
           "drc_violations_per_iteration": [
-            1342,
-            193,
-            178,
+            1255,
+            145,
+            114,
+            1,
             0
           ],
-          "first_iteration_drc_violation_count": 1342,
-          "iteration_count": 4
+          "first_iteration_drc_violation_count": 1255,
+          "iteration_count": 5
         },
         "global_route": {
           "max_gcell_usage_pct": null,
           "max_horizontal_overflow": 0,
-          "max_layer_usage_pct": 23.44,
+          "max_layer_usage_pct": 23.78,
           "max_vertical_overflow": 0,
           "overflow_per_layer": {
             "M1": {
@@ -2439,42 +2441,42 @@
               "usage_pct": 0.0
             },
             "M2": {
-              "demand": 7268,
+              "demand": 7608,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 47688,
+              "resource": 47259,
               "total_overflow": 0,
-              "usage_pct": 15.24
+              "usage_pct": 16.1
             },
             "M3": {
-              "demand": 12668,
+              "demand": 12562,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 54053,
+              "resource": 52828,
               "total_overflow": 0,
-              "usage_pct": 23.44
+              "usage_pct": 23.78
             },
             "M4": {
-              "demand": 3105,
+              "demand": 2903,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 39252,
+              "resource": 38794,
               "total_overflow": 0,
-              "usage_pct": 7.91
+              "usage_pct": 7.48
             },
             "M5": {
-              "demand": 63,
+              "demand": 214,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 37865,
+              "resource": 36918,
               "total_overflow": 0,
-              "usage_pct": 0.17
+              "usage_pct": 0.58
             },
             "M6": {
               "demand": 0,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 26582,
+              "resource": 26326,
               "total_overflow": 0,
               "usage_pct": 0.0
             },
@@ -2482,15 +2484,15 @@
               "demand": 0,
               "max_horizontal_overflow": 0,
               "max_vertical_overflow": 0,
-              "resource": 30793,
+              "resource": 30094,
               "total_overflow": 0,
               "usage_pct": 0.0
             }
           },
           "overflow_regions": null,
-          "routed_net_count": 2710,
+          "routed_net_count": 2709,
           "total_overflow": 0,
-          "usage_pct": 9.78
+          "usage_pct": 10.03
         },
         "null_reasons": {
           "completeness.partially_routed_net_count": "OpenROAD exposes no per-net connectivity check; only nets with no routed wire at all are counted",
@@ -2498,16 +2500,16 @@
           "global_route.overflow_regions": "no `global_route -congestion_report_file` report was produced or it held no congestion violations"
         },
         "placement": {
-          "final_weighted_congestion": 0.3609,
+          "final_weighted_congestion": 0.36,
           "overflowed_tile_count": 0,
           "total_routing_overflow": 0.0
         }
       },
-      "core_area_um2": 937.786,
+      "core_area_um2": 914.545,
       "corners": [],
-      "die_area_um2": 1080.9,
-      "estimated_power_mw": 0.6739,
-      "fmax_mhz": 3731.41,
+      "die_area_um2": 1056.3,
+      "estimated_power_mw": 0.6567,
+      "fmax_mhz": 3923.93,
       "hold_violation_count": 0,
       "name": "route",
       "nominal_hold_slack_ns": 0.05125,
@@ -2515,16 +2517,16 @@
       "setup_violation_count": 0,
       "timing_status": "constrained",
       "total_negative_slack_ns": 0,
-      "utilization_pct": 40.2161,
-      "wirelength_um": 13013,
-      "worst_slack_ns": 0.232
+      "utilization_pct": 40.2799,
+      "wirelength_um": 13052,
+      "worst_slack_ns": 0.24515
     }
   ],
   "status": "ok",
   "timing_status": "constrained",
   "total_negative_slack_ns": 0,
   "unrouted_def_path": null,
-  "utilization_pct": 40.2161,
+  "utilization_pct": 40.2799,
   "verilog_path": "<scratch>/run/.klt/place-and-route/slice.v",
   "via_pad_trim": {
     "cells_touched": 1,
@@ -2535,8 +2537,8 @@
     "status": "trimmed"
   },
   "warnings": [],
-  "wirelength_um": 13013,
+  "wirelength_um": 13052,
   "worst_hold_slack_ns": null,
   "worst_setup_slack_ns": null,
-  "worst_slack_ns": 0.232
+  "worst_slack_ns": 0.24515
 }

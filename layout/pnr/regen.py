@@ -66,6 +66,13 @@ ROUTED_SPEF = REPO / "layout" / "slice_routed.spef"
 
 ASAP7 = L.ROOT
 RVT = ASAP7 + "libs/asap7sc7p5t_rvt/"
+#: The synthesis request whose constraints.dont_use list the scratch Liberty
+#: below mirrors, so neither ABC/Yosys nor OpenROAD's resizer may instantiate
+#: an excluded master (issue #287; the #228 precedent excluded the ten
+#: SDT.ACTIVE.AUX.2 deviators, this extends it to the 17 klt 0.9.2
+#: KNOWN_UNSUPPORTED_ASAP7_CELLS masters whose drawn topology differs from the
+#: library CDL).
+SYNTH_REQUEST = REPO / "design" / "synth" / "slice.synth.json"
 FILES = {  # archive member -> scratch path under the PDK root
     ASAP7 + "base/apr/asap7_tech.lef": "lef/asap7_tech.lef",
     RVT + "lef/asap7sc7p5t_28_R.lef": "lef/asap7sc7p5t_28_R.lef",
@@ -152,6 +159,51 @@ def pin_geometry_on_drawing(layermap):
             + "\n".join(added) + "\n")
 
 
+def dont_use_masters(request=None):
+    """The constraints.dont_use master list of design/synth/slice.synth.json.
+
+    klt place-and-route (0.9.2) has no request-level dont_use constraint, so the
+    resizer's only guard is the Liberty attribute; the list is read from the
+    synthesis request so the two flows can never drift apart."""
+    request = SYNTH_REQUEST if request is None else pathlib.Path(request)
+    try:
+        masters = json.loads(request.read_text())["constraints"]["dont_use"]
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        sys.exit(f"cannot read constraints.dont_use from {request}: {e!r}")
+    if not masters:
+        sys.exit(f"{request} declares an empty constraints.dont_use")
+    return masters
+
+
+def mark_dont_use(liberty, masters):
+    """Stage `dont_use : true;` on every named master (scratch copy only).
+
+    One attribute line directly after each cell group's opening brace, so the
+    malformed `area : <x>` lines some INVBUF cells ship (design/synth/regen.py
+    patches them for klt's own reader; OpenROAD tolerates them) are never
+    touched. A named master absent from the Liberty is an error, not a
+    silently unprotected cell."""
+    want = set(masters)
+    lines = liberty.splitlines(keepends=True)
+    out = []
+    seen = set()
+    for i, line in enumerate(lines):
+        out.append(line)
+        m = re.match(r"^\s*cell\s*\(\s*([^\s)]+)\s*\)\s*\{\s*$", line)
+        if not (m and m.group(1) in want):
+            continue
+        nxt = lines[i + 1] if i + 1 < len(lines) else ""
+        if re.match(r"^\s*dont_use\s*:\s*true\s*;\s*$", nxt):
+            seen.add(m.group(1))  # already staged; idempotent
+            continue
+        out.append(" " * 12 + "dont_use : true;\n")
+        seen.add(m.group(1))
+    missing = sorted(want - seen)
+    if missing:
+        sys.exit(f"scratch Liberty is missing dont_use masters {missing}")
+    return "".join(out)
+
+
 def unpack(archive, root):
     with tarfile.open(archive) as tar:
         for m in tar:
@@ -216,7 +268,8 @@ def main():
         archive = L.fetch(scratch, args.pdk_archive)
         root = scratch / "pdk"
         (root / "lib").mkdir(parents=True)
-        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(L.merged_liberty(archive))
+        (root / "lib" / "asap7sc7p5t_rvt_TT.lib").write_text(
+            mark_dont_use(L.merged_liberty(archive), dont_use_masters()))
         unpack(archive, root)
         (root / "klt-pdk.json").write_text(json.dumps({
             "schema_version": 1, "variant": "asap7",

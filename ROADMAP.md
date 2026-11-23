@@ -110,7 +110,9 @@ Direction, each with the question to answer first.
   the routed ASAP7 slice at all? `klt place-and-route` refused post-route SPEF/SDF for this library
   (klayout-tools#4468, closed as an early rejection, not support).
 - **Analog corner evidence (item 5 analog) and item 7 analog.** Which claims would a corner matrix be
-  graded against, given that no ratified spec row is an analog performance row (decisions 0006, 0008)?
+  graded against? Proposed, not ratified: decision 0013 (a1-a10) with provisional four-cell target-rate measurements (fallback unmeasured)
+  and a single-cell PEX probe; the operator ratification/amendment request and the evidence runs it
+  releases on ratification are #306.
 - **Status of the declared analog gaps after decision 0010.** `manifests/item5-analog-gap.json` and
   `manifests/item6-analog-gap.json` still give the ngspice 42 blocker as their reason; does one
   functional run change their status? Decision 0010 leaves this to a follow-up.

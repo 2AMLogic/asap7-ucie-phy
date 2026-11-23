@@ -35,17 +35,17 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.r12.json",
+        "file": "evidence/item1.r13.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+        "content_hash": "sha256:582543e01f9886f3a0f7c9beab670711225da1eae72548a3be69b05114b24e15",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": null,
-          "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+          "content_hash": "sha256:582543e01f9886f3a0f7c9beab670711225da1eae72548a3be69b05114b24e15",
           "input_verified": true,
           "members": [
             {
@@ -93,7 +93,7 @@
                 "path": "design/netlist/slice_asap7.v",
                 "scope": "repo"
               },
-              "content_hash": "sha256:47d79654b43373589a5f3f8a667e28ac9bd3ab6fc218d844af12c7d873ebb90d",
+              "content_hash": "sha256:64208d822f245cf5fa1a755a272e8ab46b0e113ae56923acb510cf7dc29d96b5",
               "status": "verified"
             },
             {
@@ -141,7 +141,7 @@
                 "path": "design/synth/slice.synth.json",
                 "scope": "repo"
               },
-              "content_hash": "sha256:9802f26ecab0ec6a00ba0e886954f3d264d9a0cdc787939395c16013106a4f80",
+              "content_hash": "sha256:13385ecad3219ec24f9a152975bd96e3404e73d503496c79a81f5028c77b442b",
               "status": "verified"
             },
             {
@@ -200,17 +200,17 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item1.r12.json",
+        "file": "evidence/item1.r13.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+        "content_hash": "sha256:582543e01f9886f3a0f7c9beab670711225da1eae72548a3be69b05114b24e15",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
           "t1_item": 1,
           "path": null,
-          "content_hash": "sha256:df8f4297e53537cdd7612485a7d5e974b061c1da7c0d4fdbfcb32adae3835e31",
+          "content_hash": "sha256:582543e01f9886f3a0f7c9beab670711225da1eae72548a3be69b05114b24e15",
           "input_verified": true,
           "members": [
             {
@@ -258,7 +258,7 @@
                 "path": "design/netlist/slice_asap7.v",
                 "scope": "repo"
               },
-              "content_hash": "sha256:47d79654b43373589a5f3f8a667e28ac9bd3ab6fc218d844af12c7d873ebb90d",
+              "content_hash": "sha256:64208d822f245cf5fa1a755a272e8ab46b0e113ae56923acb510cf7dc29d96b5",
               "status": "verified"
             },
             {
@@ -306,7 +306,7 @@
                 "path": "design/synth/slice.synth.json",
                 "scope": "repo"
               },
-              "content_hash": "sha256:9802f26ecab0ec6a00ba0e886954f3d264d9a0cdc787939395c16013106a4f80",
+              "content_hash": "sha256:13385ecad3219ec24f9a152975bd96e3404e73d503496c79a81f5028c77b442b",
               "status": "verified"
             },
             {
@@ -365,11 +365,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r11.json",
+        "file": "evidence/item2.r12.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+        "content_hash": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -378,7 +378,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+          "content_hash": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -390,7 +390,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+            "regenerated_hash": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f",
             "executed_by_klt": false
           }
         }
@@ -408,11 +408,11 @@
       "reason": null,
       "graded_by_build": true,
       "citation": {
-        "file": "evidence/item2.r11.json",
+        "file": "evidence/item2.r12.json",
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+        "content_hash": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -421,7 +421,7 @@
             "path": "layout/lane_column.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+          "content_hash": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/lane_column.gds",
@@ -433,7 +433,7 @@
           },
           "regeneration": {
             "generator": "python3 layout/assemble_column.py",
-            "regenerated_hash": "sha256:4b7c1aafe67b1bff93e73a2fbebb3120638432efde97ef74d63d68bdf22e4e45",
+            "regenerated_hash": "sha256:94aef6649b38e5c9a39822aa4b2244342a5d58eb44f1b8b54b492e8f49a57f9f",
             "executed_by_klt": false
           }
         }
@@ -562,7 +562,7 @@
       "citation": null,
       "citations_graded": [
         {
-          "citation": "evidence/item4-lvs/slice_routed.r19.report.json",
+          "citation": "evidence/item4-lvs/slice_routed.r20.report.json",
           "status": "unmet",
           "reason": "check_failed"
         }
@@ -571,7 +571,7 @@
       "members_total": 1,
       "detail": {
         "failed_citations": [
-          "evidence/item4-lvs/slice_routed.r19.report.json"
+          "evidence/item4-lvs/slice_routed.r20.report.json"
         ]
       }
     },
@@ -849,7 +849,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94",
+        "content_hash": "sha256:df0536f9f1c78e7deec26ac461f78a45c64e0255d03140bb3e497e1db3dac89a",
         "input_verified": true,
         "exit_status": 0,
         "attestation": {
@@ -876,7 +876,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:e0bec89c4bf2237fba89756420b47eb270e0fd0f383db1d90a4fb9fe6e155f94",
+        "content_hash": "sha256:df0536f9f1c78e7deec26ac461f78a45c64e0255d03140bb3e497e1db3dac89a",
         "input_verified": true,
         "exit_status": 0,
         "attestation": {
@@ -979,7 +979,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:5b02be73704b518a5d226d0c94b526a6dfa2e93d993285d76c80aadfb454b8a9",
+        "content_hash": "sha256:1919abe3076467ff4bda38af4aa5641052b7b0f4227f753af828b5926054dc86",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -988,15 +988,15 @@
             "path": "manifests/t1-item10-inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:5b02be73704b518a5d226d0c94b526a6dfa2e93d993285d76c80aadfb454b8a9",
+          "content_hash": "sha256:1919abe3076467ff4bda38af4aa5641052b7b0f4227f753af828b5926054dc86",
           "input_verified": true,
-          "summary": "T1 item 10 (Repo hygiene): 29/29 attestation checks passed (klt signoff --attest)",
+          "summary": "T1 item 10 (Repo hygiene): 32/32 attestation checks passed (klt signoff --attest)",
           "source": "manifests/t1-item10-inventory.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 29,
-            "passed_count": 29
+            "check_count": 32,
+            "passed_count": 32
           }
         }
       }
@@ -1017,7 +1017,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:5b02be73704b518a5d226d0c94b526a6dfa2e93d993285d76c80aadfb454b8a9",
+        "content_hash": "sha256:1919abe3076467ff4bda38af4aa5641052b7b0f4227f753af828b5926054dc86",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -1026,15 +1026,15 @@
             "path": "manifests/t1-item10-inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:5b02be73704b518a5d226d0c94b526a6dfa2e93d993285d76c80aadfb454b8a9",
+          "content_hash": "sha256:1919abe3076467ff4bda38af4aa5641052b7b0f4227f753af828b5926054dc86",
           "input_verified": true,
-          "summary": "T1 item 10 (Repo hygiene): 29/29 attestation checks passed (klt signoff --attest)",
+          "summary": "T1 item 10 (Repo hygiene): 32/32 attestation checks passed (klt signoff --attest)",
           "source": "manifests/t1-item10-inventory.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 29,
-            "passed_count": 29
+            "check_count": 32,
+            "passed_count": 32
           }
         }
       }

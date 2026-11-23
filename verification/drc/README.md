@@ -821,3 +821,32 @@ current. Two envelopes are added here and cited from no manifest entry. `klt sig
 record in this directory, and #19 (the clean-run deliverable) is parked on the four open upstream issues above. A pin bump to a release
 that carries the pad repair and the `W.3` fix is the next in-repo step: bump `.github/klt-version`, re-route, re-take the column, update
 the table.
+
+## r12: slice and column after the #287 dont_use-27 re-synthesis (2026-11-23)
+
+`slice_routed.r12.envelope.json` and `lane_column.r12.envelope.json`: `klt drc --engine klayout`
+(klt 0.9.2 pin, packaged `asap7.drc` `fa303c03...`, the same 267-id expectation set as r11 — satisfied on
+both runs, `missing_names`/`unexpected_names` empty — no waivers, no filtering, no `--rules`) on the
+re-routed streams of issue #287 / decision 0014 (`constraints.dont_use` extended from 10 to 27 masters:
+the 17 klt `KNOWN_UNSUPPORTED_ASAP7_CELLS` joined the ten #228 deviators; the 186 `AOI21x1` instances
+re-mapped to `AOI21xp5`/`AOI21xp33`, core 937.786 -> 914.545 um²). The slice envelope serializes every
+marker (as r11 did); the column envelope is summary-only (`--max-violations 0`, as r11 was). Both were
+taken with klt and klayout on their pin files (`klt_version_mismatch: false`), and both re-verify
+`klt drc --check` on this host (deck recorded by the worktree-relative `.venv/...` path).
+
+- **Routed slice** (`layout/slice_routed.gds` `c848a459...`): `violations`, **893** violations across the
+  same 8 rule families as r11's 975 — M1.S.2 16, M1.S.3 47, M1.S.4 109, M1.S.5 42, M3.S.2 14, M5.W.3 17,
+  V4.M4.EN.1 636, V4.M5.EN.2 12. **`SDT.ACTIVE.AUX.2`: 0** (absent from `rule_counts`). No new family
+  appears and none clears; the deltas are the re-route moving the route-dependent counts.
+- **Lane column** (`layout/lane_column.gds` `94aef664...`): `violations`, **14,288** violations across the
+  same 8 families — M1.S.2 256, M1.S.3 752, M1.S.4 1,744, M1.S.5 672, M3.S.2 224, M5.W.3 272,
+  V4.M4.EN.1 10,176, V4.M5.EN.2 192 (r11: 15,600). **`SDT.ACTIVE.AUX.2`: 0**, from this fresh run.
+- **Dispositions unchanged.** Every family's cause and open upstream issue is the r11 table above:
+  `V4.M4.EN.1`/`V4.M5.EN.2`/`M3.S.2` recipe-inherent (#6909), `M1.S.*` the router's VIA_VIA12 landing pad
+  (#6930/#6992), `M5.W.3` the deck's cross-polygon edge pair (#7226). Nothing was waived, filtered or
+  re-scoped; r1-r11 are unedited.
+
+**Signoff consequence.** The streams changed, so the netlist-bound chain moved with this pass (items 1, 2,
+8 re-attested; LVS re-taken as r20; manifest re-pinned; verdict regenerated — see issue #287). `klt signoff`
+item 3 stays **unmet** and the manifest still cites no record in this directory; the two r12 envelopes are
+cited from no manifest entry, as before. Layout results against a predictive PDK, not measurements.
