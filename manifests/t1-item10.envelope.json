@@ -136,7 +136,7 @@
         "role": "hygiene",
         "path": "spec/decisions/0013-analog-spec-rows.md",
         "passed": true,
-        "content_hash": "sha256:4441b3d537e3b90a4bcb2a46d94d94cb95bcc4d2699855220c81a4d97570d38a"
+        "content_hash": "sha256:895fe81fd4c5641a7052164b4edf87bdeba3bc1f7a3ca1ba7094d0088542c073"
       },
       {
         "check": "present",
