@@ -1,0 +1,817 @@
+{
+  "netlist": "tx_cell.rows.tb.sp",
+  "backend": "batch",
+  "models": {
+    "lib": "asap7_bsimcmg.lib"
+  },
+  "corners": {
+    "process": [
+      "ff"
+    ],
+    "supply_v": {
+      "vdd": [
+        0.77
+      ]
+    },
+    "temperature_c": [
+      0
+    ]
+  },
+  "stimulus": {
+    "signals": [
+      {
+        "source": "Vsel1",
+        "node": "sel1",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": [
+          {
+            "t_s": 3e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 6e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 9e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.2e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3.45e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 4.45e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 5.45e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          }
+        ]
+      },
+      {
+        "source": "Vsel2",
+        "node": "sel2",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": [
+          {
+            "t_s": 1.5e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.8e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 2.0999999999999998e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2.4e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 4.45e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          }
+        ]
+      },
+      {
+        "source": "Va0",
+        "node": "a0",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 1
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": [
+          {
+            "t_s": 7.5e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 1.3499999999999999e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.95e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 2.55e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3.2999999999999998e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3.6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 4e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 4.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 5e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 5.2999999999999995e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 6.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          }
+        ]
+      },
+      {
+        "source": "Va1",
+        "node": "a1",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 0
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": [
+          {
+            "t_s": 7.5e-10,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 1.95e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3.2999999999999998e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3.6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 4e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 4.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 4.6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 5e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 5.2999999999999995e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 6.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          }
+        ]
+      },
+      {
+        "source": "Vb0",
+        "node": "b0",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 1
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": [
+          {
+            "t_s": 1.3499999999999999e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 1.95e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 2.55e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3.2999999999999998e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 4e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 4.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 4.6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 5e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 5.2999999999999995e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 5.6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 6.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          }
+        ]
+      },
+      {
+        "source": "Vb1",
+        "node": "b1",
+        "initial": {
+          "frac_of": "vdd",
+          "fraction": 1
+        },
+        "rise_s": 1e-11,
+        "fall_s": 1e-11,
+        "events": [
+          {
+            "t_s": 1.95e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 3.2999999999999998e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 4e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 4.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 5e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 5.2999999999999995e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 5.6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          },
+          {
+            "t_s": 6e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 0
+            }
+          },
+          {
+            "t_s": 6.3e-09,
+            "level": {
+              "frac_of": "vdd",
+              "fraction": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 6400p"
+  },
+  "measurements": [
+    {
+      "name": "a1_s0_lo",
+      "spice": ".meas tran a1_s0_lo find v(pad) at=2900p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s0_hi",
+      "spice": ".meas tran a1_s0_hi find v(pad) at=3200p",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s1_lo",
+      "spice": ".meas tran a1_s1_lo find v(pad) at=3900p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s1_hi",
+      "spice": ".meas tran a1_s1_hi find v(pad) at=4200p",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s2_lo",
+      "spice": ".meas tran a1_s2_lo find v(pad) at=4900p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s2_hi",
+      "spice": ".meas tran a1_s2_hi find v(pad) at=5200p",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s3_lo",
+      "spice": ".meas tran a1_s3_lo find v(pad) at=5900p",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a1_s3_hi",
+      "spice": ".meas tran a1_s3_hi find v(pad) at=6200p",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "spec_row": "a1-tx-pad-levels"
+    },
+    {
+      "name": "a2_s0_rise",
+      "spice": ".meas tran a2_s0_rise trig v(pad) val=0.15400000000000003 rise=1 td=2950p targ v(pad) val=0.6160000000000001 rise=1 td=2950p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s0_fall",
+      "spice": ".meas tran a2_s0_fall trig v(pad) val=0.6160000000000001 fall=1 td=3250p targ v(pad) val=0.15400000000000003 fall=1 td=3250p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s1_rise",
+      "spice": ".meas tran a2_s1_rise trig v(pad) val=0.15400000000000003 rise=1 td=3950p targ v(pad) val=0.6160000000000001 rise=1 td=3950p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s1_fall",
+      "spice": ".meas tran a2_s1_fall trig v(pad) val=0.6160000000000001 fall=1 td=4250p targ v(pad) val=0.15400000000000003 fall=1 td=4250p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s2_rise",
+      "spice": ".meas tran a2_s2_rise trig v(pad) val=0.15400000000000003 rise=1 td=4950p targ v(pad) val=0.6160000000000001 rise=1 td=4950p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s2_fall",
+      "spice": ".meas tran a2_s2_fall trig v(pad) val=0.6160000000000001 fall=1 td=5250p targ v(pad) val=0.15400000000000003 fall=1 td=5250p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s3_rise",
+      "spice": ".meas tran a2_s3_rise trig v(pad) val=0.15400000000000003 rise=1 td=5950p targ v(pad) val=0.6160000000000001 rise=1 td=5950p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a2_s3_fall",
+      "spice": ".meas tran a2_s3_fall trig v(pad) val=0.6160000000000001 fall=1 td=6250p targ v(pad) val=0.15400000000000003 fall=1 td=6250p",
+      "unit": "s",
+      "limits": {
+        "max": 1.5625e-11
+      },
+      "spec_row": "a2-tx-pad-transition"
+    },
+    {
+      "name": "a3_da0_f",
+      "spice": ".meas tran a3_da0_f trig v(a0) val=0.385 fall=1 td=2950p targ v(pad) val=0.385 rise=1 td=2950p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_da0_r",
+      "spice": ".meas tran a3_da0_r trig v(a0) val=0.385 rise=1 td=3250p targ v(pad) val=0.385 fall=1 td=3250p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_da1_f",
+      "spice": ".meas tran a3_da1_f trig v(a1) val=0.385 fall=1 td=3950p targ v(pad) val=0.385 rise=1 td=3950p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_da1_r",
+      "spice": ".meas tran a3_da1_r trig v(a1) val=0.385 rise=1 td=4250p targ v(pad) val=0.385 fall=1 td=4250p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_db0_f",
+      "spice": ".meas tran a3_db0_f trig v(b0) val=0.385 fall=1 td=4950p targ v(pad) val=0.385 rise=1 td=4950p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_db0_r",
+      "spice": ".meas tran a3_db0_r trig v(b0) val=0.385 rise=1 td=5250p targ v(pad) val=0.385 fall=1 td=5250p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_db1_f",
+      "spice": ".meas tran a3_db1_f trig v(b1) val=0.385 fall=1 td=5950p targ v(pad) val=0.385 rise=1 td=5950p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_db1_r",
+      "spice": ".meas tran a3_db1_r trig v(b1) val=0.385 rise=1 td=6250p targ v(pad) val=0.385 fall=1 td=6250p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s1r_pr",
+      "spice": ".meas tran a3_s1r_pr trig v(sel1) val=0.385 rise=1 td=250p targ v(pad) val=0.385 rise=1 td=250p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s1f_pf",
+      "spice": ".meas tran a3_s1f_pf trig v(sel1) val=0.385 fall=1 td=550p targ v(pad) val=0.385 fall=1 td=550p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s1r_pf",
+      "spice": ".meas tran a3_s1r_pf trig v(sel1) val=0.385 rise=1 td=850p targ v(pad) val=0.385 fall=1 td=850p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s1f_pr",
+      "spice": ".meas tran a3_s1f_pr trig v(sel1) val=0.385 fall=1 td=1150p targ v(pad) val=0.385 rise=1 td=1150p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s2r_pr",
+      "spice": ".meas tran a3_s2r_pr trig v(sel2) val=0.385 rise=1 td=1450p targ v(pad) val=0.385 rise=1 td=1450p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s2f_pf",
+      "spice": ".meas tran a3_s2f_pf trig v(sel2) val=0.385 fall=1 td=1750p targ v(pad) val=0.385 fall=1 td=1750p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s2r_pf",
+      "spice": ".meas tran a3_s2r_pf trig v(sel2) val=0.385 rise=1 td=2050p targ v(pad) val=0.385 fall=1 td=2050p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    },
+    {
+      "name": "a3_s2f_pr",
+      "spice": ".meas tran a3_s2f_pr trig v(sel2) val=0.385 fall=1 td=2350p targ v(pad) val=0.385 rise=1 td=2350p",
+      "unit": "s",
+      "limits": {
+        "max": 3.125e-11
+      },
+      "spec_row": "a3-tx-mux-to-pad-delay"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "../../sim/build/osdi/bsimcmg.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 300
+  }
+}

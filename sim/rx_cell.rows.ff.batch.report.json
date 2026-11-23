@@ -1,0 +1,1090 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "design/sim/rx_cell.rows.tb.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "47",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Fri Nov 13 23:19:32 UTC 2026\n******",
+      "binary_sha256": "39ca1adb826660324c3626f72bd946ec40704f0f3fc8e243c623f76e24b3eee2",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": "design/sim/asap7_bsimcmg.lib",
+      "scope": "repo"
+    },
+    "models_lib_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+    "models_lib_sha256_scope": "client",
+    "netlist_sha256": "8d4ed70c706eb6df84491667fcaaf60b8f4d0cb870db145e5647090b2f37f536",
+    "netlist_closure": [
+      {
+        "path": "design/sim/rx_cell.rows.tb.sp",
+        "scope": "repo",
+        "sha256": "8d4ed70c706eb6df84491667fcaaf60b8f4d0cb870db145e5647090b2f37f536"
+      },
+      {
+        "path": "design/sim/rx_cell.osdi.sp",
+        "scope": "repo",
+        "sha256": "4f79059688d2d48297bc343b77544c51014525e36a2edad7b19d103c563aab96"
+      }
+    ],
+    "netlist_identity": "sha256:ea65e60e50f54e499edf2a940d276005898763c3ce4008328257b31645ab9bac",
+    "osdi_preload": [
+      {
+        "name": "bsimcmg.osdi",
+        "path": "sim/build/osdi/bsimcmg.osdi",
+        "scope": "repo",
+        "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+      }
+    ],
+    "staged_model_inputs": [
+      {
+        "name": "asap7_bsimcmg.lib",
+        "field": "models.lib",
+        "kind": "library",
+        "sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+        "rewritten": false,
+        "source_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280"
+      },
+      {
+        "name": "bsimcmg.osdi",
+        "field": "options.osdi_preload[0]",
+        "kind": "osdi",
+        "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3",
+        "rewritten": false,
+        "source_sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+      }
+    ],
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-dab12e22e18b",
+      "region": "us-east-1",
+      "instance_id": "i-046748715181ae19f",
+      "instance_type": "m7i.4xlarge",
+      "availability_zone": "us-east-1a",
+      "ami_id": "ami-09c14f55df4958cbd",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "1",
+      "physical_cores": "8",
+      "elapsed_seconds": 7,
+      "client_submitted_at": "2026-11-23T01:59:45.812508Z",
+      "client_launched_at": "2026-11-23T02:00:09.297916Z",
+      "client_status_terminal_at": "2026-11-23T02:00:40.744089Z",
+      "client_collected_at": "2026-11-23T02:00:41.527640Z",
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "analysis_steps",
+          "stimulus",
+          "options.osdi_preload",
+          "options.stage_model_inputs"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Fri Nov 13 23:19:32 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": null,
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": true,
+          "stamp_scope": "image"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": [
+          {
+            "name": "asap7_bsimcmg.lib",
+            "sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280"
+          },
+          {
+            "name": "bsimcmg.osdi",
+            "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+          }
+        ],
+        "diagnostics": [],
+        "pdk_stamp_comparison": {
+          "basis": "staged_model_inputs",
+          "status": "match"
+        },
+        "engine_build_comparison": {
+          "status": "match"
+        }
+      },
+      "runner_model_inputs": [
+        {
+          "name": "asap7_bsimcmg.lib",
+          "sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280"
+        },
+        {
+          "name": "bsimcmg.osdi",
+          "sha256": "4e755d14e901a84600124be5cb73e36302117b6cfc694e52ffc17640945cd9e3"
+        }
+      ],
+      "runner_models_lib_sha256": "c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+      "job_ceiling": {
+        "basis": "conservative_serial_bound",
+        "unit_count": 1,
+        "per_unit_timeout_s": 300,
+        "overhead_s": 120.0,
+        "job_bound_s": 420.0,
+        "max_job_seconds": 3600.0,
+        "max_job_seconds_source": "fleet_config",
+        "exceeds_ceiling": false,
+        "check": "warn",
+        "max_units_per_job": 11,
+        "recommended_hosts": 1
+      },
+      "models_lib_comparison": {
+        "status": "not_comparable",
+        "reason": "models_staged"
+      }
+    },
+    "engine_host": "worker",
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "backend": {
+      "resolved": "batch",
+      "source": "flag",
+      "requested": "batch"
+    },
+    "stimulus": {
+      "supply_relative": true,
+      "corners": [
+        {
+          "corner_id": "ff/0.770V/0C",
+          "signals": [
+            {
+              "source": "Vpad",
+              "node": "pad",
+              "ref": "0",
+              "initial": 0.0,
+              "skew_s": 0.0,
+              "events": [
+                {
+                  "t_s": 5e-11,
+                  "t_applied_s": 5e-11,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 4.5e-10,
+                  "t_applied_s": 4.5e-10,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 8.5e-10,
+                  "t_applied_s": 8.5e-10,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 1.25e-09,
+                  "t_applied_s": 1.25e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 1.6499999999999999e-09,
+                  "t_applied_s": 1.6499999999999999e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 2.05e-09,
+                  "t_applied_s": 2.05e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 2.45e-09,
+                  "t_applied_s": 2.45e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 2.85e-09,
+                  "t_applied_s": 2.85e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 2e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                }
+              ],
+              "pwl": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  5e-11,
+                  0.0
+                ],
+                [
+                  7e-11,
+                  0.77
+                ],
+                [
+                  4.5e-10,
+                  0.77
+                ],
+                [
+                  4.7e-10,
+                  0.0
+                ],
+                [
+                  8.5e-10,
+                  0.0
+                ],
+                [
+                  8.7e-10,
+                  0.77
+                ],
+                [
+                  1.25e-09,
+                  0.77
+                ],
+                [
+                  1.27e-09,
+                  0.0
+                ],
+                [
+                  1.6499999999999999e-09,
+                  0.0
+                ],
+                [
+                  1.6699999999999998e-09,
+                  0.77
+                ],
+                [
+                  2.05e-09,
+                  0.77
+                ],
+                [
+                  2.07e-09,
+                  0.0
+                ],
+                [
+                  2.45e-09,
+                  0.0
+                ],
+                [
+                  2.47e-09,
+                  0.77
+                ],
+                [
+                  2.85e-09,
+                  0.77
+                ],
+                [
+                  2.87e-09,
+                  0.0
+                ]
+              ]
+            },
+            {
+              "source": "Vph0",
+              "node": "ph0",
+              "ref": "0",
+              "initial": 0.0,
+              "skew_s": 0.0,
+              "events": [
+                {
+                  "t_s": 2.375e-10,
+                  "t_applied_s": 2.375e-10,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 3e-10,
+                  "t_applied_s": 3e-10,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 6.375e-10,
+                  "t_applied_s": 6.375e-10,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 7e-10,
+                  "t_applied_s": 7e-10,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                }
+              ],
+              "pwl": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  2.375e-10,
+                  0.0
+                ],
+                [
+                  2.475e-10,
+                  0.77
+                ],
+                [
+                  3e-10,
+                  0.77
+                ],
+                [
+                  3.1e-10,
+                  0.0
+                ],
+                [
+                  6.375e-10,
+                  0.0
+                ],
+                [
+                  6.475e-10,
+                  0.77
+                ],
+                [
+                  7e-10,
+                  0.77
+                ],
+                [
+                  7.099999999999999e-10,
+                  0.0
+                ]
+              ]
+            },
+            {
+              "source": "Vph1",
+              "node": "ph1",
+              "ref": "0",
+              "initial": 0.0,
+              "skew_s": 0.0,
+              "events": [
+                {
+                  "t_s": 1.0375e-09,
+                  "t_applied_s": 1.0375e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 1.1e-09,
+                  "t_applied_s": 1.1e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 1.4375e-09,
+                  "t_applied_s": 1.4375e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 1.5e-09,
+                  "t_applied_s": 1.5e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                }
+              ],
+              "pwl": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  1.0375e-09,
+                  0.0
+                ],
+                [
+                  1.0475e-09,
+                  0.77
+                ],
+                [
+                  1.1e-09,
+                  0.77
+                ],
+                [
+                  1.1099999999999999e-09,
+                  0.0
+                ],
+                [
+                  1.4375e-09,
+                  0.0
+                ],
+                [
+                  1.4475e-09,
+                  0.77
+                ],
+                [
+                  1.5e-09,
+                  0.77
+                ],
+                [
+                  1.51e-09,
+                  0.0
+                ]
+              ]
+            },
+            {
+              "source": "Vph2",
+              "node": "ph2",
+              "ref": "0",
+              "initial": 0.0,
+              "skew_s": 0.0,
+              "events": [
+                {
+                  "t_s": 1.8375e-09,
+                  "t_applied_s": 1.8375e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 1.9e-09,
+                  "t_applied_s": 1.9e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 2.2374999999999998e-09,
+                  "t_applied_s": 2.2374999999999998e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 2.3e-09,
+                  "t_applied_s": 2.3e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                }
+              ],
+              "pwl": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  1.8375e-09,
+                  0.0
+                ],
+                [
+                  1.8474999999999999e-09,
+                  0.77
+                ],
+                [
+                  1.9e-09,
+                  0.77
+                ],
+                [
+                  1.9100000000000002e-09,
+                  0.0
+                ],
+                [
+                  2.2374999999999998e-09,
+                  0.0
+                ],
+                [
+                  2.2475e-09,
+                  0.77
+                ],
+                [
+                  2.3e-09,
+                  0.77
+                ],
+                [
+                  2.31e-09,
+                  0.0
+                ]
+              ]
+            },
+            {
+              "source": "Vph3",
+              "node": "ph3",
+              "ref": "0",
+              "initial": 0.0,
+              "skew_s": 0.0,
+              "events": [
+                {
+                  "t_s": 2.6375e-09,
+                  "t_applied_s": 2.6375e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 2.6999999999999998e-09,
+                  "t_applied_s": 2.6999999999999998e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                },
+                {
+                  "t_s": 3.0375e-09,
+                  "t_applied_s": 3.0375e-09,
+                  "level": 0.77,
+                  "edge": "rise",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 1
+                  }
+                },
+                {
+                  "t_s": 3.1e-09,
+                  "t_applied_s": 3.1e-09,
+                  "level": 0.0,
+                  "edge": "fall",
+                  "transition_s": 1e-11,
+                  "level_spec": {
+                    "frac_of": "vdd",
+                    "fraction": 0
+                  }
+                }
+              ],
+              "pwl": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  2.6375e-09,
+                  0.0
+                ],
+                [
+                  2.6475000000000002e-09,
+                  0.77
+                ],
+                [
+                  2.6999999999999998e-09,
+                  0.77
+                ],
+                [
+                  2.71e-09,
+                  0.0
+                ],
+                [
+                  3.0375e-09,
+                  0.0
+                ],
+                [
+                  3.0475e-09,
+                  0.77
+                ],
+                [
+                  3.1e-09,
+                  0.77
+                ],
+                [
+                  3.1100000000000002e-09,
+                  0.0
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 9,
+    "measurements_with_limits": 9,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph0_hi\",\"min\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph0_lo\",\"max\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph1_hi\",\"min\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph1_lo\",\"max\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph2_hi\",\"min\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph2_lo\",\"max\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph3_hi\",\"min\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a4_tran.a4_ph3_lo\",\"max\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a5_dc.a5_trip\",\"max\"]",
+      "limit:[0,\"ff/0.770V/0C\",\"a5_dc.a5_trip\",\"min\"]"
+    ],
+    "skipped": [],
+    "inapplicable": [],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2",
+    "klt_git_commit": "046ba74652fc096bd97071fc3237f7159dd40183",
+    "klt_reinstall_spec": "klayout-tools==0.9.2",
+    "klayout_version": "0.30.14",
+    "pdk": null,
+    "deck": {
+      "name": "asap7_bsimcmg.lib",
+      "content_hash": "sha256:c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:8d4ed70c706eb6df84491667fcaaf60b8f4d0cb870db145e5647090b2f37f536",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "a4_tran.a4_ph0_hi",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999,
+        "margin": 0.0769998999999999
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph0_lo",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.544714e-08,
+        "margin": 0.07699996455286001
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.544714e-08
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.544714e-08
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph1_hi",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999,
+        "margin": 0.0769998999999999
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph1_lo",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.545196e-08,
+        "margin": 0.07699996454804
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.545196e-08
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.545196e-08
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph2_hi",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999,
+        "margin": 0.0769998999999999
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph2_lo",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.544288e-08,
+        "margin": 0.07699996455712001
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.544288e-08
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.544288e-08
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph3_hi",
+      "unit": "V",
+      "limits": {
+        "min": 0.6930000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999,
+        "margin": 0.0769998999999999
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.7699999
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a4_tran.a4_ph3_lo",
+      "unit": "V",
+      "limits": {
+        "max": 0.07700000000000001
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.543467e-08,
+        "margin": 0.07699996456533001
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.543467e-08
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 3.543467e-08
+      },
+      "step": "a4_tran",
+      "spec_row": "a4-rx-sampler-levels"
+    },
+    {
+      "name": "a5_dc.a5_trip",
+      "unit": "V",
+      "limits": {
+        "min": 0.30800000000000005,
+        "max": 0.46199999999999997
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.3760314,
+        "margin": 0.06803139999999996
+      },
+      "min": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.3760314
+      },
+      "max": {
+        "corner_id": "ff/0.770V/0C",
+        "value": 0.3760314
+      },
+      "step": "a5_dc",
+      "spec_row": "a5-rx-input-threshold"
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "ff/0.770V/0C",
+      "process": "ff",
+      "supply_v": {
+        "vdd": 0.77
+      },
+      "temperature_c": 0,
+      "status": "pass",
+      "runtime_s": 1.27,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "a4_tran.a4_ph0_hi",
+          "value": 0.7699999,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.0769998999999999,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph0_lo",
+          "value": 3.544714e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.07699996455286001,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph1_hi",
+          "value": 0.7699999,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.0769998999999999,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph1_lo",
+          "value": 3.545196e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.07699996454804,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph2_hi",
+          "value": 0.7699999,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.0769998999999999,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph2_lo",
+          "value": 3.544288e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.07699996455712001,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph3_hi",
+          "value": 0.7699999,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.0769998999999999,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a4_tran.a4_ph3_lo",
+          "value": 3.543467e-08,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.07699996456533001,
+          "step": "a4_tran"
+        },
+        {
+          "name": "a5_dc.a5_trip",
+          "value": 0.3760314,
+          "unit": "V",
+          "status": "pass",
+          "margin": 0.06803139999999996,
+          "step": "a5_dc"
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null,
+      "steps": [
+        {
+          "name": "a4_tran",
+          "kind": "tran",
+          "status": "ok"
+        },
+        {
+          "name": "a5_dc",
+          "kind": "dc",
+          "status": "ok"
+        }
+      ]
+    }
+  ]
+}

@@ -107,6 +107,9 @@ verification/*.negative-control.report.json
 
 # klt sta scratch (logs, generated Tcl, metrics); the report is sta/slice.sta.report.json
 sta/.klt/
+# klt sim scratch (per-request working dirs, batch-set manifests); the reports of
+# record are the sim/*.batch.report.json files
+.klt/
 
 # Repo Skills Codex-side machine-local install metadata (never committed)
 .agents/skills/repo/.install-local.json

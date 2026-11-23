@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "request_count": 3,
+  "max_in_flight": 3,
+  "submitted": 3,
+  "refused": 0,
+  "refused_codes": [],
+  "requests": [
+    {
+      "index": 0,
+      "request": "rx_cell.rows.tt.sim.json",
+      "status": "pass",
+      "exit_code": 0,
+      "job_id": "klt-sim-4ebeb2c1b436",
+      "job_ids": [
+        "klt-sim-4ebeb2c1b436"
+      ],
+      "report": "/home/ubuntu/GitHub/asap7-ucie-phy/.loom/worktrees/issue-278/design/sim/.klt/sim/rx_cell.rows.tt.sim/report.json",
+      "error": null,
+      "shards": [
+        {
+          "job_id": "klt-sim-4ebeb2c1b436",
+          "last_state": "done",
+          "interrupted_observations": 0
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "request": "rx_cell.rows.ss.sim.json",
+      "status": "pass",
+      "exit_code": 0,
+      "job_id": "klt-sim-4d9e4239612d",
+      "job_ids": [
+        "klt-sim-4d9e4239612d"
+      ],
+      "report": "/home/ubuntu/GitHub/asap7-ucie-phy/.loom/worktrees/issue-278/design/sim/.klt/sim/rx_cell.rows.ss.sim/report.json",
+      "error": null,
+      "shards": [
+        {
+          "job_id": "klt-sim-4d9e4239612d",
+          "last_state": "done",
+          "interrupted_observations": 0
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "request": "rx_cell.rows.ff.sim.json",
+      "status": "pass",
+      "exit_code": 0,
+      "job_id": "klt-sim-dab12e22e18b",
+      "job_ids": [
+        "klt-sim-dab12e22e18b"
+      ],
+      "report": "/home/ubuntu/GitHub/asap7-ucie-phy/.loom/worktrees/issue-278/design/sim/.klt/sim/rx_cell.rows.ff.sim/report.json",
+      "error": null,
+      "shards": [
+        {
+          "job_id": "klt-sim-dab12e22e18b",
+          "last_state": "done",
+          "interrupted_observations": 0
+        }
+      ]
+    }
+  ]
+}
