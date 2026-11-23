@@ -3,7 +3,8 @@
 Status: proposed. Date: 2026-11-20. Issue: #277. Part of: #276.
 
 Not ratified by merge. An operator ratifies or amends this record in a follow-up (#279 files it);
-until then it binds nothing, grades nothing and changes no verdict.
+until then it binds nothing, grades nothing and changes no verdict. The follow-up is **#306**,
+filed with the provisional four-cell results and both probes' outcomes.
 
 ## Context
 

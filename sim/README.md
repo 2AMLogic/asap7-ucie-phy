@@ -1,9 +1,10 @@
 # sim
 
 Holds **timing (STA) results** for the lane datapath and for characterized cell models, plus
-**circuit-simulation reports** in two groups: the logic-level functional runs of all four drawn
-cells (the historical baseline), and the **proposed data-cell row measurements** of decision 0013
-(issue #278). `tx_cell` is the run recorded in
+**circuit-simulation reports** in three groups: the logic-level functional runs of all four drawn
+cells (the historical baseline), the **proposed data-cell row measurements** of decision 0013
+(issue #278), and the **proposed clock-cell row measurements** of the same decision (issue #279),
+plus the single-cell **`klt pex` probe** record (#279). `tx_cell` is the run recorded in
 `../spec/decisions/0010-analog-simulation-flow.md` (which supersedes the ngspice 42 blocker in
 decision 0003); the other three extend that same route to the cells 0010 named as not covered.
 Decks and requests: `../design/sim/` (`<cell>.tb.sp`, `<cell>.sim.json`, `<cell>.osdi.sp`; rows
@@ -137,3 +138,132 @@ yield fraction against min/max limits**, while row a6 bounds **3σ of the offset
 a different statistic (the report's `distribution.stddev` is the closer quantity) — and the probe
 declares no `negative_control`, which a gradable campaign would need. The tool works at the pin;
 the missing input is the refused Monte Carlo above.
+
+## Proposed clock rows a7-a10 (decision 0013, issue #279) — provisional
+
+**Every figure in this section is provisional against the predictive model, and the rows
+themselves are still proposed** (decision 0013 is not ratified; no bound here grades anything).
+Rows a7-a8 measure `tx_clk_cell`, a9-a10 `rx_clk_cell`, on the same decision-0010 batch flow
+(ngspice 47 via `klt sim`, OSDI BSIM-CMG) at the three matched PVT tuples 0013 binds — TT
+0.70 V / 25 °C, SS 0.63 V / 100 °C, FF 0.77 V / 0 °C — with per-tuple stimulus swing taken from
+the tuple supply (declarative `stimulus` levels as `frac_of` fractions of `corners.supply_v.vdd`).
+Stimulus per L3 at the target forwarded-clock rate (C1: 4 GHz, T = 250 ps, 50 % duty, 20 ps
+ramps): `clk` driven for a7-a8 with `fwd_en` enabled once before the first measured period and
+held high, `pad` driven for a9-a10; loads L4/L6: 2 fF on the measured output to VSS. The
+`.meas` 50 % thresholds are VDD/2 per tuple (0.35 / 0.315 / 0.385 V). Each tuple runs as its own
+batch-set member request (`<cell>.rows.<tuple>.sim.json`) for the same parse-time-literal reason
+as a1-a6 (2AMLogic/klayout-tools#7370). Measured periods: clock cycles 4-13 (zero-based 3-12),
+satisfing 0013's "averaged over ≥ 10 periods" after three settle cycles; tran 1p 3500p.
+
+Reports of record: the aggregate envelopes `tx_clk_cell.rows.batch.report.json` /
+`rx_clk_cell.rows.batch.report.json` (one `klt sim --batch-set` per cell) plus the member reports
+the envelopes reference, committed as `<cell>.rows.<tuple>.batch.report.json` with repo-relative
+`report` fields (2AMLogic/klayout-tools#7381, as for the data rows).
+
+Environment (identical across all six member reports): engine ngspice 47, client klt 0.9.2
+(`.github/klt-version` pin), runner klt 0.9.0 (batch fleet), model library
+`design/sim/asap7_bsimcmg.lib` sha256 `c0478207ccf23686f2585c91f45d5e54d988560397ed8516219ee45b099c0280`
+(lambdapdk v0.2.17 cards, per decision 0010). OSDI module `bsimcmg.osdi` sha256
+`5d7425d56df0d1e14d6b95ce7ba9d5c71c309d603cf6ce4348bddaf72c294318`: rebuilt locally with klt's
+`fetch-asap7-sim-toolchain.sh` from the same pinned source (VA-Models `6099b4e`) and compiler
+(OpenVAF-Reloaded `osdi_0.4-153-g2e066436`) as decision 0010's reference module, but **not
+bit-identical to it** (0010 records `4e755d14…`): the pinned-tag compiler binary fetched today
+produces a different, itself-deterministic, module. It loads and preflights clean on ngspice 47,
+and the `klt pex` probe below re-ran the committed `tx_cell` TT request with this module and
+reproduced #278's committed a1-a3 TT values exactly at report precision — the recorded
+cross-check that the two builds agree on the measured quantities.
+
+### Row-to-report table
+
+Worst case per row and tuple over the row's measurement set (a7: 10 periods; a8/a10: 10 periods
+× 2 edge directions, worst edge; a9: 10 periods × both nets). Row verdicts are recomputed from
+the reported values against the proposed bound per the 0013 definitions — the duty rows bound
+the **average** high-time deviation, the delay rows the **worse** edge — while the member
+reports carry tool-side per-measurement limits as target-bound guards (high time within
+T/2 ± 12.5 ps per period; delay ≤ 62.5 ps). "Target" is the 16 GT/s budget, "fallback" the
+4 GT/s budget (0013 § budget trace).
+
+| Row | Tuple | Worst value | Proposed bound | Target | Fallback | Report / job |
+|---|---|---|---|---|---|---|
+| `a7-txclk-duty` | TT | −1.887 ps (avg high 123.113 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `tx_clk_cell.rows.tt.batch.report.json` / `klt-sim-2205955c08e3` |
+| | SS | −2.811 ps (avg high 122.189 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `tx_clk_cell.rows.ss.batch.report.json` / `klt-sim-9cc2d7af0488` |
+| | FF | −1.513 ps (avg high 123.487 ps) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `tx_clk_cell.rows.ff.batch.report.json` / `klt-sim-3f9aeb5c04d4` |
+| `a8-txclk-delay` | TT | 21.885 ps (rising) | ≤ 62.5 ps / 250 ps | pass | pass | as a7, per tuple |
+| | SS | 30.132 ps (rising) | ≤ 62.5 ps / 250 ps | pass | pass | |
+| | FF | 17.058 ps (rising) | ≤ 62.5 ps / 250 ps | pass | pass | |
+| `a9-rxclk-duty` | TT | +0.855 ps (rx 125.855, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `rx_clk_cell.rows.tt.batch.report.json` / `klt-sim-b9d50476113a` |
+| | SS | +1.288 ps (rx 126.288, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `rx_clk_cell.rows.ss.batch.report.json` / `klt-sim-c496d86ceeb2` |
+| | FF | +0.670 ps (rx 125.670, pad 125.000) | \|err\| ≤ 12.5 ps / 50 ps | pass | pass | `rx_clk_cell.rows.ff.batch.report.json` / `klt-sim-51491f26b46a` |
+| `a10-rxclk-delay` | TT | 20.176 ps (falling) | ≤ 62.5 ps / 250 ps | pass | pass | as a9, per tuple |
+| | SS | 27.467 ps (falling) | ≤ 62.5 ps / 250 ps | pass | pass | |
+| | FF | 15.815 ps (falling) | ≤ 62.5 ps / 250 ps | pass | pass | |
+
+All twelve row × tuple verdicts pass at both budgets: no miss, so unlike a3 at SS (#278) no
+design-iteration issue is owed. a9's pad-side duty error — the source's own error the definition
+subtracts — measured 0.000 ps at every tuple (ideal L3 source), so the transfer equals the
+`rx_clk` duty error; both halves are measured and recorded per the definition.
+
+## Single-cell `klt pex` probe on `tx_cell` (issue #279) — provisional
+
+One pinned probe, recorded per the issue: can the extracted-versus-schematic route produce a
+real single-cell delta at the repository pin? **Yes.** Full envelope committed as
+`tx_cell.pex-probe.report.json`. Command of record (client klt 0.9.2, git `046ba74652fc`,
+klayout 0.30.14, deck `asap7` content-hash
+`sha256:5c58a50e5f6a9099810b3fde37eaa8d93b0897653cb6597a831baac1f5ebee76`, batch backend):
+
+```
+$ uvx --from "klayout-tools==0.9.2" klt pex layout/cells/tx_cell.gds \
+      design/sim/tx_cell.rows.tt.sim.json --deck asap7 --top tx_cell \
+      --pins 'tx_a[0],tx_a[1],tx_b[0],tx_b[1],sel1,sel2,pad,VDD,VSS' \
+      --tie-net '\$39=VDD' --outdir design/pex279 \
+      -o <scratch>/tx_cell.pex.spice --envelope-out <scratch>/tx_cell.pex.envelope.json \
+      --backend batch --wait-for-capacity 600 --format json
+status: pass   delta rows: 32 passed / 0 failed / 0 errored   (exit 0)
+```
+
+Outcome: all 32 delta rows of the TT `tx_cell` request (a1-a3) computed; worst degradation
+**+6.358 %** (`a3_s1r_pf`, schematic 24.021 ps → extracted 25.549 ps; a1 ≤ +6.252 %, a2 ≤
++3.523 %). Extraction: 22 devices / 18 nets against the schematic's 22 (the LVS-matched pairing
+of `evidence/item4-lvs/tx_cell.r2.request.json`), `parasitic_integrity` clean, `model_mismatch`
+null, extracted legs BSIM-CMG-adapted (`extraction.netlist_adaptation:
+asap7_bsimcmg.adapt_extracted_netlist`). Every number is a tool result against a predictive
+model, and the run carries klt's asap7 fidelity warning verbatim (same-level coupled-wiring
+delay error −97.8 % to −87.8 % versus the mom reference in the measured range — treat extracted
+delay as a lower bound; `warnings[]` in the record).
+
+Three limitations hit and cleared on the way, all recorded here because they bound any graded
+item-7-analog campaign:
+
+1. **First run: `pin_count_mismatch`** — flat extraction promotes the synthesized substrate net
+   `vsubs` as a 10th top-level pin against the schematic's 9. Cleared with `--pins` (the
+   documented demotion); the dctie resistor stays inside the `.SUBCKT` body.
+2. **Second run: `singular_matrix` on the extracted leg** — the 11 PMOS bodies land on the
+   anonymous, untied nwell net `\$39` (the reported-unbiased case of
+   2AMLogic/klayout-tools#1983). Cleared with the documented `--tie-net '\$39=VDD'`, disclosed
+   in the record as `body_bias.status: "tied"`; the name is per-extraction and must be re-read
+   from `unbiased_nets` after any re-layout.
+3. **`options.osdi_preload` is request-relative, and the swapped extracted-side request resolves
+   it against the pex artifact root, not the request's directory** — the #1395 `models.lib`
+   rewrite covers only `models.lib`. Worked around by placing `--outdir` two levels under the
+   repo root so the relative path re-resolves to the same file; filed generically upstream as
+   2AMLogic/klayout-tools#7485. The `--outdir design/pex279` in the command of record is that
+   workaround (the directory is run scratch, removed after; the envelope records the committed
+   request unmodified).
+
+Two fields are sanitised in the committed envelope, both disclosed: `client_ngspice_binary`
+dropped from both sides (decision 0012 §3, same as the rows records) and
+`worker_environment.pdk` dropped from both sides — the remote-worker PDK-root observation trips
+the changed-record lint because the #5133 skip is anchored at the envelope root and does not
+know the pex envelope's `testbenches[].sides[].environment.remote.worker_environment` shape;
+filed generically upstream as 2AMLogic/klayout-tools#7484.
+
+Checks the issue named before filing anything new: #6559 (no runset-engine route, closed) does
+**not** apply to this cell at the 0.9.2 pin — the curated `asap7` deck recognised all 22 FinFETs
+(`model_mismatch: null`), so no runset engine was needed; #5494 (multi-top) is not exercised by
+a single-cell probe; #5735 (anonymous-net handles, closed) was not hit — the measurements probe
+top-level nets only; the one anonymous net that mattered (`\$39`) is exactly the documented
+`--tie-net` case.
+
+The probe is **not** graded evidence: it is one cell, one tuple (TT), the target-rate bench,
+against rows that are still proposed. Item 7 analog evidence — the full four-cell campaign — is
+assigned to the operator follow-up (#306), contingent on ratification.
