@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 32/32 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 33/33 attestation checks passed (klt signoff --attest)",
   "source": "manifests/t1-item10-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 32,
-    "passed_count": 32,
+    "check_count": 33,
+    "passed_count": 33,
     "checks": [
       {
         "check": "present",
@@ -144,6 +144,13 @@
         "path": "spec/decisions/0014-asap7-lvs-unsupported-cells-dont-use.md",
         "passed": true,
         "content_hash": "sha256:fb6ec1fab7f1a41f13082c3bbaf2acdcb59d01679348bd40eeeabfe356ec4576"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/decisions/0015-routed-lvs-report-storage.md",
+        "passed": true,
+        "content_hash": "sha256:a2432b7700b02510e36056312299fd10bf95cdd6ce87b1cfc5f7630b3fc146ba"
       },
       {
         "check": "present",
@@ -306,7 +313,7 @@
         "path": "manifests/t1-item10-inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:1919abe3076467ff4bda38af4aa5641052b7b0f4227f753af828b5926054dc86"
+      "content_hash": "sha256:6999f48e26c76b09a88d4459138148e9982829ad22a001d56af1f9c627541897"
     }
   }
 }

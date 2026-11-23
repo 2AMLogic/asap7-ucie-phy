@@ -23,6 +23,7 @@
     "spec/decisions/0012-record-path-hygiene-gate.md",
     "spec/decisions/0013-analog-spec-rows.md",
     "spec/decisions/0014-asap7-lvs-unsupported-cells-dont-use.md",
+    "spec/decisions/0015-routed-lvs-report-storage.md",
     ".github/workflows/signoff.yml",
     "verification/check-records-json.sh",
     "verification/resolve-record-base.sh"
