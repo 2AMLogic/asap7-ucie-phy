@@ -58,9 +58,9 @@ notes. `provenance.deck` is `null`: the run used no curated deck.
 ## Findings and owners
 
 - **`erc.missing_tie`** (3 per cell: 1 `nwell_tie` on VDD, 2 `substrate_tie` on VSS; 34 `nwell_tie` and no
-  `substrate_tie` on the column): the drawn cells have neither a well-to-VDD tap nor the two substrate-to-VSS taps
-  the spec's selectors look for (documented in `layout/README.md`). These are reported as failing records, not
-  waived. Owner: #27 (item 11).
+  `substrate_tie` on the column): the drawn cells have neither a well-to-VDD tap (`layout/README.md` documents the
+  absent well-to-VDD contact and tap/bulk ties) nor the two substrate-to-VSS taps the spec's selectors look for.
+  These are reported as failing records, not waived. Owner: #27 (item 11).
 - **`erc.unconnected_net`, 50 islands each for VDD and VSS on the column**: the column assembler places the cells without
   routing them to the slice, so each placed instance's rail is its own island. This is a count of labelled islands, not
   a stream-side attribution within the routed slice; that attribution was #273 (closed) under #20 (open). Owner: #27, with #20 for the digital slice.
