@@ -133,3 +133,24 @@ this is a measured dependence.
   +0.22524 / +0.07487 / +0.29353 ns, hold +0.05179 / +0.07505 / +0.03468 ns, 0 / 0 violations at tt / ss / ff.
   Caveats as before: `annotation_complete: false` (2,520 of 2,714 nets), 0.5 ns is not the section 2
   clock, clock uncertainty unapplied (klayout-tools#4240).
+
+## Issue #287: r9 (pre-route) and routed r3, on the dont_use-27 netlist (2026-11-23)
+
+Decision 0014 extended `constraints.dont_use` with the 17 klt `KNOWN_UNSUPPORTED_ASAP7_CELLS` masters
+(clearing the AOI21x1 LVS fold at the source, issue #287), so the netlist was re-synthesized, the slice
+re-routed (same request geometry, seed 1) and the column re-assembled; the timing records moved with it.
+Zero instances of all 27 excluded masters appear in either netlist.
+
+- **`slice.sta.r9.report.json`**: pre-route successor to r8 (`regen.py --report slice.sta.r9.report.json`,
+  same request, `netlist_estimate`, 0.25 ns clock). Worst setup slack +0.02954 / −0.0969 / +0.08471 ns
+  (0 / 156 / 0 violations, **ss still fails**), hold +0.05125 / +0.0742 / +0.03431 ns, Fmax
+  4535.92 / 2882.67 / 6049.89 MHz — equal to r8 at every reported digit: the AOI21x1 -> AOI21xp5 re-mapping
+  moved cells off the critical path (a measured result; the mechanism inside ABC is not established).
+  Power 0.8452 / 0.6682 / 1.082 mW (r8: 0.8552 / 0.676 / 1.095). r9 is the adopted record
+  (`regen.py --check-input` targets it); r8 stays as history.
+- **`slice.sta.routed.r3.report.json`**: post-route successor to r2 (same request `slice.sta.routed.json`,
+  over the re-routed DEF/SPEF, 0.5 ns constraint). Setup slack +0.24002 / +0.09434 / +0.30437 ns and hold
+  +0.05157 / +0.07469 / +0.03454 ns — **0 / 0 violations at tt / ss / ff**. Fmax 3846.39 / 2465.09 /
+  5111.67 MHz. Caveats as before: `annotation_complete: false` (2,519 of 2,713 nets named by the SPEF — the
+  known net-name-coverage gap), 0.5 ns is the P&R constraint and not the section 2 clock, and clock
+  uncertainty remains unapplied (klayout-tools#4240). The rate row stays open and is not claimed closed.
