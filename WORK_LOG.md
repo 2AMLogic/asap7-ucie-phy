@@ -5,6 +5,7 @@ triage role; entries are newest first.
 
 ### 2026-11-23
 
+- **PR #313**: fix: register decision records 0011 and 0013 in the T1 item-10 hygiene inventory
 - **PR #310**: synth: exclude klt's 17 KNOWN_UNSUPPORTED_ASAP7_CELLS masters and clear the AOI21x1 LVS fold at the source
 - **PR #303**: docs(erc): disclose declared label layers with no text per stream
 - **PR #302**: docs(sim): describe envelope report paths as repo-relative members
@@ -13,6 +14,7 @@ triage role; entries are newest first.
 - **PR #296**: verification: exercise the r18 census production helpers in the selftest
 - **PR #285**: verification: add klt erc supply spec and reports for the drawn cells and lane column
 - **PR #281**: docs(spec): propose cell-level analog spec rows for the drawn cells (decision 0013)
+- **Issue #311** (closed): T1 item-10 hygiene inventory omits decision records 0011 and 0013
 - **Issue #301** (closed): ERC record: disclose the declared label layers that carry no text in each stream
 - **Issue #300** (closed): sim/README.md still describes the rows batch-set envelope report paths as client-local scratch
 - **Issue #295** (closed): Unify the tool-pin check helpers duplicated across three verification scripts
