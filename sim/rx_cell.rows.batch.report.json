@@ -16,7 +16,7 @@
       "job_ids": [
         "klt-sim-4ebeb2c1b436"
       ],
-      "report": "/home/ubuntu/GitHub/asap7-ucie-phy/.loom/worktrees/issue-278/design/sim/.klt/sim/rx_cell.rows.tt.sim/report.json",
+      "report": "sim/rx_cell.rows.tt.batch.report.json",
       "error": null,
       "shards": [
         {
@@ -35,7 +35,7 @@
       "job_ids": [
         "klt-sim-4d9e4239612d"
       ],
-      "report": "/home/ubuntu/GitHub/asap7-ucie-phy/.loom/worktrees/issue-278/design/sim/.klt/sim/rx_cell.rows.ss.sim/report.json",
+      "report": "sim/rx_cell.rows.ss.batch.report.json",
       "error": null,
       "shards": [
         {
@@ -54,7 +54,7 @@
       "job_ids": [
         "klt-sim-dab12e22e18b"
       ],
-      "report": "/home/ubuntu/GitHub/asap7-ucie-phy/.loom/worktrees/issue-278/design/sim/.klt/sim/rx_cell.rows.ff.sim/report.json",
+      "report": "sim/rx_cell.rows.ff.batch.report.json",
       "error": null,
       "shards": [
         {

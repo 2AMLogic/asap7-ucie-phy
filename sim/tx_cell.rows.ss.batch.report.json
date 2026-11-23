@@ -200,7 +200,6 @@
       }
     },
     "engine_host": "worker",
-    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
     "backend": {
       "resolved": "batch",
       "source": "flag",
