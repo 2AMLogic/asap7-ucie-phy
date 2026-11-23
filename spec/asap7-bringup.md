@@ -864,3 +864,25 @@ Predictive-model tool results only. Earlier sections are left as written. Decisi
 - **Timing re-taken on the new streams.** Pre-route `sta/slice.sta.r9.report.json` (same request, `netlist_estimate`, 0.25 ns clock): worst setup slack +0.02954 / −0.0969 / +0.08471 ns (0 / 156 / 0 violations — **ss still fails**), hold positive, Fmax 4535.92 / 2882.67 / 6049.89 MHz — equal to r8 at every reported digit (the exclusion re-mapped cells off the critical path; a measured result, mechanism not established), power 0.8552 -> 0.8452 mW tt (0.676 -> 0.6682 ss, 1.095 -> 1.082 ff). Routed `sta/slice.sta.routed.r3.report.json` (def-mode, committed DEF + SPEF, 0.5 ns P&R constraint): **0 setup / 0 hold violations at tt/ss/ff** (worst slack +0.24002 / +0.09434 / +0.30437 ns, hold +0.05157 / +0.07469 / +0.03454 ns), `annotation_complete: false` (2,519 of 2,713 nets — the standing net-name-coverage gap). r9 is the adopted pre-route record (`sta/regen.py --check-input` targets it).
 - **DRC re-taken** (`verification/drc/`, r12 envelopes on the re-routed streams, klt 0.9.2 / klayout 0.30.12 on pin, same 267-id expectation set, no waivers, no filtering): routed slice 893 violations across the same 8 families as r11's 975 (M1.S.* 214, M3.S.2 14, M5.W.3 17, V4.M4.EN.1 636, V4.M5.EN.2 12); the column 14,288 across the same 8 (r11: 15,600). **`SDT.ACTIVE.AUX.2` stays 0** (absent from `rule_counts`), no new rule family appears, and item 3 stays `unmet` with the same open upstream dispositions.
 - **Signoff consequence.** The netlist-bound chain moved atomically with the streams: items 1 (`evidence/item1.r13.json`, 21/21) and 2 (`attest/item2.r12.json` + `evidence/item2.r12.json`, 3/3) re-attested, item 8 re-pointed (r9 / routed r3 / r20 citations) and re-attested, the manifest re-pinned (`4.digital` -> r20, `1.*` -> r13, `2.*` -> r12, item 10 re-pinned for the 0014 inventory member) and the verdict regenerated. **Item 4 digital stays `unmet` / `check_failed`** — r20 is honestly `mismatch` — but its entire residue is now the single #7182 well-tap cause, so the in-repo half of the closure path is done: #20 owns the `.github/klt-version` bump to the PyPI release that carries #7182's deck fix, after which a fresh r21 is expected to close it. No claim of clean LVS today, no fabricated part, predictive PDK.
+
+## Storing the next failing routed-slice LVS report (appended 2026-11-23, issue #136)
+
+Operator ruling 2026-11-23 (#136, decision
+[`0015-routed-lvs-report-storage.md`](decisions/0015-routed-lvs-report-storage.md)):
+every LVS report and attempt record already committed keeps its path and bytes
+(decision 0005); from now on a new failing flattened routed-slice compare is
+committed as a **derived summary** unless it is the report a block-manifest
+entry cites. When recording a run, generate the full comparison into scratch
+space and commit the summary form, with distinct input and output paths:
+
+```
+jq '.mismatches = [] | .mismatches_omitted = true' "$full" > "$summary"
+```
+
+The summary keeps the tool's own `status`, `mismatch_count` / `error_count`,
+`category_counts`, `category_error_counts`, `counts`, `options`, `environment`
+and `provenance` — an empty `mismatches` list still reads as a failure, and the
+`mismatches_omitted` marker discloses the omission — and the attempt record
+names the file as a derived summary, not a `klt lvs` output. Commit the full
+native output only when the block manifest will pin it by content hash; decide
+that at recording time. r20 is that report of record today and stays full.
