@@ -136,98 +136,73 @@ jobs:
             exit 1
           fi
 
-      # T1 item 9: re-attest the testbench inventory. The cold start is
-      # local_only (ubuntu-latest has no yosys/verilator/iverilog), so it is
-      # skipped here; file presence and content hashes still run, so editing
-      # any listed testbench fails the build until it is re-attested.
-      # Exit 0 = still reproduces, 3 = drifted, anything else is an error.
-      - name: Check the item 9 testbench attestation still reproduces
+      - name: Check all inventory-based T1 attestations cited by the block manifest
+        shell: python
         run: |
-          set -uo pipefail
-          rc=0
-          klt signoff --attest 9 --inventory manifests/attest/item9.json \
-                      --check manifests/evidence/item9.r2.json || rc=$?
-          if [ "$rc" -eq 3 ]; then
-            echo "::error::manifests/evidence/item9.r2.json is stale (a listed testbench or the inventory changed). Re-attest on a host with the pinned tools and commit it:"
-            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 9 --inventory manifests/attest/item9.json -o manifests/evidence/item9.r2.json"
-            echo "If a listed testbench changed, stop there: the block manifest and the verdict do NOT need regenerating — item 9's content_hash in manifests/asap7-ucie-phy.json binds the inventory (manifests/attest/item9.json), not the envelope."
-            echo "If the inventory itself (manifests/attest/item9.json) changed, update the item 9 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
-            exit 1
-          elif [ "$rc" -ne 0 ]; then
-            echo "::error::klt signoff --attest 9 --check exited $rc (expected 0 or 3)"
-            exit 1
-          fi
+          import json
+          import shlex
+          import subprocess
+          import sys
+          from pathlib import Path
 
-      # T1 item 8 (characterization report): re-attest the inventory. Its
-      # envelope_checks are the cheap ones (hash checks and pure-python
-      # re-runs); nothing needs OpenROAD or the PDK. Exit 0 = still
-      # reproduces, 3 = drifted, anything else is an error.
-      - name: Check the item 8 characterization attestation still reproduces
-        run: |
-          set -uo pipefail
-          rc=0
-          klt signoff --attest 8 --inventory manifests/attest/item8.json \
-                      --check manifests/evidence/item8.json || rc=$?
-          if [ "$rc" -eq 3 ]; then
-            echo "::error::manifests/evidence/item8.json is stale (the report, a cited envelope or the inventory changed). Identify the drifted check printed above, fix or re-produce that record, then re-attest on a host with the pinned tools and commit:"
-            echo "  uvx --from \"klayout-tools==\$(cat .github/klt-version)\" klt signoff --attest 8 --inventory manifests/attest/item8.json -o manifests/evidence/item8.json"
-            echo "If the inventory itself (manifests/attest/item8.json) changed, update the item 8 content_hash in manifests/asap7-ucie-phy.json (it binds the inventory, not the envelope) and regenerate manifests/asap7-ucie-phy.signoff.json."
-            exit 1
-          elif [ "$rc" -ne 0 ]; then
-            echo "::error::klt signoff --attest 8 --check exited $rc (expected 0 or 3)"
-            exit 1
-          fi
 
-      # Re-verify the item-1 attestation envelope: every inventoried file is
-      # re-hashed, and the freshness commands that need no toolchain beyond
-      # python3 are re-run. The synthesis freshness command needs Yosys and the
-      # pinned ASAP7 archive, so it is local_only: its committed outcome is
-      # carried and its netlist is still hash-checked. Exit 3 = drifted.
-      - name: Check the item-1 attestation still reproduces
-        run: |
-          set -uo pipefail
-          rc=0
-          klt signoff --attest 1 --inventory attest/item1.r9.json \
-                      --check evidence/item1.r14.json || rc=$?
-          if [ "$rc" -eq 3 ]; then
-            echo "::error::evidence/item1.r14.json is stale. Regenerate and commit it in this PR:"
-            echo "  klt signoff --attest 1 --inventory attest/item1.r9.json -o evidence/item1.r14.json"
-            echo "  (then update the content_hash cited in manifests/asap7-ucie-phy.json and regenerate the verdict)"
-            exit 1
-          elif [ "$rc" -ne 0 ]; then
-            echo "::error::klt signoff --attest --check exited $rc (expected 0 or 3)"
-            exit 1
-          fi
+          def repo_file(name):
+              if not isinstance(name, str):
+                  sys.exit(f"::error::Expected a repository file path, got {name!r}")
+              path = Path(name)
+              if path.is_absolute() or not path.is_file() or not path.resolve().is_relative_to(Path.cwd()):
+                  sys.exit(f"::error::Expected a file in the repository at {name!r}")
+              return name
 
-      # Item 10 (repo hygiene): the inventory's declared checks are run by
-      # klt itself; --check exits 0 when the committed envelope still
-      # reproduces, 3 when it has drifted or a declared check now fails, and
-      # anything else is an error.
-      #
-      # README.md and this workflow file are themselves inventoried members, so
-      # an ordinary prose or CI edit drifts the envelope. Item 10's content_hash
-      # in manifests/asap7-ucie-phy.json binds the *inventory*
-      # (manifests/t1-item10-inventory.json), not the envelope file — note the
-      # asymmetry: .evidence["10"].file in the block manifest names the
-      # envelope, but the pinned hash is of the inventory bytes. That makes two
-      # drift cases: an inventoried *member* edit stops at the envelope (no
-      # manifest re-pin, no verdict regeneration), while an edit to the
-      # *inventory itself* additionally re-pins item 10's content_hash and
-      # regenerates manifests/asap7-ucie-phy.signoff.json.
-      - name: Check the committed T1 item 10 attestation still reproduces
-        run: |
-          set -uo pipefail
-          rc=0
-          klt signoff --attest 10 \
-                      --inventory manifests/t1-item10-inventory.json \
-                      --check manifests/t1-item10.envelope.json || rc=$?
-          if [ "$rc" -eq 3 ]; then
-            echo "::error::manifests/t1-item10.envelope.json is stale: an inventoried file or the inventory itself changed, or a declared check now fails. README.md and .github/workflows/signoff.yml are themselves inventoried — see manifests/t1-item10-inventory.json for the full member list. Re-attest on a host with the pinned tools and commit the envelope in this PR:"
-            echo "  uv run --no-project --with \"klayout-tools==\$(cat .github/klt-version)\" --with \"klayout==\$(cat .github/klayout-version)\" klt signoff --attest 10 --inventory manifests/t1-item10-inventory.json -o manifests/t1-item10.envelope.json"
-            echo "If an inventoried member changed, stop there: the block manifest and the verdict do NOT need regenerating — item 10's content_hash in manifests/asap7-ucie-phy.json binds the inventory (manifests/t1-item10-inventory.json), not the envelope."
-            echo "If the inventory itself (manifests/t1-item10-inventory.json) changed, update the item 10 content_hash in manifests/asap7-ucie-phy.json and regenerate manifests/asap7-ucie-phy.signoff.json."
-            exit 1
-          elif [ "$rc" -ne 0 ]; then
-            echo "::error::klt signoff --attest 10 --check exited $rc (expected 0 or 3): the inventory, the envelope or the pinned tooling is broken"
-            exit 1
-          fi
+
+          def query(path, expression):
+              # Use the repository's stream validator before jq can normalize invalid JSON.
+              # Its input is one path per line. An open descriptor also handles names containing newlines.
+              validate = 'source verification/check-records-json.sh && validate_stream 3<"$1" <<< /dev/fd/3'
+              result = subprocess.run(
+                  ["bash", "-c", validate, "validate_stream", path], stdout=subprocess.DEVNULL, check=False
+              )
+              if result.returncode:
+                  sys.exit(f"::error::Invalid JSON document stream in {path!r}")
+              return json.loads(subprocess.check_output(["jq", "-ces", expression, "./" + path]))
+
+
+          manifest = "manifests/asap7-ucie-phy.json"
+          files = query(manifest, '[.[].evidence | .. | objects | select(has("file")) | .file] | unique')
+          attested = "map(objects | select(.attestation.inventory_schema_version != null))"
+          checks = []
+          for envelope in files:
+              for record in query(repo_file(envelope), attested):
+                  item = record.get("t1_item")
+                  if type(item) is not int:
+                      sys.exit(f"::error::{envelope} has an invalid t1_item {item!r}")
+                  inventory = repo_file(record.get("source"))
+                  checks.append((item, inventory, envelope, "paths" in record["provenance"]["input"]))
+
+          missing = {1, 8, 9, 10} - {item for item, *_ in checks}
+          if missing:
+              sys.exit(f"::error::{manifest} is missing inventory attestations for items {sorted(missing)}")
+
+          pinned = (
+              'uv run --no-project --with "klayout-tools==$(cat .github/klt-version)" '
+              '--with "klayout==$(cat .github/klayout-version)"'
+          )
+          failed = False
+          for item, inventory, envelope, closure in checks:
+              attest = ["klt", "signoff", "--attest", str(item), "--inventory", inventory]
+              check = [*attest, "--check", envelope]
+              print(shlex.join(check), flush=True)
+              rc = subprocess.run(check, check=False).returncode
+              if rc == 3:
+                  if closure:
+                      output = '"${new_envelope:?set new_envelope to a new revision path}"'
+                      fix = f"Mint an append-only envelope revision, re-pin its path and closure hash in {manifest}, and regenerate the verdict."
+                  else:
+                      output = shlex.quote(envelope)
+                      fix = f"For a member edit, re-attest the envelope. If the inventory changed, also re-pin its hash in {manifest} and regenerate the verdict."
+                  command = f"{pinned} {shlex.join(attest)} -o {output}"
+                  print(f"::error::Item {item} ({envelope}) is stale. {fix} Run on the signoff host: {command}")
+              elif rc:
+                  print(f"::error::Item {item} ({envelope}) check exited {rc}")
+              failed |= rc != 0
+          sys.exit(int(failed))
