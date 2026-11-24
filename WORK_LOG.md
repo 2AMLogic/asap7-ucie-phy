@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-24
 
+- **PR #327**: test(verification): commit the stream-splitter regression selftest
+- **Issue #324** (closed): Commit a regression test for the JSON stream splitter's byte-exact slices (CI never exercises the split leg)
 - **PR #309**: fix(verification): unify JSON stream walker and preserve split bytes
 - **Issue #308** (closed): Share the JSON stream parser so split records preserve CRLF bytes
 - **PR #322**: docs: index decision records 0006-0015 in spec/README and re-attest envelope

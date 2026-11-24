@@ -27,13 +27,13 @@ _None._
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-_None._
+- **#325**: Consolidate the four hardcoded klt signoff --attest steps in .github/workflows/signoff.yml into one manifest-driven loop
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
-- **#324**: Commit a regression test for the JSON stream splitter's byte-exact slices (CI never exercises the split leg)
+_None._
 
 ## PRs Awaiting Review
 
@@ -52,7 +52,6 @@ _None._
 Issues carrying `loom:curated`.
 
 - **#3**: Track the gap to T1 (klayout-tools design-evidence-tiers.md) *(curated)*
-- **#324**: Commit a regression test for the JSON stream splitter's byte-exact slices (CI never exercises the split leg) *(curated)*
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)* *(held)*
 - **#274**: T1 item 7 (digital): re-take the SDF-annotated run on the current routed slice, then bump the klt pin to the first release carrying klayout-tools#6075 *(curated)* *(held)*
 
@@ -72,11 +71,11 @@ _None._
 | Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 2 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
-| In Progress (`loom:building`) | 1 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
+| In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 4 |
+| Curated | 3 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
