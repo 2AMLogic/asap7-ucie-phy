@@ -156,9 +156,15 @@ jobs:
 
 
           def query(path, expression):
-              # Evidence may be a stream of JSON documents. Empty streams fail jq -e.
-              command = ["jq", "-ces", "select(length > 0) | " + expression, "./" + path]
-              return json.loads(subprocess.check_output(command))
+              # Use the repository's stream validator before jq can normalize invalid JSON.
+              # Its input is one path per line. An open descriptor also handles names containing newlines.
+              validate = 'source verification/check-records-json.sh && validate_stream 3<"$1" <<< /dev/fd/3'
+              result = subprocess.run(
+                  ["bash", "-c", validate, "validate_stream", path], stdout=subprocess.DEVNULL, check=False
+              )
+              if result.returncode:
+                  sys.exit(f"::error::Invalid JSON document stream in {path!r}")
+              return json.loads(subprocess.check_output(["jq", "-ces", expression, "./" + path]))
 
 
           manifest = "manifests/asap7-ucie-phy.json"
