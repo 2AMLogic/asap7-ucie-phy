@@ -39,7 +39,7 @@ Issues currently being built (`loom:building`).
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#330**: ci: discover T1 attestation checks from the block manifest
 
 ## Approved (Awaiting Merge)
 
@@ -73,7 +73,7 @@ _None._
 | Important | 2 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
 | In Progress (`loom:building`) | 1 |
-| PRs awaiting review | 0 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 3 |
 | Architect / Hermit proposals | 2 |
