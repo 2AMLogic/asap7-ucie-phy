@@ -44,6 +44,14 @@ jobs:
       - name: Install pinned klt and the klayout module the pad self-test imports
         run: pip install "klayout-tools==$(cat .github/klt-version)" "klayout==$(cat .github/klayout-version)"
 
+      # Every tracked spec/decisions/*.md must be in the item-10 inventory's
+      # .hygiene list, else the envelope does not bind it (#319). Needs only
+      # jq and git, so it runs before the klt-dependent gates.
+      - name: Gate that every decision record is in the item-10 inventory
+        run: |
+          bash verification/test-check-decisions-inventoried.sh
+          bash verification/check-decisions-inventoried.sh
+
       # The single copy of the JSON-validity gate: the pinned klt
       # env-provenance validity gate over every tracked JSON record, wherever
       # it lives. Passes on exit 0 and 3 (3 = the pre-existing absolute-path
