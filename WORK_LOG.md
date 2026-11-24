@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-24
 
+- **PR #309**: fix(verification): unify JSON stream walker and preserve split bytes
+- **Issue #308** (closed): Share the JSON stream parser so split records preserve CRLF bytes
 - **PR #322**: docs: index decision records 0006-0015 in spec/README and re-attest envelope
 - **PR #321**: verification: gate that every decision record is in the item-10 inventory
 - **Issue #319** (closed): Nothing fails when a new spec/decisions/ record is left out of the item-10 hygiene inventory
