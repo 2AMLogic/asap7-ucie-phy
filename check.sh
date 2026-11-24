@@ -97,6 +97,15 @@ run_check "sta/test_check_input.py" \
 run_check "committed JSON records parse (whole tracked record set)" \
     bash verification/check-records-json.sh --validate
 
+# Self-test of the stream walker inside that gate: byte-exact per-document
+# slices of multi-document records for LF and CRLF streams carrying
+# multibyte UTF-8 (the #308 regression class), fail-closed rejection of
+# every invalid stream shape, and the fail-closed splitter leg of --changed.
+# Hermetic like the gate it tests (bash + git + python3, a stubbed klt, no
+# network), so it stays inside this file's stdlib-only scope.
+run_check "JSON stream walker byte-exact split selftest" \
+    bash verification/test-stream-walker.sh
+
 # Structural guard on this script itself, not a comment asking nicely: if the
 # check list is ever emptied or every invocation is edited away, exit non-zero
 # instead of inheriting FAILED=0 and reporting the vacuous pass that issue #153

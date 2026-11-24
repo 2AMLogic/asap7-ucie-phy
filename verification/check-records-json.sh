@@ -102,8 +102,6 @@
 
 set -uo pipefail
 
-cd "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)" || exit 1
-
 # The class-2 prefix set (decision 0012): machine-wide tool install prefixes
 # that may legitimately appear in a committed record. Measured minimal at the
 # pinned klt 0.9.2 -- adding /opt/pdk admits nothing at this tree and is
@@ -311,6 +309,18 @@ print(f"{kind}: only the decision-0012 deck exception applied "
       f"({excepted} excepted {unit}(s)); nothing else")
 PY
 }
+
+# --- entrypoint (skipped when sourced) ---------------------------------------
+# verification/test-stream-walker.sh sources this file for walk_stream,
+# validate_stream and split_stream. Nothing above this line has a side
+# effect beyond set-options and function definitions, so guard here -- the
+# cd and the CLI below run only when this file is executed, and sourcing
+# defines the walkers with no working-directory change and no gate run.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+    return 0
+fi
+
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)" || exit 1
 
 VALIDATE_ONLY=0
 CHANGED=0

@@ -71,6 +71,15 @@ jobs:
       - name: Selftest the record-gate base resolver (hermetic temp repos)
         run: bash verification/test-resolve-record-base.sh
 
+      # The stream-splitter half of the record gate: byte-exact per-document
+      # slices of changed multi-document records (the #308 CRLF regression
+      # class), fail-closed rejection of every invalid stream shape, and the
+      # fail-closed splitter leg of --changed (#324). Hermetic -- a stubbed
+      # klt on PATH, temp git repos, no network -- so it needs none of the
+      # installed toolchain below.
+      - name: Selftest the JSON stream splitter (hermetic fixtures)
+        run: bash verification/test-stream-walker.sh
+
       # The base the forward-only gate diffs against, resolved by the single
       # copy of that logic (verification/resolve-record-base.sh): the
       # pull_request base, else the push "before" SHA, else (dispatch or an
