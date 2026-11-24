@@ -54,8 +54,6 @@ Issues carrying `loom:curated`.
 - **#3**: Track the gap to T1 (klayout-tools design-evidence-tiers.md) *(curated)*
 - **#20**: T1 item 4 (LVS clean): klt lvs match for the drawn TX/RX cells and the routed datapath against item-1 netlists *(curated)* *(held)*
 - **#274**: T1 item 7 (digital): re-take the SDF-annotated run on the current routed slice, then bump the klt pin to the first release carrying klayout-tools#6075 *(curated)* *(held)*
-- **#318**: spec/README.md decision index stops at 0005; records 0006-0015 are missing *(curated)*
-- **#319**: Nothing fails when a new spec/decisions/ record is left out of the item-10 hygiene inventory *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -77,7 +75,7 @@ _None._
 | In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 5 |
+| Curated | 3 |
 | Architect / Hermit proposals | 2 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
