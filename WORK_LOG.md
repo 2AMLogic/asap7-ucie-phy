@@ -5,6 +5,8 @@ triage role; entries are newest first.
 
 ### 2026-11-24
 
+- **PR #330**: ci: discover T1 attestation checks from the block manifest
+- **Issue #325** (closed): Consolidate the four hardcoded klt signoff --attest steps in .github/workflows/signoff.yml into one manifest-driven loop
 - **PR #327**: test(verification): commit the stream-splitter regression selftest
 - **Issue #324** (closed): Commit a regression test for the JSON stream splitter's byte-exact slices (CI never exercises the split leg)
 - **PR #309**: fix(verification): unify JSON stream walker and preserve split bytes
