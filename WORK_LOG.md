@@ -3,6 +3,13 @@
 Chronological record of merged PRs and closed issues. Maintained by the Guide
 triage role; entries are newest first.
 
+### 2026-11-24
+
+- **PR #322**: docs: index decision records 0006-0015 in spec/README and re-attest envelope
+- **PR #321**: verification: gate that every decision record is in the item-10 inventory
+- **Issue #319** (closed): Nothing fails when a new spec/decisions/ record is left out of the item-10 hygiene inventory
+- **Issue #318** (closed): spec/README.md decision index stops at 0005; records 0006-0015 are missing
+
 ### 2026-11-23
 
 - **PR #317**: chore: register decision record 0015 in the T1 item-10 inventory
