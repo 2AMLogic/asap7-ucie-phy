@@ -27,13 +27,13 @@ _None._
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-- **#325**: Consolidate the four hardcoded klt signoff --attest steps in .github/workflows/signoff.yml into one manifest-driven loop
+_None._
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#325**: Consolidate the four hardcoded klt signoff --attest steps in .github/workflows/signoff.yml into one manifest-driven loop
 
 ## PRs Awaiting Review
 
@@ -71,8 +71,8 @@ _None._
 | Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 2 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
-| In Progress (`loom:building`) | 0 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 3 |
