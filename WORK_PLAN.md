@@ -33,13 +33,13 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#325**: Consolidate the four hardcoded klt signoff --attest steps in .github/workflows/signoff.yml into one manifest-driven loop
+_None._
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-- **#330**: ci: discover T1 attestation checks from the block manifest
+_None._
 
 ## Approved (Awaiting Merge)
 
@@ -72,8 +72,8 @@ _None._
 | Very important | 1 |
 | Important | 2 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
-| In Progress (`loom:building`) | 1 |
-| PRs awaiting review | 1 |
+| In Progress (`loom:building`) | 0 |
+| PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 3 |
 | Architect / Hermit proposals | 2 |
